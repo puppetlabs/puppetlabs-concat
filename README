@@ -1,0 +1,49 @@
+A Puppet module that can construct files from fragments.
+
+Please see the comments in the various .pp files for details
+as well as posts on my blog at www.devco.net
+
+Released under the Apache 2.0 licence
+
+KNOWN ISSUES:
+- In 0.24.8 you will see inintended notifies, if you build a file
+  in a run, the next run will also see it as changed.  This is due
+  to how 0.24.8 does the purging of unhandled files, this is improved
+  in 0.25.x and we cannot work around it in our code.
+
+- At present you cannot change the ownership of the file by just setting
+  the property on the resources, we have a work around in mind.
+ 
+CHANGELOG:
+- 2010/02/19 - initial release
+- 2010/03/12 - add support for 0.24.8 and newer
+             - make the location of sort configurable
+	     - add the ability to add shell comment based warnings to 
+	       top of files
+	     - add the ablity to create empty files
+- 2010/04/05 - fix parsing of WARN and change code style to match rest
+               of the code
+	     - Better and safer boolean handling for warn and force
+	     - Don't use hard coded paths in the shell script, set PATH
+	       top of the script
+	     - Use file{} to copy the result and make all fragments owned
+	       by root.  This means we can chnage the ownership/group of the
+	       resulting file at any time.
+	     - You can specify ensure => "/some/other/file" in concat::fragment 
+	       to include the contents of a symlink into the final file.
+- 2010/04/16 - Add more cleaning of the fragment name - removing / from the $name
+
+CONTRIBUTORS:
+Paul Elliot   - Provided 0.24.8 support, shell warnings and empty file 
+                creation support.
+Chad Netzer   - Various patches to improve safety of file operations
+              - Symlink support
+David Schmitt - Patch to remove hard coded paths relying on OS path
+              - Patch to use file{} to copy the resulting file to the
+	        final destination.  This means Puppet client will show
+		diffs and that hopefully we can change file ownerships
+		now
+
+
+CONTACT:
+R.I.Pienaar - rip@devco.net / www.devco.net / @ripienaar
