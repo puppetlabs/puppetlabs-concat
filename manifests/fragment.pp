@@ -7,7 +7,7 @@
 #   - order     By default all files gets a 10_ prefix in the directory
 #               you can set it to anything else using this to influence the
 #               order of the content in the file
-#   - ensure    Present/Absent
+#   - ensure    Present/Absent or destination to a file to include another file
 #   - mode      Mode for the file
 #   - owner     Owner of the file
 #   - group     Owner of the file
@@ -25,7 +25,7 @@ define concat::fragment($target, $content='', $source='', $order=10, $ensure = "
                         "": {
                                 case $ensure {
                                     "", "absent", "present", "file", "directory": {
-                                        crit("No content or source specified")
+                                        crit("No content, source or symlink specified")
                                     }
                                 }
                             }
