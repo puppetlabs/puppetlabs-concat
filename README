@@ -60,9 +60,6 @@ KNOWN ISSUES:
   to how 0.24.8 does the purging of unhandled files, this is improved
   in 0.25.x and we cannot work around it in our code.
 
-- At present you cannot change the ownership of the file by just setting
-  the property on the resources, we have a work around in mind.
- 
 CHANGELOG:
 - 2010/02/19 - initial release
 - 2010/03/12 - add support for 0.24.8 and newer
