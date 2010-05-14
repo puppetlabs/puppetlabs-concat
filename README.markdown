@@ -71,15 +71,18 @@ Known Issues:
 Contributors:
 -------------
 **Paul Elliot**   
-* Provided 0.24.8 support, shell warnings and empty file creation support.
+
+ * Provided 0.24.8 support, shell warnings and empty file creation support.
 
 **Chad Netzer**
-* Various patches to improve safety of file operations
-* Symlink support
+
+ * Various patches to improve safety of file operations
+ * Symlink support
 
 **David Schmitt**
-* Patch to remove hard coded paths relying on OS path
-* Patch to use file{} to copy the resulting file to the final destination.  This means Puppet client will show diffs and that hopefully we can change file ownerships now
+
+ * Patch to remove hard coded paths relying on OS path
+ * Patch to use file{} to copy the resulting file to the final destination.  This means Puppet client will show diffs and that hopefully we can change file ownerships now
 
 Contact:
 --------
