@@ -4,12 +4,12 @@ What is it?
 A Puppet module that can construct files from fragments.
 
 Please see the comments in the various .pp files for details
-as well as posts on my blog at www.devco.net
+as well as posts on my blog at http://www.devco.net/
 
 Released under the Apache 2.0 licence
 
 Usage:
-======
+------
 
 If you wanted a /etc/motd file that listed all the major modules
 on the machine.  And that would be maintained automatically even
@@ -61,6 +61,26 @@ class apache {
 }
 </pre>
 
+Known Issues:
+-------------
+* In 0.24.8 you will see inintended notifies, if you build a file
+  in a run, the next run will also see it as changed.  This is due
+  to how 0.24.8 does the purging of unhandled files, this is improved
+  in 0.25.x and we cannot work around it in our code.
+
+Contributors:
+-------------
+**Paul Elliot**   
+* Provided 0.24.8 support, shell warnings and empty file creation support.
+
+**Chad Netzer**
+* Various patches to improve safety of file operations
+* Symlink support
+
+**David Schmitt**
+* Patch to remove hard coded paths relying on OS path
+* Patch to use file{} to copy the resulting file to the final destination.  This means Puppet client will show diffs and that hopefully we can change file ownerships now
+
 Contact:
-========
-You can contact me on rip@devco.net or follow my blog at www.devco.net I am also on twitter as ripienaar
+--------
+You can contact me on rip@devco.net or follow my blog at http://www.devco.net I am also on twitter as ripienaar
