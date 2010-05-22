@@ -17,6 +17,14 @@
 #    content => template("named_conf_zone.erb")
 # }
 #
+# # add a fragment not managed by puppet so local users 
+# # can add content to managed file
+# concat::fragment{"foo.com_user_config":
+#    target  => "/etc/named.conf",
+#    order   => 12,
+#    ensure  => "/etc/named.conf.local"
+# }
+#
 # This will use the template named_conf_zone.erb to build a single 
 # bit of config up and put it into the fragments dir.  The file
 # will have an number prefix of 10, you can use the order option
@@ -28,8 +36,8 @@
 # stored.  Avoid placing this somewhere like /tmp since you should never
 # delete files here, puppet will manage them.
 #
-# If you are on version 0.24.8 or newer you can set $puppetversion to 24 in 
-# concat::setup to enable a compatible mode, else just leave it on 25
+# There's some regular expression magic to figure out the puppet version but
+# if you're on an older 0.24 version just set $puppetversion = 24
 #
 # Before you can use any of the concat features you should include the 
 # class concat::setup somewhere on your node first.
@@ -44,8 +52,8 @@
 # LICENSE:
 # Apache Version 2
 #
-# HISTORY:
-# 2010/02/19 - First release based on earlier concat_snippets work
+# LATEST:
+# http://github.com/ripienaar/puppet-concat/
 #
 # CONTACT:
 # R.I.Pienaar <rip@devco.net> 
@@ -67,13 +75,12 @@
 # ACTIONS:
 #  - Creates fragment directories if it didn't exist already
 #  - Executes the concatfragments.sh script to build the final file, this script will create
-#    directory/fragments.concat and copy it to the final destination.   Execution happens only when:
+#    directory/fragments.concat.   Execution happens only when:
 #    * The directory changes 
 #    * fragments.concat != final destination, this means rebuilds will happen whenever 
 #      someone changes or deletes the final file.  Checking is done using /usr/bin/cmp.
 #    * The Exec gets notified by something else - like the concat::fragment define
-#  - Defines a File resource to ensure $mode is set correctly but also to provide another 
-#    means of requiring
+#  - Copies the file over to the final destination using a file resource
 #
 # ALIASES:
 #  - The exec can notified using Exec["concat_/path/to/file"] or Exec["concat_/path/to/directory"]
