@@ -23,6 +23,8 @@ Puppet modules on this server:
     -- MySQL
 </pre>
 
+Local sysadmins can also append to the file by just editing /etc/motd.local
+their changes will be incorporated into the puppet managed motd.
 
 <pre>
 # class to setup basic motd, include on all nodes
@@ -36,6 +38,13 @@ class motd {
    concat::fragment{"motd_header":
       content => "\nPuppet modules on this server:\n\n",
       order   => 1,
+   }
+
+   # local users on the machine can append to motd by just creating
+   # /etc/motd.local
+   concat::fragment{"motd_local":
+      ensure  => "/etc/motd.local",
+      order   => 15
    }
 }
 
