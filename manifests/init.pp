@@ -71,6 +71,8 @@
 #  - force      Enables creating empty files if no fragments are present
 #  - warn       Adds a normal shell style comment top of the file indicating
 #               that it is built by puppet
+#  - backup     Controls the filebucketing behavior of the final file and
+#               see File type reference for its use.  Defaults to 'puppet'
 #
 # ACTIONS:
 #  - Creates fragment directories if it didn't exist already
@@ -85,7 +87,7 @@
 # ALIASES:
 #  - The exec can notified using Exec["concat_/path/to/file"] or Exec["concat_/path/to/directory"]
 #  - The final file can be referened as File["/path/to/file"] or File["concat_/path/to/file"]  
-define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $force = "false") {
+define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $force = "false", $backup = "puppet") {
     $safe_name   = regsubst($name, '/', '_', 'G')
     $concatdir   = $concat::setup::concatdir
     $version     = $concat::setup::majorversion
@@ -105,9 +107,10 @@ define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $
     }
 
     File{
-        owner => root,
-        group => root,
-        mode  => $mode,
+        owner  => root,
+        group  => root,
+        mode   => $mode,
+        backup => $backup
     }
 
     file{$fragdir:

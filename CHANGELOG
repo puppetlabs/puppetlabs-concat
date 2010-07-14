@@ -23,3 +23,4 @@ CHANGELOG:
                to include the contents of a symlink into the final file.
 - 2010/04/16 - Add more cleaning of the fragment name - removing / from the $name
 - 2010/05/22 - Improve documentation and show the use of ensure =>
+- 2010/07/14 - Add support for setting the filebucket behavior of files
