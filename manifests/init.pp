@@ -93,11 +93,18 @@ define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $
     $version     = $concat::setup::majorversion
     $fragdir     = "${concatdir}/${safe_name}"
     $concat_name = "fragments.concat.out"
+    $default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
 
     case $warn {
-    	'true',true,yes,on: { $warnflag = "-w" }
-        'false',false,no,off: { $warnflag = "" }
-        default: { fail("Improper 'warn' value given to concat: $warn") }
+        'true',true,yes,on:   { $warnmsg = "$default_warn_message" }
+        'false',false,no,off: { $warnmsg = "" }
+        default:              { $warnmsg = "$warn" }
+    }
+
+    $warnmsg_escaped = regsubst($warnmsg, "'", "'\\\\''", 'G')
+    $warnflag = $warnmsg_escaped ? {
+        ''      => '',
+        default => "-w '$warnmsg_escaped'"
     }
 
     case $force {

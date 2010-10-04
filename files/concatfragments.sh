@@ -47,12 +47,12 @@ SORTARG="-z"
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
-while getopts "o:s:d:tnwf" options; do
+while getopts "o:s:d:tnw:f" options; do
 	case $options in
 		o ) OUTFILE=$OPTARG;;
 		d ) WORKDIR=$OPTARG;;
 		n ) SORTARG="-zn";;
-		w ) WARN="true";;
+		w ) WARNMSG="$OPTARG";;
 		f ) FORCE="true";;
 		t ) TEST="true";;
 		* ) echo "Specify output file with -o and fragments directory with -d"
@@ -101,10 +101,10 @@ fi
 
 cd ${WORKDIR}
 
-if [ x${WARN} = "x" ]; then
-	cat /dev/null > "fragments.concat"
+if [ x${WARNMSG} = "x" ]; then
+	: > "fragments.concat"
 else
-	echo '# This file is managed by Puppet. DO NOT EDIT.' > "fragments.concat"
+	echo -e "$WARNMSG" > "fragments.concat"
 fi
 
 # find all the files in the fragments directory, sort them numerically and concat to fragments.concat in the working dir
