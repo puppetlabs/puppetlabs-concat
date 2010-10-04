@@ -8,7 +8,7 @@ CHANGELOG:
 - 2010/02/19 - initial release
 - 2010/03/12 - add support for 0.24.8 and newer
              - make the location of sort configurable
-             - add the ability to add shell comment based warnings to 
+             - add the ability to add shell comment based warnings to
                top of files
              - add the ablity to create empty files
 - 2010/04/05 - fix parsing of WARN and change code style to match rest
@@ -19,8 +19,9 @@ CHANGELOG:
              - Use file{} to copy the result and make all fragments owned
                by root.  This means we can chnage the ownership/group of the
                resulting file at any time.
-             - You can specify ensure => "/some/other/file" in concat::fragment 
+             - You can specify ensure => "/some/other/file" in concat::fragment
                to include the contents of a symlink into the final file.
 - 2010/04/16 - Add more cleaning of the fragment name - removing / from the $name
 - 2010/05/22 - Improve documentation and show the use of ensure =>
 - 2010/07/14 - Add support for setting the filebucket behavior of files
+- 2010/10/04 - Make the warning message configurable
