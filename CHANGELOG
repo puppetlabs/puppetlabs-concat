@@ -25,3 +25,4 @@ CHANGELOG:
 - 2010/05/22 - Improve documentation and show the use of ensure =>
 - 2010/07/14 - Add support for setting the filebucket behavior of files
 - 2010/10/04 - Make the warning message configurable
+- 2010/12/03 - Add flags to make concat work better on Solaris - thanks Jonathan Boyett
