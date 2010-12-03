@@ -87,7 +87,7 @@
 # ALIASES:
 #  - The exec can notified using Exec["concat_/path/to/file"] or Exec["concat_/path/to/directory"]
 #  - The final file can be referened as File["/path/to/file"] or File["concat_/path/to/file"]  
-define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $force = "false", $backup = "puppet") {
+define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $force = "false", $backup = "puppet", $gnu = "true", $order="alpha") {
     $safe_name   = regsubst($name, '/', '_', 'G')
     $concatdir   = $concat::setup::concatdir
     $version     = $concat::setup::majorversion
@@ -111,6 +111,18 @@ define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $
         'true',true,yes,on: { $forceflag = "-f" }
         'false',false,no,off: { $forceflag = "" }
         default: { fail("Improper 'force' value given to concat: $force") }
+    }
+
+    case $gnu {
+        'true',true,yes,on: { $gnuflag = "" }
+        'false',false,no,off: { $gnuflag = "-g" }
+        default: { fail("Improper 'gnu' value given to concat: $gnu") }
+    }
+
+    case $order {
+        numeric: { $orderflag = "-n" }
+        alpha: { $orderflag = "" }
+        default: { fail("Improper 'order' value given to concat: $order") }
     }
 
     File{
@@ -158,7 +170,7 @@ define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $
         subscribe => File[$fragdir],
         alias     => "concat_${fragdir}",
         require   => [ File["/usr/local/bin/concatfragments.sh"], File[$fragdir], File["${fragdir}/fragments"], File["${fragdir}/fragments.concat"] ],
-        unless    => "/usr/local/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag}",
-        command   => "/usr/local/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag}",
+        unless    => "/usr/local/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
+        command   => "/usr/local/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
     }
 }
