@@ -51,7 +51,7 @@ XARGSARG="-0"
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
-while getopts "o:s:d:tnw:f" options; do
+while getopts "o:s:d:tnw:fg" options; do
 	case $options in
 		o ) OUTFILE=$OPTARG;;
 		d ) WORKDIR=$OPTARG;;
