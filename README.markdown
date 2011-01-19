@@ -32,7 +32,7 @@ class motd {
    include concat::setup
    $motd = "/etc/motd"
 
-   concat{$motd,
+   concat{$motd:
       owner => root,
       group => root,
       mode  => 644
@@ -84,7 +84,7 @@ Known Issues:
 
 Contributors:
 -------------
-**Paul Elliot**   
+**Paul Elliot**
 
  * Provided 0.24.8 support, shell warnings and empty file creation support.
 
