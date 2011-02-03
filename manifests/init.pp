@@ -127,7 +127,7 @@ define concat($mode = 0644, $owner = "root", $group = $concat::setup::root_group
 
     File{
         owner  => root,
-        group  => $concat::setup::root_group,
+        group  => $group,
         mode   => $mode,
         backup => $backup
     }
@@ -165,7 +165,7 @@ define concat($mode = 0644, $owner = "root", $group = $concat::setup::root_group
 
     exec{"concat_${name}":
         user      => root,
-        group     => $concat::setup::root_group,
+        group     => $group,
         notify    => File[$name],
         subscribe => File[$fragdir],
         alias     => "concat_${fragdir}",
