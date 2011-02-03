@@ -87,7 +87,7 @@
 # ALIASES:
 #  - The exec can notified using Exec["concat_/path/to/file"] or Exec["concat_/path/to/directory"]
 #  - The final file can be referened as File["/path/to/file"] or File["concat_/path/to/file"]  
-define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $force = "false", $backup = "puppet", $gnu = "true", $order="alpha") {
+define concat($mode = 0644, $owner = "root", $group = $concat::setup::root_group, $warn = "false", $force = "false", $backup = "puppet", $gnu = "true", $order="alpha") {
     $safe_name   = regsubst($name, '/', '_', 'G')
     $concatdir   = $concat::setup::concatdir
     $version     = $concat::setup::majorversion
@@ -127,7 +127,7 @@ define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $
 
     File{
         owner  => root,
-        group  => root,
+        group  => $concat::setup::root_group,
         mode   => $mode,
         backup => $backup
     }
@@ -165,7 +165,7 @@ define concat($mode = 0644, $owner = "root", $group = "root", $warn = "false", $
 
     exec{"concat_${name}":
         user      => root,
-        group     => root,
+        group     => $concat::setup::root_group,
         notify    => File[$name],
         subscribe => File[$fragdir],
         alias     => "concat_${fragdir}",
