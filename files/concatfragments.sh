@@ -111,7 +111,7 @@ cd ${WORKDIR}
 if [ x${WARNMSG} = "x" ]; then
 	: > "fragments.concat"
 else
-	echo -e "$WARNMSG" > "fragments.concat"
+	printf '%s\n' "$WARNMSG" > "fragments.concat"
 fi
 
 # find all the files in the fragments directory, sort them numerically and concat to fragments.concat in the working dir
