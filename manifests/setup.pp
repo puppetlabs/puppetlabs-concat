@@ -30,7 +30,7 @@ class concat::setup {
             ensure => directory,
             owner  => root,
             group  => $root_group,
-            mode   => 755;
+            mode   => '0750';
     }
 }
 
