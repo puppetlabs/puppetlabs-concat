@@ -14,7 +14,7 @@
 # It also copies out the concatfragments.sh file to /usr/local/bin
 class concat::setup {
     $root_group = 0
-    $concatdir = "/var/lib/puppet/concat"
+    $concatdir = $concat_basedir
     $majorversion = regsubst($puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
 
     file{"/usr/local/bin/concatfragments.sh": 
