@@ -17,7 +17,28 @@ class concat::setup {
     $concatdir = "/var/lib/puppet/concat"
     $majorversion = regsubst($puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
 
-    file{"/usr/local/bin/concatfragments.sh": 
+    $bin_dir_owner = $operatingsystem ? {
+        Solaris => 'bin',
+        default => 'root',
+    }
+
+    $bin_dir_grp = $operatingsystem ? {
+        Debian  => 'staff',
+        Solaris => 'bin',
+        default => $root_group,
+    }
+
+    $local_dir_grp = $operatingsystem ? {
+        Debian  => 'staff',
+        default => $root_group,
+    }
+
+    $dir_mode = $operatingsystem ? {
+        Debian => '2775',
+        default => '0755',
+    }
+
+    file{"/usr/local/bin/concatfragments.sh":
             owner  => root,
             group  => $root_group,
             mode   => 755,
@@ -26,11 +47,23 @@ class concat::setup {
                         default => "puppet:///modules/concat/concatfragments.sh"
                       };
 
-         $concatdir: 
+         $concatdir:
             ensure => directory,
             owner  => root,
             group  => $root_group,
             mode   => '0750';
+
+        '/usr/local/bin':
+            ensure => directory,
+            owner  => $bin_dir_owner,
+            group  => $bin_dir_grp,
+            mode   => $dir_mode;
+
+        '/usr/local':
+            ensure => directory,
+            owner  => 'root',
+            group  => $local_dir_grp,
+            mode   => $dir_mode;
     }
 }
 
