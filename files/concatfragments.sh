@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Script to concat files to a config file.
 #
