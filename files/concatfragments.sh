@@ -80,7 +80,7 @@ if [ x${WORKDIR} = "x" ]; then
 fi
 
 # can we write to -o?
-if [ -a ${OUTFILE} ]; then
+if [ -f ${OUTFILE} ]; then
 	if [ ! -w ${OUTFILE} ]; then
 		echo "Cannot write to ${OUTFILE}"
 		exit 1
