@@ -44,9 +44,9 @@
 #
 # DETAIL:
 # We use a helper shell script called concatfragments.sh that gets placed
-# in /usr/local/bin to do the concatenation.  While this might seem more 
-# complex than some of the one-liner alternatives you might find on the net
-# we do a lot of error checking and safety checks in the script to avoid 
+# in <Puppet[:vardir]>/concat/bin to do the concatenation.  While this might
+# seem more complex than some of the one-liner alternatives you might find on
+# the net we do a lot of error checking and safety checks in the script to avoid
 # problems that might be caused by complex escaping errors etc.
 # 
 # LICENSE:
@@ -87,7 +87,7 @@
 # ALIASES:
 #  - The exec can notified using Exec["concat_/path/to/file"] or Exec["concat_/path/to/directory"]
 #  - The final file can be referened as File["/path/to/file"] or File["concat_/path/to/file"]  
-define concat($mode = 0644, $owner = "root", $group = $concat::setup::root_group, $warn = "false", $force = "false", $backup = "puppet", $gnu = "true", $order="alpha") {
+define concat($mode = 0644, $owner = $id, $group = $concat::setup::root_group, $warn = "false", $force = "false", $backup = "puppet", $gnu = "true", $order="alpha") {
     $safe_name   = regsubst($name, '/', '_', 'G')
     $concatdir   = $concat::setup::concatdir
     $version     = $concat::setup::majorversion
@@ -126,7 +126,7 @@ define concat($mode = 0644, $owner = "root", $group = $concat::setup::root_group
     }
 
     File{
-        owner  => root,
+        owner  => $id,
         group  => $group,
         mode   => $mode,
         backup => $backup
@@ -164,13 +164,17 @@ define concat($mode = 0644, $owner = "root", $group = $concat::setup::root_group
     }
 
     exec{"concat_${name}":
-        user      => root,
-        group     => $group,
         notify    => File[$name],
         subscribe => File[$fragdir],
         alias     => "concat_${fragdir}",
-        require   => [ File["/usr/local/bin/concatfragments.sh"], File[$fragdir], File["${fragdir}/fragments"], File["${fragdir}/fragments.concat"] ],
-        unless    => "/usr/local/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
-        command   => "/usr/local/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
+        require   => [ File[$fragdir], File["${fragdir}/fragments"], File["${fragdir}/fragments.concat"] ],
+        unless    => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
+        command   => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
+    }
+    if $id == 'root' {
+      Exec["concat_${name}"]{
+        user      => root,
+        group     => $group,
+      }
     }
 }
