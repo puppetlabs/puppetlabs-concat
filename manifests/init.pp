@@ -87,7 +87,7 @@
 # ALIASES:
 #  - The exec can notified using Exec["concat_/path/to/file"] or Exec["concat_/path/to/directory"]
 #  - The final file can be referened as File["/path/to/file"] or File["concat_/path/to/file"]  
-define concat($mode = 0644, $owner = $id, $group = $concat::setup::root_group, $warn = "false", $force = "false", $backup = "puppet", $gnu = "true", $order="alpha") {
+define concat($mode = 0644, $owner = $::id, $group = $concat::setup::root_group, $warn = "false", $force = "false", $backup = "puppet", $gnu = "true", $order="alpha") {
     $safe_name   = regsubst($name, '/', '_', 'G')
     $concatdir   = $concat::setup::concatdir
     $version     = $concat::setup::majorversion
@@ -126,7 +126,7 @@ define concat($mode = 0644, $owner = $id, $group = $concat::setup::root_group, $
     }
 
     File{
-        owner  => $id,
+        owner  => $::id,
         group  => $group,
         mode   => $mode,
         backup => $backup
@@ -171,7 +171,7 @@ define concat($mode = 0644, $owner = $id, $group = $concat::setup::root_group, $
         unless    => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
         command   => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
     }
-    if $id == 'root' {
+    if $::id == 'root' {
       Exec["concat_${name}"]{
         user      => root,
         group     => $group,

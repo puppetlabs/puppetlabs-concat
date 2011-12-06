@@ -13,7 +13,7 @@
 #   - group     Owner of the file
 #   - backup    Controls the filebucketing behavior of the final file and
 #               see File type reference for its use.  Defaults to 'puppet'
-define concat::fragment($target, $content='', $source='', $order=10, $ensure = "present", $mode = 0644, $owner = $id, $group = $concat::setup::root_group, $backup = "puppet") {
+define concat::fragment($target, $content='', $source='', $order=10, $ensure = "present", $mode = 0644, $owner = $::id, $group = $concat::setup::root_group, $backup = "puppet") {
     $safe_name = regsubst($name, '/', '_', 'G')
     $safe_target_name = regsubst($target, '/', '_', 'G')
     $concatdir = $concat::setup::concatdir
