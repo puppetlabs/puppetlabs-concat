@@ -51,6 +51,10 @@ XARGSARG="-0"
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
+## Well, if there's ever a bad way to do things, Nexenta has it.
+## http://nexenta.org/projects/site/wiki/Personalities
+unset SUN_PERSONALITY
+
 while getopts "o:s:d:tnw:fg" options; do
 	case $options in
 		o ) OUTFILE=$OPTARG;;
