@@ -1,13 +1,13 @@
 # A system to construct files using fragments from other files or templates.
 #
-# This requires at least puppet 0.25 to work correctly as we use some 
+# This requires at least puppet 0.25 to work correctly as we use some
 # enhancements in recursive directory management and regular expressions
 # to do the work here.
 #
 # USAGE:
 # The basic use case is as below:
 #
-# concat{"/etc/named.conf": 
+# concat{"/etc/named.conf":
 #    notify => Service["named"]
 # }
 #
@@ -17,7 +17,7 @@
 #    content => template("named_conf_zone.erb")
 # }
 #
-# # add a fragment not managed by puppet so local users 
+# # add a fragment not managed by puppet so local users
 # # can add content to managed file
 # concat::fragment{"foo.com_user_config":
 #    target  => "/etc/named.conf",
@@ -25,7 +25,7 @@
 #    ensure  => "/etc/named.conf.local"
 # }
 #
-# This will use the template named_conf_zone.erb to build a single 
+# This will use the template named_conf_zone.erb to build a single
 # bit of config up and put it into the fragments dir.  The file
 # will have an number prefix of 10, you can use the order option
 # to control that and thus control the order the final file gets built in.
@@ -39,7 +39,7 @@
 # There's some regular expression magic to figure out the puppet version but
 # if you're on an older 0.24 version just set $puppetversion = 24
 #
-# Before you can use any of the concat features you should include the 
+# Before you can use any of the concat features you should include the
 # class concat::setup somewhere on your node first.
 #
 # DETAIL:
@@ -48,7 +48,7 @@
 # seem more complex than some of the one-liner alternatives you might find on
 # the net we do a lot of error checking and safety checks in the script to avoid
 # problems that might be caused by complex escaping errors etc.
-# 
+#
 # LICENSE:
 # Apache Version 2
 #
@@ -56,13 +56,13 @@
 # http://github.com/ripienaar/puppet-concat/
 #
 # CONTACT:
-# R.I.Pienaar <rip@devco.net> 
+# R.I.Pienaar <rip@devco.net>
 # Volcane on freenode
 # @ripienaar on twitter
 # www.devco.net
 
 
-# Sets up so that you can use fragments to build a final config file, 
+# Sets up so that you can use fragments to build a final config file,
 #
 # OPTIONS:
 #  - mode       The mode of the final file
@@ -78,16 +78,16 @@
 #  - Creates fragment directories if it didn't exist already
 #  - Executes the concatfragments.sh script to build the final file, this script will create
 #    directory/fragments.concat.   Execution happens only when:
-#    * The directory changes 
-#    * fragments.concat != final destination, this means rebuilds will happen whenever 
+#    * The directory changes
+#    * fragments.concat != final destination, this means rebuilds will happen whenever
 #      someone changes or deletes the final file.  Checking is done using /usr/bin/cmp.
 #    * The Exec gets notified by something else - like the concat::fragment define
 #  - Copies the file over to the final destination using a file resource
 #
 # ALIASES:
 #  - The exec can notified using Exec["concat_/path/to/file"] or Exec["concat_/path/to/directory"]
-#  - The final file can be referened as File["/path/to/file"] or File["concat_/path/to/file"]  
-define concat($mode = 0644, $owner = $::id, $group = $concat::setup::root_group, $warn = "false", $force = "false", $backup = "puppet", $gnu = "true", $order="alpha") {
+#  - The final file can be referened as File["/path/to/file"] or File["concat_/path/to/file"]
+define concat($mode = 0644, $owner = $::id, $group = $concat::setup::root_group, $warn = "false", $force = "false", $backup = "puppet", $gnu = undef, $order="alpha") {
     $safe_name   = regsubst($name, '/', '_', 'G')
     $concatdir   = $concat::setup::concatdir
     $version     = $concat::setup::majorversion
@@ -111,12 +111,6 @@ define concat($mode = 0644, $owner = $::id, $group = $concat::setup::root_group,
         'true',true,yes,on: { $forceflag = "-f" }
         'false',false,no,off: { $forceflag = "" }
         default: { fail("Improper 'force' value given to concat: $force") }
-    }
-
-    case $gnu {
-        'true',true,yes,on: { $gnuflag = "" }
-        'false',false,no,off: { $gnuflag = "-g" }
-        default: { fail("Improper 'gnu' value given to concat: $gnu") }
     }
 
     case $order {
@@ -168,8 +162,8 @@ define concat($mode = 0644, $owner = $::id, $group = $concat::setup::root_group,
         subscribe => File[$fragdir],
         alias     => "concat_${fragdir}",
         require   => [ File[$fragdir], File["${fragdir}/fragments"], File["${fragdir}/fragments.concat"] ],
-        unless    => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
-        command   => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${gnuflag}",
+        unless    => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag}",
+        command   => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag}",
     }
     if $::id == 'root' {
       Exec["concat_${name}"]{
