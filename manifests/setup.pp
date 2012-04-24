@@ -13,33 +13,31 @@
 #
 # It also copies out the concatfragments.sh file to ${concatdir}/bin
 class concat::setup {
-    $id = $::id
-    $root_group = $id ? {
-      root => 0,
-      default => $id
-    }
-    $concatdir = $::concat_basedir
-    $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
+  $id = $::id
+  $root_group = $id ? {
+    root    => 0,
+    default => $id
+  }
+  $concatdir = $::concat_basedir
+  $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
 
-    file{"${concatdir}/bin/concatfragments.sh":
-            owner  => $id,
-            group  => $root_group,
-            mode   => 755,
-            source => $majorversion ? {
-                        24      => "puppet:///concat/concatfragments.sh",
-                        default => "puppet:///modules/concat/concatfragments.sh"
-                      };
+  file{"${concatdir}/bin/concatfragments.sh":
+    owner  => $id,
+    group  => $root_group,
+    mode   => '0755',
+    source => $majorversion ? {
+      24      => 'puppet:///concat/concatfragments.sh',
+      default => 'puppet:///modules/concat/concatfragments.sh'
+    };
 
-         [ $concatdir, "${concatdir}/bin" ]:
-            ensure => directory,
-            owner  => $id,
-            group  => $root_group,
-            mode   => '0750';
+  [ $concatdir, "${concatdir}/bin" ]:
+    ensure => directory,
+    owner  => $id,
+    group  => $root_group,
+    mode   => '0750';
 
-        ## Old versions of this module used a different path.
-        '/usr/local/bin/concatfragments.sh':
-            ensure => absent;
-    }
+  ## Old versions of this module used a different path.
+  '/usr/local/bin/concatfragments.sh':
+    ensure => absent;
+  }
 }
-
-# vi:tabstop=4:expandtab:ai
