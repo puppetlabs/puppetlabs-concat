@@ -1,0 +1,8 @@
+name 'puppet-concat'
+version '0.0.1'
+source 'git://github.com/puppetlabs/puppet-concat.git'
+author 'Puppet Labs'
+license 'Apache'
+summary 'Concat module'
+description 'Concat module'
+project_page 'http://github.com/puppetlabs/puppet-concat'
