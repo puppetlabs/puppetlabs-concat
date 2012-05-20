@@ -31,10 +31,14 @@
 # to control that and thus control the order the final file gets built in.
 #
 # SETUP:
-# The class concat::setup defines a variable $concatdir - you should set this
-# to a directory where you want all the temporary files and fragments to be
-# stored.  Avoid placing this somewhere like /tmp since you should never
-# delete files here, puppet will manage them.
+# The class concat::setup uses the fact concat_basedir to define the variable
+# $concatdir, where all the temporary files and fragments will be
+# durably stored. The fact concat_basedir will be set up on the client to
+# <Puppet[:vardir]>/concat, so you will be able to run different setup/flavours
+# of puppet clients.
+# However, since this requires the file lib/facter/concat_basedir.rb to be
+# deployed on the clients, so you will have to set "pluginsync = true" on
+# both the master and client, at least for the first run.
 #
 # There's some regular expression magic to figure out the puppet version but
 # if you're on an older 0.24 version just set $puppetversion = 24

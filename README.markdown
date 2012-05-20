@@ -81,6 +81,12 @@ Known Issues:
   in a run, the next run will also see it as changed.  This is due
   to how 0.24.8 does the purging of unhandled files, this is improved
   in 0.25.x and we cannot work around it in our code.
+* Since puppet-concat now relies on a fact for the concat directory,
+  you will need to set up pluginsync = true for at least the first run.
+  You have this issue if puppet fails to run on the client and you have
+  a message similar to
+  "err: Failed to apply catalog: Parameter path failed: File
+  paths must be fully qualified, not 'undef' at [...]/concat/manifests/setup.pp:44".
 
 Contributors:
 -------------
