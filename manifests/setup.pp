@@ -18,7 +18,13 @@ class concat::setup {
     root    => 0,
     default => $id
   }
-  $concatdir = $::concat_basedir
+
+  if $::concat_basedir {
+    $concatdir = $::concat_basedir
+  } else {
+    fail ("\$concat_basedir not defined. Try running again with pluginsync enabled")
+  }
+
   $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
 
   file{"${concatdir}/bin/concatfragments.sh":
