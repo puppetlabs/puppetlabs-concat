@@ -1,4 +1,3 @@
-#require 'rubygems'
 require 'rake'
 require 'rspec/core/rake_task'
 

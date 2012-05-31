@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'concat' do
-#  basedir = '/var/lib/puppet/concat'
   basedir = '/var/lib/puppet/concat'
   let(:title) { '/etc/foo.bar' }
   let(:facts) { { :concat_basedir => '/var/lib/puppet/concat' } }
