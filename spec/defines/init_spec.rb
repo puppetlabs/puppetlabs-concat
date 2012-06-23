@@ -3,18 +3,55 @@ require 'spec_helper'
 describe 'concat' do
   basedir = '/var/lib/puppet/concat'
   let(:title) { '/etc/foo.bar' }
-  let(:facts) { { :concat_basedir => '/var/lib/puppet/concat' } }
+  let(:facts) { { 
+    :concat_basedir => '/var/lib/puppet/concat',
+    :id             => 'root',
+  } }
   let :pre_condition do
     'include concat::setup'
   end
-  it { should contain_file("#{basedir}/_etc_foo.bar").with('ensure' => 'directory') }
-  it { should contain_file("#{basedir}/_etc_foo.bar/fragments").with('ensure' => 'directory') }
 
-  it { should contain_file("#{basedir}/_etc_foo.bar/fragments.concat").with('ensure' => 'present') }
-  it { should contain_file("/etc/foo.bar").with('ensure' => 'present') }
-  it { should contain_exec("concat_/etc/foo.bar").with_command(
-                                        "#{basedir}/bin/concatfragments.sh "+
-                                        "-o #{basedir}/_etc_foo.bar/fragments.concat.out "+
-                                        "-d #{basedir}/_etc_foo.bar   ")
-  }
+  directories = [
+    "#{basedir}/_etc_foo.bar",
+    "#{basedir}/_etc_foo.bar/fragments",
+  ]
+
+  directories.each do |dirs|
+    it do
+      should contain_file(dirs).with({
+        'ensure'  => 'directory',
+        'backup'  => 'puppet',
+        'group'   => 0,
+        'mode'    => '0644',
+        'owner'   => 'root',
+      })
+    end
+  end
+
+  files = [
+    "/etc/foo.bar",
+    "#{basedir}/_etc_foo.bar/fragments.concat",
+  ]
+
+  files.each do |file|
+    it do
+      should contain_file(file).with({
+        'ensure'  => 'present',
+        'backup'  => 'puppet',
+        'group'   => 0,
+        'mode'    => '0644',
+        'owner'   => 'root',
+      })
+    end
+  end
+
+  it do
+    should contain_exec("concat_/etc/foo.bar").with_command(
+      "#{basedir}/bin/concatfragments.sh " +
+      "-o #{basedir}/_etc_foo.bar/fragments.concat.out " +
+      "-d #{basedir}/_etc_foo.bar   "
+    )
+  end
 end
+
+# vim:sw=2:ts=2:expandtab:textwidth=79
