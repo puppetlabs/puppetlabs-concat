@@ -80,18 +80,32 @@
 #
 # ACTIONS:
 #  - Creates fragment directories if it didn't exist already
-#  - Executes the concatfragments.sh script to build the final file, this script will create
-#    directory/fragments.concat.   Execution happens only when:
+#  - Executes the concatfragments.sh script to build the final file, this
+#    script will create directory/fragments.concat.   Execution happens only
+#    when:
 #    * The directory changes
-#    * fragments.concat != final destination, this means rebuilds will happen whenever
-#      someone changes or deletes the final file.  Checking is done using /usr/bin/cmp.
-#    * The Exec gets notified by something else - like the concat::fragment define
+#    * fragments.concat != final destination, this means rebuilds will happen
+#      whenever someone changes or deletes the final file.  Checking is done
+#      using /usr/bin/cmp.
+#    * The Exec gets notified by something else - like the concat::fragment
+#      define
 #  - Copies the file over to the final destination using a file resource
 #
 # ALIASES:
-#  - The exec can notified using Exec["concat_/path/to/file"] or Exec["concat_/path/to/directory"]
-#  - The final file can be referened as File["/path/to/file"] or File["concat_/path/to/file"]
-define concat($mode = '0644', $owner = $::id, $group = $concat::setup::root_group, $warn = false, $force = false, $backup = 'puppet', $gnu = undef, $order='alpha') {
+#  - The exec can notified using Exec["concat_/path/to/file"] or
+#    Exec["concat_/path/to/directory"]
+#  - The final file can be referened as File["/path/to/file"] or
+#    File["concat_/path/to/file"]
+define concat(
+  $owner = $::id,
+  $group = $concat::setup::root_group,
+  $mode = '0644',
+  $warn = false,
+  $force = false,
+  $backup = 'puppet',
+  $gnu = undef,
+  $order='alpha'
+) {
   $safe_name   = regsubst($name, '/', '_', 'G')
   $concatdir   = $concat::setup::concatdir
   $version     = $concat::setup::majorversion
@@ -100,9 +114,15 @@ define concat($mode = '0644', $owner = $::id, $group = $concat::setup::root_grou
   $default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
 
   case $warn {
-    'true',true,yes,on:   { $warnmsg = $default_warn_message }
-    'false',false,no,off: { $warnmsg = '' }
-    default:              { $warnmsg = $warn }
+    'true', true, yes, on: {
+      $warnmsg = $default_warn_message
+    }
+    'false', false, no, off: {
+      $warnmsg = ''
+    }
+    default: {
+      $warnmsg = $warn
+    }
   }
 
   $warnmsg_escaped = regsubst($warnmsg, "'", "'\\\\''", 'G')
@@ -112,67 +132,91 @@ define concat($mode = '0644', $owner = $::id, $group = $concat::setup::root_grou
   }
 
   case $force {
-    'true',true,yes,on: { $forceflag = '-f' }
-    'false',false,no,off: { $forceflag = '' }
-    default: { fail("Improper 'force' value given to concat: ${force}") }
+    'true', true, yes, on: {
+      $forceflag = '-f'
+    }
+    'false', false, no, off: {
+      $forceflag = ''
+    }
+    default: {
+e     fail("Improper 'force' value given to concat: ${force}")
+    }
   }
 
   case $order {
-    numeric: { $orderflag = '-n' }
-    alpha: { $orderflag = '' }
-    default: { fail("Improper 'order' value given to concat: ${order}") }
+    numeric: {
+      $orderflag = '-n'
+    }
+    alpha: {
+      $orderflag = ''
+    }
+    default: {
+      fail("Improper 'order' value given to concat: ${order}")
+    }
   }
 
-  File{
+  File {
     owner  => $::id,
     group  => $group,
     mode   => $mode,
     backup => $backup
   }
 
-  file{$fragdir:
-    ensure   => directory;
+  file { $fragdir:
+    ensure => directory,
+  }
 
-  "${fragdir}/fragments":
+  $source_real = $version ? {
+    24      => 'puppet:///concat/null',
+    default => undef,
+  }
+
+  file { "${fragdir}/fragments":
     ensure   => directory,
-    recurse  => true,
-    purge    => true,
     force    => true,
     ignore   => ['.svn', '.git', '.gitignore'],
-    source   => $version ? {
-      24      => 'puppet:///concat/null',
-      default => undef,
-    },
-    notify   => Exec["concat_${name}"];
+    notify   => Exec["concat_${name}"],
+    purge    => true,
+    recurse  => true,
+    source   => $source_real,
+  }
 
-  "${fragdir}/fragments.concat":
-    ensure   => present;
-
-  "${fragdir}/${concat_name}":
-    ensure   => present;
-
-  $name:
+  file { "${fragdir}/fragments.concat":
     ensure   => present,
-    source   => "${fragdir}/${concat_name}",
-    owner    => $owner,
-    group    => $group,
-    checksum => md5,
-    mode     => $mode,
-    alias    => "concat_${name}";
   }
 
-  exec{"concat_${name}":
-    notify    => File[$name],
-    subscribe => File[$fragdir],
-    alias     => "concat_${fragdir}",
-    require   => [ File[$fragdir], File["${fragdir}/fragments"], File["${fragdir}/fragments.concat"] ],
-    unless    => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag}",
-    command   => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag}",
+  file { "${fragdir}/${concat_name}":
+    ensure   => present,
   }
+
+  file { $name:
+    ensure   => present,
+    alias    => "concat_${name}",
+    group    => $group,
+    mode     => $mode,
+    owner    => $owner,
+    source   => "${fragdir}/${concat_name}",
+  }
+
+  exec { "concat_${name}":
+    alias       => "concat_${fragdir}",
+    command     => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag}",
+    notify      => File[$name],
+    require     => [
+      File[$fragdir],
+      File["${fragdir}/fragments"],
+      File["${fragdir}/fragments.concat"],
+    ],
+    subscribe   => File[$fragdir],
+    unless      => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag}",
+  }
+
   if $::id == 'root' {
-    Exec["concat_${name}"]{
-      user      => root,
-      group     => $group,
+    Exec["concat_${name}"] {
+      user  => root,
+      group => $group,
     }
   }
 }
+
+# vim:sw=2:ts=2:expandtab:textwidth=79
