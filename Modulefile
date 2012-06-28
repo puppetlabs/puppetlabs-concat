@@ -1,4 +1,4 @@
-name 'puppet-concat'
+name 'ripienaar-concat'
 version '0.1.0'
 source 'git://github.com/ripienaar/puppet-concat.git'
 author 'R.I.Pienaar'
