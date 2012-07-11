@@ -139,7 +139,7 @@ define concat(
       $forceflag = ''
     }
     default: {
-e     fail("Improper 'force' value given to concat: ${force}")
+      fail("Improper 'force' value given to concat: ${force}")
     }
   }
 
