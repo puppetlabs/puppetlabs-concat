@@ -29,7 +29,6 @@ their changes will be incorporated into the puppet managed motd.
 <pre>
 # class to setup basic motd, include on all nodes
 class motd {
-   include concat::setup
    $motd = "/etc/motd"
 
    concat{$motd:

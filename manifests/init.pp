@@ -43,9 +43,6 @@
 # There's some regular expression magic to figure out the puppet version but
 # if you're on an older 0.24 version just set $puppetversion = 24
 #
-# Before you can use any of the concat features you should include the
-# class concat::setup somewhere on your node first.
-#
 # DETAIL:
 # We use a helper shell script called concatfragments.sh that gets placed
 # in <Puppet[:vardir]>/concat/bin to do the concatenation.  While this might
@@ -106,6 +103,8 @@ define concat(
   $gnu = undef,
   $order='alpha'
 ) {
+  include concat::setup
+
   $safe_name   = regsubst($name, '/', '_', 'G')
   $concatdir   = $concat::setup::concatdir
   $version     = $concat::setup::majorversion
