@@ -1,5 +1,5 @@
 # Puts a file fragment into a directory previous setup using concat
-# 
+#
 # OPTIONS:
 #   - target    The file that these fragments belong to
 #   - content   If present puts the content into the file
