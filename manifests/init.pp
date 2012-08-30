@@ -94,6 +94,7 @@
 #  - The final file can be referened as File["/path/to/file"] or
 #    File["concat_/path/to/file"]
 define concat(
+  $path = $name,
   $owner = $::id,
   $group = $concat::setup::root_group,
   $mode = '0644',
@@ -189,6 +190,7 @@ define concat(
   }
 
   file { $name:
+    path     => $path,
     ensure   => present,
     alias    => "concat_${name}",
     group    => $group,
