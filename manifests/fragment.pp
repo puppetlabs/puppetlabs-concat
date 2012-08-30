@@ -29,6 +29,9 @@ define concat::fragment($target, $content='', $source='', $order=10, $ensure = '
             '', 'absent', 'present', 'file', 'directory': {
               crit('No content, source or symlink specified')
             }
+            default: {
+              #do nothing, make puppet-lint happy.
+            }
           }
         }
         default: { File{ source => $source } }
