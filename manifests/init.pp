@@ -218,8 +218,8 @@ define concat(
   }
 
   file { $name:
-    path     => $path,
     ensure   => present,
+    path     => $path,
     alias    => "concat_${name}",
     group    => $group,
     mode     => $mode,
