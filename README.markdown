@@ -117,7 +117,7 @@ Contributors:
 
  * Support non GNU systems by default
 
-**Erik Dalén*
+**Erik Dalén**
 
  * Style improvements
 
