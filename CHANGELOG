@@ -1,9 +1,3 @@
-KNOWN ISSUES:
-- In 0.24.8 you will see inintended notifies, if you build a file
-  in a run, the next run will also see it as changed.  This is due
-  to how 0.24.8 does the purging of unhandled files, this is improved
-  in 0.25.x and we cannot work around it in our code.
-
 CHANGELOG:
 - 2010/02/19 - initial release
 - 2010/03/12 - add support for 0.24.8 and newer
@@ -27,3 +21,19 @@ CHANGELOG:
 - 2010/10/04 - Make the warning message configurable
 - 2010/12/03 - Add flags to make concat work better on Solaris - thanks Jonathan Boyett
 - 2011/02/03 - Make the shell script more portable and add a config option for root group
+- 2011/06/21 - Make base dir root readable only for security
+- 2011/06/23 - Set base directory using a fact instead of hardcoding it
+- 2011/06/23 - Support operating as non privileged user
+- 2011/06/23 - Support dash instead of bash or sh
+- 2011/07/11 - Better solaris support
+- 2011/12/05 - Use fully qualified variables
+- 2011/12/13 - Improve Nexenta support
+- 2012/04/11 - Do not use any GNU specific extensions in the shell script
+- 2012/03/24 - Comply to community style guides
+- 2012/05/23 - Better errors when basedir isnt set
+- 2012/05/31 - Add spec tests
+- 2012/07/11 - Include concat::setup in concat improving UX
+- 2012/08/14 - Puppet Lint improvements
+- 2012/08/30 - The target path can be different from the $name
+- 2012/08/30 - More Puppet Lint cleanup
+- 2012/09/04 - RELEASE 0.2.0
