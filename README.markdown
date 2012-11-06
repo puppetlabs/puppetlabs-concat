@@ -74,6 +74,9 @@ class apache {
 }
 </pre>
 
+Detailed documentation of the class options can be found in the
+manifest files.
+
 Known Issues:
 -------------
 * Since puppet-concat now relies on a fact for the concat directory,
