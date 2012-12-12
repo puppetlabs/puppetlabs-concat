@@ -102,6 +102,8 @@
 #               that it is built by puppet
 #  - backup     Controls the filebucketing behavior of the final file and
 #               see File type reference for its use.  Defaults to 'puppet'
+#  - replace    Whether to replace a file that already exists on the local
+#               system
 #
 # ACTIONS:
 #  - Creates fragment directories if it didn't exist already
@@ -129,6 +131,7 @@ define concat(
   $warn = false,
   $force = false,
   $backup = 'puppet',
+  $replace = true,
   $gnu = undef,
   $order='alpha'
 ) {
@@ -184,10 +187,11 @@ define concat(
   }
 
   File {
-    owner  => $::id,
-    group  => $group,
-    mode   => $mode,
-    backup => $backup
+    owner   => $::id,
+    group   => $group,
+    mode    => $mode,
+    backup  => $backup,
+    replace => $replace
   }
 
   file { $fragdir:
