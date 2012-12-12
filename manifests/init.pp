@@ -129,6 +129,7 @@ define concat(
   $warn = false,
   $force = false,
   $backup = 'puppet',
+  $replace = true,
   $gnu = undef,
   $order='alpha'
 ) {
@@ -184,10 +185,11 @@ define concat(
   }
 
   File {
-    owner  => $::id,
-    group  => $group,
-    mode   => $mode,
-    backup => $backup
+    owner   => $::id,
+    group   => $group,
+    mode    => $mode,
+    backup  => $backup,
+    replace => $replace
   }
 
   file { $fragdir:
