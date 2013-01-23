@@ -34,7 +34,7 @@ class motd {
    concat{$motd:
       owner => root,
       group => root,
-      mode  => 644
+      mode  => '0644',
    }
 
    concat::fragment{"motd_header":
