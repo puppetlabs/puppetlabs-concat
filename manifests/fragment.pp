@@ -13,7 +13,7 @@
 #   - group     Owner of the file
 #   - backup    Controls the filebucketing behavior of the final file and
 #               see File type reference for its use.  Defaults to 'puppet'
-define concat::fragment($target, $content='', $source='', $order=10, $ensure = 'present', $mode = '0644', $owner = $::id, $group = $concat::setup::root_group, $backup = 'puppet') {
+define concat::fragment($target, $content=undef, $source=undef, $order=10, $ensure = 'present', $mode = '0644', $owner = $::id, $group = $concat::setup::root_group, $backup = 'puppet') {
   $safe_name = regsubst($name, '[/\n]', '_', 'GM')
   $safe_target_name = regsubst($target, '[/\n]', '_', 'GM')
   $concatdir = $concat::setup::concatdir
@@ -21,32 +21,26 @@ define concat::fragment($target, $content='', $source='', $order=10, $ensure = '
 
   # if content is passed, use that, else if source is passed use that
   # if neither passed, but $ensure is in symlink form, make a symlink
-  case $content {
-    '': {
-      case $source {
-        '': {
-          case $ensure {
-            '', 'absent', 'present', 'file', 'directory': {
-              crit('No content, source or symlink specified')
-            }
-            default: {
-              #do nothing, make puppet-lint happy.
-            }
-          }
-        }
-        default: { File{ source => $source } }
+  case $ensure {
+    '', 'absent', 'present', 'file', 'directory': {
+      if ! ($content or $source) {
+        crit('No content, source or symlink specified')
       }
+    },
+    default: {
+      # do nothing, make puppet-lint happy
     }
-    default: { File{ content => $content } }
   }
 
   file{"${fragdir}/fragments/${order}_${safe_name}":
-    ensure => $ensure,
-    mode   => $mode,
-    owner  => $owner,
-    group  => $group,
-    backup => $backup,
-    alias  => "concat_fragment_${name}",
-    notify => Exec["concat_${target}"]
+    ensure  => $ensure,
+    mode    => $mode,
+    owner   => $owner,
+    group   => $group,
+    source  => $source,
+    content => $content,
+    backup  => $backup,
+    alias   => "concat_fragment_${name}",
+    notify  => Exec["concat_${target}"]
   }
 }
