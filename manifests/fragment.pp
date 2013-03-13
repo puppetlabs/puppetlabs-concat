@@ -26,7 +26,7 @@ define concat::fragment($target, $content=undef, $source=undef, $order=10, $ensu
       if ! ($content or $source) {
         crit('No content, source or symlink specified')
       }
-    },
+    }
     default: {
       # do nothing, make puppet-lint happy
     }
