@@ -190,7 +190,6 @@ define concat(
     owner   => $::id,
     group   => $group,
     mode    => $mode,
-    backup  => $backup,
     replace => $replace
   }
 
@@ -229,6 +228,7 @@ define concat(
     mode     => $mode,
     owner    => $owner,
     source   => "${fragdir}/${concat_name}",
+    backup   => $backup,
   }
 
   exec { "concat_${name}":
