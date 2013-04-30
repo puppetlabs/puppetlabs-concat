@@ -190,6 +190,7 @@ define concat(
     owner   => $::id,
     group   => $group,
     mode    => $mode,
+    backup  => 'puppet',
     replace => $replace
   }
 
