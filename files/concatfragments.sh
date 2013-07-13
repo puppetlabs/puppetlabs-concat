@@ -112,9 +112,14 @@ else
 fi
 
 # find all the files in the fragments directory, sort them numerically and concat to fragments.concat in the working dir
-find fragments/ -type f -follow | LANG=C sort ${SORTARG} | while read -r fragfile; do
-	cat "$fragfile" >> "fragments.concat"
+IFS_BACKUP=$IFS
+IFS='
+'
+for fragfile in `find fragments/ -type f -follow | LANG=C sort ${SORTARG}`
+do
+    cat $fragfile >> concat.fragment
 done
+IFS=$IFS_BACKUP
 
 if [ x${TEST} = "x" ]; then
 	# This is a real run, copy the file to outfile
