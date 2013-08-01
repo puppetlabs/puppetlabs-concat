@@ -1,5 +1,5 @@
 name 'ripienaar-concat'
-version '0.2.0'
+version '0.3.0'
 source 'git://github.com/ripienaar/puppet-concat.git'
 author 'R.I.Pienaar'
 license 'Apache'
