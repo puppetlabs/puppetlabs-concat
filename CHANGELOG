@@ -38,3 +38,6 @@ CHANGELOG:
 - 2012/08/30 - More Puppet Lint cleanup
 - 2012/09/04 - RELEASE 0.2.0
 - 2012/12/12 - Added (file) $replace parameter to concat
+- 2013/04/08 - Added -r flag to read so that filenames with \ will be read correctly
+- 2013/05/21 - sort always with LANG=C
+- 2013/08/01 - RELEASE 0.3.0
