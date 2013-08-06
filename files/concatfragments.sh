@@ -44,6 +44,7 @@ TEST=""
 FORCE=""
 WARN=""
 SORTARG=""
+ENSURE_NEW_LINE=""
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
@@ -59,6 +60,7 @@ while getopts "o:s:d:tnw:f" options; do
 		w ) WARNMSG="$OPTARG";;
 		f ) FORCE="true";;
 		t ) TEST="true";;
+		l ) ENSURE_NEW_LINE="true";;
 		* ) echo "Specify output file with -o and fragments directory with -d"
 		    exit 1;;
 	esac
@@ -109,6 +111,10 @@ if [ x${WARNMSG} = "x" ]; then
 	: > "fragments.concat"
 else
 	printf '%s\n' "$WARNMSG" > "fragments.concat"
+fi
+
+if [ x${ENSURE_NEW_LINE} != x ]; then
+	find fragments/ -type f -follow -print0 | xargs -0 -I '{}' sh -c 'if [ -n "$(tail -c 1 < {} )" ]; then echo >> {} ; fi'
 fi
 
 # find all the files in the fragments directory, sort them numerically and concat to fragments.concat in the working dir
