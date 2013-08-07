@@ -52,7 +52,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 ## http://nexenta.org/projects/site/wiki/Personalities
 unset SUN_PERSONALITY
 
-while getopts "o:s:d:tnw:f" options; do
+while getopts "o:s:d:tnw:fl" options; do
 	case $options in
 		o ) OUTFILE=$OPTARG;;
 		d ) WORKDIR=$OPTARG;;
