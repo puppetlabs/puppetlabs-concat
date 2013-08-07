@@ -105,7 +105,7 @@ fi
 
 cd ${WORKDIR}
 
-if [ x${WARNMSG} = "x" ]; then
+if [ "x${WARNMSG}" = "x" ]; then
 	: > "fragments.concat"
 else
 	printf '%s\n' "$WARNMSG" > "fragments.concat"
