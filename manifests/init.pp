@@ -56,7 +56,7 @@ define concat(
   $replace = true,
   $gnu = undef,
   $order='alpha',
-  $ensure_new_line = false
+  $ensure_newline = false
 ) {
   include concat::setup
 
@@ -109,7 +109,7 @@ define concat(
     }
   }
 
-  case $ensure_new_line {
+  case $ensure_newline {
     'true', true, yes, on: {
       $newlineflag = '-l'
     }
@@ -117,7 +117,7 @@ define concat(
       $newlineflag = ''
     }
     default: {
-      fail("Improper 'ensure_new_line' value given to concat: ${ensure_new_line}")
+      fail("Improper 'ensure_newline' value given to concat: ${ensure_newline}")
     }
   }
 
