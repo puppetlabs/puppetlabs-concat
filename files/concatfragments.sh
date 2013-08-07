@@ -44,7 +44,7 @@ TEST=""
 FORCE=""
 WARN=""
 SORTARG=""
-ENSURE_NEW_LINE=""
+ENSURE_NEWLINE=""
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 
@@ -60,7 +60,7 @@ while getopts "o:s:d:tnw:fl" options; do
 		w ) WARNMSG="$OPTARG";;
 		f ) FORCE="true";;
 		t ) TEST="true";;
-		l ) ENSURE_NEW_LINE="true";;
+		l ) ENSURE_NEWLINE="true";;
 		* ) echo "Specify output file with -o and fragments directory with -d"
 		    exit 1;;
 	esac
@@ -113,7 +113,7 @@ else
 	printf '%s\n' "$WARNMSG" > "fragments.concat"
 fi
 
-if [ x${ENSURE_NEW_LINE} != x ]; then
+if [ x${ENSURE_NEWLINE} != x ]; then
 	find fragments/ -type f -follow -print0 | xargs -0 -I '{}' sh -c 'if [ -n "$(tail -c 1 < {} )" ]; then echo >> {} ; fi'
 fi
 
