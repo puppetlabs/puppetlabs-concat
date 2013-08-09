@@ -49,7 +49,7 @@ describe 'concat' do
     should contain_exec("concat_/etc/foo.bar").with_command(
       "#{basedir}/bin/concatfragments.sh " +
       "-o #{basedir}/_etc_foo.bar/fragments.concat.out " +
-      "-d #{basedir}/_etc_foo.bar   "
+      "-d #{basedir}/_etc_foo.bar    "
     )
   end
 end
@@ -105,7 +105,7 @@ describe 'concat' do
     should contain_exec("concat_foobar").with_command(
       "#{basedir}/bin/concatfragments.sh " +
       "-o #{basedir}/foobar/fragments.concat.out " +
-      "-d #{basedir}/foobar   "
+      "-d #{basedir}/foobar    "
     )
   end
 
