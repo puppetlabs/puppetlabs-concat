@@ -151,4 +151,4 @@ Contributors:
 
 Contact:
 --------
-R.I.Pienaar / rip@devco.net / @ripienaar / http://devco.net
+puppet-users@ mailing list.
