@@ -35,6 +35,8 @@ define concat::fragment(
     $owner = $::id,
     $group = $concat::setup::root_group,
     $backup = 'puppet') {
+
+  include concat::setup
   $safe_name = regsubst($name, '[/\n]', '_', 'GM')
   $safe_target_name = regsubst($target, '[/\n]', '_', 'GM')
   $concatdir = $concat::setup::concatdir
