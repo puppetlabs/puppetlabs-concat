@@ -4,6 +4,8 @@
 #
 # === Options:
 #
+# [*ensure*]
+#   Present/Absent
 # [*path*]
 #   The path to the final file. Use this in case you want to differentiate
 #   between the name of a resource and the file path.  Note: Use the name you
@@ -46,6 +48,7 @@
 #   File["concat_/path/to/file"]
 #
 define concat(
+  $ensure = 'present',
   $path = $name,
   $owner = $::id,
   $group = $concat::setup::root_group,
@@ -56,7 +59,7 @@ define concat(
   $replace = true,
   $gnu = undef,
   $order='alpha',
-  $ensure_newline = false
+  $ensure_newline = false,
 ) {
   include concat::setup
 
@@ -129,60 +132,81 @@ define concat(
     replace => $replace
   }
 
-  file { $fragdir:
-    ensure => directory,
-  }
-
   $source_real = $version ? {
     24      => 'puppet:///concat/null',
     default => undef,
   }
 
-  file { "${fragdir}/fragments":
-    ensure   => directory,
-    force    => true,
-    ignore   => ['.svn', '.git', '.gitignore'],
-    notify   => Exec["concat_${name}"],
-    purge    => true,
-    recurse  => true,
-    source   => $source_real,
-  }
+  if $ensure == 'present' {
+    file { $fragdir:
+      ensure => directory,
+    }
 
-  file { "${fragdir}/fragments.concat":
-    ensure   => present,
-  }
+    file { "${fragdir}/fragments":
+      ensure   => directory,
+      force    => true,
+      ignore   => ['.svn', '.git', '.gitignore'],
+      notify   => Exec["concat_${name}"],
+      purge    => true,
+      recurse  => true,
+      source   => $source_real,
+    }
 
-  file { "${fragdir}/${concat_name}":
-    ensure   => present,
-  }
+    file { "${fragdir}/fragments.concat":
+      ensure   => present,
+    }
 
-  file { $name:
-    ensure   => present,
-    path     => $path,
-    alias    => "concat_${name}",
-    group    => $group,
-    mode     => $mode,
-    owner    => $owner,
-    source   => "${fragdir}/${concat_name}",
-  }
+    file { "${fragdir}/${concat_name}":
+      ensure   => present,
+    }
 
-  exec { "concat_${name}":
-    alias       => "concat_${fragdir}",
-    command     => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${newlineflag}",
-    notify      => File[$name],
-    require     => [
-      File[$fragdir],
-      File["${fragdir}/fragments"],
-      File["${fragdir}/fragments.concat"],
-    ],
-    subscribe   => File[$fragdir],
-    unless      => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag} ${newlineflag}",
-  }
+    file { $name:
+      ensure   => present,
+      path     => $path,
+      alias    => "concat_${name}",
+      group    => $group,
+      mode     => $mode,
+      owner    => $owner,
+      source   => "${fragdir}/${concat_name}",
+    }
 
-  if $::id == 'root' {
-    Exec["concat_${name}"] {
-      user  => root,
-      group => $group,
+    exec { "concat_${name}":
+      alias       => "concat_${fragdir}",
+      command     => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${newlineflag}",
+      notify      => File[$name],
+      require     => [
+        File[$fragdir],
+        File["${fragdir}/fragments"],
+        File["${fragdir}/fragments.concat"],
+      ],
+      subscribe   => File[$fragdir],
+      unless      => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag} ${newlineflag}",
+    }
+
+    if $::id == 'root' {
+      Exec["concat_${name}"] {
+        user  => root,
+        group => $group,
+      }
+    }
+  }
+  else {
+    file {
+      [ $fragdir,
+        "${fragdir}/fragments",
+        "${fragdir}/fragments.concat",
+        "${fragdir}/${concat_name}" ]:
+          ensure => absent,
+          backup => false,
+          force  => true;
+        $name:
+          ensure => absent,
+    }
+
+    exec { "concat_${name}":
+      alias   => "concat_${fragdir}",
+      command => 'true',
+      path    => '/bin:/usr/bin'
     }
   }
 }
