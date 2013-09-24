@@ -52,4 +52,8 @@ class concat::setup {
   '/usr/local/bin/concatfragments.sh':
     ensure => absent;
   }
+
+  # Ensure we run setup first.
+  Class['concat::setup'] -> Concat::Fragment<| |>
+
 }
