@@ -59,7 +59,7 @@ define concat(
   $replace = true,
   $gnu = undef,
   $order='alpha',
-  $ensure_newline = false,
+  $ensure_newline = false
 ) {
   include concat::setup
 
