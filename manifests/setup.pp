@@ -27,7 +27,7 @@ class concat::setup {
   if $::concat_basedir {
     $concatdir = $::concat_basedir
   } else {
-    fail ("\$concat_basedir not defined. Try running again with pluginsync=true on the [master] section of your node's '/etc/puppet/puppet.conf'.")
+    fail ("\$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node's '/etc/puppet/puppet.conf'.")
   }
 
   $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
