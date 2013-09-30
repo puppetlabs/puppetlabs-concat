@@ -80,7 +80,7 @@ manifest files.
 Known Issues:
 -------------
 * Since puppet-concat now relies on a fact for the concat directory,
-  you will need to set up pluginsync = true on the [master] section of your
+  you will need to set up pluginsync = true on both the master and client
   node's '/etc/puppet/puppet.conf' for at least the first run.
   You have this issue if puppet fails to run on the client and you have
   a message similar to
