@@ -104,6 +104,9 @@ define concat(
     numeric: {
       $orderflag = '-n'
     }
+    natural: {
+      $orderflag = '-V'
+    }
     alpha: {
       $orderflag = ''
     }
