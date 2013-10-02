@@ -1,5 +1,7 @@
 == Module: concat
 
+[![Build Status](https://travis-ci.org/puppetlabs/puppetlabs-concat.png?branch=master)](https://travis-ci.org/puppetlabs/puppetlabs-concat)
+
 A system to construct files using fragments from other files or templates.
 
 This requires at least puppet 0.25 to work correctly as we use some
