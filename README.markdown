@@ -1,5 +1,7 @@
 What is it?
 ===========
+[![Build Status](https://travis-ci.org/puppetlabs/puppetlabs-concat.png?branch=master)](https://travis-ci.org/puppetlabs/puppetlabs-concat)
+
 
 A Puppet module that can construct files from fragments.
 
