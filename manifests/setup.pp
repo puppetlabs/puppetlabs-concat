@@ -21,7 +21,7 @@ class concat::setup {
   $id = $::id
   $root_group = $id ? {
     root    => 0,
-    default => $id
+    default => $concat_usergroup
   }
 
   if $::concat_basedir {
