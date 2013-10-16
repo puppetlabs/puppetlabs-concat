@@ -121,7 +121,7 @@ fi
 IFS_BACKUP=$IFS
 IFS='
 '
-for fragfile in `find fragments/ -type f -follow | LANG=C sort ${SORTARG}`
+for fragfile in `find fragments/ -type f -follow | LC_ALL=C sort ${SORTARG}`
 do
     cat $fragfile >> "fragments.concat"
 done
