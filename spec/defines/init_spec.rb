@@ -7,9 +7,6 @@ describe 'concat' do
     :concat_basedir => '/var/lib/puppet/concat',
     :id             => 'root',
   } }
-  let :pre_condition do
-    'include concat::setup'
-  end
 
   directories = [
     "#{basedir}/_etc_foo.bar",
@@ -63,9 +60,6 @@ describe 'concat' do
     :concat_basedir => '/var/lib/puppet/concat',
     :id             => 'root',
   } }
-  let :pre_condition do
-    'include concat::setup'
-  end
 
   directories = [
     "#{basedir}/foobar",

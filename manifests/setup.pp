@@ -53,7 +53,4 @@ class concat::setup {
     ensure => absent;
   }
 
-  # Ensure we run setup first.
-  Class['concat::setup'] -> Concat::Fragment<| |>
-
 }

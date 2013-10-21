@@ -151,6 +151,10 @@ Contributors:
 
  * Configurable paths
 
+**Joshua Hoblitt**
+
+ * Remove requirement to manually include `concat::setup` in the manifest
+
 Contact:
 --------
 puppet-users@ mailing list.

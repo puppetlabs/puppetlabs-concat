@@ -33,12 +33,20 @@ define concat::fragment(
     $ensure = 'present',
     $mode = '0644',
     $owner = $::id,
-    $group = $concat::setup::root_group,
-    $backup = 'puppet') {
+    $group = undef,
+    $backup = 'puppet'
+) {
+  include concat::setup
+
   $safe_name = regsubst($name, '[/\n]', '_', 'GM')
   $safe_target_name = regsubst($target, '[/\n]', '_', 'GM')
   $concatdir = $concat::setup::concatdir
   $fragdir = "${concatdir}/${safe_target_name}"
+
+  $safe_group = $group ? {
+    undef   => $concat::setup::root_group,
+    default => $group,
+  }
 
   # if content is passed, use that, else if source is passed use that
   # if neither passed, but $ensure is in symlink form, make a symlink
@@ -57,7 +65,7 @@ define concat::fragment(
     ensure  => $ensure,
     mode    => $mode,
     owner   => $owner,
-    group   => $group,
+    group   => $safe_group,
     source  => $source,
     content => $content,
     backup  => $backup,
