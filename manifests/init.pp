@@ -57,7 +57,6 @@ define concat(
   $force          = false,
   $backup         = 'puppet',
   $replace        = true,
-  $gnu            = undef,
   $order          = 'alpha',
   $ensure_newline = false,
 ) {
