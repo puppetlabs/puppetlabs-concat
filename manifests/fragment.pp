@@ -27,21 +27,21 @@
 #
 define concat::fragment(
     $target,
-    $content=undef,
-    $source=undef,
-    $order=10,
-    $ensure = 'present',
-    $mode = '0644',
-    $owner = $::id,
-    $group = undef,
-    $backup = 'puppet'
+    $content = undef,
+    $source  = undef,
+    $order   = 10,
+    $ensure  = 'present',
+    $mode    = '0644',
+    $owner   = $::id,
+    $group   = undef,
+    $backup  = 'puppet'
 ) {
   include concat::setup
 
-  $safe_name = regsubst($name, '[/\n]', '_', 'GM')
+  $safe_name        = regsubst($name, '[/\n]', '_', 'GM')
   $safe_target_name = regsubst($target, '[/\n]', '_', 'GM')
-  $concatdir = $concat::setup::concatdir
-  $fragdir = "${concatdir}/${safe_target_name}"
+  $concatdir        = $concat::setup::concatdir
+  $fragdir          = "${concatdir}/${safe_target_name}"
 
   $safe_group = $group ? {
     undef   => $concat::setup::root_group,
@@ -61,7 +61,7 @@ define concat::fragment(
     }
   }
 
-  file{"${fragdir}/fragments/${order}_${safe_name}":
+  file { "${fragdir}/fragments/${order}_${safe_name}":
     ensure  => $ensure,
     mode    => $mode,
     owner   => $owner,

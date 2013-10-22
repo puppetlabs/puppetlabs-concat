@@ -27,7 +27,7 @@ class concat::setup {
   if $::concat_basedir {
     $concatdir = $::concat_basedir
   } else {
-    fail ("\$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node's '/etc/puppet/puppet.conf'.")
+    fail ('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')
   }
 
   $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
@@ -36,21 +36,23 @@ class concat::setup {
     default => 'puppet:///modules/concat/concatfragments.sh'
   }
 
-  file{"${concatdir}/bin/concatfragments.sh":
+  file { "${concatdir}/bin/concatfragments.sh":
     owner  => $id,
     group  => $root_group,
     mode   => '0755',
-    source => $fragments_source;
+    source => $fragments_source,
+  }
 
-  [ $concatdir, "${concatdir}/bin" ]:
+  file { [ $concatdir, "${concatdir}/bin" ]:
     ensure => directory,
     owner  => $id,
     group  => $root_group,
-    mode   => '0750';
+    mode   => '0750',
+  }
 
   ## Old versions of this module used a different path.
-  '/usr/local/bin/concatfragments.sh':
-    ensure => absent;
+  file { '/usr/local/bin/concatfragments.sh':
+    ensure => absent,
   }
 
 }
