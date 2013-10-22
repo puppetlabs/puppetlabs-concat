@@ -72,7 +72,7 @@ define concat(
 
   $safe_group = $group ? {
     undef   => $concat::setup::root_group,
-    default => $safe_group,
+    default => $group,
   }
 
   case $warn {

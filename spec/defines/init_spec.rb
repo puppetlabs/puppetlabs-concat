@@ -106,4 +106,26 @@ describe 'concat' do
 
 end
 
+describe 'concat' do
+  let(:title) { '/etc/foo.bar' }
+  let(:params) { {
+    :group => 'something', 
+    :owner => 'someone', 
+    :mode  => '0755' 
+  } }
+  let(:facts) { {
+    :concat_basedir => '/var/lib/puppet/concat',
+    :id             => 'root',
+  } }
+
+  it do
+    should contain_file("/etc/foo.bar").with( {
+      'ensure' => 'present',
+      'owner'  => 'someone',
+      'group'  => 'something',
+      'mode'   => '0755',
+    } )
+  end
+end
+
 # vim:sw=2:ts=2:expandtab:textwidth=79
