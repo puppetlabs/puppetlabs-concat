@@ -83,7 +83,6 @@ define concat(
 
   $safe_name            = regsubst($name, '/', '_', 'G')
   $concatdir            = $concat::setup::concatdir
-  $version              = $concat::setup::majorversion
   $fragdir              = "${concatdir}/${safe_name}"
   $concat_name          = 'fragments.concat.out'
   $default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
@@ -131,11 +130,6 @@ define concat(
     replace => $replace
   }
 
-  $source_real = $version ? {
-    24      => 'puppet:///concat/null',
-    default => undef,
-  }
-
   if $ensure == 'present' {
     file { $fragdir:
       ensure => directory,
@@ -148,7 +142,6 @@ define concat(
       notify  => Exec["concat_${name}"],
       purge   => true,
       recurse => true,
-      source  => $source_real,
     }
 
     file { "${fragdir}/fragments.concat":

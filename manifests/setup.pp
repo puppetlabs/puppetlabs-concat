@@ -7,14 +7,6 @@
 #   Since puppet should always manage files in $concatdir and they should
 #   not be deleted ever, /tmp is not an option.
 #
-# [$puppetversion]
-#   should be either 24 or 25 to enable a 24 compatible
-#   mode, in 24 mode you might see phantom notifies this is a side effect
-#   of the method we use to clear the fragments directory.
-#
-# The regular expression below will try to figure out your puppet version
-# but this code will only work in 0.24.8 and newer.
-#
 # It also copies out the concatfragments.sh file to ${concatdir}/bin
 #
 class concat::setup {
@@ -30,17 +22,11 @@ class concat::setup {
     fail ('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')
   }
 
-  $majorversion = regsubst($::puppetversion, '^[0-9]+[.]([0-9]+)[.][0-9]+$', '\1')
-  $fragments_source = $majorversion ? {
-    24      => 'puppet:///concat/concatfragments.sh',
-    default => 'puppet:///modules/concat/concatfragments.sh'
-  }
-
   file { "${concatdir}/bin/concatfragments.sh":
     owner  => $id,
     group  => $root_group,
     mode   => '0755',
-    source => $fragments_source,
+    source => 'puppet:///modules/concat/concatfragments.sh',
   }
 
   file { [ $concatdir, "${concatdir}/bin" ]:

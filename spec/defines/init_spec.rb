@@ -58,7 +58,6 @@ describe 'concat', :type => :define do
           :ignore  => ['.svn', '.git', '.gitignore'],
           :purge   => true,
           :recurse => true,
-          :source  => nil, # true for all but for puppet 24
         }))
       end
 
