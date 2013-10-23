@@ -1,6 +1,6 @@
 # === Class: concat::setup
 #
-# Sets up the concat system.
+# Sets up the concat system. This is a private class.
 #
 # [$concatdir]
 #   is where the fragments live and is set on the fact concat_basedir.
@@ -10,6 +10,10 @@
 # It also copies out the concatfragments.sh file to ${concatdir}/bin
 #
 class concat::setup {
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
+
   $id = $::id
   $root_group = $id ? {
     root    => 0,
