@@ -154,6 +154,9 @@ Contributors:
 **Joshua Hoblitt**
 
  * Remove requirement to manually include `concat::setup` in the manifest
+ * Style improvements
+ * Parameter validation / refactor parameter handling
+ * Test coverage
 
 Contact:
 --------

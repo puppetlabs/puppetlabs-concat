@@ -36,6 +36,16 @@ define concat::fragment(
     $group   = undef,
     $backup  = 'puppet'
 ) {
+  validate_absolute_path($target)
+  validate_re($ensure, '^$|^present$|^absent$|^file$|^directory$')
+  validate_string($content)
+  validate_string($source)
+  validate_string($order)
+  validate_string($mode)
+  validate_string($owner)
+  validate_string($group)
+  validate_string($backup)
+
   include concat::setup
 
   $safe_name        = regsubst($name, '[/\n]', '_', 'GM')

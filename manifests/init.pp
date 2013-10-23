@@ -10,22 +10,27 @@
 #   The path to the final file. Use this in case you want to differentiate
 #   between the name of a resource and the file path.  Note: Use the name you
 #   provided in the target of your fragments.
-# [*mode*]
-#   The mode of the final file
 # [*owner*]
 #   Who will own the file
 # [*group*]
 #   Who will own the file
+# [*mode*]
+#   The mode of the final file
 # [*force*]
 #   Enables creating empty files if no fragments are present
 # [*warn*]
 #   Adds a normal shell style comment top of the file indicating that it is
 #   built by puppet
+# [*warn_message*]
+#   A custom message string that overides the default.
+# [*force*]
 # [*backup*]
 #   Controls the filebucketing behavior of the final file and see File type
 #   reference for its use.  Defaults to 'puppet'
 # [*replace*]
 #   Whether to replace a file that already exists on the local system
+# [*order*]
+# [*ensure_newline*]
 #
 # === Actions:
 # * Creates fragment directories if it didn't exist already
@@ -54,18 +59,30 @@ define concat(
   $group          = undef,
   $mode           = '0644',
   $warn           = false,
+  $warn_message   = undef,
   $force          = false,
   $backup         = 'puppet',
   $replace        = true,
-  $gnu            = undef,
   $order          = 'alpha',
-  $ensure_newline = false,
+  $ensure_newline = false
 ) {
+  validate_re($ensure, '^present$|^absent$')
+  validate_absolute_path($path)
+  validate_string($owner)
+  validate_string($group)
+  validate_string($mode)
+  validate_bool($warn)
+  validate_string($warn_message)
+  validate_bool($force)
+  validate_string($backup)
+  validate_bool($replace)
+  validate_re($order, '^alpha$|^numeric$')
+  validate_bool($ensure_newline)
+
   include concat::setup
 
   $safe_name            = regsubst($name, '/', '_', 'G')
   $concatdir            = $concat::setup::concatdir
-  $version              = $concat::setup::majorversion
   $fragdir              = "${concatdir}/${safe_name}"
   $concat_name          = 'fragments.concat.out'
   $default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
@@ -75,71 +92,42 @@ define concat(
     default => $group,
   }
 
-  case $warn {
-    'true', true, 'yes', 'on': {
-      $warnmsg = $default_warn_message
+  if $warn == true {
+    $use_warn_message = $warn_message ? {
+      undef   => $default_warn_message,
+      default => $warn_message,
     }
-    'false', false, 'no', 'off': {
-      $warnmsg = ''
-    }
-    default: {
-      $warnmsg = $warn
-    }
+  } else {
+    $use_warn_message = undef
   }
 
-  $warnmsg_escaped = regsubst($warnmsg, "'", "'\\\\''", 'G')
+  $warnmsg_escaped = regsubst($use_warn_message, "'", "'\\\\''", 'G')
   $warnflag = $warnmsg_escaped ? {
     ''      => '',
     default => "-w '${warnmsg_escaped}'"
   }
 
-  case $force {
-    'true', true, 'yes', 'on': {
-      $forceflag = '-f'
-    }
-    'false', false, 'no', 'off': {
-      $forceflag = ''
-    }
-    default: {
-      fail("Improper 'force' value given to concat: ${force}")
-    }
+  $forceflag = $force ? {
+    true  => '-f',
+    false => '',
   }
 
-  case $order {
-    'numeric': {
-      $orderflag = '-n'
-    }
-    'alpha': {
-      $orderflag = ''
-    }
-    default: {
-      fail("Improper 'order' value given to concat: ${order}")
-    }
+  $orderflag = $order ? {
+    'numeric' => '-n',
+    'alpha'   => '',
   }
 
-  case $ensure_newline {
-    'true', true, 'yes', 'on': {
-      $newlineflag = '-l'
-    }
-    'false', false, 'no', 'off': {
-      $newlineflag = ''
-    }
-    default: {
-      fail("Improper 'ensure_newline' value given to concat: ${ensure_newline}")
-    }
+  $newlineflag = $ensure_newline ? {
+    true  => '-l',
+    false => '',
   }
 
   File {
-    owner   => $::id,
+    owner   => $owner,
     group   => $safe_group,
     mode    => $mode,
     backup  => $backup,
     replace => $replace
-  }
-
-  $source_real = $version ? {
-    24      => 'puppet:///concat/null',
-    default => undef,
   }
 
   if $ensure == 'present' {
@@ -154,7 +142,6 @@ define concat(
       notify  => Exec["concat_${name}"],
       purge   => true,
       recurse => true,
-      source  => $source_real,
     }
 
     file { "${fragdir}/fragments.concat":
@@ -169,23 +156,23 @@ define concat(
       ensure => present,
       path   => $path,
       alias  => "concat_${name}",
-      group  => $safe_group,
-      mode   => $mode,
-      owner  => $owner,
       source => "${fragdir}/${concat_name}",
     }
 
+    # remove extra whitespace from string interopolation to make testing easier
+    $command = strip(regsubst("${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${newlineflag}", '\s+', ' ', 'G'))
+
     exec { "concat_${name}":
-      alias   => "concat_${fragdir}",
-      command => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${newlineflag}",
-      notify  => File[$name],
-      require => [
+      alias     => "concat_${fragdir}",
+      command   => $command,
+      notify    => File[$name],
+      subscribe => File[$fragdir],
+      unless    => "${command} -t",
+      require   => [
         File[$fragdir],
         File["${fragdir}/fragments"],
         File["${fragdir}/fragments.concat"],
       ],
-      subscribe => File[$fragdir],
-      unless    => "${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} -t ${warnflag} ${forceflag} ${orderflag} ${newlineflag}",
     }
 
     if $::id == 'root' {
