@@ -14,6 +14,7 @@ describe 'concat::setup', :type => :class do
         :group  => id == 'root' ? 0 : id,
         :mode   => '0755',
         :source => 'puppet:///modules/concat/concatfragments.sh',
+        :backup => false,
       })
     end
 
@@ -24,6 +25,7 @@ describe 'concat::setup', :type => :class do
           :owner  => id,
           :group  => id == 'root' ? 0 : id,
           :mode   => '0750',
+          :backup => false,
         })
       end
     end
@@ -31,6 +33,7 @@ describe 'concat::setup', :type => :class do
     it do
       should contain_file('/usr/local/bin/concatfragments.sh').with({
         :ensure => 'absent',
+        :backup => false,
       })
     end
   end

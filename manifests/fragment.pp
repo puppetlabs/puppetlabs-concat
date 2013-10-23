@@ -33,8 +33,7 @@ define concat::fragment(
     $ensure  = 'present',
     $mode    = '0644',
     $owner   = $::id,
-    $group   = undef,
-    $backup  = 'puppet'
+    $group   = undef
 ) {
   validate_absolute_path($target)
   validate_re($ensure, '^$|^present$|^absent$|^file$|^directory$')
@@ -44,7 +43,6 @@ define concat::fragment(
   validate_string($mode)
   validate_string($owner)
   validate_string($group)
-  validate_string($backup)
 
   include concat::setup
 
@@ -78,7 +76,7 @@ define concat::fragment(
     group   => $safe_group,
     source  => $source,
     content => $content,
-    backup  => $backup,
+    backup  => false,
     alias   => "concat_fragment_${name}",
     notify  => Exec["concat_${target}"]
   }

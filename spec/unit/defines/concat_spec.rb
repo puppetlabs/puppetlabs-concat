@@ -33,7 +33,7 @@ describe 'concat', :type => :define do
       :owner   => p[:owner],
       :group   => p[:group],
       :mode    => p[:mode],
-      :backup  => p[:backup],
+      :backup  => false,
       :replace => p[:replace],
     }
 
@@ -80,6 +80,7 @@ describe 'concat', :type => :define do
           :path   => p[:path],
           :alias  => "concat_#{title}",
           :source => "#{fragdir}/#{concat_name}",
+          :backup => p[:backup],
         }))
       end
 
@@ -130,12 +131,7 @@ describe 'concat', :type => :define do
       it do
         should contain_file(title).with(file_defaults.merge({
           :ensure => 'absent',
-        }))
-      end
-
-      it do
-        should contain_file(title).with(file_defaults.merge({
-          :ensure => 'absent',
+          :backup => p[:backup],
         }))
       end
 
