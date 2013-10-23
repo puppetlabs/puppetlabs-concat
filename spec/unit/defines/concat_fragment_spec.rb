@@ -50,8 +50,8 @@ describe 'concat::fragment', :type => :define do
         :group   => safe_group,
         :source  => p[:source],
         :content => p[:content],
-        :backup  => p[:backup],
         :alias   => "concat_fragment_#{title}",
+        :backup  => false,
       })
     end
   end
@@ -216,24 +216,5 @@ describe 'concat::fragment', :type => :define do
       end
     end
   end # group =>
-
-  context 'backup =>' do
-    context 'apenny' do
-      it_behaves_like 'fragment', 'motd_header', {
-        :backup => 'apenny',
-        :target => '/etc/motd',
-      }
-    end
-
-    context 'false' do
-      let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp', :id => 'root' }}
-      let(:params) {{ :backup => false, :target => '/etc/motd' }}
-
-      it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string/)
-      end
-    end
-  end # backup =>
 
 end

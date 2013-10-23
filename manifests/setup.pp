@@ -26,6 +26,10 @@ class concat::setup {
     fail ('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')
   }
 
+  File {
+    backup => false,
+  }
+
   file { "${concatdir}/bin/concatfragments.sh":
     owner  => $owner,
     group  => $root_group,

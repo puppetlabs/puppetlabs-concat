@@ -126,8 +126,8 @@ define concat(
     owner   => $owner,
     group   => $safe_group,
     mode    => $mode,
-    backup  => $backup,
-    replace => $replace
+    replace => $replace,
+    backup  => false,
   }
 
   if $ensure == 'present' {
@@ -157,6 +157,7 @@ define concat(
       path   => $path,
       alias  => "concat_${name}",
       source => "${fragdir}/${concat_name}",
+      backup => $backup,
     }
 
     # remove extra whitespace from string interopolation to make testing easier
@@ -190,12 +191,12 @@ define concat(
       "${fragdir}/${concat_name}"
     ]:
       ensure => absent,
-      backup => false,
       force  => true,
     }
 
     file { $name:
       ensure => absent,
+      backup => $backup,
     }
 
     exec { "concat_${name}":
