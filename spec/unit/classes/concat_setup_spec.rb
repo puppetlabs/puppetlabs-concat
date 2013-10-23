@@ -1,0 +1,63 @@
+require 'spec_helper'
+
+describe 'concat::setup', :type => :class do
+
+  shared_examples 'setup' do |id='root', concatdir='/foo'|
+    let(:facts) {{ :id => id, :concat_basedir => concatdir }}
+
+    it do
+      should contain_file("#{concatdir}/bin/concatfragments.sh").with({
+        :owner  => id,
+        :group  => id == 'root' ? 0 : id,
+        :mode   => '0755',
+        :source => 'puppet:///modules/concat/concatfragments.sh',
+      })
+    end
+
+    [concatdir, "#{concatdir}/bin"].each do |file|
+      it do
+        should contain_file(file).with({
+          :ensure => 'directory',
+          :owner  => id,
+          :group  => id == 'root' ? 0 : id,
+          :mode   => '0750',
+        })
+      end
+    end
+
+    it do
+      should contain_file('/usr/local/bin/concatfragments.sh').with({
+        :ensure => 'absent',
+      })
+    end
+  end
+
+  context 'facts' do
+
+    context 'id =>' do
+      context 'root' do
+        it_behaves_like 'setup', 'root'
+      end
+
+      context 'apenny' do
+        it_behaves_like 'setup', 'apenny'
+      end
+    end
+
+    context 'concat_basedir =>' do
+      context '/foo' do
+        it_behaves_like 'setup', 'root', '/foo'
+      end
+
+      context 'undef' do
+        let(:facts) {{ :id => 'root' }}
+        it 'should fail' do
+          expect {
+            should
+          }.to raise_error(Puppet::Error, /#{Regexp.escape('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')}/)
+        end
+      end
+    end
+
+  end # facts
+end
