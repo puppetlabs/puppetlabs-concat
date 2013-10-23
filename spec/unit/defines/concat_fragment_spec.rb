@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe 'concat::fragment', :type => :define do
 
-  shared_examples 'fragment' do |title, params={}|
+  shared_examples 'fragment' do |title, params|
+    params = {} if params.nil?
+
     id = 'root'
 
     p = {

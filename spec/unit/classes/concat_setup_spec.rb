@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe 'concat::setup', :type => :class do
 
-  shared_examples 'setup' do |id='root', concatdir='/foo'|
+  shared_examples 'setup' do |id, concatdir|
+    id        = 'root' if id.nil?
+    concatdir = '/foo' if concatdir.nil?
+
     let(:facts) {{ :id => id, :concat_basedir => concatdir }}
 
     it do

@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe 'concat', :type => :define do
 
-  shared_examples 'concat' do |title, params={}| 
+  shared_examples 'concat' do |title, params| 
+    params = {} if params.nil?
+
     id = 'root'
 
     # default param values

@@ -64,7 +64,7 @@ define concat(
   $backup         = 'puppet',
   $replace        = true,
   $order          = 'alpha',
-  $ensure_newline = false,
+  $ensure_newline = false
 ) {
   validate_re($ensure, '^present$|^absent$')
   validate_absolute_path($path)
