@@ -14,10 +14,10 @@ class concat::setup {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  $id = $::id
-  $root_group = $id ? {
+  $owner = $::id
+  $root_group = $owner ? {
     root    => 0,
-    default => $id
+    default => $owner
   }
 
   if $::concat_basedir {
@@ -27,7 +27,7 @@ class concat::setup {
   }
 
   file { "${concatdir}/bin/concatfragments.sh":
-    owner  => $id,
+    owner  => $owner,
     group  => $root_group,
     mode   => '0755',
     source => 'puppet:///modules/concat/concatfragments.sh',
@@ -35,7 +35,7 @@ class concat::setup {
 
   file { [ $concatdir, "${concatdir}/bin" ]:
     ensure => directory,
-    owner  => $id,
+    owner  => $owner,
     group  => $root_group,
     mode   => '0750',
   }
