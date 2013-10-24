@@ -33,10 +33,4 @@ class concat::setup {
     ensure => directory,
     mode   => '0755',
   }
-
-  ## Old versions of this module used a different path.
-  file { '/usr/local/bin/concatfragments.sh':
-    ensure => absent,
-  }
-
 }
