@@ -24,13 +24,6 @@ describe 'concat::setup', :type => :class do
         })
       end
     end
-
-    it do
-      should contain_file('/usr/local/bin/concatfragments.sh').with({
-        :ensure => 'absent',
-        :backup => false,
-      })
-    end
   end
 
   context 'facts' do
