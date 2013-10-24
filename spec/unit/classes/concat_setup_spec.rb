@@ -2,16 +2,13 @@ require 'spec_helper'
 
 describe 'concat::setup', :type => :class do
 
-  shared_examples 'setup' do |id, concatdir|
-    id        = 'root' if id.nil?
+  shared_examples 'setup' do |concatdir|
     concatdir = '/foo' if concatdir.nil?
 
-    let(:facts) {{ :id => id, :concat_basedir => concatdir }}
+    let(:facts) {{ :concat_basedir => concatdir }}
 
     it do
       should contain_file("#{concatdir}/bin/concatfragments.sh").with({
-        :owner  => id,
-        :group  => id == 'root' ? 0 : id,
         :mode   => '0755',
         :source => 'puppet:///modules/concat/concatfragments.sh',
         :backup => false,
@@ -22,9 +19,7 @@ describe 'concat::setup', :type => :class do
       it do
         should contain_file(file).with({
           :ensure => 'directory',
-          :owner  => id,
-          :group  => id == 'root' ? 0 : id,
-          :mode   => '0750',
+          :mode   => '0755',
           :backup => false,
         })
       end
@@ -45,23 +40,12 @@ describe 'concat::setup', :type => :class do
       "$caller_module_name = 'concat'"
     end
 
-    context 'id =>' do
-      context 'root' do
-        it_behaves_like 'setup', 'root'
-      end
-
-      context 'apenny' do
-        it_behaves_like 'setup', 'apenny'
-      end
-    end
-
     context 'concat_basedir =>' do
       context '/foo' do
-        it_behaves_like 'setup', 'root', '/foo'
+        it_behaves_like 'setup', '/foo'
       end
 
       context 'undef' do
-        let(:facts) {{ :id => 'root' }}
         it 'should fail' do
           expect { should }.to raise_error(Puppet::Error, /#{Regexp.escape('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')}/)
         end
@@ -71,7 +55,7 @@ describe 'concat::setup', :type => :class do
   end # facts
 
   context 'called from another module namespace' do
-    let(:facts) {{ :id => 'root', :concat_basedir => '/foo' }}
+    let(:facts) {{ :concat_basedir => '/foo' }}
     it 'should fail' do
       expect { should }.to raise_error(Puppet::Error, /Use of private class concat::setup/)
     end

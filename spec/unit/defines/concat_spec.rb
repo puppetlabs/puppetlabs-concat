@@ -5,14 +5,12 @@ describe 'concat', :type => :define do
   shared_examples 'concat' do |title, params| 
     params = {} if params.nil?
 
-    id = 'root'
-
     # default param values
     p = {
       :ensure         => 'present',
       :path           => title,
-      :owner          => id,
-      :group          => '0',
+      :owner          => nil,
+      :group          => nil,
       :mode           => '0644',
       :warn           => false,
       :warn_message   => nil,
@@ -39,12 +37,7 @@ describe 'concat', :type => :define do
 
     let(:title) { title }
     let(:params) { params }
-    let(:facts) do
-      {
-        :concat_basedir => concatdir,
-        :id             => id,
-      }
-    end
+    let(:facts) {{ :concat_basedir => concatdir }}
 
     if p[:ensure] == 'present'
       it do
@@ -102,15 +95,10 @@ describe 'concat', :type => :define do
         should contain_exec("concat_#{title}").with({
           :alias   => "concat_#{fragdir}",
           :command => cmd,
+          :user    => p[:owner],
+          :group   => p[:group], 
           :unless  => "#{cmd} -t",
         })
-
-        if id == 'root'
-          should contain_exec("concat_#{title}").with({
-            :user  => 'root',
-            :group => p[:group], 
-          })
-        end
       end
     else
       [

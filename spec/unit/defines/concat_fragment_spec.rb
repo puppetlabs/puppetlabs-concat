@@ -5,15 +5,13 @@ describe 'concat::fragment', :type => :define do
   shared_examples 'fragment' do |title, params|
     params = {} if params.nil?
 
-    id = 'root'
-
     p = {
       :content => nil,
       :source  => nil,
       :order   => 10,
       :ensure  => 'present',
       :mode    => '0644',
-      :owner   => id,
+      :owner   => nil,
       :group   => nil,
       :backup  => 'puppet',
     }.merge(params)
@@ -22,19 +20,9 @@ describe 'concat::fragment', :type => :define do
     safe_target_name = p[:target].gsub(/[\/\n]/, '_')
     concatdir        = '/var/lib/puppet/concat'
     fragdir          = "#{concatdir}/#{safe_target_name}"
-    if p[:group].nil?
-      safe_group = id == 'root' ? 0 : id
-    else
-      safe_group = p[:group]
-    end
 
     let(:title) { title }
-    let(:facts) do
-      {
-       :concat_basedir => concatdir,
-       :id             => id,
-      }
-    end
+    let(:facts) {{ :concat_basedir => concatdir }}
     let(:params) { params }
     let(:pre_condition) do
       "concat{ '#{p[:target]}': }"
@@ -47,7 +35,7 @@ describe 'concat::fragment', :type => :define do
         :ensure  => p[:ensure],
         :mode    => p[:mode],
         :owner   => p[:owner],
-        :group   => safe_group,
+        :group   => p[:group],
         :source  => p[:source],
         :content => p[:content],
         :alias   => "concat_fragment_#{title}",
@@ -66,7 +54,7 @@ describe 'concat::fragment', :type => :define do
     ['./etc/motd', 'etc/motd', false].each do |target|
       context target do
         let(:title) { 'motd_header' }
-        let(:facts) {{ :concat_basedir => '/tmp', :id => 'root' }}
+        let(:facts) {{ :concat_basedir => '/tmp' }}
         let(:params) {{ :target => target }}
 
         it 'should fail' do
@@ -88,7 +76,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'invalid' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp', :id => 'root' }}
+      let(:facts) {{ :concat_basedir => '/tmp' }}
       let(:params) {{ :ensure => 'invalid', :target => '/etc/motd' }}
 
       it 'should fail' do
@@ -109,7 +97,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp', :id => 'root' }}
+      let(:facts) {{ :concat_basedir => '/tmp' }}
       let(:params) {{ :content => false, :target => '/etc/motd' }}
 
       it 'should fail' do
@@ -130,7 +118,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp', :id => 'root' }}
+      let(:facts) {{ :concat_basedir => '/tmp' }}
       let(:params) {{ :source => false, :target => '/etc/motd' }}
 
       it 'should fail' do
@@ -151,7 +139,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp', :id => 'root' }}
+      let(:facts) {{ :concat_basedir => '/tmp' }}
       let(:params) {{ :order => false, :target => '/etc/motd' }}
 
       it 'should fail' do
@@ -170,7 +158,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp', :id => 'root' }}
+      let(:facts) {{ :concat_basedir => '/tmp' }}
       let(:params) {{ :mode => false, :target => '/etc/motd' }}
 
       it 'should fail' do
@@ -189,7 +177,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp', :id => 'root' }}
+      let(:facts) {{ :concat_basedir => '/tmp' }}
       let(:params) {{ :owner => false, :target => '/etc/motd' }}
 
       it 'should fail' do
@@ -208,7 +196,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp', :id => 'root' }}
+      let(:facts) {{ :concat_basedir => '/tmp' }}
       let(:params) {{ :group => false, :target => '/etc/motd' }}
 
       it 'should fail' do

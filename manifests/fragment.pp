@@ -32,7 +32,7 @@ define concat::fragment(
     $order   = 10,
     $ensure  = 'present',
     $mode    = '0644',
-    $owner   = $::id,
+    $owner   = undef,
     $group   = undef
 ) {
   validate_absolute_path($target)
@@ -51,11 +51,6 @@ define concat::fragment(
   $concatdir        = $concat::setup::concatdir
   $fragdir          = "${concatdir}/${safe_target_name}"
 
-  $safe_group = $group ? {
-    undef   => $concat::setup::root_group,
-    default => $group,
-  }
-
   # if content is passed, use that, else if source is passed use that
   # if neither passed, but $ensure is in symlink form, make a symlink
   case $ensure {
@@ -73,7 +68,7 @@ define concat::fragment(
     ensure  => $ensure,
     mode    => $mode,
     owner   => $owner,
-    group   => $safe_group,
+    group   => $group,
     source  => $source,
     content => $content,
     backup  => false,
