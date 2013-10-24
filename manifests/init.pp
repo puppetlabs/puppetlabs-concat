@@ -55,7 +55,7 @@
 define concat(
   $ensure         = 'present',
   $path           = $name,
-  $owner          = $::id,
+  $owner          = undef,
   $group          = undef,
   $mode           = '0644',
   $warn           = false,
@@ -86,11 +86,6 @@ define concat(
   $fragdir              = "${concatdir}/${safe_name}"
   $concat_name          = 'fragments.concat.out'
   $default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
-
-  $safe_group = $group ? {
-    undef   => $concat::setup::root_group,
-    default => $group,
-  }
 
   if $warn == true {
     $use_warn_message = $warn_message ? {
@@ -124,7 +119,7 @@ define concat(
 
   File {
     owner   => $owner,
-    group   => $safe_group,
+    group   => $group,
     mode    => $mode,
     replace => $replace,
     backup  => false,
@@ -166,6 +161,8 @@ define concat(
     exec { "concat_${name}":
       alias     => "concat_${fragdir}",
       command   => $command,
+      user      => $owner,
+      group     => $group,
       notify    => File[$name],
       subscribe => File[$fragdir],
       unless    => "${command} -t",
@@ -175,15 +172,7 @@ define concat(
         File["${fragdir}/fragments.concat"],
       ],
     }
-
-    if $::id == 'root' {
-      Exec["concat_${name}"] {
-        user  => root,
-        group => $safe_group,
-      }
-    }
-  }
-  else {
+  } else {
     file { [
       $fragdir,
       "${fragdir}/fragments",

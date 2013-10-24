@@ -14,12 +14,6 @@ class concat::setup {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  $owner = $::id
-  $root_group = $owner ? {
-    root    => 0,
-    default => $owner
-  }
-
   if $::concat_basedir {
     $concatdir = $::concat_basedir
   } else {
@@ -31,17 +25,13 @@ class concat::setup {
   }
 
   file { "${concatdir}/bin/concatfragments.sh":
-    owner  => $owner,
-    group  => $root_group,
     mode   => '0755',
     source => 'puppet:///modules/concat/concatfragments.sh',
   }
 
   file { [ $concatdir, "${concatdir}/bin" ]:
     ensure => directory,
-    owner  => $owner,
-    group  => $root_group,
-    mode   => '0750',
+    mode   => '0755',
   }
 
   ## Old versions of this module used a different path.
