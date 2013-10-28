@@ -49,7 +49,6 @@ settings = {
 
 OptionParser.new do |opts|
   opts.banner = "Usage: #{$0} [options]"
-  opts.separator ""
   opts.separator "Specific options:"
 
   opts.on("-o", "--outfile OUTFILE", String, "The file to create from the sources") do |o|
