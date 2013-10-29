@@ -66,7 +66,7 @@ define concat(
   $order          = 'alpha',
   $ensure_newline = false
 ) {
-  validate_re($ensure, '^present$|^absent$')
+  validate_re($ensure, '^present$|^absent$|^file$')
   validate_absolute_path($path)
   validate_string($owner)
   validate_string($group)
@@ -125,7 +125,7 @@ define concat(
     backup  => false,
   }
 
-  if $ensure == 'present' {
+  if $ensure != 'absent' {
     file { $fragdir:
       ensure => directory,
     }
@@ -148,7 +148,7 @@ define concat(
     }
 
     file { $name:
-      ensure => present,
+      ensure => $ensure,
       path   => $path,
       alias  => "concat_${name}",
       source => "${fragdir}/${concat_name}",
