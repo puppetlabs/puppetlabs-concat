@@ -205,4 +205,15 @@ describe 'concat::fragment', :type => :define do
     end
   end # group =>
 
+  # should raise a warning but rspec-puppet can't presently test for warning()
+  # we can only test for the existence of the parameter
+  context 'backup =>' do
+    context 'foo' do
+      it_behaves_like 'fragment', 'motd_header', {
+        :backup => 'foo',
+        :target => '/etc/motd',
+      }
+    end
+  end # backup =>
+
 end

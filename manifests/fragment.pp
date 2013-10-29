@@ -22,8 +22,7 @@
 # [*group*]
 #   Owner of the file
 # [*backup*]
-#   Controls the filebucketing behavior of the final file and see File type
-#   reference for its use.  Defaults to 'puppet'
+#   Deprecated
 #
 define concat::fragment(
     $target,
@@ -33,7 +32,8 @@ define concat::fragment(
     $ensure  = 'present',
     $mode    = '0644',
     $owner   = undef,
-    $group   = undef
+    $group   = undef,
+    $backup  = undef
 ) {
   validate_absolute_path($target)
   validate_re($ensure, '^$|^present$|^absent$|^file$|^directory$')
@@ -43,6 +43,9 @@ define concat::fragment(
   validate_string($mode)
   validate_string($owner)
   validate_string($group)
+  if $backup {
+    warning('The $backup parameter to concat::fragment is deprecated and has no effect')
+  }
 
   include concat::setup
 

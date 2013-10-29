@@ -361,6 +361,14 @@ describe 'concat', :type => :define do
     end
   end # ensure_newline =>
 
+  # should raise a warning but rspec-puppet can't presently test for warning()
+  # we can only test for the existence of the parameter
+  context 'gnu =>' do
+    context 'foo' do
+      it_behaves_like 'concat', '/etc/foo.bar', { :gnu => 'foo'}
+    end
+  end
+
 end
 
 # vim:sw=2:ts=2:expandtab:textwidth=79
