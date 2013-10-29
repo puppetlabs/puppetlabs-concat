@@ -81,10 +81,11 @@ define concat(
 
   include concat::setup
 
-  $safe_name            = regsubst($name, '/', '_', 'G')
+  $safe_name            = regsubst($name, '[/:]', '_', 'G')
   $concatdir            = $concat::setup::concatdir
   $fragdir              = "${concatdir}/${safe_name}"
   $concat_name          = 'fragments.concat.out'
+  $script_command       = $concat::setup::script_command
   $default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
 
   if $warn == true {
@@ -156,7 +157,7 @@ define concat(
     }
 
     # remove extra whitespace from string interopolation to make testing easier
-    $command = strip(regsubst("${concat::setup::concatdir}/bin/concatfragments.sh -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${newlineflag}", '\s+', ' ', 'G'))
+    $command = strip(regsubst("${script_command} -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${newlineflag}", '\s+', ' ', 'G'))
 
     exec { "concat_${name}":
       alias     => "concat_${fragdir}",
@@ -166,6 +167,7 @@ define concat(
       notify    => File[$name],
       subscribe => File[$fragdir],
       unless    => "${command} -t",
+      path      => $::path,
       require   => [
         File[$fragdir],
         File["${fragdir}/fragments"],
@@ -188,10 +190,20 @@ define concat(
       backup => $backup,
     }
 
+    $absent_exec_command = $::kernel ? {
+      'windows' => 'cmd.exe /c exit 0',
+      default   => 'true',
+    }
+
+    $absent_exec_path = $::kernel ? {
+      'windows' => $::path,
+      default   => '/bin:/usr/bin',
+    }
+
     exec { "concat_${name}":
       alias   => "concat_${fragdir}",
-      command => 'true',
-      path    => '/bin:/usr/bin'
+      command => $absent_exec_command,
+      path    => $absent_exec_path
     }
   }
 }

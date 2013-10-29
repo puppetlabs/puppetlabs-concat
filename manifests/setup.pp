@@ -20,13 +20,25 @@ class concat::setup {
     fail ('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')
   }
 
+  $script_name = $::kernel ? {
+    'windows' => "concatfragments.rb",
+    default   => "concatfragments.sh"
+  }
+
+  $script_path = "${concatdir}/bin/${script_name}"
+
+  $script_command   = $::kernel ? {
+    'windows' => "ruby.exe ${script_path}",
+    default   => $script_path
+  }
+
   File {
     backup => false,
   }
 
-  file { "${concatdir}/bin/concatfragments.sh":
+  file { $script_path:
     mode   => '0755',
-    source => 'puppet:///modules/concat/concatfragments.sh',
+    source => "puppet:///modules/concat/${script_name}",
   }
 
   file { [ $concatdir, "${concatdir}/bin" ]:
