@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe 'concat', :type => :define do
 
-  shared_examples 'concat' do |title, params| 
+  shared_examples 'concat' do |title, params, id| 
     params = {} if params.nil?
+    id = 'root' if id.nil?
 
     # default param values
     p = {
@@ -37,7 +38,7 @@ describe 'concat', :type => :define do
 
     let(:title) { title }
     let(:params) { params }
-    let(:facts) {{ :concat_basedir => concatdir }}
+    let(:facts) {{ :concat_basedir => concatdir, :id => id }}
 
     if p[:ensure] == 'present'
       it do
@@ -95,8 +96,6 @@ describe 'concat', :type => :define do
         should contain_exec("concat_#{title}").with({
           :alias   => "concat_#{fragdir}",
           :command => cmd,
-          :user    => p[:owner],
-          :group   => p[:group], 
           :unless  => "#{cmd} -t",
         })
       end
@@ -161,6 +160,10 @@ describe 'concat', :type => :define do
       end
     end
   end # title =>
+
+  context 'as non-root user' do
+    it_behaves_like 'concat', '/etc/foo.bar', {}, 'bob'
+  end
 
   context 'ensure =>' do
     ['present', 'absent'].each do |ens|

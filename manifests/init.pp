@@ -162,14 +162,15 @@ define concat(
       backup => $backup,
     }
 
-    # remove extra whitespace from string interopolation to make testing easier
+    # remove extra whitespace from string interpolation to make testing easier
     $command = strip(regsubst("${script_command} -o ${fragdir}/${concat_name} -d ${fragdir} ${warnflag} ${forceflag} ${orderflag} ${newlineflag}", '\s+', ' ', 'G'))
 
+    # if puppet is running as root, this exec should also run as root to allow
+    # the concatfragments.sh script to potentially be installed in path that
+    # may not be accessible by a target non-root owner.
     exec { "concat_${name}":
       alias     => "concat_${fragdir}",
       command   => $command,
-      user      => $owner,
-      group     => $group,
       notify    => File[$name],
       subscribe => File[$fragdir],
       unless    => "${command} -t",

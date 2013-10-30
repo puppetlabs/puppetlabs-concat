@@ -1,27 +1,8 @@
 require 'spec_helper_system'
 
 describe 'basic concat test' do
-  context 'should run successfully' do
-    pp="
-      concat { '/tmp/file':
-        owner => root,
-        group => root,
-        mode  => '0644',
-      }
 
-      concat::fragment { '1':
-        target  => '/tmp/file',
-        content => '1',
-        order   => '01',
-      }
-
-      concat::fragment { '2':
-        target  => '/tmp/file',
-        content => '2',
-        order   => '02',
-      }
-    "
-
+  shared_examples 'concat' do |pp|
     context puppet_apply(pp) do
       its(:stderr) { should be_empty }
       its(:exit_code) { should_not == 1 }
@@ -50,6 +31,58 @@ describe 'basic concat test' do
     describe file('/var/lib/puppet/concat/_tmp_file/fragments.concat') do
       it { should be_file }
     end
+  end
 
+  context 'owner/group root' do
+    pp="
+      concat { '/tmp/file':
+        owner => 'root',
+        group => 'root',
+        mode  => '0644',
+      }
+
+      concat::fragment { '1':
+        target  => '/tmp/file',
+        content => '1',
+        order   => '01',
+      }
+
+      concat::fragment { '2':
+        target  => '/tmp/file',
+        content => '2',
+        order   => '02',
+      }
+    "
+
+    it_behaves_like 'concat', pp
+  end
+
+  context 'owner/group non-root' do
+    before(:all) do
+      shell "groupadd -g 42 bob"
+      shell "useradd -u 42 -g 42 bob"
+    end
+
+    pp="
+      concat { '/tmp/file':
+        owner => 'bob',
+        group => 'bob',
+        mode  => '0644',
+      }
+
+      concat::fragment { '1':
+        target  => '/tmp/file',
+        content => '1',
+        order   => '01',
+      }
+
+      concat::fragment { '2':
+        target  => '/tmp/file',
+        content => '2',
+        order   => '02',
+      }
+    "
+
+    it_behaves_like 'concat', pp
   end
 end
