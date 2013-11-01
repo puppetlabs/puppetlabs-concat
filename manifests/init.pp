@@ -31,6 +31,8 @@
 #   Whether to replace a file that already exists on the local system
 # [*order*]
 # [*ensure_newline*]
+# [*gnu*]
+#   Deprecated
 #
 # === Actions:
 # * Creates fragment directories if it didn't exist already
@@ -64,7 +66,8 @@ define concat(
   $backup         = 'puppet',
   $replace        = true,
   $order          = 'alpha',
-  $ensure_newline = false
+  $ensure_newline = false,
+  $gnu            = undef,
 ) {
   validate_re($ensure, '^present$|^absent$')
   validate_absolute_path($path)
@@ -78,6 +81,9 @@ define concat(
   validate_bool($replace)
   validate_re($order, '^alpha$|^numeric$')
   validate_bool($ensure_newline)
+  if $gnu {
+    warning('The $gnu parameter to concat is deprecated and has no effect')
+  }
 
   include concat::setup
 

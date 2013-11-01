@@ -27,30 +27,10 @@ describe 'concat::setup', :type => :class do
   end
 
   context 'facts' do
-    # concat::setup is a private module so we need pretend that we are calling
-    # it from elsewhere in the same module
-    let(:pre_condition) do
-      "$caller_module_name = 'concat'"
-    end
-
     context 'concat_basedir =>' do
       context '/foo' do
         it_behaves_like 'setup', '/foo'
       end
-
-      context 'undef' do
-        it 'should fail' do
-          expect { should }.to raise_error(Puppet::Error, /#{Regexp.escape('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')}/)
-        end
-      end
     end
-
   end # facts
-
-  context 'called from another module namespace' do
-    let(:facts) {{ :concat_basedir => '/foo' }}
-    it 'should fail' do
-      expect { should }.to raise_error(Puppet::Error, /Use of private class concat::setup/)
-    end
-  end
 end

@@ -11,7 +11,7 @@
 #
 class concat::setup {
   if $caller_module_name != $module_name {
-    fail("Use of private class ${name} by ${caller_module_name}")
+    warning("${name} is deprecated as a public API of the ${module_name} module and should no longer be directly included in the manifest.")
   }
 
   if $::concat_basedir {
