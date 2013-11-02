@@ -103,7 +103,7 @@ define concat(
     $use_warn_message = undef
   }
 
-  $warnmsg_escaped = regsubst($use_warn_message, "'", "'\\\\''", 'G')
+  $warnmsg_escaped = regsubst($use_warn_message, '\'', '\'\\\'\'', 'G')
   $warnflag = $warnmsg_escaped ? {
     ''      => '',
     default => "-w '${warnmsg_escaped}'"
