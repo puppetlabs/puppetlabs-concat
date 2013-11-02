@@ -125,20 +125,18 @@ define concat(
   }
 
   File {
-    owner   => $owner,
-    group   => $group,
-    mode    => $mode,
-    replace => $replace,
     backup  => false,
   }
 
   if $ensure == 'present' {
     file { $fragdir:
       ensure => directory,
+      mode   => '0750',
     }
 
     file { "${fragdir}/fragments":
       ensure  => directory,
+      mode    => '0750',
       force   => true,
       ignore  => ['.svn', '.git', '.gitignore'],
       notify  => Exec["concat_${name}"],
@@ -148,18 +146,24 @@ define concat(
 
     file { "${fragdir}/fragments.concat":
       ensure => present,
+      mode   => '0640',
     }
 
     file { "${fragdir}/${concat_name}":
       ensure => present,
+      mode   => '0640',
     }
 
     file { $name:
-      ensure => present,
-      path   => $path,
-      alias  => "concat_${name}",
-      source => "${fragdir}/${concat_name}",
-      backup => $backup,
+      ensure  => present,
+      owner   => $owner,
+      group   => $group,
+      mode    => $mode,
+      replace => $replace,
+      path    => $path,
+      alias   => "concat_${name}",
+      source  => "${fragdir}/${concat_name}",
+      backup  => $backup,
     }
 
     # remove extra whitespace from string interpolation to make testing easier

@@ -30,7 +30,7 @@ define concat::fragment(
     $source  = undef,
     $order   = 10,
     $ensure  = 'present',
-    $mode    = '0644',
+    $mode    = '0640',
     $owner   = undef,
     $group   = undef,
     $backup  = undef

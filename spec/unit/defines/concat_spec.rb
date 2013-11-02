@@ -29,11 +29,7 @@ describe 'concat', :type => :define do
     default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
 
     file_defaults = {
-      :owner   => p[:owner],
-      :group   => p[:group],
-      :mode    => p[:mode],
       :backup  => false,
-      :replace => p[:replace],
     }
 
     let(:title) { title }
@@ -44,12 +40,14 @@ describe 'concat', :type => :define do
       it do
         should contain_file(fragdir).with(file_defaults.merge({
           :ensure => 'directory',
+          :mode   => '0750',
         }))
       end
 
       it do
         should contain_file("#{fragdir}/fragments").with(file_defaults.merge({
           :ensure  => 'directory',
+          :mode    => '0750',
           :force   => true,
           :ignore  => ['.svn', '.git', '.gitignore'],
           :purge   => true,
@@ -64,17 +62,22 @@ describe 'concat', :type => :define do
         it do
           should contain_file(file).with(file_defaults.merge({
             :ensure => 'present',
+            :mode   => '0640',
           }))
         end
       end
 
       it do
         should contain_file(title).with(file_defaults.merge({
-          :ensure => 'present',
-          :path   => p[:path],
-          :alias  => "concat_#{title}",
-          :source => "#{fragdir}/#{concat_name}",
-          :backup => p[:backup],
+          :ensure  => 'present',
+          :owner   => p[:owner],
+          :group   => p[:group],
+          :mode    => p[:mode],
+          :replace => p[:replace],
+          :path    => p[:path],
+          :alias   => "concat_#{title}",
+          :source  => "#{fragdir}/#{concat_name}",
+          :backup  => p[:backup],
         }))
       end
 
