@@ -44,22 +44,30 @@ describe 'concat::fragment', :type => :define do
     end
   end
 
-  context 'target =>' do
-    context '/etc/motd' do
-      it_behaves_like 'fragment', 'motd_header', {
+  context 'title' do
+    ['0', '1', 'a', 'z'].each do |title|
+      it_behaves_like 'fragment', title, {
         :target  => '/etc/motd',
       }
     end
+  end # title
 
-    ['./etc/motd', 'etc/motd', false].each do |target|
+  context 'target =>' do
+    ['./etc/motd', 'etc/motd', 'motd_header'].each do |target|
       context target do
-        let(:title) { 'motd_header' }
-        let(:facts) {{ :concat_basedir => '/tmp' }}
-        let(:params) {{ :target => target }}
+        it_behaves_like 'fragment', target, {
+          :target  => '/etc/motd',
+        }
+      end
+    end
 
-        it 'should fail' do
-          expect { should }.to raise_error(Puppet::Error, /is not an absolute path/)
-        end
+    context 'false' do
+      let(:title) { 'motd_header' }
+      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:params) {{ :target => false }}
+
+      it 'should fail' do
+        expect { should }.to raise_error(Puppet::Error, /is not a string/)
       end
     end
   end # target =>

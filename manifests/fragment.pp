@@ -35,7 +35,7 @@ define concat::fragment(
     $group   = undef,
     $backup  = undef
 ) {
-  validate_absolute_path($target)
+  validate_string($target)
   validate_re($ensure, '^$|^present$|^absent$|^file$|^directory$')
   validate_string($content)
   validate_string($source)
