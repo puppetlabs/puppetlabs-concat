@@ -37,6 +37,8 @@ class concat::setup {
   }
 
   file { $script_path:
+    ensure => file,
+    owner  => $::id,
     mode   => '0755',
     source => "puppet:///modules/concat/${script_name}",
   }

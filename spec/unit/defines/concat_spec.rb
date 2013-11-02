@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe 'concat', :type => :define do
 
-  shared_examples 'concat' do |title, params| 
+  shared_examples 'concat' do |title, params, id| 
     params = {} if params.nil?
+    id = 'root' if id.nil?
 
     # default param values
     p = {
@@ -28,27 +29,25 @@ describe 'concat', :type => :define do
     default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
 
     file_defaults = {
-      :owner   => p[:owner],
-      :group   => p[:group],
-      :mode    => p[:mode],
       :backup  => false,
-      :replace => p[:replace],
     }
 
     let(:title) { title }
     let(:params) { params }
-    let(:facts) {{ :concat_basedir => concatdir }}
+    let(:facts) {{ :concat_basedir => concatdir, :id => id }}
 
     if p[:ensure] == 'present'
       it do
         should contain_file(fragdir).with(file_defaults.merge({
           :ensure => 'directory',
+          :mode   => '0750',
         }))
       end
 
       it do
         should contain_file("#{fragdir}/fragments").with(file_defaults.merge({
           :ensure  => 'directory',
+          :mode    => '0750',
           :force   => true,
           :ignore  => ['.svn', '.git', '.gitignore'],
           :purge   => true,
@@ -63,17 +62,22 @@ describe 'concat', :type => :define do
         it do
           should contain_file(file).with(file_defaults.merge({
             :ensure => 'present',
+            :mode   => '0640',
           }))
         end
       end
 
       it do
         should contain_file(title).with(file_defaults.merge({
-          :ensure => 'present',
-          :path   => p[:path],
-          :alias  => "concat_#{title}",
-          :source => "#{fragdir}/#{concat_name}",
-          :backup => p[:backup],
+          :ensure  => 'present',
+          :owner   => p[:owner],
+          :group   => p[:group],
+          :mode    => p[:mode],
+          :replace => p[:replace],
+          :path    => p[:path],
+          :alias   => "concat_#{title}",
+          :source  => "#{fragdir}/#{concat_name}",
+          :backup  => p[:backup],
         }))
       end
 
@@ -95,8 +99,6 @@ describe 'concat', :type => :define do
         should contain_exec("concat_#{title}").with({
           :alias   => "concat_#{fragdir}",
           :command => cmd,
-          :user    => p[:owner],
-          :group   => p[:group], 
           :unless  => "#{cmd} -t",
         })
       end
@@ -161,6 +163,10 @@ describe 'concat', :type => :define do
       end
     end
   end # title =>
+
+  context 'as non-root user' do
+    it_behaves_like 'concat', '/etc/foo.bar', {}, 'bob'
+  end
 
   context 'ensure =>' do
     ['present', 'absent'].each do |ens|
