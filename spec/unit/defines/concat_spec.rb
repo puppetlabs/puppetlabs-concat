@@ -367,11 +367,15 @@ describe 'concat', :type => :define do
     end
   end # ensure_newline =>
 
-  # should raise a warning but rspec-puppet can't presently test for warning()
-  # we can only test for the existence of the parameter
-  context 'gnu =>' do
-    context 'foo' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :gnu => 'foo'}
+  describe 'deprecated parameter' do
+    context 'gnu =>' do
+      context 'foo' do
+        it_behaves_like 'concat', '/etc/foo.bar', { :gnu => 'foo'}
+
+        it 'should create a warning' do
+          pending('rspec-puppet support for testing warning()')
+        end
+      end
     end
   end
 

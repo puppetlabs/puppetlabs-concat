@@ -16,11 +16,11 @@
 # [*ensure*]
 #   Present/Absent or destination to a file to include another file
 # [*mode*]
-#   Mode for the file
+#   Deprecated
 # [*owner*]
-#   Owner of the file
+#   Deprecated
 # [*group*]
-#   Owner of the file
+#   Deprecated
 # [*backup*]
 #   Deprecated
 #
@@ -30,7 +30,7 @@ define concat::fragment(
     $source  = undef,
     $order   = 10,
     $ensure  = 'present',
-    $mode    = '0640',
+    $mode    = undef,
     $owner   = undef,
     $group   = undef,
     $backup  = undef
@@ -40,9 +40,15 @@ define concat::fragment(
   validate_string($content)
   validate_string($source)
   validate_string($order)
-  validate_string($mode)
-  validate_string($owner)
-  validate_string($group)
+  if $mode {
+    warning('The $mode parameter to concat::fragment is deprecated and has no effect')
+  }
+  if $owner {
+    warning('The $owner parameter to concat::fragment is deprecated and has no effect')
+  }
+  if $group {
+    warning('The $group parameter to concat::fragment is deprecated and has no effect')
+  }
   if $backup {
     warning('The $backup parameter to concat::fragment is deprecated and has no effect')
   }
@@ -67,11 +73,12 @@ define concat::fragment(
     }
   }
 
+  # punt on group ownership until some point in the distant future when $::gid
+  # can be relied on to be present
   file { "${fragdir}/fragments/${order}_${safe_name}":
     ensure  => $ensure,
-    mode    => $mode,
-    owner   => $owner,
-    group   => $group,
+    owner   => $::id,
+    mode    => '0640',
     source  => $source,
     content => $content,
     backup  => false,

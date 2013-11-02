@@ -10,19 +10,16 @@ describe 'concat::fragment', :type => :define do
       :source  => nil,
       :order   => 10,
       :ensure  => 'present',
-      :mode    => '0640',
-      :owner   => nil,
-      :group   => nil,
-      :backup  => 'puppet',
     }.merge(params)
 
     safe_name        = title.gsub(/[\/\n]/, '_')
     safe_target_name = p[:target].gsub(/[\/\n]/, '_')
     concatdir        = '/var/lib/puppet/concat'
     fragdir          = "#{concatdir}/#{safe_target_name}"
+    id               = 'root'
 
     let(:title) { title }
-    let(:facts) {{ :concat_basedir => concatdir }}
+    let(:facts) {{ :concat_basedir => concatdir, :id => id }}
     let(:params) { params }
     let(:pre_condition) do
       "concat{ '#{p[:target]}': }"
@@ -33,9 +30,8 @@ describe 'concat::fragment', :type => :define do
       should contain_concat(p[:target])
       should contain_file("#{fragdir}/fragments/#{p[:order]}_#{safe_name}").with({
         :ensure  => p[:ensure],
-        :mode    => p[:mode],
-        :owner   => p[:owner],
-        :group   => p[:group],
+        :owner   => id,
+        :mode    => '0640',
         :source  => p[:source],
         :content => p[:content],
         :alias   => "concat_fragment_#{title}",
@@ -156,72 +152,58 @@ describe 'concat::fragment', :type => :define do
     end
   end # order =>
 
-  context 'mode =>' do
-    context '1755' do
-      it_behaves_like 'fragment', 'motd_header', {
-        :mode => '1755',
-        :target => '/etc/motd',
-      }
-    end
+  describe 'deprecated parameter' do
+    context 'mode =>' do
+      context '1755' do
+        it_behaves_like 'fragment', 'motd_header', {
+          :mode   => '1755',
+          :target => '/etc/motd',
+        }
 
-    context 'false' do
-      let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
-      let(:params) {{ :mode => false, :target => '/etc/motd' }}
-
-      it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string/)
+        it 'should create a warning' do
+          pending('rspec-puppet support for testing warning()')
+        end
       end
-    end
-  end # mode =>
+    end # mode =>
 
-  context 'owner =>' do
-    context 'apenny' do
-      it_behaves_like 'fragment', 'motd_header', {
-        :owner => 'apenny',
-        :target => '/etc/motd',
-      }
-    end
+    context 'owner =>' do
+      context 'apenny' do
+        it_behaves_like 'fragment', 'motd_header', {
+          :owner  => 'apenny',
+          :target => '/etc/motd',
+        }
 
-    context 'false' do
-      let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
-      let(:params) {{ :owner => false, :target => '/etc/motd' }}
-
-      it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string/)
+        it 'should create a warning' do
+          pending('rspec-puppet support for testing warning()')
+        end
       end
-    end
-  end # owner =>
+    end # owner =>
 
-  context 'group =>' do
-    context 'apenny' do
-      it_behaves_like 'fragment', 'motd_header', {
-        :group => 'apenny',
-        :target => '/etc/motd',
-      }
-    end
+    context 'group =>' do
+      context 'apenny' do
+        it_behaves_like 'fragment', 'motd_header', {
+          :group  => 'apenny',
+          :target => '/etc/motd',
+        }
 
-    context 'false' do
-      let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
-      let(:params) {{ :group => false, :target => '/etc/motd' }}
-
-      it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string/)
+        it 'should create a warning' do
+          pending('rspec-puppet support for testing warning()')
+        end
       end
-    end
-  end # group =>
+    end # group =>
 
-  # should raise a warning but rspec-puppet can't presently test for warning()
-  # we can only test for the existence of the parameter
-  context 'backup =>' do
-    context 'foo' do
-      it_behaves_like 'fragment', 'motd_header', {
-        :backup => 'foo',
-        :target => '/etc/motd',
-      }
-    end
-  end # backup =>
+    context 'backup =>' do
+      context 'foo' do
+        it_behaves_like 'fragment', 'motd_header', {
+          :backup => 'foo',
+          :target => '/etc/motd',
+        }
+
+        it 'should create a warning' do
+          pending('rspec-puppet support for testing warning()')
+        end
+      end
+    end # backup =>
+  end # deprecated params
 
 end
