@@ -26,6 +26,45 @@ describe 'deprecation warnings' do
     it_behaves_like 'has_warning', pp, w
   end
 
+  context 'concat::fragment mode parameter' do
+    pp="
+      concat { '/tmp/file': }
+      concat::fragment { 'foo':
+        target => '/tmp/file',
+        mode   => 'bar',
+      }
+    "
+    w = 'The $mode parameter to concat::fragment is deprecated and has no effect'
+
+    it_behaves_like 'has_warning', pp, w
+  end
+
+  context 'concat::fragment owner parameter' do
+    pp="
+      concat { '/tmp/file': }
+      concat::fragment { 'foo':
+        target => '/tmp/file',
+        owner  => 'bar',
+      }
+    "
+    w = 'The $owner parameter to concat::fragment is deprecated and has no effect'
+
+    it_behaves_like 'has_warning', pp, w
+  end
+
+  context 'concat::fragment group parameter' do
+    pp="
+      concat { '/tmp/file': }
+      concat::fragment { 'foo':
+        target => '/tmp/file',
+        group  => 'bar',
+      }
+    "
+    w = 'The $group parameter to concat::fragment is deprecated and has no effect'
+
+    it_behaves_like 'has_warning', pp, w
+  end
+
   context 'concat::fragment backup parameter' do
     pp="
       concat { '/tmp/file': }
