@@ -21,8 +21,8 @@ class concat::setup {
   }
 
   $script_name = $::kernel ? {
-    'windows' => "concatfragments.rb",
-    default   => "concatfragments.sh"
+    'windows' => 'concatfragments.rb',
+    default   => 'concatfragments.sh'
   }
 
   $script_path = "${concatdir}/bin/${script_name}"
