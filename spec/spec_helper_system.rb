@@ -30,4 +30,6 @@ RSpec.configure do |c|
   c.after(:all) do
     shell('rm -rf /tmp/concat /var/lib/puppet/concat')
   end
+
+  c.treat_symbols_as_metadata_keys_with_true_values = true
 end
