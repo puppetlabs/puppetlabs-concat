@@ -29,25 +29,25 @@ describe 'basic concat test' do
       #it { should be_grouped_into 'root' }
       it { should be_mode 755 }
     end
-    describe file('/var/lib/puppet/concat/_tmp_file') do
+    describe file('/var/lib/puppet/concat/_tmp_concat_file') do
       it { should be_directory }
       it { should be_owned_by 'root' }
       it { should be_grouped_into 'root' }
       it { should be_mode 750 }
     end
-    describe file('/var/lib/puppet/concat/_tmp_file/fragments') do
+    describe file('/var/lib/puppet/concat/_tmp_concat_file/fragments') do
       it { should be_directory }
       it { should be_owned_by 'root' }
       it { should be_grouped_into 'root' }
       it { should be_mode 750 }
     end
-    describe file('/var/lib/puppet/concat/_tmp_file/fragments.concat') do
+    describe file('/var/lib/puppet/concat/_tmp_concat_file/fragments.concat') do
       it { should be_file }
       it { should be_owned_by 'root' }
       it { should be_grouped_into 'root' }
       it { should be_mode 640 }
     end
-    describe file('/var/lib/puppet/concat/_tmp_file/fragments.concat.out') do
+    describe file('/var/lib/puppet/concat/_tmp_concat_file/fragments.concat.out') do
       it { should be_file }
       it { should be_owned_by 'root' }
       it { should be_grouped_into 'root' }
@@ -57,20 +57,20 @@ describe 'basic concat test' do
 
   context 'owner/group root' do
     pp="
-      concat { '/tmp/file':
+      concat { '/tmp/concat/file':
         owner => 'root',
         group => 'root',
         mode  => '0644',
       }
 
       concat::fragment { '1':
-        target  => '/tmp/file',
+        target  => '/tmp/concat/file',
         content => '1',
         order   => '01',
       }
 
       concat::fragment { '2':
-        target  => '/tmp/file',
+        target  => '/tmp/concat/file',
         content => '2',
         order   => '02',
       }
@@ -78,7 +78,7 @@ describe 'basic concat test' do
 
     it_behaves_like 'successfully_applied', pp
 
-    describe file('/tmp/file') do
+    describe file('/tmp/concat/file') do
       it { should be_file }
       it { should be_owned_by 'root' }
       it { should be_grouped_into 'root' }
@@ -86,13 +86,13 @@ describe 'basic concat test' do
       it { should contain '1' }
       it { should contain '2' }
     end
-    describe file('/var/lib/puppet/concat/_tmp_file/fragments/01_1') do
+    describe file('/var/lib/puppet/concat/_tmp_concat_file/fragments/01_1') do
       it { should be_file }
       it { should be_owned_by 'root' }
       it { should be_grouped_into 'root' }
       it { should be_mode 640 }
     end
-    describe file('/var/lib/puppet/concat/_tmp_file/fragments/02_2') do
+    describe file('/var/lib/puppet/concat/_tmp_concat_file/fragments/02_2') do
       it { should be_file }
       it { should be_owned_by 'root' }
       it { should be_grouped_into 'root' }
@@ -107,20 +107,20 @@ describe 'basic concat test' do
     end
 
     pp="
-      concat { '/tmp/file':
+      concat { '/tmp/concat/file':
         owner => 'bob',
         group => 'bob',
         mode  => '0644',
       }
 
       concat::fragment { '1':
-        target  => '/tmp/file',
+        target  => '/tmp/concat/file',
         content => '1',
         order   => '01',
       }
 
       concat::fragment { '2':
-        target  => '/tmp/file',
+        target  => '/tmp/concat/file',
         content => '2',
         order   => '02',
       }
@@ -128,7 +128,7 @@ describe 'basic concat test' do
 
     it_behaves_like 'successfully_applied', pp
 
-    describe file('/tmp/file') do
+    describe file('/tmp/concat/file') do
       it { should be_file }
       it { should be_owned_by 'bob' }
       it { should be_grouped_into 'bob' }
@@ -136,14 +136,14 @@ describe 'basic concat test' do
       it { should contain '1' }
       it { should contain '2' }
     end
-    describe file('/var/lib/puppet/concat/_tmp_file/fragments/01_1') do
+    describe file('/var/lib/puppet/concat/_tmp_concat_file/fragments/01_1') do
       it { should be_file }
       it { should be_owned_by 'root' }
       it { should be_grouped_into 'root' }
       it { should be_mode 640 }
       it { should contain '1' }
     end
-    describe file('/var/lib/puppet/concat/_tmp_file/fragments/02_2') do
+    describe file('/var/lib/puppet/concat/_tmp_concat_file/fragments/02_2') do
       it { should be_file }
       it { should be_owned_by 'root' }
       it { should be_grouped_into 'root' }

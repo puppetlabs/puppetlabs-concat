@@ -2,10 +2,10 @@ require 'spec_helper_system'
 
 
 describe 'file should not replace' do
-  shell('echo "file exists" >> /tmp/file')
+  shell('echo "file exists" >> /tmp/concat/file')
   context 'should fail' do
     pp="
-      concat { '/tmp/file':
+      concat { '/tmp/concat/file':
         owner   => root,
         group   => root,
         mode    => '0644',
@@ -13,13 +13,13 @@ describe 'file should not replace' do
       }
 
       concat::fragment { '1':
-        target  => '/tmp/file',
+        target  => '/tmp/concat/file',
         content => '1',
         order   => '01',
       }
 
       concat::fragment { '2':
-        target  => '/tmp/file',
+        target  => '/tmp/concat/file',
         content => '2',
         order   => '02',
       }

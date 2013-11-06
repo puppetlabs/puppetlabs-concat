@@ -3,7 +3,7 @@ require 'spec_helper_system'
 describe 'symbolic name' do
   pp="
     concat { 'not_abs_path':
-      path => '/tmp/file',
+      path => '/tmp/concat/file',
     }
 
     concat::fragment { '1':
@@ -27,7 +27,7 @@ describe 'symbolic name' do
     its(:exit_code) { should be_zero }
   end
 
-  describe file('/tmp/file') do
+  describe file('/tmp/concat/file') do
     it { should be_file }
     it { should contain '1' }
     it { should contain '2' }
