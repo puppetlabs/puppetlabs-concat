@@ -67,7 +67,7 @@ define concat(
   $replace        = true,
   $order          = 'alpha',
   $ensure_newline = false,
-  $gnu            = undef,
+  $gnu            = undef
 ) {
   validate_re($ensure, '^present$|^absent$')
   validate_absolute_path($path)
