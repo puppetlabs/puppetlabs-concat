@@ -79,8 +79,8 @@ if [ x${WORKDIR} = "x" ]; then
 fi
 
 # can we write to -o?
-if [ -f ${OUTFILE} ]; then
-	if [ ! -w ${OUTFILE} ]; then
+if [ -f "${OUTFILE}" ]; then
+	if [ ! -w "${OUTFILE}" ]; then
 		echo "Cannot write to ${OUTFILE}"
 		exit 1
 	fi
@@ -121,19 +121,23 @@ fi
 IFS_BACKUP=$IFS
 IFS='
 '
-for fragfile in `find fragments/ -type f -follow | LC_ALL=C sort ${SORTARG}`
-do
-    cat $fragfile >> "fragments.concat"
-done
+(
+    # turn off file globbing as fragments found might have a wildcard in the name
+    set -f
+    for fragfile in `find fragments/ -type f -follow | LC_ALL=C sort ${SORTARG}`
+    do
+        cat "$fragfile" >> "fragments.concat"
+    done
+)
 IFS=$IFS_BACKUP
 
 if [ x${TEST} = "x" ]; then
 	# This is a real run, copy the file to outfile
-	cp fragments.concat ${OUTFILE}
+	cp fragments.concat "${OUTFILE}"
 	RETVAL=$?
 else
 	# Just compare the result to outfile to help the exec decide
-	cmp ${OUTFILE} fragments.concat
+	cmp "${OUTFILE}" fragments.concat
 	RETVAL=$?
 fi
 
