@@ -38,7 +38,9 @@ define concat::fragment(
   validate_string($target)
   validate_re($ensure, '^$|^present$|^absent$|^file$|^directory$')
   validate_string($content)
-  validate_string($source)
+  if !(is_string($source) or is_array($source)) {
+    fail('$source is not a string or an Array.')
+  }
   validate_string($order)
   if $mode {
     warning('The $mode parameter to concat::fragment is deprecated and has no effect')

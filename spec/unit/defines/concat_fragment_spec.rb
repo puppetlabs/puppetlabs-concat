@@ -111,7 +111,7 @@ describe 'concat::fragment', :type => :define do
   end # content =>
 
   context 'source =>' do
-    ['', '/foo/bar'].each do |source|
+    ['', '/foo/bar', ['/foo/bar', '/foo/baz']].each do |source|
       context source do
         it_behaves_like 'fragment', 'motd_header', {
           :source => source,
@@ -126,7 +126,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :source => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string/)
+        expect { should }.to raise_error(Puppet::Error, /is not a string or an Array/)
       end
     end
   end # source =>
