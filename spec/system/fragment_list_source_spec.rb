@@ -4,8 +4,10 @@ describe 'concat::fragment source lists ' do
   context 'should create files containing first match only.' do
     file1_contents="file1 contents"
     file2_contents="file2 contents"
-    shell("echo '#{file1_contents}' > /tmp/file1")
-    shell("echo '#{file2_contents}' > /tmp/file2")
+    before(:all) do
+      shell("/bin/echo '#{file1_contents}' > /tmp/file1")
+      shell("/bin/echo '#{file2_contents}' > /tmp/file2")
+    end
     pp="
       
       concat { '/tmp/result_file1':
@@ -65,6 +67,9 @@ describe 'concat::fragment source lists ' do
   end
   
   context 'should fail if no match on source.' do
+    before(:all) do
+      shell("/bin/rm /tmp/fail_no_source /tmp/nofilehere /tmp/nothereeither")
+    end
     pp="
       concat { '/tmp/fail_no_source':
         owner   => root,
@@ -80,10 +85,13 @@ describe 'concat::fragment source lists ' do
     "
     context puppet_apply(pp) do
       its(:exit_code) { should_not be_zero }
+      its(:exit_code) { should_not == 1 }
       its(:refresh) { should be_nil }
     end
     describe file('/tmp/fail_no_source') do
-       it { should_not exist }
+       #FIXME: Serverspec::Type::File doesn't support exists? for some reason. so... hack.
+       it { should_not be_file }
+       it { should_not be_directory }
     end
  end
 end
