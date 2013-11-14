@@ -2,7 +2,7 @@ require 'spec_helper_system'
 
 describe 'basic concat test' do
   context 'should run successfully' do
-    pp="
+    pp = <<-EOS
       concat { '/tmp/concat/file':
         owner => root,
         group => root,
@@ -21,7 +21,7 @@ describe 'basic concat test' do
         content => '2',
         order   => '02',
       }
-    "
+    EOS
 
     context puppet_apply(pp) do
       its(:stderr) { should be_empty }

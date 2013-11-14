@@ -2,14 +2,14 @@ require 'spec_helper_system'
 
 describe 'basic concat test' do
   context 'should run successfully' do
-    pp="
+    pp = <<-EOS
       concat { '/tmp/concat/file':
         owner => root,
         group => root,
         mode  => '0644',
         force => true,
       }
-    "
+    EOS
 
     context puppet_apply(pp) do
       its(:stderr) { should be_empty }

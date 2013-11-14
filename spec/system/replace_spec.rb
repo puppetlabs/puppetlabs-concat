@@ -2,9 +2,12 @@ require 'spec_helper_system'
 
 
 describe 'file should not replace' do
-  shell('echo "file exists" >> /tmp/concat/file')
+  before(:all) do
+    shell('echo "file exists" > /tmp/concat/file')
+  end
+
   context 'should fail' do
-    pp="
+    pp = <<-EOS
       concat { '/tmp/concat/file':
         owner   => root,
         group   => root,
@@ -23,7 +26,7 @@ describe 'file should not replace' do
         content => '2',
         order   => '02',
       }
-    "
+    EOS
 
     context puppet_apply(pp) do
       its(:stderr) { should be_empty }

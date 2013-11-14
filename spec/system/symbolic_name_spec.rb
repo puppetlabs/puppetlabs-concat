@@ -1,7 +1,7 @@
 require 'spec_helper_system'
 
 describe 'symbolic name' do
-  pp="
+  pp = <<-EOS
     concat { 'not_abs_path':
       path => '/tmp/concat/file',
     }
@@ -17,7 +17,7 @@ describe 'symbolic name' do
       content => '2',
       order   => '02',
     }
-  "
+  EOS
 
   context puppet_apply(pp) do
     its(:stderr) { should be_empty }
