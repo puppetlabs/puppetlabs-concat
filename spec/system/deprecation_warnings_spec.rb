@@ -14,11 +14,11 @@ describe 'deprecation warnings' do
 
   context 'concat gnu parameter' do
     pp="
-      concat { '/tmp/file':
+      concat { '/tmp/concat/file':
         gnu => 'foo',
       }
       concat::fragment { 'foo':
-        target => '/tmp/file',
+        target => '/tmp/concat/file',
       }
     "
     w = 'The $gnu parameter to concat is deprecated and has no effect'
@@ -28,9 +28,9 @@ describe 'deprecation warnings' do
 
   context 'concat::fragment mode parameter' do
     pp="
-      concat { '/tmp/file': }
+      concat { '/tmp/concat/file': }
       concat::fragment { 'foo':
-        target => '/tmp/file',
+        target => '/tmp/concat/file',
         mode   => 'bar',
       }
     "
@@ -41,9 +41,9 @@ describe 'deprecation warnings' do
 
   context 'concat::fragment owner parameter' do
     pp="
-      concat { '/tmp/file': }
+      concat { '/tmp/concat/file': }
       concat::fragment { 'foo':
-        target => '/tmp/file',
+        target => '/tmp/concat/file',
         owner  => 'bar',
       }
     "
@@ -54,9 +54,9 @@ describe 'deprecation warnings' do
 
   context 'concat::fragment group parameter' do
     pp="
-      concat { '/tmp/file': }
+      concat { '/tmp/concat/file': }
       concat::fragment { 'foo':
-        target => '/tmp/file',
+        target => '/tmp/concat/file',
         group  => 'bar',
       }
     "
@@ -67,9 +67,9 @@ describe 'deprecation warnings' do
 
   context 'concat::fragment backup parameter' do
     pp="
-      concat { '/tmp/file': }
+      concat { '/tmp/concat/file': }
       concat::fragment { 'foo':
-        target => '/tmp/file',
+        target => '/tmp/concat/file',
         backup => 'bar',
       }
     "
