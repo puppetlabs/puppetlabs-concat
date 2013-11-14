@@ -2,14 +2,15 @@ require 'spec_helper_system'
 
 describe 'concat::fragment source lists ' do
   context 'should create files containing first match only.' do
-    file1_contents="file1 contents"
-    file2_contents="file2 contents"
+    let(:file1_contents) { 'file1 contents' }
+    let(:file2_contents) { 'file2 contents' }
     before(:all) do
+
       shell("/bin/echo '#{file1_contents}' > /tmp/concat/file1")
       shell("/bin/echo '#{file2_contents}' > /tmp/concat/file2")
     end
-    pp="
-      
+
+    pp = <<-EOS
       concat { '/tmp/concat/result_file1':
         owner   => root,
         group   => root,
@@ -41,7 +42,8 @@ describe 'concat::fragment source lists ' do
         source => [ '/tmp/concat/file1', '/tmp/concat/file2' ],
         order   => '01',
       }
-    "
+    EOS
+
     context puppet_apply(pp) do
       its(:stderr) { should be_empty }
       its(:exit_code) { should_not == 1 }
@@ -70,7 +72,8 @@ describe 'concat::fragment source lists ' do
     before(:all) do
       shell("/bin/rm /tmp/concat/fail_no_source /tmp/concat/nofilehere /tmp/concat/nothereeither")
     end
-    pp="
+
+    pp = <<-EOS
       concat { '/tmp/concat/fail_no_source':
         owner   => root,
         group   => root,
@@ -82,7 +85,8 @@ describe 'concat::fragment source lists ' do
         source => [ '/tmp/concat/nofilehere', '/tmp/concat/nothereeither' ],
         order   => '01',
       }
-    "
+    EOS
+
     context puppet_apply(pp) do
       its(:exit_code) { should_not be_zero }
       its(:exit_code) { should_not == 1 }

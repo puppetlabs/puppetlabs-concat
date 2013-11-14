@@ -56,7 +56,7 @@ describe 'basic concat test' do
   end
 
   context 'owner/group root' do
-    pp="
+    pp = <<-EOS
       concat { '/tmp/concat/file':
         owner => 'root',
         group => 'root',
@@ -74,7 +74,7 @@ describe 'basic concat test' do
         content => '2',
         order   => '02',
       }
-    "
+    EOS
 
     it_behaves_like 'successfully_applied', pp
 
