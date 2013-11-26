@@ -49,8 +49,8 @@ class motd {
    # /etc/motd.local
    concat::fragment{"motd_local":
       target => $motd,
-      ensure  => "/etc/motd.local",
-      order   => 15
+      source => "/etc/motd.local",
+      order  => 15
    }
 }
 
