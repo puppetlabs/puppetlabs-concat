@@ -28,53 +28,53 @@ Puppet modules on this server:
 Local sysadmins can also append to the file by just editing /etc/motd.local
 their changes will be incorporated into the puppet managed motd.
 
-<pre>
+```puppet
 # class to setup basic motd, include on all nodes
 class motd {
-   $motd = "/etc/motd"
+  $motd = '/etc/motd'
 
-   concat{$motd:
-      owner => root,
-      group => root,
-      mode  => '0644',
-   }
+  concat { $motd:
+    owner => 'root',
+    group => 'root',
+    mode  => '0644'
+  }
 
-   concat::fragment{"motd_header":
-      target => $motd,
-      content => "\nPuppet modules on this server:\n\n",
-      order   => 01,
-   }
+  concat::fragment{ 'motd_header':
+    target  => $motd,
+    content => "\nPuppet modules on this server:\n\n",
+    order   => '01'
+  }
 
-   # local users on the machine can append to motd by just creating
-   # /etc/motd.local
-   concat::fragment{"motd_local":
-      target => $motd,
-      source => "/etc/motd.local",
-      order  => 15
-   }
+  # local users on the machine can append to motd by just creating
+  # /etc/motd.local
+  concat::fragment{ 'motd_local':
+    target => $motd,
+    source => '/etc/motd.local',
+    order  => '15'
+  }
 }
 
 # used by other modules to register themselves in the motd
 define motd::register($content="", $order=10) {
-   if $content == "" {
-      $body = $name
-   } else {
-      $body = $content
-   }
+  if $content == "" {
+    $body = $name
+  } else {
+    $body = $content
+  }
 
-   concat::fragment{"motd_fragment_$name":
-      target  => "/etc/motd",
-      content => "    -- $body\n"
-   }
+  concat::fragment{ "motd_fragment_$name":
+    target  => '/etc/motd',
+    content => "    -- $body\n"
+  }
 }
 
 # a sample apache module
 class apache {
-   include apache::install, apache::config, apache::service
+  include apache::install, apache::config, apache::service
 
-   motd::register{"Apache": }
+  motd::register{ 'Apache': }
 }
-</pre>
+```
 
 Detailed documentation of the class options can be found in the
 manifest files.
