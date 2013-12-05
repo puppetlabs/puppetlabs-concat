@@ -1,6 +1,6 @@
 concat { 'testconcat':
-  path   => '/tmp/concat',
   ensure => present,
+  path   => '/tmp/concat',
   owner  => 'root',
   group  => 'root',
   mode   => '0664',
