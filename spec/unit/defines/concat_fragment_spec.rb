@@ -17,6 +17,11 @@ describe 'concat::fragment', :type => :define do
     concatdir        = '/var/lib/puppet/concat'
     fragdir          = "#{concatdir}/#{safe_target_name}"
     id               = 'root'
+    if p[:ensure] == 'absent'
+      safe_ensure = p[:ensure] 
+    else
+      safe_ensure = 'file'
+    end
 
     let(:title) { title }
     let(:facts) {{ :concat_basedir => concatdir, :id => id }}
@@ -29,7 +34,7 @@ describe 'concat::fragment', :type => :define do
       should contain_class('concat::setup')
       should contain_concat(p[:target])
       should contain_file("#{fragdir}/fragments/#{p[:order]}_#{safe_name}").with({
-        :ensure  => p[:ensure],
+        :ensure  => safe_ensure,
         :owner   => id,
         :mode    => '0640',
         :source  => p[:source],
@@ -69,7 +74,7 @@ describe 'concat::fragment', :type => :define do
   end # target =>
 
   context 'ensure =>' do
-    ['', 'present', 'absent', 'file', 'directory'].each do |ens|
+    ['present', 'absent'].each do |ens|
       context ens do
         it_behaves_like 'fragment', 'motd_header', {
           :ensure => ens,
@@ -78,13 +83,13 @@ describe 'concat::fragment', :type => :define do
       end
     end
 
-    context 'invalid' do
+    context 'any value other than \'present\' or \'absent\'' do
       let(:title) { 'motd_header' }
       let(:facts) {{ :concat_basedir => '/tmp' }}
       let(:params) {{ :ensure => 'invalid', :target => '/etc/motd' }}
 
-      it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /#{Regexp.escape('does not match "^$|^present$|^absent$|^file$|^directory$"')}/)
+      it 'should create a warning' do
+        pending('rspec-puppet support for testing warning()')
       end
     end
   end # ensure =>
@@ -151,6 +156,59 @@ describe 'concat::fragment', :type => :define do
       end
     end
   end # order =>
+
+  context 'more than one content source' do
+    error_msg = 'You cannot specify more than one of $content, $source, $ensure => /target'
+
+    context 'ensure => target and source' do
+      let(:title) { 'motd_header' }
+      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:params) do
+        {
+          :target  => '/etc/motd',
+          :ensure  => '/foo',
+          :source  => '/bar',
+        }
+      end
+
+      it 'should fail' do
+        expect { should }.to raise_error(Puppet::Error, /#{Regexp.escape(error_msg)}/m)
+      end
+    end
+
+    context 'ensure => target and content' do
+      let(:title) { 'motd_header' }
+      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:params) do
+        {
+          :target  => '/etc/motd',
+          :ensure  => '/foo',
+          :content => 'bar',
+        }
+      end
+
+      it 'should fail' do
+        expect { should }.to raise_error(Puppet::Error, /#{Regexp.escape(error_msg)}/m)
+      end
+    end
+
+    context 'source and content' do
+      let(:title) { 'motd_header' }
+      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:params) do
+        {
+          :target => '/etc/motd',
+          :source => '/foo',
+          :content => 'bar',
+        }
+      end
+
+      it 'should fail' do
+        expect { should }.to raise_error(Puppet::Error, /#{Regexp.escape(error_msg)}/m)
+      end
+    end
+
+  end # more than one content source
 
   describe 'deprecated parameter' do
     context 'mode =>' do

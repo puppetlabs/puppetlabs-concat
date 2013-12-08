@@ -1,13 +1,51 @@
 require 'spec_helper_system'
 
-describe 'concat::fragment source lists ' do
-  context 'should create files containing first match only.' do
-    let(:file1_contents) { 'file1 contents' }
-    let(:file2_contents) { 'file2 contents' }
+describe 'concat::fragment source' do
+  context 'should read file fragments from local system' do
     before(:all) do
+      shell("/bin/echo 'file1 contents' > /tmp/concat/file1")
+      shell("/bin/echo 'file2 contents' > /tmp/concat/file2")
+    end
 
-      shell("/bin/echo '#{file1_contents}' > /tmp/concat/file1")
-      shell("/bin/echo '#{file2_contents}' > /tmp/concat/file2")
+    pp = <<-EOS
+      concat { '/tmp/concat/foo': }
+
+      concat::fragment { '1':
+        target  => '/tmp/concat/foo',
+        source  => '/tmp/concat/file1',
+      }
+      concat::fragment { '2':
+        target  => '/tmp/concat/foo',
+        content => 'string1 contents',
+      }
+      concat::fragment { '3':
+        target  => '/tmp/concat/foo',
+        source  => '/tmp/concat/file2',
+      }
+    EOS
+
+    context puppet_apply(pp) do
+      its(:stderr) { should be_empty }
+      its(:exit_code) { should_not == 1 }
+      its(:refresh) { should be_nil }
+      its(:stderr) { should be_empty }
+      its(:exit_code) { should be_zero }
+    end
+
+    describe file('/tmp/concat/foo') do
+      it { should be_file }
+      it { should contain 'file1 contents' }
+      it { should contain 'string1 contents' }
+      it { should contain 'file2 contents' }
+    end
+  end # should read file fragments from local system
+
+  context 'should create files containing first match only.' do
+    before(:all) do
+      shell('rm -rf /tmp/concat /var/lib/puppet/concat')
+      shell('mkdir -p /tmp/concat')
+      shell("/bin/echo 'file1 contents' > /tmp/concat/file1")
+      shell("/bin/echo 'file2 contents' > /tmp/concat/file2")
     end
 
     pp = <<-EOS
@@ -51,26 +89,28 @@ describe 'concat::fragment source lists ' do
       its(:stderr) { should be_empty }
       its(:exit_code) { should be_zero }
     end
-    describe file('/tmp/concat/result_file1') do 
+    describe file('/tmp/concat/result_file1') do
       it { should be_file }
-      it { should contain file1_contents }
-      it { should_not contain file2_contents }
+      it { should contain 'file1 contents' }
+      it { should_not contain 'file2 contents' }
     end
-    describe file('/tmp/concat/result_file2') do 
+    describe file('/tmp/concat/result_file2') do
       it { should be_file }
-      it { should contain file2_contents }
-      it { should_not contain file1_contents }
+      it { should contain 'file2 contents' }
+      it { should_not contain 'file1 contents' }
     end
-    describe file('/tmp/concat/result_file3') do 
+    describe file('/tmp/concat/result_file3') do
       it { should be_file }
-      it { should contain file1_contents }
-      it { should_not contain file2_contents }
+      it { should contain 'file1 contents' }
+      it { should_not contain 'file2 contents' }
     end
   end
-  
+
   context 'should fail if no match on source.' do
     before(:all) do
-      shell("/bin/rm /tmp/concat/fail_no_source /tmp/concat/nofilehere /tmp/concat/nothereeither")
+      shell('rm -rf /tmp/concat /var/lib/puppet/concat')
+      shell('mkdir -p /tmp/concat')
+      shell('/bin/rm -rf /tmp/concat/fail_no_source /tmp/concat/nofilehere /tmp/concat/nothereeither')
     end
 
     pp = <<-EOS
