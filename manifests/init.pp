@@ -93,6 +93,7 @@ define concat(
   $concat_name          = 'fragments.concat.out'
   $script_command       = $concat::setup::script_command
   $default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
+  $noop                 = $concat::setup::noop
 
   if $warn == true {
     $use_warn_message = $warn_message ? {
@@ -126,6 +127,11 @@ define concat(
 
   File {
     backup  => false,
+    noop    => $noop,
+  }
+
+  Exec {
+    noop    => $noop,
   }
 
   if $ensure == 'present' {
@@ -164,6 +170,7 @@ define concat(
       alias   => "concat_${name}",
       source  => "${fragdir}/${concat_name}",
       backup  => $backup,
+      noop    => $::clientnoop,
     }
 
     # remove extra whitespace from string interpolation to make testing easier
@@ -199,6 +206,7 @@ define concat(
     file { $name:
       ensure => absent,
       backup => $backup,
+      noop   => $::clientnoop,
     }
 
     $absent_exec_command = $::kernel ? {
