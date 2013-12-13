@@ -9,7 +9,15 @@
 #
 # It also copies out the concatfragments.sh file to ${concatdir}/bin
 #
-class concat::setup {
+class concat::setup (
+  $noop_mode = 'strict',
+) {
+  validate_re($noop_mode, '^strict$|^friendly$')
+  $noop = $noop_mode ? {
+    'strict' => $::clientnoop,
+    'friendly' => false,
+  }
+
   if $caller_module_name != $module_name {
     warning("${name} is deprecated as a public API of the ${module_name} module and should no longer be directly included in the manifest.")
   }
@@ -34,6 +42,7 @@ class concat::setup {
 
   File {
     backup => false,
+    noop   => $noop,
   }
 
   file { $script_path:

@@ -63,6 +63,7 @@ define concat::fragment(
   $safe_target_name = regsubst($target, '[/:\n]', '_', 'GM')
   $concatdir        = $concat::setup::concatdir
   $fragdir          = "${concatdir}/${safe_target_name}"
+  $noop             = $concat::setup::noop
 
   # The file type's semantics are problematic in that ensure => present will
   # not over write a pre-existing symlink.  We are attempting to provide
@@ -107,6 +108,7 @@ define concat::fragment(
     content => $content,
     backup  => false,
     alias   => "concat_fragment_${name}",
-    notify  => Exec["concat_${target}"]
+    notify  => Exec["concat_${target}"],
+    noop    => $noop,
   }
 }
