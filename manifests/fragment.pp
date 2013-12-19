@@ -43,7 +43,7 @@ define concat::fragment(
   if !(is_string($source) or is_array($source)) {
     fail('$source is not a string or an Array.')
   }
-  if !(is_string($order) or is_numeric($order)) {
+  if is_bool($order) or !(is_string($order) or is_numeric($order)) {
     fail('$order is not a string nor numeric.')
   }
   if $mode {
