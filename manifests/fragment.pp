@@ -43,7 +43,9 @@ define concat::fragment(
   if !(is_string($source) or is_array($source)) {
     fail('$source is not a string or an Array.')
   }
-  validate_string($order)
+  if !(is_string($order) or is_numeric($order)) {
+    fail('$order is not a string nor numeric.')
+  }
   if $mode {
     warning('The $mode parameter to concat::fragment is deprecated and has no effect')
   }
