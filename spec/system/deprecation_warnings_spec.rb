@@ -27,6 +27,54 @@ describe 'deprecation warnings' do
     it_behaves_like 'has_warning', pp, w
   end
 
+  context 'concat warn parameter =>' do
+    ['true', 'yes', 'on'].each do |warn|
+      context warn do
+        pp = <<-EOS
+          concat { '/tmp/concat/file':
+            warn => '#{warn}',
+          }
+          concat::fragment { 'foo':
+            target  => '/tmp/concat/file',
+            content => 'bar',
+          }
+        EOS
+        w = 'Using stringified boolean values (\'true\', \'yes\', \'on\', \'false\', \'no\', \'off\') to represent boolean true/false as the $warn parameter to concat is deprecated and will be treated as the warning message in a future release'
+
+        it_behaves_like 'has_warning', pp, w
+
+        describe file('/tmp/concat/file') do
+          it { should be_file }
+          it { should contain '# This file is managed by Puppet. DO NOT EDIT.' }
+          it { should contain 'bar' }
+        end
+      end
+    end
+
+    ['false', 'no', 'off'].each do |warn|
+      context warn do
+        pp = <<-EOS
+          concat { '/tmp/concat/file':
+            warn => '#{warn}',
+          }
+          concat::fragment { 'foo':
+            target  => '/tmp/concat/file',
+            content => 'bar',
+          }
+        EOS
+        w = 'Using stringified boolean values (\'true\', \'yes\', \'on\', \'false\', \'no\', \'off\') to represent boolean true/false as the $warn parameter to concat is deprecated and will be treated as the warning message in a future release'
+
+        it_behaves_like 'has_warning', pp, w
+
+        describe file('/tmp/concat/file') do
+          it { should be_file }
+          it { should_not contain '# This file is managed by Puppet. DO NOT EDIT.' }
+          it { should contain 'bar' }
+        end
+      end
+    end
+  end
+
   context 'concat::fragment ensure parameter' do
     context 'target file exists' do
       before(:all) do

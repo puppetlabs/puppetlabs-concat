@@ -21,8 +21,6 @@
 # [*warn*]
 #   Adds a normal shell style comment top of the file indicating that it is
 #   built by puppet
-# [*warn_message*]
-#   A custom message string that overides the default.
 # [*force*]
 # [*backup*]
 #   Controls the filebucketing behavior of the final file and see File type
@@ -51,7 +49,7 @@
 #
 # * The exec can notified using Exec["concat_/path/to/file"] or
 #   Exec["concat_/path/to/directory"]
-# * The final file can be referened as File["/path/to/file"] or
+# * The final file can be referenced as File["/path/to/file"] or
 #   File["concat_/path/to/file"]
 #
 define concat(
@@ -61,7 +59,6 @@ define concat(
   $group          = undef,
   $mode           = '0644',
   $warn           = false,
-  $warn_message   = undef,
   $force          = false,
   $backup         = 'puppet',
   $replace        = true,
@@ -74,8 +71,9 @@ define concat(
   validate_string($owner)
   validate_string($group)
   validate_string($mode)
-  validate_bool($warn)
-  validate_string($warn_message)
+  if ! (is_string($warn) or $warn == true or $warn == false) {
+    fail('$warn is not a string or boolean')
+  }
   validate_bool($force)
   validate_string($backup)
   validate_bool($replace)
@@ -93,17 +91,29 @@ define concat(
   $concat_name          = 'fragments.concat.out'
   $script_command       = $concat::setup::script_command
   $default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
+  $bool_warn_message    = 'Using stringified boolean values (\'true\', \'yes\', \'on\', \'false\', \'no\', \'off\') to represent boolean true/false as the $warn parameter to concat is deprecated and will be treated as the warning message in a future release'
 
-  if $warn == true {
-    $use_warn_message = $warn_message ? {
-      undef   => $default_warn_message,
-      default => $warn_message,
+  case $warn {
+    true: {
+      $warn_message = $default_warn_message
     }
-  } else {
-    $use_warn_message = undef
+    'true', 'yes', 'on': {
+      warning($bool_warn_message)
+      $warn_message = $default_warn_message
+    }
+    false: {
+      $warn_message = ''
+    }
+    'false', 'no', 'off': {
+      warning($bool_warn_message)
+      $warn_message = ''
+    }
+    default: {
+      $warn_message = $warn
+    }
   }
 
-  $warnmsg_escaped = regsubst($use_warn_message, '\'', '\'\\\'\'', 'G')
+  $warnmsg_escaped = regsubst($warn_message, '\'', '\'\\\'\'', 'G')
   $warnflag = $warnmsg_escaped ? {
     ''      => '',
     default => "-w '${warnmsg_escaped}'"
