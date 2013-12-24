@@ -14,7 +14,6 @@ describe 'concat', :type => :define do
       :group          => nil,
       :mode           => '0644',
       :warn           => false,
-      :warn_message   => nil,
       :force          => false,
       :backup         => 'puppet',
       :replace        => true,
@@ -86,9 +85,25 @@ describe 'concat', :type => :define do
             "-d #{concatdir}/#{safe_name}"
 
       # flag order: fragdir, warnflag, forceflag, orderflag, newlineflag 
-      if p[:warn]
-        message = p[:warn_message] || default_warn_message
-        cmd += " -w \'#{message}\'"
+      if p.has_key?(:warn)
+        case p[:warn]
+        when TrueClass
+          message = default_warn_message
+        when 'true', 'yes', 'on'
+          # should generate a stringified boolean warning
+          message = default_warn_message
+        when FalseClass
+          message = nil
+        when 'false', 'no', 'off'
+          # should generate a stringified boolean warning
+          message = nil
+        else
+          message = p[:warn]
+        end
+
+        unless message.nil?
+          cmd += " -w \'#{message}\'"
+        end
       end
 
       cmd += " -f" if p[:force]
@@ -243,9 +258,21 @@ describe 'concat', :type => :define do
   end # mode =>
 
   context 'warn =>' do
-    [true, false].each do |warn|
+    [true, false, '# foo'].each do |warn|
       context warn do
         it_behaves_like 'concat', '/etc/foo.bar', { :warn => warn }
+      end
+    end
+
+    context '(stringified boolean)' do
+      ['true', 'yes', 'on', 'false', 'no', 'off'].each do |warn|
+        context warn do
+          it_behaves_like 'concat', '/etc/foo.bar', { :warn => warn }
+
+          it 'should create a warning' do
+            pending('rspec-puppet support for testing warning()')
+          end
+        end
       end
     end
 
@@ -253,41 +280,10 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :warn => 123 }}
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a boolean/)
+        expect { should }.to raise_error(Puppet::Error, /is not a string or boolean/)
       end
     end
   end # warn =>
-
-  context 'warn_message =>' do
-    context '# ashp replaced your file' do
-      # should do nothing unless warn == true;
-      # but we can't presently test that because concatfragments.sh isn't run
-      # from rspec-puppet tests
-      context 'warn =>' do
-        context 'true' do
-          it_behaves_like 'concat', '/etc/foo.bar', {
-            :warn         => true,
-            :warn_message => '# ashp replaced your file'
-          }
-        end
-
-        context 'false' do
-          it_behaves_like 'concat', '/etc/foo.bar', {
-            :warn         => false,
-            :warn_message => '# ashp replaced your file'
-          }
-        end
-      end
-    end
-
-    context 'false' do
-      let(:title) { '/etc/foo.bar' }
-      let(:params) {{ :warn_message => false }}
-      it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string/)
-      end
-    end
-  end # warn_message =>
 
   context 'force =>' do
     [true, false].each do |force|
