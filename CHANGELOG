@@ -1,3 +1,49 @@
+2014-01-03 1.1.0
+
+Summary:
+
+This release of concat was 90% written by Joshua Hoblitt, and the module team
+would like to thank him for the huge amount of work he put into this release.
+
+This module deprecates a bunch of old parameters and usage patterns, modernizes
+much of the manifest code, simplifies a whole bunch of logic and makes
+improvements to almost all parts of the module.
+
+The other major feature is windows support, courtesy of luisfdez, with an
+alternative version of the concat bash script in ruby.  We've attempted to
+ensure that there are no backwards incompatible changes, all users of 1.0.0
+should be able to use 1.1.0 without any failures, but you may find deprecation
+warnings and we'll be aggressively moving for a 2.0 to remove those too.
+
+For further information on deprecations, please read:
+https://github.com/puppetlabs/puppetlabs-concat/blob/master/README.md#api-deprecations
+
+Removed:
+- Puppet 0.24 support.
+- Filebucket backup of all file resources except the target concatenated file.
+- Default owner/user/group values.
+- Purging of long unused /usr/local/bin/concatfragments.sh
+
+Features:
+- Windows support via a ruby version of the concat bash script.
+- Huge amount of acceptance testing work added.
+- Documentation (README) completely rewritten.
+- New parameters in concat:
+ - `ensure`: Controls if the file should be present/absent at all.
+- Remove requirement to include concat::setup in manifests.
+- Made `gnu` parameter deprecated.
+- Added parameter validation.
+
+Bugfixes:
+- Ensure concat::setup runs before concat::fragment in all cases.
+- Pluginsync references updated for modern Puppet.
+- Fix incorrect group parameter.
+- Use $owner instead of $id to avoid confusion with $::id
+- Compatibility fixes for Puppet 2.7/ruby 1.8.7
+- Use LC_ALL=C instead of LANG=C
+- Always exec the concatfragments script as root when running as root.
+- Syntax and other cleanup changes.
+
 2013-08-09 1.0.0
 
 Summary:
