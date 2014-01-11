@@ -141,6 +141,8 @@ define concat(
   if $ensure == 'present' {
     file { $fragdir:
       ensure => directory,
+      owner  => $::id,
+      group  => $::id,
       mode   => '0750',
     }
 
