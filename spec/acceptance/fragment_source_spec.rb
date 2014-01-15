@@ -1,4 +1,4 @@
-require 'spec_helper_system'
+require 'spec_helper_acceptance'
 
 describe 'concat::fragment source' do
   context 'should read file fragments from local system' do
@@ -24,12 +24,9 @@ describe 'concat::fragment source' do
       }
     EOS
 
-    context puppet_apply(pp) do
-      its(:stderr) { should be_empty }
-      its(:exit_code) { should_not == 1 }
-      its(:refresh) { should be_nil }
-      its(:stderr) { should be_empty }
-      its(:exit_code) { should be_zero }
+    it 'applies the manifest twice with no stderr' do
+      expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
     end
 
     describe file('/tmp/concat/foo') do
@@ -82,12 +79,9 @@ describe 'concat::fragment source' do
       }
     EOS
 
-    context puppet_apply(pp) do
-      its(:stderr) { should be_empty }
-      its(:exit_code) { should_not == 1 }
-      its(:refresh) { should be_nil }
-      its(:stderr) { should be_empty }
-      its(:exit_code) { should be_zero }
+    it 'applies the manifest twice with no stderr' do
+      expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
     end
     describe file('/tmp/concat/result_file1') do
       it { should be_file }
@@ -127,16 +121,14 @@ describe 'concat::fragment source' do
       }
     EOS
 
-    context puppet_apply(pp) do
-      its(:exit_code) { should_not be_zero }
-      its(:exit_code) { should_not == 1 }
-      its(:refresh) { should be_nil }
+    it 'applies the manifest with resource failures' do
+      apply_manifest(pp, :expect_failures => true)
     end
     describe file('/tmp/concat/fail_no_source') do
-       #FIXME: Serverspec::Type::File doesn't support exists? for some reason. so... hack.
-       it { should_not be_file }
-       it { should_not be_directory }
+      #FIXME: Serverspec::Type::File doesn't support exists? for some reason. so... hack.
+      it { should_not be_file }
+      it { should_not be_directory }
     end
- end
+  end
 end
 
