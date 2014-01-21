@@ -151,4 +151,54 @@ describe 'basic concat test' do
       it { should contain '2' }
     end
   end
+
+  context 'ensure' do
+    context 'works when set to present with path set' do
+      pp="
+        concat { 'file':
+          ensure => present,
+          path   => '/tmp/concat/file',
+          mode   => '0644',
+        }
+        concat::fragment { '1':
+          target  => 'file',
+          content => '1',
+          order   => '01',
+        }
+      "
+
+      it_behaves_like 'successfully_applied', pp
+
+      describe file('/tmp/concat/file') do
+        it { should be_file }
+        it { should be_mode 644 }
+        it { should contain '1' }
+      end
+    end
+    context 'works when set to absent with path set' do
+      pp="
+        concat { 'file':
+          ensure => absent,
+          path   => '/tmp/concat/file',
+          mode   => '0644',
+        }
+        concat::fragment { '1':
+          target  => 'file',
+          content => '1',
+          order   => '01',
+        }
+      "
+
+      # Can't used shared examples as this will always trigger the exec when
+      # absent is set.
+      it 'applies the manifest twice with no stderr' do
+        expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+        expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+      end
+
+      describe file('/tmp/concat/file') do
+        it { should_not be_file }
+      end
+    end
+  end
 end

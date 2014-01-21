@@ -206,7 +206,7 @@ define concat(
       force  => true,
     }
 
-    file { $name:
+    file { $path:
       ensure => absent,
       backup => $backup,
     }
