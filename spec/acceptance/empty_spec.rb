@@ -1,6 +1,6 @@
-require 'spec_helper_system'
+require 'spec_helper_acceptance'
 
-describe 'basic concat test' do
+describe 'concat force empty parameter' do
   context 'should run successfully' do
     pp = <<-EOS
       concat { '/tmp/concat/file':
@@ -11,12 +11,9 @@ describe 'basic concat test' do
       }
     EOS
 
-    context puppet_apply(pp) do
-      its(:stderr) { should be_empty }
-      its(:exit_code) { should_not == 1 }
-      its(:refresh) { should be_nil }
-      its(:stderr) { should be_empty }
-      its(:exit_code) { should be_zero }
+    it 'applies the manifest twice with no stderr' do
+      expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
     end
 
     describe file('/tmp/concat/file') do

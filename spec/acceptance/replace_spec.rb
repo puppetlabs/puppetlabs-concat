@@ -1,10 +1,10 @@
-require 'spec_helper_system'
+require 'spec_helper_acceptance'
 
 describe 'replacement of' do
   context 'file' do
     context 'should not succeed' do
       before(:all) do
-        shell('mkdir /tmp/concat')
+        shell('mkdir -p /tmp/concat')
         shell('echo "file exists" > /tmp/concat/file')
       end
       after(:all) do
@@ -27,12 +27,9 @@ describe 'replacement of' do
         }
       EOS
 
-      context puppet_apply(pp) do
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should_not == 1 }
-        its(:refresh) { should be_nil }
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should be_zero }
+      it 'applies the manifest twice with no stderr' do
+        expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+        expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
       end
 
       describe file('/tmp/concat/file') do
@@ -45,7 +42,7 @@ describe 'replacement of' do
 
     context 'should succeed' do
       before(:all) do
-        shell('mkdir /tmp/concat')
+        shell('mkdir -p /tmp/concat')
         shell('echo "file exists" > /tmp/concat/file')
       end
       after(:all) do
@@ -68,12 +65,9 @@ describe 'replacement of' do
         }
       EOS
 
-      context puppet_apply(pp) do
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should_not == 1 }
-        its(:refresh) { should be_nil }
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should be_zero }
+      it 'applies the manifest twice with no stderr' do
+        expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+        expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
       end
 
       describe file('/tmp/concat/file') do
@@ -91,7 +85,7 @@ describe 'replacement of' do
       # when using ensure => present and source => ... but it will not when using
       # ensure => present and content => ...; this is somewhat confusing behavior
       before(:all) do
-        shell('mkdir /tmp/concat')
+        shell('mkdir -p /tmp/concat')
         shell('ln -s /tmp/concat/dangling /tmp/concat/file')
       end
       after(:all) do
@@ -114,12 +108,9 @@ describe 'replacement of' do
         }
       EOS
 
-      context puppet_apply(pp) do
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should_not == 1 }
-        its(:refresh) { should be_nil }
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should be_zero }
+      it 'applies the manifest twice with no stderr' do
+        expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+        expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
       end
 
       describe file('/tmp/concat/file') do
@@ -138,7 +129,7 @@ describe 'replacement of' do
       # when using ensure => present and source => ... but it will not when using
       # ensure => present and content => ...; this is somewhat confusing behavior
       before(:all) do
-        shell('mkdir /tmp/concat')
+        shell('mkdir -p /tmp/concat')
         shell('ln -s /tmp/concat/dangling /tmp/concat/file')
       end
       after(:all) do
@@ -161,12 +152,9 @@ describe 'replacement of' do
         }
       EOS
 
-      context puppet_apply(pp) do
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should_not == 1 }
-        its(:refresh) { should be_nil }
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should be_zero }
+      it 'applies the manifest twice with no stderr' do
+        expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+        expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
       end
 
       describe file('/tmp/concat/file') do
@@ -200,12 +188,9 @@ describe 'replacement of' do
         }
       EOS
 
-      context puppet_apply(pp) do
-        its(:stderr) { should =~ /change from directory to file failed/ }
-        its(:exit_code) { should_not == 1 }
-        its(:refresh) { should be_nil }
-        its(:stderr) { should =~ /change from directory to file failed/ }
-        its(:exit_code) { should_not == 1 }
+      it 'applies the manifest twice with stderr for changing to file' do
+        expect(apply_manifest(pp, :expect_failures => true).stderr).to match(/change from directory to file failed/)
+        expect(apply_manifest(pp, :expect_failures => true).stderr).to match(/change from directory to file failed/)
       end
 
       describe file('/tmp/concat/file') do
@@ -213,9 +198,11 @@ describe 'replacement of' do
       end
     end
 
-    # XXX concat's force param currently enables the creation of empty files when
-    # there are no fragments.  The semantics either need to be changed, extended,
-    # or a new param introduced to control directory replacement.
+    # XXX concat's force param currently enables the creation of empty files
+    # when there are no fragments, and the replace param will only replace
+    # files and symlinks, not directories.  The semantics either need to be
+    # changed, extended, or a new param introduced to control directory
+    # replacement.
     context 'should succeed', :pending => 'not yet implemented' do
       before(:all) do
         shell('mkdir -p /tmp/concat/file')
@@ -240,12 +227,9 @@ describe 'replacement of' do
         }
       EOS
 
-      context puppet_apply(pp) do
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should_not == 1 }
-        its(:refresh) { should be_nil }
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should be_zero }
+      it 'applies the manifest twice with no stderr' do
+        expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+        expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
       end
 
       describe file('/tmp/concat/file') do

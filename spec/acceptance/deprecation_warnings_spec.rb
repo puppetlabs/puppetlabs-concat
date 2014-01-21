@@ -1,14 +1,11 @@
-require 'spec_helper_system'
+require 'spec_helper_acceptance'
 
 describe 'deprecation warnings' do
 
   shared_examples 'has_warning'do |pp, w|
-    context puppet_apply(pp) do
-      its(:stderr) { should =~ /#{Regexp.escape(w)}/m }
-      its(:exit_code) { should_not == 1 }
-      its(:refresh) { should be_nil }
-      its(:stderr) { should =~ /#{Regexp.escape(w)}/m }
-      its(:exit_code) { should be_zero }
+    it 'applies the manifest twice with a stderr regex' do
+      expect(apply_manifest(pp, :catch_failures => true).stderr).to match(/#{Regexp.escape(w)}/m)
+      expect(apply_manifest(pp, :catch_changes => true).stderr).to match(/#{Regexp.escape(w)}/m)
     end
   end
 
@@ -104,40 +101,29 @@ describe 'deprecation warnings' do
         it { should contain 'file1 contents' }
       end
 
-      # check that the fragment can be changed from a symlink to a plain file
+      describe 'the fragment can be changed from a symlink to a plain file' do
+        pp = <<-EOS
+          concat { '/tmp/concat/file': }
+          concat::fragment { 'foo':
+            target  => '/tmp/concat/file',
+            content => 'new content',
+          }
+        EOS
 
-      pp = <<-EOS
-        concat { '/tmp/concat/file': }
-        concat::fragment { 'foo':
-          target  => '/tmp/concat/file',
-          content => 'new content',
-        }
-      EOS
+        it 'applies the manifest twice with no stderr' do
+          expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+          expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+        end
 
-      context puppet_apply(pp) do
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should_not == 1 }
-        its(:refresh) { should be_nil }
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should be_zero }
-      end
-
-      describe file('/tmp/concat/file') do
-        it { should be_file }
-        it { should contain 'new content' }
-        it { should_not contain 'file1 contents' }
+        describe file('/tmp/concat/file') do
+          it { should be_file }
+          it { should contain 'new content' }
+          it { should_not contain 'file1 contents' }
+        end
       end
     end # target file exists
 
     context 'target does not exist' do
-      after(:all) do
-        # XXX this test may leave behind a symlink in the fragment directory
-        # which could cause warnings and/or breakage from the subsequent tests
-        # unless we clean it up. 
-        shell('rm -rf /tmp/concat /var/lib/puppet/concat')
-        shell('mkdir -p /tmp/concat')
-      end
-
       pp = <<-EOS
         concat { '/tmp/concat/file': }
         concat::fragment { 'foo':
@@ -153,27 +139,24 @@ describe 'deprecation warnings' do
         it { should be_file }
       end
 
-      # check that the fragment can be changed from a symlink to a plain file
+      describe 'the fragment can be changed from a symlink to a plain file' do
+        pp = <<-EOS
+          concat { '/tmp/concat/file': }
+          concat::fragment { 'foo':
+            target  => '/tmp/concat/file',
+            content => 'new content',
+          }
+        EOS
 
-      pp = <<-EOS
-        concat { '/tmp/concat/file': }
-        concat::fragment { 'foo':
-          target  => '/tmp/concat/file',
-          content => 'new content',
-        }
-      EOS
+        it 'applies the manifest twice with no stderr' do
+          expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+          expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+        end
 
-      context puppet_apply(pp) do
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should_not == 1 }
-        its(:refresh) { should be_nil }
-        its(:stderr) { should be_empty }
-        its(:exit_code) { should be_zero }
-      end
-
-      describe file('/tmp/concat/file') do
-        it { should be_file }
-        it { should contain 'new content' }
+        describe file('/tmp/concat/file') do
+          it { should be_file }
+          it { should contain 'new content' }
+        end
       end
     end # target file exists
 
