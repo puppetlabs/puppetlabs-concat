@@ -1,3 +1,15 @@
+2014-02-12 1.0.1
+
+Summary:
+
+Minor bugfixes for sorting of fragments and ordering of resources.
+
+Bugfixes:
+- LANG => C replaced with LC_ALL => C to reduce spurious recreation of
+fragments.
+- Corrected pluginsync documentation.
+- Ensure concat::setup always runs before fragments.
+
 2013-08-09 1.0.0
 
 Summary:
