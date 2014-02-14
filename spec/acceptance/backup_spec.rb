@@ -3,11 +3,9 @@ require 'spec_helper_acceptance'
 describe 'concat backup parameter' do
   context '=> puppet' do
     before :all do
+      shell('rm -rf /tmp/concat')
       shell('mkdir -p /tmp/concat')
       shell("/bin/echo 'old contents' > /tmp/concat/file")
-    end
-    after :all do
-      shell('rm -rf /tmp/concat')
     end
 
     pp = <<-EOS
@@ -36,11 +34,9 @@ describe 'concat backup parameter' do
 
   context '=> .backup' do
     before :all do
+      shell('rm -rf /tmp/concat')
       shell('mkdir -p /tmp/concat')
       shell("/bin/echo 'old contents' > /tmp/concat/file")
-    end
-    after :all do
-      shell('rm -rf /tmp/concat')
     end
 
     pp = <<-EOS
@@ -74,11 +70,9 @@ describe 'concat backup parameter' do
   # boolean false value, but the string 'false' has the same effect in Puppet 3
   context "=> 'false'" do
     before :all do
+      shell('rm -rf /tmp/concat')
       shell('mkdir -p /tmp/concat')
       shell("/bin/echo 'old contents' > /tmp/concat/file")
-    end
-    after :all do
-      shell('rm -rf /tmp/concat')
     end
 
     pp = <<-EOS
