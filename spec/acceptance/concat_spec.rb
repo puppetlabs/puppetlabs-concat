@@ -99,8 +99,8 @@ describe 'basic concat test' do
 
   context 'owner/group non-root' do
     before(:all) do
-      shell "groupadd -g 42 bob"
-      shell "useradd -u 42 -g 42 bob"
+      shell "groupadd -g 64444 bob"
+      shell "useradd -u 42 -g 64444 bob"
     end
     after(:all) do
       shell "userdel bob"
