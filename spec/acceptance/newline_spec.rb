@@ -46,7 +46,7 @@ describe 'concat ensure_newline parameter' do
 
     it 'applies the manifest twice with no stderr' do
       expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp, :expect_changes  => true).stderr).to eq("")
+      expect(apply_manifest(pp, :catch_changes  => true).stderr).to eq("")
       #XXX ensure_newline => true causes changes on every run because the files
       #are modified in place.
     end
