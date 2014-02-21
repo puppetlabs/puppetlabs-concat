@@ -81,8 +81,8 @@ describe 'concat', :type => :define do
       end
 
       cmd = "#{concatdir}/bin/concatfragments.sh " +
-            "-o #{concatdir}/#{safe_name}/fragments.concat.out " +
-            "-d #{concatdir}/#{safe_name}"
+            "-o \"#{concatdir}/#{safe_name}/fragments.concat.out\" " +
+            "-d \"#{concatdir}/#{safe_name}\""
 
       # flag order: fragdir, warnflag, forceflag, orderflag, newlineflag 
       if p.has_key?(:warn)
