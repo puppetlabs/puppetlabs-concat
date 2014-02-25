@@ -88,6 +88,8 @@ define concat::fragment(
   # if it looks line ensure => /target syntax was used, fish that out
   if ! ($_ensure in ['', 'present', 'absent', 'file' ]) {
     $ensure_target = $_ensure
+  } else {
+    $ensure_target = undef
   }
 
   # the file type's semantics only allows one of: ensure => /target, content,
