@@ -116,7 +116,8 @@ describe 'replacement of' do
         expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
       end
 
-      describe file('/tmp/concat/file') do
+      # XXX specinfra doesn't support be_linked_to on AIX
+      describe file('/tmp/concat/file'), :unless => fact('osfamily') == "AIX" do
         it { should be_linked_to '/tmp/concat/dangling' }
       end
 
