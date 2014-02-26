@@ -1,5 +1,17 @@
 require 'spec_helper_acceptance'
 
+case fact('osfamily')
+when 'AIX'
+  username  = 'root'
+  groupname = 'system'
+when 'windows'
+  username  = 'Administrator'
+  groupname = 'Administrators'
+else
+  username  = 'root'
+  groupname = 'root'
+end
+
 describe 'basic concat test' do
 
   shared_examples 'successfully_applied' do |pp|
@@ -9,12 +21,12 @@ describe 'basic concat test' do
     end
   end
 
-  context 'owner/group root' do
+  context 'owner/group' do
     pp = <<-EOS
       include concat::setup
       concat { '/tmp/concat/file':
-        owner => 'root',
-        group => 'root',
+        owner => '#{username}',
+        group => '#{groupname}',
         mode  => '0644',
       }
 
@@ -35,78 +47,32 @@ describe 'basic concat test' do
 
     describe file('/tmp/concat/file') do
       it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      # XXX file be_mode isn't supported on AIX
+      it("should be mode 644", :unless => fact('osfamily') == "AIX") {
+        should be_mode 644
+      }
       it { should contain '1' }
       it { should contain '2' }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/01_1") do
+    describe file("#{default.puppet['vardir']}/concat/_tmp_concat_file/fragments/01_1") do
       it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
-    end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/02_2") do
-      it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
-    end
-  end
-
-  context 'owner/group non-root' do
-    before(:all) do
-      shell "groupadd -g 64444 bob"
-      shell "useradd -u 42 -g 64444 bob"
-    end
-    after(:all) do
-      shell "userdel bob"
-    end
-
-    pp="
-      concat { '/tmp/concat/file':
-        owner => 'bob',
-        group => 'bob',
-        mode  => '0644',
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      # XXX file be_mode isn't supported on AIX
+      it("should be mode 644", :unless => fact('osfamily') == "AIX") {
+        should be_mode 644
       }
-
-      concat::fragment { '1':
-        target  => '/tmp/concat/file',
-        content => '1',
-        order   => '01',
-      }
-
-      concat::fragment { '2':
-        target  => '/tmp/concat/file',
-        content => '2',
-        order   => '02',
-      }
-    "
-
-    it_behaves_like 'successfully_applied', pp
-
-    describe file('/tmp/concat/file') do
-      it { should be_file }
-      it { should be_owned_by 'bob' }
-      it { should be_grouped_into 'bob' }
-      it { should be_mode 644 }
-      it { should contain '1' }
-      it { should contain '2' }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/01_1") do
+    describe file("#{default.puppet['vardir']}/concat/_tmp_concat_file/fragments/02_2") do
       it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
-      it { should contain '1' }
-    end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/02_2") do
-      it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
-      it { should contain '2' }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      # XXX file be_mode isn't supported on AIX
+      it("should be mode 644", :unless => fact('osfamily') == "AIX") {
+        should be_mode 644
+      }
     end
   end
 end

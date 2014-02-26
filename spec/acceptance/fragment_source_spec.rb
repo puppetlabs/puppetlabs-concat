@@ -1,5 +1,17 @@
 require 'spec_helper_acceptance'
 
+case fact('osfamily')
+when 'AIX'
+  username  = 'root'
+  groupname = 'system'
+when 'windows'
+  username  = 'Administrator'
+  groupname = 'Administrators'
+else
+  username  = 'root'
+  groupname = 'root'
+end
+
 describe 'concat::fragment source' do
   context 'should read file fragments from local system' do
     before(:all) do
@@ -49,18 +61,18 @@ describe 'concat::fragment source' do
     pp = <<-EOS
       include concat::setup
       concat { '/tmp/concat/result_file1':
-        owner   => root,
-        group   => root,
+        owner   => '#{username}',
+        group   => '#{groupname}',
         mode    => '0644',
       }
       concat { '/tmp/concat/result_file2':
-        owner   => root,
-        group   => root,
+        owner   => '#{username}',
+        group   => '#{groupname}',
         mode    => '0644',
       }
       concat { '/tmp/concat/result_file3':
-        owner   => root,
-        group   => root,
+        owner   => '#{username}',
+        group   => '#{groupname}',
         mode    => '0644',
       }
 
@@ -112,8 +124,8 @@ describe 'concat::fragment source' do
     pp = <<-EOS
       include concat::setup
       concat { '/tmp/concat/fail_no_source':
-        owner   => root,
-        group   => root,
+        owner   => '#{username}',
+        group   => '#{groupname}',
         mode    => '0644',
       }
 

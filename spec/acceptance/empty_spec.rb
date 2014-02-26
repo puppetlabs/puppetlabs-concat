@@ -3,9 +3,8 @@ require 'spec_helper_acceptance'
 describe 'concat force empty parameter' do
   context 'should run successfully' do
     pp = <<-EOS
+      include concat::setup
       concat { '/tmp/concat/file':
-        owner => root,
-        group => root,
         mode  => '0644',
         force => true,
       }
