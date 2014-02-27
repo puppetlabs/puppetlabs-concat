@@ -34,7 +34,7 @@ describe 'concat order' do
     describe file('/tmp/concat/foo') do
       it { should be_file }
       #XXX Solaris 10 doesn't support multi-line grep
-      it("should contain string10\nstring1\nsring2", :unless => fact('operatingsystemrelease').match(/^10_u\d+$/) {
+      it("should contain string10\nstring1\nsring2", :unless => fact('operatingsystemrelease').match(/^10_u\d+$/)) {
         should contain "string10\nstring1\nsring2"
       }
     end
@@ -68,7 +68,7 @@ describe 'concat order' do
     describe file('/tmp/concat/foo') do
       it { should be_file }
       #XXX Solaris 10 doesn't support multi-line grep
-      it("should contain string1\nstring2\nsring10", :unless => fact('operatingsystemrelease').match(/^10_u\d+$/) {
+      it("should contain string1\nstring2\nsring10", :unless => fact('operatingsystemrelease').match(/^10_u\d+$/)) {
         should contain "string1\nstring2\nsring10"
       }
     end
@@ -110,7 +110,7 @@ describe 'concat::fragment order' do
     describe file('/tmp/concat/foo') do
       it { should be_file }
       #XXX Solaris 10 doesn't support multi-line grep
-      it("should contain string3\nstring2\nsring1", :unless => fact('operatingsystemrelease').match(/^10_u\d+$/) {
+      it("should contain string3\nstring2\nsring1", :unless => fact('operatingsystemrelease').match(/^10_u\d+$/)) {
         should contain "string3\nstring2\nsring1"
       }
     end
@@ -145,7 +145,7 @@ describe 'concat::fragment order' do
     describe file('/tmp/concat/foo') do
       it { should be_file }
       #XXX Solaris 10 doesn't support multi-line grep
-      it("should contain string1\nstring2\nsring3", :unless => fact('operatingsystemrelease').match(/^10_u\d+$/) {
+      it("should contain string1\nstring2\nsring3", :unless => fact('operatingsystemrelease').match(/^10_u\d+$/)) {
         should contain "string1\nstring2\nsring3"
       }
     end
