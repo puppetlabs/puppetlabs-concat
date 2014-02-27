@@ -1,18 +1,21 @@
 require 'spec_helper_acceptance'
 
 describe 'concat ensure_newline parameter' do
+  let :basedir do
+    default.tmpdir('concat')
+  end
   context '=> false' do
     pp = <<-EOS
       include concat::setup
-      concat { '/tmp/concat/file':
+      concat { '#{basedir}/file':
         ensure_newline => false,
       }
       concat::fragment { '1':
-        target  => '/tmp/concat/file',
+        target  => '#{basedir}/file',
         content => '1',
       }
       concat::fragment { '2':
-        target  => '/tmp/concat/file',
+        target  => '#{basedir}/file',
         content => '2',
       }
     EOS
@@ -22,7 +25,7 @@ describe 'concat ensure_newline parameter' do
       expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
     end
 
-    describe file('/tmp/concat/file') do
+    describe file("#{basedir}/file") do
       it { should be_file }
       it { should contain '12' }
     end
@@ -31,15 +34,15 @@ describe 'concat ensure_newline parameter' do
   #context '=> true' do
   #  pp = <<-EOS
   #    include concat::setup
-  #    concat { '/tmp/concat/file':
+  #    concat { '#{basedir}/file':
   #      ensure_newline => true,
   #    }
   #    concat::fragment { '1':
-  #      target  => '/tmp/concat/file',
+  #      target  => '#{basedir}/file',
   #      content => '1',
   #    }
   #    concat::fragment { '2':
-  #      target  => '/tmp/concat/file',
+  #      target  => '#{basedir}/file',
   #      content => '2',
   #    }
   #  EOS
@@ -51,7 +54,7 @@ describe 'concat ensure_newline parameter' do
   #    #are modified in place.
   #  end
 
-  #  describe file('/tmp/concat/file') do
+  #  describe file("#{basedir}/file") do
   #    it { should be_file }
   #    it { should contain "1\n2\n" }
   #  end

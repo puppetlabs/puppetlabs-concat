@@ -13,27 +13,30 @@ else
 end
 
 describe 'concat::fragment source' do
+  let :basedir do
+    default.tmpdir('concat')
+  end
   context 'should read file fragments from local system' do
     before(:all) do
-      shell("/bin/echo 'file1 contents' > /tmp/concat/file1")
-      shell("/bin/echo 'file2 contents' > /tmp/concat/file2")
+      shell("/bin/echo 'file1 contents' > #{basedir}/file1")
+      shell("/bin/echo 'file2 contents' > #{basedir}/file2")
     end
 
     pp = <<-EOS
       include concat::setup
-      concat { '/tmp/concat/foo': }
+      concat { '#{basedir}/foo': }
 
       concat::fragment { '1':
-        target  => '/tmp/concat/foo',
-        source  => '/tmp/concat/file1',
+        target  => '#{basedir}/foo',
+        source  => '#{basedir}/file1',
       }
       concat::fragment { '2':
-        target  => '/tmp/concat/foo',
+        target  => '#{basedir}/foo',
         content => 'string1 contents',
       }
       concat::fragment { '3':
-        target  => '/tmp/concat/foo',
-        source  => '/tmp/concat/file2',
+        target  => '#{basedir}/foo',
+        source  => '#{basedir}/file2',
       }
     EOS
 
@@ -42,7 +45,7 @@ describe 'concat::fragment source' do
       expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
     end
 
-    describe file('/tmp/concat/foo') do
+    describe file("#{basedir}/foo") do
       it { should be_file }
       it { should contain 'file1 contents' }
       it { should contain 'string1 contents' }
@@ -52,43 +55,43 @@ describe 'concat::fragment source' do
 
   context 'should create files containing first match only.' do
     before(:all) do
-      shell('rm -rf /tmp/concat /var/lib/puppet/concat')
-      shell('mkdir -p /tmp/concat')
-      shell("/bin/echo 'file1 contents' > /tmp/concat/file1")
-      shell("/bin/echo 'file2 contents' > /tmp/concat/file2")
+      shell("rm -rf #{basedir} #{default.puppet['vardir']}/concat")
+      shell("mkdir -p #{basedir}")
+      shell("echo 'file1 contents' > #{basedir}/file1")
+      shell("echo 'file2 contents' > #{basedir}/file2")
     end
 
     pp = <<-EOS
       include concat::setup
-      concat { '/tmp/concat/result_file1':
+      concat { '#{basedir}/result_file1':
         owner   => '#{username}',
         group   => '#{groupname}',
         mode    => '0644',
       }
-      concat { '/tmp/concat/result_file2':
+      concat { '#{basedir}/result_file2':
         owner   => '#{username}',
         group   => '#{groupname}',
         mode    => '0644',
       }
-      concat { '/tmp/concat/result_file3':
+      concat { '#{basedir}/result_file3':
         owner   => '#{username}',
         group   => '#{groupname}',
         mode    => '0644',
       }
 
       concat::fragment { '1':
-        target  => '/tmp/concat/result_file1',
-        source => [ '/tmp/concat/file1', '/tmp/concat/file2' ],
+        target  => '#{basedir}/result_file1',
+        source => [ '#{basedir}/file1', '#{basedir}/file2' ],
         order   => '01',
       }
       concat::fragment { '2':
-        target  => '/tmp/concat/result_file2',
-        source => [ '/tmp/concat/file2', '/tmp/concat/file1' ],
+        target  => '#{basedir}/result_file2',
+        source => [ '#{basedir}/file2', '#{basedir}/file1' ],
         order   => '01',
       }
       concat::fragment { '3':
-        target  => '/tmp/concat/result_file3',
-        source => [ '/tmp/concat/file1', '/tmp/concat/file2' ],
+        target  => '#{basedir}/result_file3',
+        source => [ '#{basedir}/file1', '#{basedir}/file2' ],
         order   => '01',
       }
     EOS
@@ -97,17 +100,17 @@ describe 'concat::fragment source' do
       expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
       expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
     end
-    describe file('/tmp/concat/result_file1') do
+    describe file("#{basedir}/result_file1") do
       it { should be_file }
       it { should contain 'file1 contents' }
       it { should_not contain 'file2 contents' }
     end
-    describe file('/tmp/concat/result_file2') do
+    describe file("#{basedir}/result_file2") do
       it { should be_file }
       it { should contain 'file2 contents' }
       it { should_not contain 'file1 contents' }
     end
-    describe file('/tmp/concat/result_file3') do
+    describe file("#{basedir}/result_file3") do
       it { should be_file }
       it { should contain 'file1 contents' }
       it { should_not contain 'file2 contents' }
@@ -116,22 +119,22 @@ describe 'concat::fragment source' do
 
   context 'should fail if no match on source.' do
     before(:all) do
-      shell('rm -rf /tmp/concat /var/lib/puppet/concat')
-      shell('mkdir -p /tmp/concat')
-      shell('/bin/rm -rf /tmp/concat/fail_no_source /tmp/concat/nofilehere /tmp/concat/nothereeither')
+      shell("rm -rf #{basedir} #{default.puppet['vardir']}/concat")
+      shell("mkdir -p #{basedir}")
+      shell("rm -rf #{basedir}/fail_no_source #{basedir}/nofilehere #{basedir}/nothereeither")
     end
 
     pp = <<-EOS
       include concat::setup
-      concat { '/tmp/concat/fail_no_source':
+      concat { '#{basedir}/fail_no_source':
         owner   => '#{username}',
         group   => '#{groupname}',
         mode    => '0644',
       }
 
       concat::fragment { '1':
-        target  => '/tmp/concat/fail_no_source',
-        source => [ '/tmp/concat/nofilehere', '/tmp/concat/nothereeither' ],
+        target  => '#{basedir}/fail_no_source',
+        source => [ '#{basedir}/nofilehere', '#{basedir}/nothereeither' ],
         order   => '01',
       }
     EOS
@@ -139,7 +142,7 @@ describe 'concat::fragment source' do
     it 'applies the manifest with resource failures' do
       apply_manifest(pp, :expect_failures => true)
     end
-    describe file('/tmp/concat/fail_no_source') do
+    describe file("#{basedir}/fail_no_source") do
       #FIXME: Serverspec::Type::File doesn't support exists? for some reason. so... hack.
       it { should_not be_file }
       it { should_not be_directory }
