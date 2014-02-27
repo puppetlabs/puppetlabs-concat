@@ -13,9 +13,7 @@ else
 end
 
 describe 'concat::fragment source' do
-  let :basedir do
-    default.tmpdir('concat')
-  end
+  basedir = default.tmpdir('concat')
   context 'should read file fragments from local system' do
     before(:all) do
       shell("/bin/echo 'file1 contents' > #{basedir}/file1")
