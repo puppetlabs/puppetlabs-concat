@@ -1,9 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'concat force empty parameter' do
-  let :basedir do
-    default.tmpdir('concat')
-  end
+  basedir = default.tmpdir('concat')
   context 'should run successfully' do
     pp = <<-EOS
       include concat::setup

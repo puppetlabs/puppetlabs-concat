@@ -1,9 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'replacement of' do
-  let :basedir do
-    default.tmpdir('concat')
-  end
+  basedir = default.tmpdir('concat')
   context 'file' do
     context 'should not succeed' do
       before(:all) do

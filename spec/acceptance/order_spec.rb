@@ -1,9 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'concat order' do
-  let :basedir do
-    default.tmpdir('concat')
-  end
+  basedir = default.tmpdir('concat')
   before(:all) do
     shell("rm -rf #{basedir} #{default.puppet['vardir']}/concat")
     shell("mkdir -p #{basedir}")
@@ -79,9 +77,7 @@ describe 'concat order' do
 end # concat order
 
 describe 'concat::fragment order' do
-  let :basedir do
-    default.tmpdir('concat')
-  end
+  basedir = default.tmpdir('concat')
   before(:all) do
     shell("rm -rf #{basedir} #{default.puppet['vardir']}/concat")
     shell("mkdir -p #{basedir}")

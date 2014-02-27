@@ -1,9 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'symbolic name' do
-  let :basedir do
-    default.tmpdir('concat')
-  end
+  basedir = default.tmpdir('concat')
   pp = <<-EOS
     include concat::setup
     concat { 'not_abs_path':

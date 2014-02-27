@@ -13,9 +13,7 @@ else
 end
 
 describe 'basic concat test' do
-  let :basedir do
-    default.tmpdir('concat')
-  end
+  basedir = default.tmpdir('concat')
 
   shared_examples 'successfully_applied' do |pp|
     it 'applies the manifest twice with no stderr' do

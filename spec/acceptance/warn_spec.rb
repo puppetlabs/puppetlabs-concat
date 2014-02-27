@@ -1,9 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'concat warn =>' do
-  let :basedir do
-    default.tmpdir('concat')
-  end
+  basedir = default.tmpdir('concat')
   context 'true should enable default warning message' do
     pp = <<-EOS
       include concat::setup

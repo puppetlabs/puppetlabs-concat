@@ -1,9 +1,7 @@
 require 'spec_helper_acceptance'
 
 describe 'concat backup parameter' do
-  let :basedir do
-    default.tmpdir('concat')
-  end
+  basedir = default.tmpdir('concat')
   context '=> puppet' do
     before :all do
       shell("rm -rf #{basedir}")
