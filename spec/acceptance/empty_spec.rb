@@ -1,10 +1,13 @@
 require 'spec_helper_acceptance'
 
 describe 'concat force empty parameter' do
+  let :basedir do
+    default.tmpdir('concat')
+  end
   context 'should run successfully' do
     pp = <<-EOS
       include concat::setup
-      concat { '/tmp/concat/file':
+      concat { '#{basedir}/file':
         mode  => '0644',
         force => true,
       }
@@ -15,7 +18,7 @@ describe 'concat force empty parameter' do
       expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
     end
 
-    describe file('/tmp/concat/file') do
+    describe file("#{basedir}/file") do
       it { should be_file }
       it { should_not contain '1\n2' }
     end

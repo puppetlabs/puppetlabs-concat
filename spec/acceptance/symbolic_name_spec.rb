@@ -1,10 +1,13 @@
 require 'spec_helper_acceptance'
 
 describe 'symbolic name' do
+  let :basedir do
+    default.tmpdir('concat')
+  end
   pp = <<-EOS
     include concat::setup
     concat { 'not_abs_path':
-      path => '/tmp/concat/file',
+      path => '#{basedir}/file',
     }
 
     concat::fragment { '1':
@@ -25,7 +28,7 @@ describe 'symbolic name' do
     expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
   end
 
-  describe file('/tmp/concat/file') do
+  describe file("#{basedir}/file") do
     it { should be_file }
     it { should contain '1' }
     it { should contain '2' }
