@@ -6,7 +6,7 @@ describe 'replacement of' do
     context 'should not succeed' do
       before(:all) do
         shell("mkdir -p #{basedir}")
-        shell('echo "file exists" > #{basedir}/file')
+        shell("echo 'file exists' > #{basedir}/file")
       end
       after(:all) do
         shell("rm -rf #{basedir} #{default.puppet['vardir']}/concat")
@@ -45,7 +45,7 @@ describe 'replacement of' do
     context 'should succeed' do
       before(:all) do
         shell("mkdir -p #{basedir}")
-        shell("echo "file exists" > #{basedir}/file")
+        shell("echo 'file exists' > #{basedir}/file")
       end
       after(:all) do
         shell("rm -rf #{basedir} #{default.puppet['vardir']}/concat")
