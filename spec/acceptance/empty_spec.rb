@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'concat force empty parameter' do
+describe 'concat force empty parameter', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
   basedir = default.tmpdir('concat')
   context 'should run successfully' do
     pp = <<-EOS

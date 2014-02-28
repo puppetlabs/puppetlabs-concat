@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'concat backup parameter' do
+describe 'concat backup parameter', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
   basedir = default.tmpdir('concat')
   context '=> puppet' do
     before :all do

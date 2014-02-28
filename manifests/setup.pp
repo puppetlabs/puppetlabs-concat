@@ -18,6 +18,14 @@
 # It also copies out the concatfragments.sh file to ${concatdir}/bin
 #
 class concat::setup {
+  case $::osfamily {
+    'windows': {
+      fail("Unsupported osfamily: ${osfamily}")
+    }
+    default: {
+      # Should work otherwise
+    }
+  }
   $id = $::id
   $root_group = $id ? {
     root    => 0,
