@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'replacement of' do
+describe 'replacement of', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
   basedir = default.tmpdir('concat')
   context 'file' do
     context 'should not succeed' do
@@ -118,7 +118,7 @@ describe 'replacement of' do
       end
 
       # XXX specinfra doesn't support be_linked_to on AIX
-      describe file("#{basedir}/file"), :unless => fact("osfamily") == "AIX" do
+      describe file("#{basedir}/file"), :unless => (fact("osfamily") == "AIX" or UNSUPPORTED_PLATFORMS.include?(fact('osfamily'))) do
         it { should be_linked_to "#{basedir}/dangling" }
       end
 

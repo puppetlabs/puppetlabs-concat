@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'concat ensure_newline parameter' do
+describe 'concat ensure_newline parameter', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
   basedir = default.tmpdir('concat')
   context '=> false' do
     pp = <<-EOS

@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'concat warn =>' do
+describe 'concat warn =>', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
   basedir = default.tmpdir('concat')
   context 'true should enable default warning message' do
     pp = <<-EOS
