@@ -1,4 +1,11 @@
 {
+    "name": "puppetlabs-concat",
+    "version": "1.0.2",
+    "source": "https://github.com/puppetlabs/puppetlabs-concat",
+    "author": "Puppet Labs",
+    "license": "Apache-2.0",
+    "project_page": "https://github.com/puppetlabs/puppetlabs-concat",
+    "summary": "Concat module",
     "operatingsystem_support": [
       {
         "operatingsystem": "RedHat",
@@ -67,5 +74,6 @@
     "requirements": [
       { "name": "pe", "version_requirement": "3.2.x" },
       { "name": "puppet", "version_requirement": "3.x" }
-    ]
+    ],
+    "dependencies": []
 }
