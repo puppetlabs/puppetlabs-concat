@@ -1,7 +1,11 @@
-##2014-03-04 - Supported Release 1.0.x
+##2014-03-04 - Supported Release 1.0.2
 ###Summary
 
+This is a supported release. No functional changes were made from 1.0.1.
+
 ####Features
+- Huge amount of tests backported from 1.1.
+- Documentation rewrite.
 
 ####Bugfixes
 
