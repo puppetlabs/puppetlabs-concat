@@ -1,32 +1,45 @@
-2014-02-12 1.0.1
+##2014-03-04 - Supported Release 1.0.x
+###Summary
 
-Summary:
+####Features
+
+####Bugfixes
+
+####Known Bugs
+
+* Not supported on Windows.
+
+
+##2014-02-12 - 1.0.1
+
+###Summary
 
 Minor bugfixes for sorting of fragments and ordering of resources.
 
-Bugfixes:
+####Bugfixes
 - LANG => C replaced with LC_ALL => C to reduce spurious recreation of
 fragments.
 - Corrected pluginsync documentation.
 - Ensure concat::setup always runs before fragments.
 
-2013-08-09 1.0.0
 
-Summary:
+##2013-08-09 - 1.0.0
+
+###Summary
 
 Many new features and bugfixes in this release, and if you're a heavy concat
 user you should test carefully before upgrading.  The features should all be
 backwards compatible but only light testing has been done from our side before
 this release.
 
-Features:
+####Features
 - New parameters in concat:
  - `replace`: specify if concat should replace existing files.
  - `ensure_newline`: controls if fragments should contain a newline at the end.
 - Improved README documentation.
 - Add rspec:system tests (rake spec:system to test concat)
 
-Bugfixes
+####Bugfixes
 - Gracefully handle \n in a fragment resource name.
 - Adding more helpful message for 'pluginsync = true'
 - Allow passing `source` and `content` directly to file resource, rather than
@@ -36,7 +49,7 @@ defining resource defaults.
 - Allow WARNMSG to contain/start with '#'.
 - Replace while-read pattern with for-do in order to support Solaris.
 
-CHANGELOG:
+####CHANGELOG:
 - 2010/02/19 - initial release
 - 2010/03/12 - add support for 0.24.8 and newer
              - make the location of sort configurable
