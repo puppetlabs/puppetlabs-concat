@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'concat', :type => :define do
 
-  shared_examples 'concat' do |title, params, id| 
+  shared_examples 'concat' do |title, params, id|
     params = {} if params.nil?
     id = 'root' if id.nil?
 
@@ -23,7 +23,7 @@ describe 'concat', :type => :define do
 
     safe_name            = title.gsub('/', '_')
     concatdir            = '/var/lib/puppet/concat'
-    fragdir              = "#{concatdir}/#{safe_name}"
+    fragdir              = "file://#{concatdir}/#{safe_name}"
     concat_name          = 'fragments.concat.out'
     default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
 
@@ -84,7 +84,7 @@ describe 'concat', :type => :define do
             "-o #{concatdir}/#{safe_name}/fragments.concat.out " +
             "-d #{concatdir}/#{safe_name}"
 
-      # flag order: fragdir, warnflag, forceflag, orderflag, newlineflag 
+      # flag order: fragdir, warnflag, forceflag, orderflag, newlineflag
       if p.has_key?(:warn)
         case p[:warn]
         when TrueClass
