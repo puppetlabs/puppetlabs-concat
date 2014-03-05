@@ -5,9 +5,6 @@ branches:
 language: ruby
 bundler_args: --without development
 script: bundle exec rake spec SPEC_OPTS='--format documentation'
-after_success:
-  - git clone -q git://github.com/puppetlabs/ghpublisher.git .forge-releng
-  - .forge-releng/publish
 # work around RubyGems 2.2.0 breaking ruby 1.8.7
 # https://github.com/rubygems/rubygems/pull/763
 # https://github.com/freerange/mocha/commit/66bab2a8f4e7cd8734bf88e6f32157c0d5153125
@@ -24,7 +21,6 @@ env:
     - PUPPET_GEM_VERSION="~> 2.7.0" FACTER_GEM_VERSION="~> 1.6.0"
     - PUPPET_GEM_VERSION="~> 2.7.0" FACTER_GEM_VERSION="~> 1.7.0"
     - PUPPET_GEM_VERSION="~> 3.0"
-  global:
 matrix:
   fast_finish: true
   exclude:
