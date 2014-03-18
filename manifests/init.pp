@@ -172,7 +172,7 @@ define concat(
       replace => $replace,
       path    => $path,
       alias   => "concat_${name}",
-      source  => "${fragdir}/${concat_name}",
+      source  => "file://${fragdir}/${concat_name}",
       backup  => $backup,
     }
 
