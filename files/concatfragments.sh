@@ -121,10 +121,14 @@ fi
 IFS_BACKUP=$IFS
 IFS='
 '
-for fragfile in `find fragments/ -type f -follow | LC_ALL=C sort ${SORTARG}`
-do
-    cat $fragfile >> "fragments.concat"
-done
+(
+    # turn off file globbing as fragments found might have a wildcard in the name
+    set -f
+    for fragfile in `find fragments/ -type f -follow | LC_ALL=C sort ${SORTARG}`
+    do
+        cat "$fragfile" >> "fragments.concat"
+    done
+)
 IFS=$IFS_BACKUP
 
 if [ "x${TEST}" = "x" ]; then
