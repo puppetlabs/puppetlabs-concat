@@ -98,7 +98,7 @@ if [ ! -d "${WORKDIR}/fragments" ]  && [ ! -x "${WORKDIR}/fragments" ]; then
 fi
 
 # are there actually any fragments?
-if [ ! "$(ls -A \"${WORKDIR}/fragments\")" ]; then
+if [ ! "$(ls -A """${WORKDIR}/fragments""")" ]; then
 	if [ "x${FORCE}" = "x" ]; then
 		echo "The fragments directory is empty, cowardly refusing to make empty config files"
 		exit 1
