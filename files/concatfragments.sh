@@ -98,7 +98,7 @@ if [ ! -d "${WORKDIR}/fragments" ]  && [ ! -x "${WORKDIR}/fragments" ]; then
 fi
 
 # are there actually any fragments?
-if [ ! "$(ls -A \"${WORKDIR}/fragments\")" ]; then
+if [ ! "$(ls -A """${WORKDIR}/fragments""")" ]; then
 	if [ "x${FORCE}" = "x" ]; then
 		echo "The fragments directory is empty, cowardly refusing to make empty config files"
 		exit 1
@@ -121,9 +121,9 @@ fi
 IFS_BACKUP=$IFS
 IFS='
 '
-for fragfile in `find fragments/ -type f -follow | LC_ALL=C sort ${SORTARG}`
+for fragfile in `find fragments/ -type f -follow | xargs -n1 basename | LC_ALL=C sort ${SORTARG}`
 do
-    cat $fragfile >> "fragments.concat"
+    cat fragments/$fragfile >> "fragments.concat"
 done
 IFS=$IFS_BACKUP
 
