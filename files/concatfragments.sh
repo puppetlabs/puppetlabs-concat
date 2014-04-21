@@ -113,10 +113,6 @@ else
 	printf '%s\n' "$WARNMSG" > "fragments.concat"
 fi
 
-if [ "x${ENSURE_NEWLINE}" != "x" ]; then
-	find fragments/ -type f -follow -print0 | xargs -0 -I '{}' sh -c 'if [ -n "$(tail -c 1 < {} )" ]; then echo >> {} ; fi'
-fi
-
 # find all the files in the fragments directory, sort them numerically and concat to fragments.concat in the working dir
 IFS_BACKUP=$IFS
 IFS='
@@ -124,6 +120,10 @@ IFS='
 for fragfile in `find fragments/ -type f -follow | LC_ALL=C sort ${SORTARG}`
 do
     cat $fragfile >> "fragments.concat"
+    # Handle newlines.
+    if [ "x${ENSURE_NEWLINE}" != "x" ]; then
+      echo >> "fragments.concat"
+    fi
 done
 IFS=$IFS_BACKUP
 
