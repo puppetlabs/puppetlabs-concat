@@ -123,7 +123,7 @@ IFS='
 '
 for fragfile in `find fragments/ -type f -follow -print0 | xargs -0 -n1 basename | LC_ALL=C sort ${SORTARG}`
 do
-    cat fragments/$fragfile >> "fragments.concat"
+    cat "fragments/$fragfile" >> "fragments.concat"
 done
 IFS=$IFS_BACKUP
 
