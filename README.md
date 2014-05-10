@@ -220,6 +220,14 @@ Ensure there's a newline at the end of the fragments.
 - ensure_newline => true
 - ensure_newline => false
 
+#####`show_diff`
+Whether to display differences when a concat file changes. See the File type
+reference for full details. Note it may also be necessary to set in fragments.
+
+######Example
+- show_diff => true
+- show_diff => false
+
 ####concat::fragment
 
 #####`target`
@@ -279,6 +287,14 @@ Control the filebucket behavior for the fragment.
 
 ######Example
 - backup => 'puppet'
+
+#####`show_diff`
+Control whether to display differences when the fragment changes. See
+the File type reference for full details.
+
+######Example
+- show_diff => true
+- show_diff => false
 
 ### API _deprecations_
 
