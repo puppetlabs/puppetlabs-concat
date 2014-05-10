@@ -29,6 +29,9 @@
 #   Whether to replace a file that already exists on the local system
 # [*order*]
 # [*ensure_newline*]
+# [*show_diff*]
+#   Control whether the diffs are show in reports, see the File type 
+#   reference for its use.
 # [*gnu*]
 #   Deprecated
 #
@@ -64,6 +67,7 @@ define concat(
   $replace        = true,
   $order          = 'alpha',
   $ensure_newline = false,
+  $show_diff      = undef,
   $gnu            = undef
 ) {
   validate_re($ensure, '^present$|^absent$')
@@ -79,6 +83,7 @@ define concat(
   validate_bool($replace)
   validate_re($order, '^alpha$|^numeric$')
   validate_bool($ensure_newline)
+  validate_bool($show_diff)
   if $gnu {
     warning('The $gnu parameter to concat is deprecated and has no effect')
   }
@@ -135,7 +140,8 @@ define concat(
   }
 
   File {
-    backup  => false,
+    backup    => false,
+    show_diff => $show_diff,
   }
 
   if $ensure == 'present' {

@@ -15,6 +15,9 @@
 #   anything else using this to influence the order of the content in the file
 # [*ensure*]
 #   Present/Absent or destination to a file to include another file
+# [*show_diff*]
+#   Control whether diffs of the fragment are shown in reports. See the File
+#   type reference for details.
 # [*mode*]
 #   Deprecated
 # [*owner*]
@@ -26,14 +29,15 @@
 #
 define concat::fragment(
     $target,
-    $content = undef,
-    $source  = undef,
-    $order   = 10,
-    $ensure  = undef,
-    $mode    = undef,
-    $owner   = undef,
-    $group   = undef,
-    $backup  = undef
+    $content    = undef,
+    $source     = undef,
+    $order      = 10,
+    $ensure     = undef,
+    $show_diff  = undef,
+    $mode       = undef,
+    $owner      = undef,
+    $group      = undef,
+    $backup     = undef
 ) {
   validate_string($target)
   validate_string($content)
@@ -41,6 +45,7 @@ define concat::fragment(
     fail('$source is not a string or an Array.')
   }
   validate_string($order)
+  validate_bool($show_diff)
   if $mode {
     warning('The $mode parameter to concat::fragment is deprecated and has no effect')
   }
@@ -104,6 +109,10 @@ define concat::fragment(
 
   if ! ($content or $source or $ensure_target) {
     crit('No content, source or symlink specified')
+  }
+
+  File {
+    $show_diff => $show_diff,
   }
 
   # punt on group ownership until some point in the distant future when $::gid
