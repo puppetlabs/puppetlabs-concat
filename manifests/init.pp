@@ -141,6 +141,7 @@ define concat(
   if $ensure == 'present' {
     file { $fragdir:
       ensure => directory,
+      noop   => false,
       mode   => '0750',
     }
 
@@ -151,16 +152,19 @@ define concat(
       ignore  => ['.svn', '.git', '.gitignore'],
       notify  => Exec["concat_${name}"],
       purge   => true,
+      noop   => false,
       recurse => true,
     }
 
     file { "${fragdir}/fragments.concat":
       ensure => present,
+      noop   => false,
       mode   => '0640',
     }
 
     file { "${fragdir}/${concat_name}":
       ensure => present,
+      noop   => false,
       mode   => '0640',
     }
 
@@ -189,6 +193,7 @@ define concat(
       subscribe => File[$fragdir],
       unless    => "${command} -t",
       path      => $::path,
+      noop      => false,
       require   => [
         File[$fragdir],
         File["${fragdir}/fragments"],
@@ -204,11 +209,13 @@ define concat(
     ]:
       ensure => absent,
       force  => true,
+      noop   => false,
     }
 
     file { $path:
       ensure => absent,
       backup => $backup,
+      noop   => false,
     }
 
     $absent_exec_command = $::kernel ? {
@@ -224,7 +231,8 @@ define concat(
     exec { "concat_${name}":
       alias   => "concat_${fragdir}",
       command => $absent_exec_command,
-      path    => $absent_exec_path
+      path    => $absent_exec_path,
+      noop    => false,
     }
   }
 }

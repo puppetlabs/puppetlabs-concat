@@ -48,11 +48,13 @@ class concat::setup {
     ensure => file,
     owner  => $script_owner,
     mode   => $script_mode,
+    noop   => false,
     source => "puppet:///modules/concat/${script_name}",
   }
 
   file { [ $concatdir, "${concatdir}/bin" ]:
     ensure => directory,
+    noop   => false,
     mode   => '0755',
   }
 }
