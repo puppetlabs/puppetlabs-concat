@@ -152,7 +152,7 @@ define concat(
       ignore  => ['.svn', '.git', '.gitignore'],
       notify  => Exec["concat_${name}"],
       purge   => true,
-      noop   => false,
+      noop    => false,
       recurse => true,
     }
 
