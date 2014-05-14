@@ -1,3 +1,17 @@
+## - Supported Release 1.0.3
+###Summary
+
+This is a supported release. No functional changes were made from 1.0.2.
+
+####Features
+- Added test support for Ubuntu Trusty.
+
+####Bugfixes
+
+####Known bugs
+
+*Not supported on Windows.
+
 ##2014-03-04 - Supported Release 1.0.2
 ###Summary
 

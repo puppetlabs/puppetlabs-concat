@@ -1,5 +1,5 @@
 name 'puppetlabs-concat'
-version '1.0.2'
+version '1.0.3'
 source 'git://github.com/puppetlabs/puppetlabs-concat.git'
 author 'Puppetlabs'
 license 'Apache 2.0'
