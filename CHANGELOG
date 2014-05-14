@@ -1,4 +1,19 @@
-2014-01-03 1.1.0
+2014-05-14 1.1.0
+
+Summary
+
+This release is primarily a bugfix release since 1.1.0-rc1.
+
+Features:
+- Improved testing, with tests moved to beaker
+
+Bugfixes:
+- No longer attempts to set fragment owner and mode on Windows
+- Fix numeric sorting
+- Fix incorrect quoting
+- Fix newlines
+
+2014-01-03 1.1.0-rc1
 
 Summary:
 
