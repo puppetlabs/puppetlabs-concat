@@ -100,7 +100,7 @@ class motd {
 }
 
 # used by other modules to register themselves in the motd
-define motd::register($content="", $order=10) {
+define motd::register($content="", $order='10') {
   if $content == "" {
     $body = $name
   } else {
@@ -246,6 +246,8 @@ Order the fragments.
 
 ######Example
 - order => '01'
+
+Best practice is to pass a string to this parameter but integer values are accepted.
 
 #####`ensure`
 Control the file of fragment created.
