@@ -7,7 +7,7 @@
 #   Since puppet should always manage files in $concatdir and they should
 #   not be deleted ever, /tmp is not an option.
 #
-# It also copies out the concatfragments.sh file to ${concatdir}/bin
+# It also copies out the concatfragments.{sh,rb} file to ${concatdir}/bin
 #
 class concat::setup {
   if $caller_module_name != $module_name {
@@ -19,23 +19,29 @@ class concat::setup {
   } else {
     fail ('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')
   }
-  
-  # owner and mode of fragment files (on windows owner and access rights should be inherited from concatdir and not explicitly set to avoid problems)
-  $fragment_owner = $osfamily ? { 'windows' => undef, default => $::id }
-  $fragment_mode  = $osfamily ? { 'windows' => undef, default => '0640' }
 
-  $script_name = $::kernel ? {
-    'windows' => 'concatfragments.rb',
-    default   => 'concatfragments.sh'
+  # owner and mode of fragment files (on windows owner and access rights should
+  # be inherited from concatdir and not explicitly set to avoid problems)
+  $fragment_owner = $::osfamily ? { 'windows' => undef, default => $::id }
+  $fragment_mode  = $::osfamily ? { 'windows' => undef, default => '0640' }
+
+  # PR #174 introduced changes to the concatfragments.sh script that are
+  # incompatible with Solaris 10 but reportedly OK on Solaris 11.  As a work
+  # around we are enable the .rb concat script on all Solaris versions.  If
+  # this goes smoothly, we should move towards completely eliminating the .sh
+  # version.
+  $script_name = $::osfamily? {
+    /(Windows|Solaris)/ => 'concatfragments.rb',
+    default             => 'concatfragments.sh'
   }
 
   $script_path = "${concatdir}/bin/${script_name}"
 
-  $script_owner = $osfamily ? { 'windows' => undef, default => $::id }
+  $script_owner = $::osfamily ? { 'windows' => undef, default => $::id }
 
-  $script_mode = $osfamily ? { 'windows' => undef, default => '0755' }
+  $script_mode = $::osfamily ? { 'windows' => undef, default => '0755' }
 
-  $script_command   = $::kernel ? {
+  $script_command = $::osfamily? {
     'windows' => "ruby.exe ${script_path}",
     default   => $script_path
   }
