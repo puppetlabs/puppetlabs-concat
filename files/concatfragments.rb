@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # Script to concat files to a config file.
 #
 # Given a directory like this:

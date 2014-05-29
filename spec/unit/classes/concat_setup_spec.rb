@@ -39,4 +39,46 @@ describe 'concat::setup', :type => :class do
       pending('rspec-puppet support for testing warning()')
     end
   end
+
+  context "on osfamily Solaris" do
+    concatdir = '/foo'
+    let(:facts) do
+      {
+        :concat_basedir => concatdir,
+        :osfamily       => 'Solaris',
+        :id             => 'root',
+      }
+    end
+
+    it do
+      should contain_file("#{concatdir}/bin/concatfragments.rb").with({
+        :ensure => 'file',
+        :owner  => 'root',
+        :mode   => '0755',
+        :source => 'puppet:///modules/concat/concatfragments.rb',
+        :backup => false,
+      })
+    end
+  end # on osfamily Solaris
+
+  context "on osfamily Windows" do
+    concatdir = '/foo'
+    let(:facts) do
+      {
+        :concat_basedir => concatdir,
+        :osfamily       => 'Windows',
+        :id             => 'batman',
+      }
+    end
+
+    it do
+      should contain_file("#{concatdir}/bin/concatfragments.rb").with({
+        :ensure => 'file',
+        :owner  => nil,
+        :mode   => nil,
+        :source => 'puppet:///modules/concat/concatfragments.rb',
+        :backup => false,
+      })
+    end
+  end # on osfamily Windows
 end
