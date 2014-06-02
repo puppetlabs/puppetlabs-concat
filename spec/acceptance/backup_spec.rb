@@ -22,10 +22,9 @@ describe 'concat backup parameter', :unless => UNSUPPORTED_PLATFORMS.include?(fa
 
     it 'applies the manifest twice with "Filebucketed" stdout and no stderr' do
       apply_manifest(pp, :catch_failures => true) do |r|
-        expect(r.stderr).to eq("")
         expect(r.stdout).to match(/Filebucketed #{basedir}\/file to puppet with sum 0140c31db86293a1a1e080ce9b91305f/) # sum is for file contents of 'old contents'
       end
-      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp, :catch_changes => true)
     end
 
     describe file("#{basedir}/file") do
@@ -55,8 +54,8 @@ describe 'concat backup parameter', :unless => UNSUPPORTED_PLATFORMS.include?(fa
     # XXX Puppet doesn't mention anything about filebucketing with a given
     # extension like .backup
     it 'applies the manifest twice  no stderr' do
-      expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp, :catch_failures => true)
+      apply_manifest(pp, :catch_changes => true)
     end
 
     describe file("#{basedir}/file") do
@@ -91,10 +90,9 @@ describe 'concat backup parameter', :unless => UNSUPPORTED_PLATFORMS.include?(fa
 
     it 'applies the manifest twice with no "Filebucketed" stdout and no stderr' do
       apply_manifest(pp, :catch_failures => true) do |r|
-        expect(r.stderr).to eq("")
         expect(r.stdout).to_not match(/Filebucketed/)
       end
-      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp, :catch_changes => true)
     end
 
     describe file("#{basedir}/file") do
