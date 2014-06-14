@@ -117,9 +117,9 @@ fi
 IFS_BACKUP=$IFS
 IFS='
 '
-for fragfile in `find fragments/ -type f -follow -print0 | xargs -0 -n1 basename | LC_ALL=C sort ${SORTARG}`
+for fragfile in `find fragments/ -type f -follow -print0 | xargs -0 -n1 | LC_ALL=C sort ${SORTARG}`
 do
-    cat "fragments/$fragfile" >> "fragments.concat"
+    cat "$fragfile" >> "fragments.concat"
     # Handle newlines.
     if [ "x${ENSURE_NEWLINE}" != "x" ]; then
       echo >> "fragments.concat"
