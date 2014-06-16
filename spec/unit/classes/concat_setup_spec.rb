@@ -81,4 +81,27 @@ describe 'concat::setup', :type => :class do
       })
     end
   end # on osfamily Windows
+
+  context "on osfamily FreeBSD" do
+    concatdir = '/foo'
+    let(:facts) do
+      {
+        :concat_basedir => concatdir,
+        :osfamily       => 'FreeBSD',
+        :id             => 'root',
+      }
+    end
+
+    it do
+      should contain_file("#{concatdir}/bin/concatfragments.sh").with({
+        :ensure => 'file',
+        :owner  => 'root',
+        :group  => 'wheel',
+        :mode   => '0755',
+        :source => 'puppet:///modules/concat/concatfragments.sh',
+        :backup => false,
+      })
+    end
+  end # on osfamily FreeBSD
+
 end
