@@ -23,6 +23,11 @@ class concat::setup {
   # owner and mode of fragment files (on windows owner and access rights should
   # be inherited from concatdir and not explicitly set to avoid problems)
   $fragment_owner = $::osfamily ? { 'windows' => undef, default => $::id }
+  $fragment_group = $::osfamily ? {
+    'windows' => undef,
+    'FreeBSD' => 'wheel',
+    default   => $::id
+  }
   $fragment_mode  = $::osfamily ? { 'windows' => undef, default => '0640' }
 
   # PR #174 introduced changes to the concatfragments.sh script that are
@@ -38,6 +43,11 @@ class concat::setup {
   $script_path = "${concatdir}/bin/${script_name}"
 
   $script_owner = $::osfamily ? { 'windows' => undef, default => $::id }
+  $script_group = $::osfamily ? {
+    'windows' => undef,
+    'FreeBSD' => 'wheel',
+    default   => $::id
+  }
 
   $script_mode = $::osfamily ? { 'windows' => undef, default => '0755' }
 
@@ -53,12 +63,15 @@ class concat::setup {
   file { $script_path:
     ensure => file,
     owner  => $script_owner,
+    group  => $script_group,
     mode   => $script_mode,
     source => "puppet:///modules/concat/${script_name}",
   }
 
   file { [ $concatdir, "${concatdir}/bin" ]:
     ensure => directory,
+    owner  => $script_owner,
+    group  => $script_group,
     mode   => '0755',
   }
 }
