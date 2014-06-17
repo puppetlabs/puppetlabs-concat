@@ -1,6 +1,6 @@
 {
     "name": "puppetlabs-concat",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "source": "https://github.com/puppetlabs/puppetlabs-concat",
     "author": "Puppet Labs",
     "license": "Apache-2.0",
@@ -76,6 +76,12 @@
           "5.3",
           "6.1",
           "7.1"
+        ]
+      },
+      {
+        "operatingsystem": "OSX",
+        "operatingsystemrelease": [
+          "10.9"
         ]
       }
     ],

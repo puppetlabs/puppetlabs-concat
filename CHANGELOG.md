@@ -1,3 +1,17 @@
+##2014-06-25 - Supported Release 1.0.4
+###Summary
+
+This release has test fixes.
+
+####Features
+- Added test support for OSX.
+
+####Bugfixes
+
+####Known bugs
+
+* Not supported on Windows.
+
 ##2014-06-04 - Release 1.0.3
 ###Summary
 
