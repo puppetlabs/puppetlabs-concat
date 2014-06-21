@@ -400,7 +400,7 @@ concatenated file and this feature has been removed.
 ```puppet
 include concat::setup     # generates deprecation warning
 
-class { 'concat::setup: } # generates deprecation warning
+class { 'concat::setup': } # generates deprecation warning
 ```
 
 The `concat::setup` class is deprecated as a public API of this module and
