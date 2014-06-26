@@ -48,7 +48,7 @@ concat { '/tmp/file':
 }
 
 concat::fragment { 'tmpfile':
-  target  => '/tmp/file'
+  target  => '/tmp/file',
   content => 'test contents',
   order   => '01'
 }
