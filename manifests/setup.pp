@@ -42,7 +42,7 @@ class concat::setup {
   $script_mode = $::osfamily ? { 'windows' => undef, default => '0755' }
 
   $script_command = $::osfamily? {
-    'windows' => "ruby.exe ${script_path}",
+    'windows' => "ruby.exe '${script_path}'",
     default   => $script_path
   }
 
