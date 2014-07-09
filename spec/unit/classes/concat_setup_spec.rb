@@ -61,12 +61,12 @@ describe 'concat::setup', :type => :class do
     end
   end # on osfamily Solaris
 
-  context "on osfamily Windows" do
+  context "on osfamily windows" do
     concatdir = '/foo'
     let(:facts) do
       {
         :concat_basedir => concatdir,
-        :osfamily       => 'Windows',
+        :osfamily       => 'windows',
         :id             => 'batman',
       }
     end
@@ -80,5 +80,5 @@ describe 'concat::setup', :type => :class do
         :backup => false,
       })
     end
-  end # on osfamily Windows
+  end # on osfamily windows
 end
