@@ -56,12 +56,12 @@ define concat::fragment(
     warning('The $backup parameter to concat::fragment is deprecated and has no effect')
   }
   if $ensure == undef {
-    $_ensure = getparam(Concat[$target], 'ensure')
+    $my_ensure = getparam(Concat[$target], 'ensure')
   } else {
     if ! ($ensure in [ 'present', 'absent' ]) {
       warning('Passing a value other than \'present\' or \'absent\' as the $ensure parameter to concat::fragment is deprecated.  If you want to use the content of a file as a fragment please use the $source parameter.')
     }
-    $_ensure = $ensure
+    $my_ensure = $ensure
   }
 
   include concat::setup
@@ -80,18 +80,18 @@ define concat::fragment(
 
   # be paranoid and only allow the fragment's file resource's ensure param to
   # be file, absent, or a file target
-  $safe_ensure = $_ensure ? {
+  $safe_ensure = $my_ensure ? {
     ''        => 'file',
     undef     => 'file',
     'file'    => 'file',
     'present' => 'file',
     'absent'  => 'absent',
-    default   => $_ensure,
+    default   => $my_ensure,
   }
 
   # if it looks line ensure => /target syntax was used, fish that out
-  if ! ($_ensure in ['', 'present', 'absent', 'file' ]) {
-    $ensure_target = $_ensure
+  if ! ($my_ensure in ['', 'present', 'absent', 'file' ]) {
+    $ensure_target = $my_ensure
   } else {
     $ensure_target = undef
   }
