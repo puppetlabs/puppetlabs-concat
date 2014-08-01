@@ -117,6 +117,7 @@ define concat::fragment(
     source  => $source,
     content => $content,
     backup  => false,
+    replace => true,
     alias   => "concat_fragment_${name}",
     notify  => Exec["concat_${target}"]
   }
