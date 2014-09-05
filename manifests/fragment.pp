@@ -56,7 +56,7 @@ define concat::fragment(
     warning('The $backup parameter to concat::fragment is deprecated and has no effect')
   }
   if $ensure == undef {
-    $my_ensure = getparam(Concat[$target], 'ensure')
+    $my_ensure = concat_getparam(Concat[$target], 'ensure')
   } else {
     if ! ($ensure in [ 'present', 'absent' ]) {
       warning('Passing a value other than \'present\' or \'absent\' as the $ensure parameter to concat::fragment is deprecated.  If you want to use the content of a file as a fragment please use the $source parameter.')

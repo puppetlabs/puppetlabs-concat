@@ -75,7 +75,7 @@ define concat(
     fail('$warn is not a string or boolean')
   }
   validate_bool($force)
-  if ! is_bool($backup) and ! is_string($backup) {
+  if ! concat_is_bool($backup) and ! is_string($backup) {
     fail('$backup must be string or bool!')
   }
   validate_bool($replace)
