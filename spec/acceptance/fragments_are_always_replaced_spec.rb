@@ -25,10 +25,10 @@ describe 'concat::fragment replace' do
     EOS
 
     it 'applies the manifest twice with no stderr' do
-      expect(apply_manifest(pp1, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp1, :catch_changes => true).stderr).to eq("")
-      expect(apply_manifest(pp2, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp2, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp1, :catch_failures => true)
+      apply_manifest(pp1, :catch_changes => true)
+      apply_manifest(pp2, :catch_failures => true)
+      apply_manifest(pp2, :catch_changes => true)
     end
 
     describe file('/tmp/concat/foo') do
@@ -64,10 +64,10 @@ describe 'concat::fragment replace' do
     EOS
 
     it 'applies the manifest twice with no stderr' do
-      expect(apply_manifest(pp1, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp1, :catch_changes => true).stderr).to eq("")
-      expect(apply_manifest(pp2, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp2, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp1, :catch_failures => true)
+      apply_manifest(pp1, :catch_changes => true)
+      apply_manifest(pp2, :catch_failures => true)
+      apply_manifest(pp2, :catch_changes => true)
     end
 
     describe file('/tmp/concat/foo') do
@@ -103,10 +103,10 @@ describe 'concat::fragment replace' do
     EOS
 
     it 'applies the manifest twice with no stderr' do
-      expect(apply_manifest(pp1, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp1, :catch_changes => true).stderr).to eq("")
-      expect(apply_manifest(pp2, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp2, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp1, :catch_failures => true)
+      apply_manifest(pp1, :catch_changes => true)
+      apply_manifest(pp2, :catch_failures => true)
+      apply_manifest(pp2, :catch_changes => true)
     end
 
     describe file('/tmp/concat/foo') do

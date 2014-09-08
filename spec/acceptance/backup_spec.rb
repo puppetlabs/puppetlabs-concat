@@ -23,7 +23,7 @@ describe 'concat backup parameter' do
         expect(r.stderr).to eq("")
         expect(r.stdout).to match(/Filebucketed \/tmp\/concat\/file to puppet with sum 0140c31db86293a1a1e080ce9b91305f/) # sum is for file contents of 'old contents'
       end
-      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp, :catch_changes => true)
     end
 
     describe file('/tmp/concat/file') do
@@ -52,8 +52,8 @@ describe 'concat backup parameter' do
     # XXX Puppet doesn't mention anything about filebucketing with a given
     # extension like .backup
     it 'applies the manifest twice  no stderr' do
-      expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp, :catch_failures => true)
+      apply_manifest(pp, :catch_changes => true)
     end
 
     describe file('/tmp/concat/file') do
@@ -90,7 +90,7 @@ describe 'concat backup parameter' do
         expect(r.stderr).to eq("")
         expect(r.stdout).to_not match(/Filebucketed/)
       end
-      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp, :catch_changes => true)
     end
 
     describe file('/tmp/concat/file') do

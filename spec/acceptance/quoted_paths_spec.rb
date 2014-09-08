@@ -21,8 +21,8 @@ describe 'quoted paths' do
     EOS
 
     it 'applies the manifest twice with no stderr' do
-      expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp, :catch_failures => true)
+      apply_manifest(pp, :catch_changes => true)
     end
 
     describe file('/tmp/concat test/foo') do
