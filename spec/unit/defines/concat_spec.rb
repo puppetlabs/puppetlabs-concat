@@ -144,6 +144,7 @@ describe 'concat', :type => :define do
         should contain_exec("concat_#{title}").with({
           :alias   => "concat_#{fragdir}",
           :command => 'true',
+          :unless  => 'true',
           :path    => '/bin:/usr/bin',
         })
       end
