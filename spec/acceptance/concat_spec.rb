@@ -4,8 +4,8 @@ describe 'basic concat test' do
 
   shared_examples 'successfully_applied' do |pp|
     it 'applies the manifest twice with no stderr' do
-      expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
-      expect(apply_manifest(pp, :catch_changes => true).stderr).to eq("")
+      apply_manifest(pp, :catch_failures => true)
+      apply_manifest(pp, :catch_changes => true)
     end
 
     describe file("#{default['puppetvardir']}/concat") do
@@ -192,8 +192,8 @@ describe 'basic concat test' do
       # Can't used shared examples as this will always trigger the exec when
       # absent is set.
       it 'applies the manifest twice with no stderr' do
-        expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
-        expect(apply_manifest(pp, :catch_failures => true).stderr).to eq("")
+        apply_manifest(pp, :catch_failures => true)
+        apply_manifest(pp, :catch_failures => true)
       end
 
       describe file('/tmp/concat/file') do
