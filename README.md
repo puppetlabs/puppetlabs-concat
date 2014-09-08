@@ -251,8 +251,6 @@ Control the file of fragment created.
 ######Example
 - ensure => 'present'
 - ensure => 'absent'
-- ensure => 'file'
-- ensure => 'directory'
 
 #####`mode`
 Set the mode of the fragment.
