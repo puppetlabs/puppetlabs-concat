@@ -20,7 +20,6 @@ describe 'concat backup parameter' do
 
     it 'applies the manifest twice with "Filebucketed" stdout and no stderr' do
       apply_manifest(pp, :catch_failures => true) do |r|
-        expect(r.stderr).to eq("")
         expect(r.stdout).to match(/Filebucketed \/tmp\/concat\/file to puppet with sum 0140c31db86293a1a1e080ce9b91305f/) # sum is for file contents of 'old contents'
       end
       apply_manifest(pp, :catch_changes => true)
@@ -87,7 +86,6 @@ describe 'concat backup parameter' do
 
     it 'applies the manifest twice with no "Filebucketed" stdout and no stderr' do
       apply_manifest(pp, :catch_failures => true) do |r|
-        expect(r.stderr).to eq("")
         expect(r.stdout).to_not match(/Filebucketed/)
       end
       apply_manifest(pp, :catch_changes => true)
