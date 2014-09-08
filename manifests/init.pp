@@ -223,10 +223,12 @@ define concat(
       default   => '/bin:/usr/bin',
     }
 
+    # Need to have an unless here for idempotency.
     exec { "concat_${name}":
       alias   => "concat_${fragdir}",
       command => $absent_exec_command,
-      path    => $absent_exec_path
+      unless  => $absent_exec_command,
+      path    => $absent_exec_path,
     }
   }
 }
