@@ -1,6 +1,23 @@
 require 'spec_helper_acceptance'
 
+case fact('osfamily')
+when 'AIX'
+  username  = 'root'
+  groupname = 'system'
+when 'Darwin'
+  username  = 'root'
+  groupname = 'wheel'
+when 'windows'
+  username  = 'Administrator'
+  groupname = 'Administrators'
+else
+  username  = 'root'
+  groupname = 'root'
+end
+
 describe 'basic concat test' do
+  basedir = default.tmpdir('concat')
+  safe_basedir = basedir.gsub('/','_')
 
   shared_examples 'successfully_applied' do |pp|
     it 'applies the manifest twice with no stderr' do
@@ -10,64 +27,86 @@ describe 'basic concat test' do
 
     describe file("#{default['puppetvardir']}/concat") do
       it { should be_directory }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 755 }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 755
+      }
     end
-    describe file("#{default['puppetvardir']}/concat/bin") do
+     describe file("#{default['puppetvardir']}/concat/bin") do
       it { should be_directory }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 755 }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 755
+      }
     end
     describe file("#{default['puppetvardir']}/concat/bin/concatfragments.sh") do
       it { should be_file }
-      it { should be_owned_by 'root' }
-      #it { should be_grouped_into 'root' }
-      it { should be_mode 755 }
+      it { should be_owned_by username }
+      #it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 755
+      }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file") do
       it { should be_directory }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 750 }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 750
+      }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments") do
       it { should be_directory }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 750 }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 750
+      }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments.concat") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments.concat") do
       it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 640 }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 640
+      }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments.concat.out") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments.concat.out") do
       it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 640 }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 640
+      }
     end
   end
 
   context 'owner/group root' do
+    before(:all) do
+      pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+      EOS
+      apply_manifest(pp)
+    end
     pp = <<-EOS
-      concat { '/tmp/concat/file':
-        owner => 'root',
-        group => 'root',
+      concat { '#{basedir}/file':
+        owner => '#{username}',
+        group => '#{groupname}',
         mode  => '0644',
       }
 
       concat::fragment { '1':
-        target  => '/tmp/concat/file',
+        target  => '#{basedir}/file',
         content => '1',
         order   => '01',
       }
 
       concat::fragment { '2':
-        target  => '/tmp/concat/file',
+        target  => '#{basedir}/file',
         content => '2',
         order   => '02',
       }
@@ -75,89 +114,48 @@ describe 'basic concat test' do
 
     it_behaves_like 'successfully_applied', pp
 
-    describe file('/tmp/concat/file') do
+    describe file("#{basedir}/file") do
       it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 644 }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 644
+      }
       it { should contain '1' }
       it { should contain '2' }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/01_1") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments/01_1") do
       it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 640 }
-    end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/02_2") do
-      it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 640 }
-    end
-  end
-
-  context 'owner/group non-root' do
-    before(:all) do
-      shell "groupadd -g 64444 bob"
-      shell "useradd -u 42 -g 64444 bob"
-    end
-    after(:all) do
-      shell "userdel bob"
-    end
-
-    pp="
-      concat { '/tmp/concat/file':
-        owner => 'bob',
-        group => 'bob',
-        mode  => '0644',
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 640
       }
-
-      concat::fragment { '1':
-        target  => '/tmp/concat/file',
-        content => '1',
-        order   => '01',
-      }
-
-      concat::fragment { '2':
-        target  => '/tmp/concat/file',
-        content => '2',
-        order   => '02',
-      }
-    "
-
-    it_behaves_like 'successfully_applied', pp
-
-    describe file('/tmp/concat/file') do
-      it { should be_file }
-      it { should be_owned_by 'bob' }
-      it { should be_grouped_into 'bob' }
-      it { should be_mode 644 }
-      it { should contain '1' }
-      it { should contain '2' }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/01_1") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments/02_2") do
       it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 640 }
-      it { should contain '1' }
-    end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/02_2") do
-      it { should be_file }
-      it { should be_owned_by 'root' }
-      it { should be_grouped_into 'root' }
-      it { should be_mode 640 }
-      it { should contain '2' }
+      it { should be_owned_by username }
+      it { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 640
+      }
     end
   end
 
   context 'ensure' do
     context 'works when set to present with path set' do
+      before(:all) do
+        pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        EOS
+        apply_manifest(pp)
+      end
       pp="
         concat { 'file':
           ensure => present,
-          path   => '/tmp/concat/file',
+          path   => '#{basedir}/file',
           mode   => '0644',
         }
         concat::fragment { '1':
@@ -169,17 +167,27 @@ describe 'basic concat test' do
 
       it_behaves_like 'successfully_applied', pp
 
-      describe file('/tmp/concat/file') do
+      describe file("#{basedir}/file") do
         it { should be_file }
-        it { should be_mode 644 }
+        it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+          should be_mode 644
+        }
         it { should contain '1' }
       end
     end
     context 'works when set to absent with path set' do
+      before(:all) do
+        pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        EOS
+        apply_manifest(pp)
+      end
       pp="
         concat { 'file':
           ensure => absent,
-          path   => '/tmp/concat/file',
+          path   => '#{basedir}/file',
           mode   => '0644',
         }
         concat::fragment { '1':
@@ -189,14 +197,12 @@ describe 'basic concat test' do
         }
       "
 
-      # Can't used shared examples as this will always trigger the exec when
-      # absent is set.
       it 'applies the manifest twice with no stderr' do
         apply_manifest(pp, :catch_failures => true)
-        apply_manifest(pp, :catch_failures => true)
+        apply_manifest(pp, :catch_changes => true)
       end
 
-      describe file('/tmp/concat/file') do
+      describe file("#{basedir}/file") do
         it { should_not be_file }
       end
     end
