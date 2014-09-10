@@ -4,25 +4,30 @@ describe 'replacement of' do
   basedir = default.tmpdir('concat')
   context 'file' do
     context 'should not succeed' do
+      before(:all) do
+        pp = <<-EOS
+          file { '#{basedir}':
+            ensure => directory,
+          }
+          file { '#{basedir}/file':
+            content => "file exists\n"
+          }
+        EOS
+        apply_manifest(pp)
+      end
       pp = <<-EOS
-        file { '#{basedir}/file':
-          content => "file exists\n"
-        }
         concat { '#{basedir}/file':
           replace => false,
-          require => File['#{basedir}/file'],
         }
 
         concat::fragment { '1':
           target  => '#{basedir}/file',
           content => '1',
-          require => File['#{basedir}/file'],
         }
 
         concat::fragment { '2':
           target  => '#{basedir}/file',
           content => '2',
-          require => File['#{basedir}/file'],
         }
       EOS
 
@@ -40,25 +45,30 @@ describe 'replacement of' do
     end
 
     context 'should succeed' do
+      before(:all) do
+        pp = <<-EOS
+          file { '#{basedir}':
+            ensure => directory,
+          }
+          file { '#{basedir}/file':
+            content => "file exists\n"
+          }
+        EOS
+        apply_manifest(pp)
+      end
       pp = <<-EOS
-        file { '#{basedir}/file':
-          content => "file exists\n"
-        }
         concat { '#{basedir}/file':
           replace => true,
-          require => File['#{basedir}/file'],
         }
 
         concat::fragment { '1':
           target  => '#{basedir}/file',
           content => '1',
-          require => File['#{basedir}/file'],
         }
 
         concat::fragment { '2':
           target  => '#{basedir}/file',
           content => '2',
-          require => File['#{basedir}/file'],
         }
       EOS
 
@@ -81,30 +91,32 @@ describe 'replacement of' do
       # XXX the core puppet file type will replace a symlink with a plain file
       # when using ensure => present and source => ... but it will not when using
       # ensure => present and content => ...; this is somewhat confusing behavior
+      before(:all) do
+        pp = <<-EOS
+          file { '#{basedir}':
+            ensure => directory,
+          }
+          file { '#{basedir}/file':
+            ensure => link,
+            target => '#{basedir}/dangling',
+          }
+        EOS
+        apply_manifest(pp)
+      end
 
       pp = <<-EOS
-        file { '#{basedir}/file':
-          content => "file exists\n"
-        }
-        file { '{basedir}/dangling':
-          ensure => link,
-          target => File['#{basedir}/file'],
-        }
         concat { '#{basedir}/file':
           replace => false,
-          require => File['{basedir}/dangling'],
         }
 
         concat::fragment { '1':
           target  => '#{basedir}/file',
           content => '1',
-          require => File['{basedir}/dangling'],
         }
 
         concat::fragment { '2':
           target  => '#{basedir}/file',
           content => '2',
-          require => File['{basedir}/dangling'],
         }
       EOS
 
@@ -129,29 +141,32 @@ describe 'replacement of' do
       # XXX the core puppet file type will replace a symlink with a plain file
       # when using ensure => present and source => ... but it will not when using
       # ensure => present and content => ...; this is somewhat confusing behavior
+      before(:all) do
+        pp = <<-EOS
+          file { '#{basedir}':
+            ensure => directory,
+          }
+          file { '#{basedir}/file':
+            ensure => link,
+            target => '#{basedir}/dangling',
+          }
+        EOS
+        apply_manifest(pp)
+      end
+
       pp = <<-EOS
-        file { '#{basedir}/file':
-          content => "file exists\n"
-        }
-        file { '{basedir}/dangling':
-          ensure => link,
-          target => File['#{basedir}/file'],
-        }
         concat { '#{basedir}/file':
           replace => true,
-          require => File['{basedir}/dangling'],
         }
 
         concat::fragment { '1':
           target  => '#{basedir}/file',
           content => '1',
-          require => File['{basedir}/dangling'],
         }
 
         concat::fragment { '2':
           target  => '#{basedir}/file',
           content => '2',
-          require => File['{basedir}/dangling'],
         }
       EOS
 
@@ -170,6 +185,17 @@ describe 'replacement of' do
 
   context 'directory' do
     context 'should not succeed' do
+      before(:all) do
+        pp = <<-EOS
+          file { '#{basedir}':
+            ensure => directory,
+          }
+          file { '#{basedir}/file':
+            ensure => directory,
+          }
+        EOS
+        apply_manifest(pp)
+      end
       pp = <<-EOS
         concat { '#{basedir}/file': }
 

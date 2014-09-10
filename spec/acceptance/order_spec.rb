@@ -5,7 +5,6 @@ describe 'concat order' do
 
   context '=> alpha' do
     pp = <<-EOS
-      include concat::setup
       concat { '#{basedir}/foo':
         order => 'alpha'
       }

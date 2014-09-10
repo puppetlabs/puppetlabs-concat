@@ -17,6 +17,7 @@ end
 
 describe 'basic concat test' do
   basedir = default.tmpdir('concat')
+  safe_basedir = basedir.gsub('/','_')
 
   shared_examples 'successfully_applied' do |pp|
     it 'applies the manifest twice with no stderr' do
@@ -32,7 +33,7 @@ describe 'basic concat test' do
         should be_mode 755
       }
     end
-    describe file("#{default['puppetvardir']}/concat/bin") do
+     describe file("#{default['puppetvardir']}/concat/bin") do
       it { should be_directory }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
@@ -48,7 +49,7 @@ describe 'basic concat test' do
         should be_mode 755
       }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file") do
       it { should be_directory }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
@@ -56,7 +57,7 @@ describe 'basic concat test' do
         should be_mode 750
       }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments") do
       it { should be_directory }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
@@ -64,7 +65,7 @@ describe 'basic concat test' do
         should be_mode 750
       }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments.concat") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments.concat") do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
@@ -72,7 +73,7 @@ describe 'basic concat test' do
         should be_mode 640
       }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments.concat.out") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments.concat.out") do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
@@ -83,6 +84,14 @@ describe 'basic concat test' do
   end
 
   context 'owner/group root' do
+    before(:all) do
+      pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+      EOS
+      apply_manifest(pp)
+    end
     pp = <<-EOS
       concat { '#{basedir}/file':
         owner => '#{username}',
@@ -105,7 +114,7 @@ describe 'basic concat test' do
 
     it_behaves_like 'successfully_applied', pp
 
-    describe file('#{basedir}/file') do
+    describe file("#{basedir}/file") do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
@@ -115,7 +124,7 @@ describe 'basic concat test' do
       it { should contain '1' }
       it { should contain '2' }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/01_1") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments/01_1") do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
@@ -123,7 +132,7 @@ describe 'basic concat test' do
         should be_mode 640
       }
     end
-    describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/02_2") do
+    describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments/02_2") do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
@@ -135,6 +144,14 @@ describe 'basic concat test' do
 
   context 'ensure' do
     context 'works when set to present with path set' do
+      before(:all) do
+        pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        EOS
+        apply_manifest(pp)
+      end
       pp="
         concat { 'file':
           ensure => present,
@@ -150,7 +167,7 @@ describe 'basic concat test' do
 
       it_behaves_like 'successfully_applied', pp
 
-      describe file('#{basedir}/file') do
+      describe file("#{basedir}/file") do
         it { should be_file }
         it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
           should be_mode 644
@@ -159,6 +176,14 @@ describe 'basic concat test' do
       end
     end
     context 'works when set to absent with path set' do
+      before(:all) do
+        pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        EOS
+        apply_manifest(pp)
+      end
       pp="
         concat { 'file':
           ensure => absent,
@@ -177,7 +202,7 @@ describe 'basic concat test' do
         apply_manifest(pp, :catch_changes => true)
       end
 
-      describe file('#{basedir}/file') do
+      describe file("#{basedir}/file") do
         it { should_not be_file }
       end
     end

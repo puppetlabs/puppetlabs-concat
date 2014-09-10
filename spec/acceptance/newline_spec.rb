@@ -3,8 +3,16 @@ require 'spec_helper_acceptance'
 describe 'concat ensure_newline parameter' do
   basedir = default.tmpdir('concat')
   context '=> false' do
+    before(:all) do
+      pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory
+        }
+      EOS
+
+      apply_manifest(pp)
+    end
     pp = <<-EOS
-      include concat::setup
       concat { '#{basedir}/file':
         ensure_newline => false,
       }
@@ -49,7 +57,7 @@ describe 'concat ensure_newline parameter' do
       apply_manifest(pp, :catch_changes  => true)
     end
 
-    describe file('#{basedir}/file') do
+    describe file("#{basedir}/file") do
       it { should be_file }
       it { should contain "1\n2\n" }
     end

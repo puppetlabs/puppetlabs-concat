@@ -3,18 +3,24 @@ require 'spec_helper_acceptance'
 describe 'concat backup parameter' do
   basedir = default.tmpdir('concat')
   context '=> puppet' do
+    before(:all) do
+      pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        file { '#{basedir}/file':
+          content => "old contents\n",
+        }
+      EOS
+      apply_manifest(pp)
+    end
     pp = <<-EOS
-      file { '#{basedir}/file':
-        content => "old contents\n",
-      }
       concat { '#{basedir}/file':
-        backup  => 'puppet',
-        require => File['#{basedir}/file'],
+        backup => 'puppet',
       }
       concat::fragment { 'new file':
         target  => '#{basedir}/file',
         content => 'new contents',
-        require => File['#{basedir}/file'],
       }
     EOS
 
@@ -32,18 +38,24 @@ describe 'concat backup parameter' do
   end
 
   context '=> .backup' do
+    before(:all) do
+      pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        file { '#{basedir}/file':
+          content => "old contents\n",
+        }
+      EOS
+      apply_manifest(pp)
+    end
     pp = <<-EOS
-      file { '#{basedir}/file':
-        content => "old contents\n",
-      }
       concat { '#{basedir}/file':
-        backup  => '.backup',
-        require => File['#{basedir}/file'],
+        backup => '.backup',
       }
       concat::fragment { 'new file':
         target  => '#{basedir}/file',
         content => 'new contents',
-        require => File['#{basedir}/file'],
       }
     EOS
 
@@ -67,18 +79,24 @@ describe 'concat backup parameter' do
   # XXX The backup parameter uses validate_string() and thus can't be the
   # boolean false value, but the string 'false' has the same effect in Puppet 3
   context "=> 'false'" do
+    before(:all) do
+      pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        file { '#{basedir}/file':
+          content => "old contents\n",
+        }
+      EOS
+      apply_manifest(pp)
+    end
     pp = <<-EOS
-      file { '#{basedir}/file':
-        content => "old contents\n",
-      }
       concat { '#{basedir}/file':
         backup => '.backup',
-        require => File['#{basedir}/file'],
       }
       concat::fragment { 'new file':
         target  => '#{basedir}/file',
         content => 'new contents',
-        require => File['#{basedir}/file'],
       }
     EOS
 
