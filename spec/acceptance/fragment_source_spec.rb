@@ -15,7 +15,7 @@ else
   groupname = 'root'
 end
 
-describe 'concat::fragment source', :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
+describe 'concat::fragment source' do
   basedir = default.tmpdir('concat')
   context 'should read file fragments from local system' do
     pp = <<-EOS
