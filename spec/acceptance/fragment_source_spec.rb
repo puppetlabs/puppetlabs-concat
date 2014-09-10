@@ -48,7 +48,7 @@ describe 'concat::fragment source' do
       apply_manifest(pp, :catch_changes => true)
     end
 
-    describe file('#{basedir}/foo') do
+    describe file("#{basedir}/foo") do
       it { should be_file }
       it { should contain 'file1 contents' }
       it { should contain 'string1 contents' }
@@ -104,17 +104,17 @@ describe 'concat::fragment source' do
       apply_manifest(pp, :catch_failures => true)
       apply_manifest(pp, :catch_changes => true)
     end
-    describe file('#{basedir}/result_file1') do
+    describe file("#{basedir}/result_file1") do
       it { should be_file }
       it { should contain 'file1 contents' }
       it { should_not contain 'file2 contents' }
     end
-    describe file('#{basedir}/result_file2') do
+    describe file("#{basedir}/result_file2") do
       it { should be_file }
       it { should contain 'file2 contents' }
       it { should_not contain 'file1 contents' }
     end
-    describe file('#{basedir}/result_file3') do
+    describe file("#{basedir}/result_file3") do
       it { should be_file }
       it { should contain 'file1 contents' }
       it { should_not contain 'file2 contents' }
@@ -139,7 +139,7 @@ describe 'concat::fragment source' do
     it 'applies the manifest with resource failures' do
       apply_manifest(pp, :expect_failures => true)
     end
-    describe file('#{basedir}/fail_no_source') do
+    describe file("#{basedir}/fail_no_source") do
       #FIXME: Serverspec::Type::File doesn't support exists? for some reason. so... hack.
       it { should_not be_file }
       it { should_not be_directory }

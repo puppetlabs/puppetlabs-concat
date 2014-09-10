@@ -28,43 +28,57 @@ describe 'basic concat test' do
       it { should be_directory }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
-      it { should be_mode 755 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 755
+      }
     end
     describe file("#{default['puppetvardir']}/concat/bin") do
       it { should be_directory }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
-      it { should be_mode 755 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 755
+      }
     end
     describe file("#{default['puppetvardir']}/concat/bin/concatfragments.sh") do
       it { should be_file }
       it { should be_owned_by username }
       #it { should be_grouped_into groupname }
-      it { should be_mode 755 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 755
+      }
     end
     describe file("#{default['puppetvardir']}/concat/_tmp_concat_file") do
       it { should be_directory }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
-      it { should be_mode 750 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 750
+      }
     end
     describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments") do
       it { should be_directory }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
-      it { should be_mode 750 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 750
+      }
     end
     describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments.concat") do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
-      it { should be_mode 640 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 640
+      }
     end
     describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments.concat.out") do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
-      it { should be_mode 640 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 640
+      }
     end
   end
 
@@ -95,7 +109,9 @@ describe 'basic concat test' do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
-      it { should be_mode 644 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 644
+      }
       it { should contain '1' }
       it { should contain '2' }
     end
@@ -103,13 +119,17 @@ describe 'basic concat test' do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
-      it { should be_mode 640 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 640
+      }
     end
     describe file("#{default['puppetvardir']}/concat/_tmp_concat_file/fragments/02_2") do
       it { should be_file }
       it { should be_owned_by username }
       it { should be_grouped_into groupname }
-      it { should be_mode 640 }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        should be_mode 640
+      }
     end
   end
 
@@ -132,7 +152,9 @@ describe 'basic concat test' do
 
       describe file('#{basedir}/file') do
         it { should be_file }
-        it { should be_mode 644 }
+        it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+          should be_mode 644
+        }
         it { should contain '1' }
       end
     end
@@ -150,8 +172,6 @@ describe 'basic concat test' do
         }
       "
 
-      # Can't used shared examples as this will always trigger the exec when
-      # absent is set.
       it 'applies the manifest twice with no stderr' do
         apply_manifest(pp, :catch_failures => true)
         apply_manifest(pp, :catch_changes => true)
