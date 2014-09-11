@@ -2,17 +2,25 @@ require 'spec_helper_acceptance'
 
 case fact('osfamily')
 when 'AIX'
-  username  = 'root'
-  groupname = 'system'
+  username   = 'root'
+  groupname  = 'system'
+  scriptname = 'concatfragments.sh'
 when 'Darwin'
-  username  = 'root'
-  groupname = 'wheel'
+  username   = 'root'
+  groupname  = 'wheel'
+  scriptname = 'concatfragments.sh'
 when 'windows'
-  username  = 'Administrator'
-  groupname = 'Administrators'
+  username   = 'Administrator'
+  groupname  = 'Administrators'
+  scriptname = 'concatfragments.rb'
+when 'solaris'
+  username   = 'root'
+  groupname  = 'root'
+  scriptname = 'concatfragments.rb'
 else
-  username  = 'root'
-  groupname = 'root'
+  username   = 'root'
+  groupname  = 'root'
+  scriptname = 'concatfragments.sh'
 end
 
 describe 'basic concat test' do
@@ -28,7 +36,6 @@ describe 'basic concat test' do
     describe file("#{default['puppetvardir']}/concat") do
       it { should be_directory }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
         should be_mode 755
       }
@@ -36,15 +43,13 @@ describe 'basic concat test' do
      describe file("#{default['puppetvardir']}/concat/bin") do
       it { should be_directory }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
         should be_mode 755
       }
     end
-    describe file("#{default['puppetvardir']}/concat/bin/concatfragments.sh") do
+    describe file("#{default['puppetvardir']}/concat/bin/#{scriptname}") do
       it { should be_file }
       it { should be_owned_by username }
-      #it { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
         should be_mode 755
       }
@@ -52,7 +57,6 @@ describe 'basic concat test' do
     describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file") do
       it { should be_directory }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
         should be_mode 750
       }
@@ -60,7 +64,6 @@ describe 'basic concat test' do
     describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments") do
       it { should be_directory }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
         should be_mode 750
       }
@@ -68,7 +71,6 @@ describe 'basic concat test' do
     describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments.concat") do
       it { should be_file }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
         should be_mode 640
       }
@@ -76,7 +78,6 @@ describe 'basic concat test' do
     describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments.concat.out") do
       it { should be_file }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
         should be_mode 640
       }
@@ -127,7 +128,6 @@ describe 'basic concat test' do
     describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments/01_1") do
       it { should be_file }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
         should be_mode 640
       }
@@ -135,7 +135,6 @@ describe 'basic concat test' do
     describe file("#{default['puppetvardir']}/concat/#{safe_basedir}_file/fragments/02_2") do
       it { should be_file }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
         should be_mode 640
       }
