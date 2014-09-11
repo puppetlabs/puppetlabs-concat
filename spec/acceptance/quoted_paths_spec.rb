@@ -36,7 +36,9 @@ describe 'quoted paths' do
 
     describe file("#{basedir}/concat test/foo") do
       it { should be_file }
-      it { should contain "string1\nsring2" }
+      it("should contain string1\nstring2", :unless => (fact('osfamily') == 'Solaris')) {
+        should contain "string1\nstring2"
+      }
     end
   end
 end
