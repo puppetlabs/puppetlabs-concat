@@ -24,7 +24,11 @@ RSpec.configure do |c|
   c.before :suite do
     # Install module and dependencies
     hosts.each do |host|
-      copy_module_to(host, :source => proj_root, :module_name => 'concat')
+      on host, "mkdir -p #{host['distmoduledir']}/concat"
+      %w(files lib manifests metadata.json).each do |file|
+        scp_to host, "#{proj_root}/#{file}", "#{host['distmoduledir']}/concat"
+      end
+      #copy_module_to(host, :source => proj_root, :module_name => 'concat')
       on host, puppet('module','install','puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
     end
   end
