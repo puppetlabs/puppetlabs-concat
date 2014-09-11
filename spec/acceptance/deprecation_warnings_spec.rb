@@ -104,7 +104,7 @@ describe 'deprecation warnings' do
         it { should contain 'file1 contents' }
       end
 
-      describe 'the fragment can be changed from a symlink to a plain file' do
+      describe 'the fragment can be changed from a symlink to a plain file', :unless => (fact("osfamily") == "windows") do
         pp = <<-EOS
           concat { '#{basedir}/file': }
           concat::fragment { 'foo':
@@ -142,7 +142,7 @@ describe 'deprecation warnings' do
         it { should be_file }
       end
 
-      describe 'the fragment can be changed from a symlink to a plain file' do
+      describe 'the fragment can be changed from a symlink to a plain file', :unless => (fact('osfamily') == 'windows') do
         pp = <<-EOS
           concat { '#{basedir}/file': }
           concat::fragment { 'foo':
