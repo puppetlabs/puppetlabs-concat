@@ -86,7 +86,7 @@ describe 'replacement of' do
     end
   end # file
 
-  context 'symlink' do
+  context 'symlink', :unless => (fact("osfamily") == "windows") do
     context 'should not succeed' do
       # XXX the core puppet file type will replace a symlink with a plain file
       # when using ensure => present and source => ... but it will not when using
