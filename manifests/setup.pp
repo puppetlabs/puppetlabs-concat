@@ -20,10 +20,16 @@ class concat::setup {
     fail ('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')
   }
 
-  # owner and mode of fragment files (on windows owner and access rights should
+  # owner,group and mode of fragment files (on windows owner and access rights should
   # be inherited from concatdir and not explicitly set to avoid problems)
   $fragment_owner = $::osfamily ? { 'windows' => undef, default => $::id }
   $fragment_mode  = $::osfamily ? { 'windows' => undef, default => '0640' }
+  # test on gid fact availability to support older facter versions
+  if defined('$gid') and $::gid and $::osfamily != 'Windows' {
+    $fragment_group = $::gid
+  } else {
+    $fragment_group = undef
+  }
 
   $script_name = 'concatfragments.rb'
 
