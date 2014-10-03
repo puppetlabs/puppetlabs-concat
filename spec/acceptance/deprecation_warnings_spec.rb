@@ -73,10 +73,9 @@ describe 'deprecation warnings' do
     end
   end
 
-  context 'concat::fragment ensure parameter' do
+  context 'concat::fragment ensure parameter', :unless => fact('osfamily') == 'windows' do
     context 'target file exists' do
       before(:all) do
-        shell("/bin/echo 'file1 contents' > #{basedir}/file1")
         pp = <<-EOS
           file { '#{basedir}':
             ensure => directory,
@@ -126,7 +125,7 @@ describe 'deprecation warnings' do
       end
     end # target file exists
 
-    context 'target does not exist' do
+    context 'target does not exist', :unless => fact('osfamily') == 'windows' do
       pp = <<-EOS
         concat { '#{basedir}/file': }
         concat::fragment { 'foo':
