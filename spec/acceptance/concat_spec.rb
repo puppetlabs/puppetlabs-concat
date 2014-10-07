@@ -124,7 +124,7 @@ describe 'basic concat test' do
     describe file("#{basedir}/file") do
       it { should be_file }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
+      it("should be group", :unless => (fact('osfamily') == 'windows')) { should be_grouped_into groupname }
       it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 644
       }
