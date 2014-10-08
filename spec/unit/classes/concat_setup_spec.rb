@@ -5,7 +5,14 @@ describe 'concat::setup', :type => :class do
   shared_examples 'setup' do |concatdir|
     concatdir = '/foo' if concatdir.nil?
 
-    let(:facts) {{ :concat_basedir => concatdir }}
+    let(:facts) do
+      {
+        :concat_basedir     => concatdir,
+        :caller_module_name => 'Test',
+        :osfamily           => 'Debian',
+        :id                 => 'root',
+      }
+    end
 
     it do
       should contain_file("#{concatdir}/bin/concatfragments.sh").with({
@@ -44,9 +51,10 @@ describe 'concat::setup', :type => :class do
     concatdir = '/foo'
     let(:facts) do
       {
-        :concat_basedir => concatdir,
-        :osfamily       => 'Solaris',
-        :id             => 'root',
+        :concat_basedir     => concatdir,
+        :caller_module_name => 'Test',
+        :osfamily           => 'Solaris',
+        :id                 => 'root',
       }
     end
 
@@ -65,9 +73,10 @@ describe 'concat::setup', :type => :class do
     concatdir = '/foo'
     let(:facts) do
       {
-        :concat_basedir => concatdir,
-        :osfamily       => 'windows',
-        :id             => 'batman',
+        :concat_basedir     => concatdir,
+        :caller_module_name => 'Test',
+        :osfamily           => 'windows',
+        :id                 => 'batman',
       }
     end
 

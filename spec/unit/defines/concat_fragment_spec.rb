@@ -24,7 +24,14 @@ describe 'concat::fragment', :type => :define do
     end
 
     let(:title) { title }
-    let(:facts) {{ :concat_basedir => concatdir, :id => id }}
+    let(:facts) do
+      {
+        :concat_basedir => concatdir,
+        :id             => id,
+        :osfamily       => 'Debian',
+        :path           => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+      }
+    end
     let(:params) { params }
     let(:pre_condition) do
       "concat{ '#{p[:target]}': }"
@@ -162,7 +169,13 @@ describe 'concat::fragment', :type => :define do
 
     context 'ensure => target and source' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:facts) do
+        {
+          :concat_basedir => '/tmp',
+          :osfamily       => 'Debian',
+          :id             => 'root',
+        }
+      end
       let(:params) do
         {
           :target  => '/etc/motd',
@@ -178,7 +191,13 @@ describe 'concat::fragment', :type => :define do
 
     context 'ensure => target and content' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:facts) do
+        {
+          :concat_basedir => '/tmp',
+          :osfamily       => 'Debian',
+          :id             => 'root',
+        }
+      end
       let(:params) do
         {
           :target  => '/etc/motd',
@@ -194,7 +213,13 @@ describe 'concat::fragment', :type => :define do
 
     context 'source and content' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:facts) do
+        {
+          :concat_basedir => '/tmp',
+          :osfamily       => 'Debian',
+          :id             => 'root',
+        }
+      end
       let(:params) do
         {
           :target => '/etc/motd',
