@@ -24,6 +24,10 @@ RSpec.configure do |c|
   c.before :suite do
     # Install module and dependencies
     hosts.each do |host|
+      if fact_on(host, 'osfamily') == 'windows'
+        on host, 'powershell.exe -command "(New-Object System.Net.Webclient).DownloadString(\'https://forge.puppetlabs.com\')"'
+      end
+
       on host, "mkdir -p #{host['distmoduledir']}/concat"
       result = on host, "echo #{host['distmoduledir']}/concat"
       target = result.raw_output.chomp
