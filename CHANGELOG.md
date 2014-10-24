@@ -8,7 +8,7 @@ This is a bugfix release, and the first supported release of the 1.1.x series.
 - Make the `$order` parameter default to a string and be validated as an integer
   or a string
 - Use the ruby script on Solaris to not break Sol10 support
-- Add quotes to the ryby script location for Windows
+- Add quotes to the ruby script location for Windows
 - Fix typos in README.md
 - Make regex in concat::setup case-insensitive to make it work on Windows
 - Make sure concat fragments are always replaced

@@ -126,7 +126,7 @@ describe 'replacement of' do
       end
 
       # XXX specinfra doesn't support be_linked_to on AIX
-      describe file("#{basedir}/file"), :unless => (fact("osfamily") == "AIX") do
+      describe file("#{basedir}/file"), :unless => (fact("osfamily") == "AIX" or fact("osfamily") == "windows") do
         it { should be_linked_to "#{basedir}/dangling" }
       end
 

@@ -42,49 +42,49 @@ describe 'basic concat test' do
     describe file("#{vardir}/concat") do
       it { should be_directory }
       it { should be_owned_by username }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 755
       }
     end
      describe file("#{vardir}/concat/bin") do
       it { should be_directory }
       it { should be_owned_by username }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 755
       }
     end
     describe file("#{vardir}/concat/bin/#{scriptname}") do
       it { should be_file }
       it { should be_owned_by username }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 755
       }
     end
     describe file("#{vardir}/concat/#{safe_basedir}_file") do
       it { should be_directory }
       it { should be_owned_by username }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 750
       }
     end
     describe file("#{vardir}/concat/#{safe_basedir}_file/fragments") do
       it { should be_directory }
       it { should be_owned_by username }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 750
       }
     end
     describe file("#{vardir}/concat/#{safe_basedir}_file/fragments.concat") do
       it { should be_file }
       it { should be_owned_by username }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 640
       }
     end
     describe file("#{vardir}/concat/#{safe_basedir}_file/fragments.concat.out") do
       it { should be_file }
       it { should be_owned_by username }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 640
       }
     end
@@ -124,8 +124,8 @@ describe 'basic concat test' do
     describe file("#{basedir}/file") do
       it { should be_file }
       it { should be_owned_by username }
-      it { should be_grouped_into groupname }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be group", :unless => (fact('osfamily') == 'windows')) { should be_grouped_into groupname }
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 644
       }
       it { should contain '1' }
@@ -134,14 +134,14 @@ describe 'basic concat test' do
     describe file("#{vardir}/concat/#{safe_basedir}_file/fragments/01_1") do
       it { should be_file }
       it { should be_owned_by username }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 640
       }
     end
     describe file("#{vardir}/concat/#{safe_basedir}_file/fragments/02_2") do
       it { should be_file }
       it { should be_owned_by username }
-      it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+      it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 640
       }
     end
@@ -174,7 +174,7 @@ describe 'basic concat test' do
 
       describe file("#{basedir}/file") do
         it { should be_file }
-        it("should be mode", :unless => (fact('osfamily') == 'AIX')) {
+        it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
           should be_mode 644
         }
         it { should contain '1' }
