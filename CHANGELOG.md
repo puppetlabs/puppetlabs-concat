@@ -1,3 +1,16 @@
+##2014-10-28 - Supported Release 1.1.2
+
+###Summary
+
+This release includes bugfixes and test improvements. The module was tested against SLES10 and SLES12 and found to work against those platforms with no module improvements. Metadata was updated to include those as supported platforms.
+
+####Bugfixes
+- newline didn't work for Windows and Solaris. This has been fixed.
+- Install certs on Windows for acceptance tests
+- Update tests to work with strict variables (no module updates were required)
+- Update tests to work on Windows
+- Fix typo in CHANGELOG.md
+
 ##2014-09-10 - Supported Release 1.1.1
 
 ###Summary
