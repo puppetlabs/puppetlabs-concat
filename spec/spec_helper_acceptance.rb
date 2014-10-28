@@ -4,9 +4,13 @@ require 'beaker-rspec/helpers/serverspec'
 unless ENV['RS_PROVISION'] == 'no' or ENV['BEAKER_provision'] == 'no'
   # This will install the latest available package on el and deb based
   # systems fail on windows and osx, and install via gem on other *nixes
-  foss_opts = { :default_action => 'gem_install' }
+  foss_opts = {:default_action => 'gem_install'}
 
-  if default.is_pe?; then install_pe; else install_puppet( foss_opts ); end
+  if default.is_pe?; then
+    install_pe;
+  else
+    install_puppet(foss_opts);
+  end
 
   hosts.each do |host|
     on hosts, "mkdir -p #{host['distmoduledir']}"
@@ -25,7 +29,13 @@ RSpec.configure do |c|
     # Install module and dependencies
     hosts.each do |host|
       if fact_on(host, 'osfamily') == 'windows'
-        on host, 'powershell.exe -command "(New-Object System.Net.Webclient).DownloadString(\'https://forge.puppetlabs.com\')"'
+        pp = <<EOS
+  exec{'download-cert':
+    path => ['C:\Windows\System32\WindowsPowershell\v1.0','C:\Windows\Sysnative\WindowsPowershell\v1.0'],
+    command => 'powershell.exe -command "(New-Object System.Net.Webclient).DownloadString(\"https://forge.puppetlabs.com\")"',
+  }
+EOS
+        apply_manifest_on(host, pp)
       end
 
       on host, "mkdir -p #{host['distmoduledir']}/concat"
@@ -36,7 +46,7 @@ RSpec.configure do |c|
         scp_to host, "#{proj_root}/#{file}", target
       end
       #copy_module_to(host, :source => proj_root, :module_name => 'concat')
-      on host, puppet('module','install','puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
+      on host, puppet('module', 'install', 'puppetlabs-stdlib'), {:acceptable_exit_codes => [0, 1]}
     end
   end
 

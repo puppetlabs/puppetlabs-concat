@@ -1,12 +1,12 @@
 {
   "name": "puppetlabs-concat",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "author": "Puppet Labs",
   "summary": "Concat module",
   "license": "Apache-2.0",
   "source": "https://github.com/puppetlabs/puppetlabs-concat",
   "project_page": "https://github.com/puppetlabs/puppetlabs-concat",
-  "issues_url": "https://github.com/puppetlabs/puppetlabs-concat/issues",
+  "issues_url": "https://tickets.puppetlabs.com/browse/MODULES",
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
