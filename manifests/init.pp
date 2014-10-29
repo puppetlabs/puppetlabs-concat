@@ -140,6 +140,12 @@ define concat(
     backup  => false,
   }
 
+  # reset poisoned Exec defaults
+  Exec {
+    user  => undef,
+    group => undef,
+  }
+
   if $ensure == 'present' {
     file { $fragdir:
       ensure => directory,
