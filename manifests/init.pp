@@ -64,6 +64,7 @@ define concat(
   $replace        = true,
   $order          = 'alpha',
   $ensure_newline = false,
+  $validate_cmd   = undef,
   $gnu            = undef
 ) {
   validate_re($ensure, '^present$|^absent$')
@@ -173,15 +174,16 @@ define concat(
     }
 
     file { $name:
-      ensure  => present,
-      owner   => $owner,
-      group   => $group,
-      mode    => $mode,
-      replace => $replace,
-      path    => $path,
-      alias   => "concat_${name}",
-      source  => "${fragdir}/${concat_name}",
-      backup  => $backup,
+      ensure       => present,
+      owner        => $owner,
+      group        => $group,
+      mode         => $mode,
+      replace      => $replace,
+      path         => $path,
+      alias        => "concat_${name}",
+      source       => "${fragdir}/${concat_name}",
+      validate_cmd => $validate_cmd,
+      backup       => $backup,
     }
 
     # remove extra whitespace from string interpolation to make testing easier
