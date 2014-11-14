@@ -30,6 +30,7 @@ describe 'concat::fragment', :type => :define do
         :id             => id,
         :osfamily       => 'Debian',
         :path           => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+        :is_pe          => false,
       }
     end
     let(:params) { params }
@@ -71,7 +72,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:facts) {{ :concat_basedir => '/tmp', :is_pe => false }}
       let(:params) {{ :target => false }}
 
       it 'should fail' do
@@ -92,7 +93,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'any value other than \'present\' or \'absent\'' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:facts) {{ :concat_basedir => '/tmp', :is_pe => false }}
       let(:params) {{ :ensure => 'invalid', :target => '/etc/motd' }}
 
       it 'should create a warning' do
@@ -113,7 +114,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:facts) {{ :concat_basedir => '/tmp', :is_pe => false }}
       let(:params) {{ :content => false, :target => '/etc/motd' }}
 
       it 'should fail' do
@@ -134,7 +135,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:facts) {{ :concat_basedir => '/tmp', :is_pe => false }}
       let(:params) {{ :source => false, :target => '/etc/motd' }}
 
       it 'should fail' do
@@ -155,7 +156,7 @@ describe 'concat::fragment', :type => :define do
 
     context 'false' do
       let(:title) { 'motd_header' }
-      let(:facts) {{ :concat_basedir => '/tmp' }}
+      let(:facts) {{ :concat_basedir => '/tmp', :is_pe => false }}
       let(:params) {{ :order => false, :target => '/etc/motd' }}
 
       it 'should fail' do
@@ -174,6 +175,7 @@ describe 'concat::fragment', :type => :define do
           :concat_basedir => '/tmp',
           :osfamily       => 'Debian',
           :id             => 'root',
+          :is_pe          => false,
         }
       end
       let(:params) do
@@ -196,6 +198,7 @@ describe 'concat::fragment', :type => :define do
           :concat_basedir => '/tmp',
           :osfamily       => 'Debian',
           :id             => 'root',
+          :is_pe          => false,
         }
       end
       let(:params) do
@@ -218,6 +221,7 @@ describe 'concat::fragment', :type => :define do
           :concat_basedir => '/tmp',
           :osfamily       => 'Debian',
           :id             => 'root',
+          :is_pe          => false,
         }
       end
       let(:params) do

@@ -181,6 +181,17 @@ define concat(
     # remove extra whitespace from string interpolation to make testing easier
     $command = strip(regsubst("${script_command} -o \"${fragdir}/${concat_name}\" -d \"${fragdir}\" ${warnflag} ${forceflag} ${orderflag} ${newlineflag}", '\s+', ' ', 'G'))
 
+    # make sure ruby is in the path for PE
+    if $::is_pe {
+      if $::kernel == 'windows' {
+        $command_path = "${::env_windows_installdir}/bin:${::path}"
+      } else {
+        $command_path = "/opt/puppet/bin:${::path}"
+      }
+    } else {
+      $command_path = $::path
+    }
+
     # if puppet is running as root, this exec should also run as root to allow
     # the concatfragments.sh script to potentially be installed in path that
     # may not be accessible by a target non-root owner.
@@ -190,7 +201,7 @@ define concat(
       notify    => File[$name],
       subscribe => File[$fragdir],
       unless    => "${command} -t",
-      path      => $::path,
+      path      => $command_path,
       require   => [
         File[$fragdir],
         File["${fragdir}/fragments"],
