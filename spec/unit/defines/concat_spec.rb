@@ -40,6 +40,7 @@ describe 'concat', :type => :define do
         :osfamily       => 'Debian',
         :path           => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         :kernel         => 'Linux',
+        :is_pe          => false,
       }
     end
 
