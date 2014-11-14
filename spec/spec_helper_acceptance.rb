@@ -14,6 +14,23 @@ unless ENV['RS_PROVISION'] == 'no' or ENV['BEAKER_provision'] == 'no'
 
   hosts.each do |host|
     on hosts, "mkdir -p #{host['distmoduledir']}"
+    if host['platform'] =~ /sles-1/i || host['platform'] =~ /solaris-1/i
+      get_stdlib = <<-EOS
+      package{'wget':}
+      exec{'download':
+        command => "wget -P /root/ https://forgeapi.puppetlabs.com/v3/files/puppetlabs-stdlib-4.3.2.tar.gz --no-check-certificate",
+        path    => ['/opt/csw/bin/','/usr/bin/']
+      }
+      EOS
+      apply_manifest_on(host, get_stdlib)
+      # have to use force otherwise it checks ssl cert even though it is a local file
+      on host, puppet('module install /root/puppetlabs-stdlib-4.3.2.tar.gz --force --ignore-dependencies'), {:acceptable_exit_codes => [0, 1]}
+    elsif host['platform'] =~ /windows/i
+      on host, shell('curl -k -o c:/cygwin64/home/Administrator/puppetlabs-stdlib-4.3.2.tar.gz https://forgeapi.puppetlabs.com/v3/files/puppetlabs-stdlib-4.3.2.tar.gz')
+      on host, puppet('module install c:/cygwin64/home/Administrator/puppetlabs-stdlib-4.3.2.tar.gz --force --ignore-dependencies')
+    else
+      on host, puppet('module install puppetlabs-stdlib'), {:acceptable_exit_codes => [0, 1]}
+    end
   end
 end
 
@@ -26,27 +43,8 @@ RSpec.configure do |c|
 
   # Configure all nodes in nodeset
   c.before :suite do
-    # Install module and dependencies
     hosts.each do |host|
-      if fact_on(host, 'osfamily') == 'windows'
-        pp = <<EOS
-  exec{'download-cert':
-    path => ['C:\Windows\System32\WindowsPowershell\v1.0','C:\Windows\Sysnative\WindowsPowershell\v1.0'],
-    command => 'powershell.exe -command "(New-Object System.Net.Webclient).DownloadString(\"https://forge.puppetlabs.com\")"',
-  }
-EOS
-        apply_manifest_on(host, pp)
-      end
-
-      on host, "mkdir -p #{host['distmoduledir']}/concat"
-      result = on host, "echo #{host['distmoduledir']}/concat"
-      target = result.raw_output.chomp
-
-      %w(files lib manifests metadata.json).each do |file|
-        scp_to host, "#{proj_root}/#{file}", target
-      end
-      #copy_module_to(host, :source => proj_root, :module_name => 'concat')
-      on host, puppet('module', 'install', 'puppetlabs-stdlib'), {:acceptable_exit_codes => [0, 1]}
+      copy_module_to(host, :source => proj_root, :module_name => 'concat')
     end
   end
 
