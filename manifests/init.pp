@@ -82,6 +82,9 @@ define concat(
   validate_bool($replace)
   validate_re($order, '^alpha$|^numeric$')
   validate_bool($ensure_newline)
+  if $validate_cmd and ! is_string($validate_cmd) {
+    fail('$validate_cmd must be a string')
+  }
   if $gnu {
     warning('The $gnu parameter to concat is deprecated and has no effect')
   }
