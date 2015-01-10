@@ -96,7 +96,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :ensure => 'invalid', :target => '/etc/motd' }}
 
       it 'should create a warning' do
-        pending('rspec-puppet support for testing warning()')
+        skip('rspec-puppet support for testing warning()')
       end
     end
   end # ensure =>
@@ -244,7 +244,7 @@ describe 'concat::fragment', :type => :define do
         }
 
         it 'should create a warning' do
-          pending('rspec-puppet support for testing warning()')
+          skip('rspec-puppet support for testing warning()')
         end
       end
     end # mode =>
@@ -257,7 +257,7 @@ describe 'concat::fragment', :type => :define do
         }
 
         it 'should create a warning' do
-          pending('rspec-puppet support for testing warning()')
+          skip('rspec-puppet support for testing warning()')
         end
       end
     end # owner =>
@@ -270,7 +270,7 @@ describe 'concat::fragment', :type => :define do
         }
 
         it 'should create a warning' do
-          pending('rspec-puppet support for testing warning()')
+          skip('rspec-puppet support for testing warning()')
         end
       end
     end # group =>
@@ -283,7 +283,7 @@ describe 'concat::fragment', :type => :define do
         }
 
         it 'should create a warning' do
-          pending('rspec-puppet support for testing warning()')
+          skip('rspec-puppet support for testing warning()')
         end
       end
     end # backup =>

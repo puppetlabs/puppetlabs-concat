@@ -279,7 +279,7 @@ describe 'concat', :type => :define do
           it_behaves_like 'concat', '/etc/foo.bar', { :warn => warn }
 
           it 'should create a warning' do
-            pending('rspec-puppet support for testing warning()')
+            skip('rspec-puppet support for testing warning()')
           end
         end
       end
@@ -386,7 +386,7 @@ describe 'concat', :type => :define do
         it_behaves_like 'concat', '/etc/foo.bar', { :gnu => 'foo'}
 
         it 'should create a warning' do
-          pending('rspec-puppet support for testing warning()')
+          skip('rspec-puppet support for testing warning()')
         end
       end
     end
