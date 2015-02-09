@@ -17,7 +17,7 @@ describe 'concat force empty parameter' do
 
     describe file("#{basedir}/file") do
       it { should be_file }
-      it { should_not contain '1\n2' }
+      its(:content) { should_not match /1\n2/ }
     end
   end
 end
