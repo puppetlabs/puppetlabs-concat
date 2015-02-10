@@ -11,6 +11,7 @@ describe 'concat::setup', :type => :class do
         :caller_module_name => 'Test',
         :osfamily           => 'Debian',
         :id                 => 'root',
+        :is_pe              => false,
       }
     end
 
@@ -55,6 +56,7 @@ describe 'concat::setup', :type => :class do
         :caller_module_name => 'Test',
         :osfamily           => 'Solaris',
         :id                 => 'root',
+        :is_pe              => false,
       }
     end
 
@@ -77,6 +79,7 @@ describe 'concat::setup', :type => :class do
         :caller_module_name => 'Test',
         :osfamily           => 'windows',
         :id                 => 'batman',
+        :is_pe              => false,
       }
     end
 
