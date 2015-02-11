@@ -27,7 +27,9 @@ describe 'symbolic name' do
 
   describe file("#{basedir}/file") do
     it { should be_file }
-    it { should contain '1' }
-    it { should contain '2' }
+    its(:content) {
+      should match '1'
+      should match '2'
+    }
   end
 end

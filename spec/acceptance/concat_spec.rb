@@ -1,37 +1,37 @@
 require 'spec_helper_acceptance'
 
 case fact('osfamily')
-when 'AIX'
-  username   = 'root'
-  groupname  = 'system'
-  scriptname = 'concatfragments.sh'
-  vardir     = default['puppetvardir']
-when 'Darwin'
-  username   = 'root'
-  groupname  = 'wheel'
-  scriptname = 'concatfragments.sh'
-  vardir     = default['puppetvardir']
-when 'windows'
-  username   = 'Administrator'
-  groupname  = 'Administrators'
-  scriptname = 'concatfragments.rb'
-  result     = on default, "echo #{default['puppetvardir']}"
-  vardir     = result.raw_output.chomp
-when 'Solaris'
-  username   = 'root'
-  groupname  = 'root'
-  scriptname = 'concatfragments.rb'
-  vardir     = default['puppetvardir']
-else
-  username   = 'root'
-  groupname  = 'root'
-  scriptname = 'concatfragments.sh'
-  vardir     = default['puppetvardir']
+  when 'AIX'
+    username = 'root'
+    groupname = 'system'
+    scriptname = 'concatfragments.sh'
+    vardir = default['puppetvardir']
+  when 'Darwin'
+    username = 'root'
+    groupname = 'wheel'
+    scriptname = 'concatfragments.sh'
+    vardir = default['puppetvardir']
+  when 'windows'
+    username = 'Administrator'
+    groupname = 'Administrators'
+    scriptname = 'concatfragments.rb'
+    result = on default, "echo #{default['puppetvardir']}"
+    vardir = result.raw_output.chomp
+  when 'Solaris'
+    username = 'root'
+    groupname = 'root'
+    scriptname = 'concatfragments.rb'
+    vardir = default['puppetvardir']
+  else
+    username = 'root'
+    groupname = 'root'
+    scriptname = 'concatfragments.sh'
+    vardir = default['puppetvardir']
 end
 
 describe 'basic concat test' do
   basedir = default.tmpdir('concat')
-  safe_basedir = basedir.gsub(/[\/:]/,'_')
+  safe_basedir = basedir.gsub(/[\/:]/, '_')
 
   shared_examples 'successfully_applied' do |pp|
     it 'applies the manifest twice with no stderr' do
@@ -46,7 +46,7 @@ describe 'basic concat test' do
         should be_mode 755
       }
     end
-     describe file("#{vardir}/concat/bin") do
+    describe file("#{vardir}/concat/bin") do
       it { should be_directory }
       it { should be_owned_by username }
       it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
@@ -128,8 +128,10 @@ describe 'basic concat test' do
       it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
         should be_mode 644
       }
-      it { should contain '1' }
-      it { should contain '2' }
+      its(:content) {
+        should match '1'
+        should match '2'
+      }
     end
     describe file("#{vardir}/concat/#{safe_basedir}_file/fragments/01_1") do
       it { should be_file }
@@ -177,7 +179,7 @@ describe 'basic concat test' do
         it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
           should be_mode 644
         }
-        it { should contain '1' }
+        its(:content) { should match '1' }
       end
     end
     context 'works when set to absent with path set' do

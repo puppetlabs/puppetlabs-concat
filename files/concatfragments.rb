@@ -40,13 +40,13 @@ require 'optparse'
 require 'fileutils'
 
 settings = {
-  :outfile => "",
-  :workdir => "",
-  :test    => false,
-  :force   => false,
-  :warn    => "",
-  :sortarg => "",
-  :newline => false
+    :outfile => "",
+    :workdir => "",
+    :test => false,
+    :force => false,
+    :warn => "",
+    :sortarg => "",
+    :newline => false
 }
 
 OptionParser.new do |opts|
@@ -116,15 +116,18 @@ end
 Dir.chdir(settings[:workdir])
 
 if settings[:warn].empty?
-  File.open("fragments.concat", 'w') {|f| f.write("") }
+  File.open("fragments.concat", 'w') { |f| f.write("") }
 else
-  File.open("fragments.concat", 'w') {|f| f.write("#{settings[:warn]}\n") }
+  File.open("fragments.concat", 'w') { |f| f.write("#{settings[:warn]}\n") }
 end
 
 # find all the files in the fragments directory, sort them numerically and concat to fragments.concat in the working dir
 open('fragments.concat', 'a') do |f|
-  Dir.entries("fragments").sort.each{ |entry|
-
+  fragments = Dir.entries("fragments").sort
+  if settings[:sortarg] == '-n'
+    fragments = fragments.sort_by { |v| v.split('_').map(&:to_i) }
+  end
+  fragments.each { |entry|
     if File.file?(File.join("fragments", entry))
       f << File.read(File.join("fragments", entry))
 

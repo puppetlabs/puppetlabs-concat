@@ -28,9 +28,11 @@ describe 'concat warn =>' do
 
     describe file("#{basedir}/file") do
       it { should be_file }
-      it { should contain '# This file is managed by Puppet. DO NOT EDIT.' }
-      it { should contain '1' }
-      it { should contain '2' }
+      its(:content) {
+        should match '# This file is managed by Puppet. DO NOT EDIT.'
+        should match '1'
+        should match '2'
+      }
     end
   end
   context 'false should not enable default warning message' do
@@ -90,9 +92,11 @@ describe 'concat warn =>' do
 
     describe file("#{basedir}/file") do
       it { should be_file }
-      it { should contain '# foo' }
-      it { should contain '1' }
-      it { should contain '2' }
+      its(:content) {
+        should match '# foo'
+        should match '1'
+        should match '2'
+      }
     end
   end
 end

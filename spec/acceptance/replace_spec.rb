@@ -38,9 +38,11 @@ describe 'replacement of' do
 
       describe file("#{basedir}/file") do
         it { should be_file }
-        it { should contain 'file exists' }
-        it { should_not contain '1' }
-        it { should_not contain '2' }
+        its(:content) {
+          should match 'file exists'
+          should_not match '1'
+          should_not match '2'
+        }
       end
     end
 
@@ -79,9 +81,11 @@ describe 'replacement of' do
 
       describe file("#{basedir}/file") do
         it { should be_file }
-        it { should_not contain 'file exists' }
-        it { should contain '1' }
-        it { should contain '2' }
+        its(:content) {
+          should_not match 'file exists'
+          should match '1'
+          should match '2'
+        }
       end
     end
   end # file
@@ -177,8 +181,10 @@ describe 'replacement of' do
 
       describe file("#{basedir}/file") do
         it { should be_file }
-        it { should contain '1' }
-        it { should contain '2' }
+        its(:content) {
+          should match '1'
+          should match '2'
+        }
       end
     end
   end # symlink
@@ -249,7 +255,7 @@ describe 'replacement of' do
 
       describe file("#{basedir}/file") do
         it { should be_file }
-        it { should contain '1' }
+        its(:content) { should match '1' }
       end
     end
   end # directory

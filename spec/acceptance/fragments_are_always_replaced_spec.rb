@@ -39,8 +39,10 @@ describe 'concat::fragment replace' do
 
     describe file("#{basedir}/foo") do
       it { should be_file }
-      it { should_not contain 'caller has replace unset run 1' }
-      it { should contain 'caller has replace unset run 2' }
+      its(:content) {
+        should_not match 'caller has replace unset run 1'
+        should match 'caller has replace unset run 2'
+      }
     end
   end # should create fragment files
 
@@ -82,8 +84,10 @@ describe 'concat::fragment replace' do
 
     describe file("#{basedir}/foo") do
       it { should be_file }
-      it { should_not contain 'caller has replace true set run 1' }
-      it { should contain 'caller has replace true set run 2' }
+      its(:content) {
+        should_not match 'caller has replace true set run 1'
+        should match 'caller has replace true set run 2'
+      }
     end
   end # should replace its own fragment files when caller has File(replace=>true) set
 
@@ -125,8 +129,10 @@ describe 'concat::fragment replace' do
 
     describe file("#{basedir}/foo") do
       it { should be_file }
-      it { should_not contain 'caller has replace false set run 1' }
-      it { should contain 'caller has replace false set run 2' }
+      its(:content) {
+        should_not match 'caller has replace false set run 1'
+        should match 'caller has replace false set run 2'
+      }
     end
   end # should replace its own fragment files even when caller has File(replace=>false) set
 

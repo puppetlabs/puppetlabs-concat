@@ -33,7 +33,7 @@ describe 'concat ensure_newline parameter' do
 
     describe file("#{basedir}/file") do
       it { should be_file }
-      it { should contain '12' }
+      its(:content) { should match '12' }
     end
   end
 
@@ -54,13 +54,13 @@ describe 'concat ensure_newline parameter' do
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, :catch_failures => true)
-      apply_manifest(pp, :catch_changes  => true)
+      apply_manifest(pp, :catch_changes => true)
     end
 
     describe file("#{basedir}/file") do
       it { should be_file }
-      it("should contain 1\n2\n", :unless => (fact('osfamily') == 'Solaris')) {
-        should contain "1\n2\n"
+      its(:content) {
+        should match /1\n2\n/
       }
     end
   end

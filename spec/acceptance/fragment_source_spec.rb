@@ -1,18 +1,18 @@
 require 'spec_helper_acceptance'
 
 case fact('osfamily')
-when 'AIX'
-  username  = 'root'
-  groupname = 'system'
-when 'Darwin'
-  username  = 'root'
-  groupname = 'wheel'
-when 'windows'
-  username  = 'Administrator'
-  groupname = 'Administrators'
-else
-  username  = 'root'
-  groupname = 'root'
+  when 'AIX'
+    username = 'root'
+    groupname = 'system'
+  when 'Darwin'
+    username = 'root'
+    groupname = 'wheel'
+  when 'windows'
+    username = 'Administrator'
+    groupname = 'Administrators'
+  else
+    username = 'root'
+    groupname = 'root'
 end
 
 describe 'concat::fragment source' do
@@ -50,9 +50,11 @@ describe 'concat::fragment source' do
 
     describe file("#{basedir}/foo") do
       it { should be_file }
-      it { should contain 'file1 contents' }
-      it { should contain 'string1 contents' }
-      it { should contain 'file2 contents' }
+      its(:content) {
+        should match 'file1 contents'
+        should match 'string1 contents'
+        should match 'file2 contents'
+      }
     end
   end # should read file fragments from local system
 
@@ -106,18 +108,24 @@ describe 'concat::fragment source' do
     end
     describe file("#{basedir}/result_file1") do
       it { should be_file }
-      it { should contain 'file1 contents' }
-      it { should_not contain 'file2 contents' }
+      its(:content) {
+        should match 'file1 contents'
+        should_not match 'file2 contents'
+      }
     end
     describe file("#{basedir}/result_file2") do
       it { should be_file }
-      it { should contain 'file2 contents' }
-      it { should_not contain 'file1 contents' }
+      its(:content) {
+        should match 'file2 contents'
+        should_not match 'file1 contents'
+      }
     end
     describe file("#{basedir}/result_file3") do
       it { should be_file }
-      it { should contain 'file1 contents' }
-      it { should_not contain 'file2 contents' }
+      its(:content) {
+        should match 'file1 contents'
+        should_not match 'file2 contents'
+      }
     end
   end
 
