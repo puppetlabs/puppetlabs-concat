@@ -33,7 +33,7 @@ describe 'concat backup parameter' do
 
     describe file("#{basedir}/file") do
       it { should be_file }
-      it { should contain 'new contents' }
+      its(:content) { should match /new contents/ }
     end
   end
 
@@ -68,11 +68,11 @@ describe 'concat backup parameter' do
 
     describe file("#{basedir}/file") do
       it { should be_file }
-      it { should contain 'new contents' }
+      its(:content) { should match /new contents/ }
     end
     describe file("#{basedir}/file.backup") do
       it { should be_file }
-      it { should contain 'old contents' }
+      its(:content) { should match /old contents/ }
     end
   end
 
@@ -109,7 +109,7 @@ describe 'concat backup parameter' do
 
     describe file("#{basedir}/file") do
       it { should be_file }
-      it { should contain 'new contents' }
+      its(:content) { should match /new contents/ }
     end
   end
 end
