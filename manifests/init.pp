@@ -196,7 +196,7 @@ define concat(
         }
       }
       else {
-        validate_cmd("${fragdir}/${concat_name}", $validate_cmd)
+        fail("validate_cmd is a limted to Puppet > 3.5, you are on ${::puppetversion}")
       }
     }
 

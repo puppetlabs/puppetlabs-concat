@@ -19,7 +19,6 @@ describe 'concat', :type => :define do
       :replace        => true,
       :order          => 'alpha',
       :ensure_newline => false,
-      :validate_cmd   => nil,
     }.merge(params)
 
     safe_name            = title.gsub('/', '_')
@@ -88,9 +87,6 @@ describe 'concat', :type => :define do
           :source       => "#{fragdir}/#{concat_name}",
           :backup       => p[:backup],
         }))
-        if (Puppet.version >= '3.5.0')
-          contain_file(title).with(:validate_cmd => p[:validate_cmd])
-        end
       end
 
       cmd = "#{concatdir}/bin/concatfragments.sh " +
@@ -391,15 +387,24 @@ describe 'concat', :type => :define do
     end
 
     context '/usr/bin/test -e' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test % -e' }
-    end
-
-    [ 1234, true ].each do |cmd|
-      context cmd do
+      if (Puppet.version >= '3.5.0')
+        let(:facts) {{ :puppetversion => Puppet.version }}
+        it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e' }
+      else
         let(:title) { '/etc/foo.bar' }
-        let(:params) {{ :validate_cmd => cmd }}
+        let(:facts) {
+          {
+            :puppetversion => Puppet.version,
+            :concat_basedir => '/var/lib/puppet/concat',
+          }
+      }
+        let(:params) {
+          {
+            :validate_cmd => '/usr/bin/test -e'
+          }
+      }
         it 'should fail' do
-          expect { should }.to raise_error(Puppet::Error, /\$validate_cmd must be a string/)
+          expect { should }.to raise_error(/validate_cmd is a limted to Puppet > 3.5, you are on/)
         end
       end
     end
