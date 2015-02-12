@@ -86,16 +86,18 @@ describe 'concat', :type => :define do
           :path         => p[:path],
           :alias        => "concat_#{title}",
           :source       => "#{fragdir}/#{concat_name}",
-          :validate_cmd => p[:validate_cmd],
           :backup       => p[:backup],
         }))
+        if (Puppet.version >= '3.5.0')
+          contain_file(title).with(:validate_cmd => p[:validate_cmd])
+        end
       end
 
       cmd = "#{concatdir}/bin/concatfragments.sh " +
             "-o \"#{concatdir}/#{safe_name}/fragments.concat.out\" " +
             "-d \"#{concatdir}/#{safe_name}\""
 
-      # flag order: fragdir, warnflag, forceflag, orderflag, newlineflag 
+      # flag order: fragdir, warnflag, forceflag, orderflag, newlineflag
       if p.has_key?(:warn)
         case p[:warn]
         when TrueClass
