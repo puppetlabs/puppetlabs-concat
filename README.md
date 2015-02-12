@@ -218,6 +218,7 @@ Ensure there's a newline at the end of the fragments.
 
 #####`validate_cmd`
 Ensure the destination file passes the following validation command.
+Only supported on Puppet >= 3.5.0.
 
 ######Example
 - validate_cmd => '/usr/sbin/apache2 -t -f %'

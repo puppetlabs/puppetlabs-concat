@@ -185,8 +185,14 @@ define concat(
       path         => $path,
       alias        => "concat_${name}",
       source       => "${fragdir}/${concat_name}",
-      validate_cmd => $validate_cmd,
       backup       => $backup,
+    }
+
+    # Only newer versions of puppet 3.x support the validate_cmd parameter
+    if $validate_cmd {
+      File[$name] {
+        validate_cmd => $validate_cmd,
+      }
     }
 
     # remove extra whitespace from string interpolation to make testing easier
