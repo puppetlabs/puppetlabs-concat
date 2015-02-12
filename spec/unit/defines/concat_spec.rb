@@ -386,8 +386,12 @@ describe 'concat', :type => :define do
   end # ensure_newline =>
 
   context 'validate_cmd =>' do
-    context '/usr/bin/test -e %' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
+    before(:each) do
+      Puppet::Util::Execution.stubs(:execute)
+    end
+
+    context '/usr/bin/test -e' do
+      it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test % -e' }
     end
 
     [ 1234, true ].each do |cmd|
