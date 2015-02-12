@@ -136,6 +136,11 @@ define concat(
     false => '',
   }
 
+  $source_permissions = $::operatingsystem ? {
+    'windows' => ignore,
+    default   => use,
+  }
+
   File {
     backup  => false,
   }
@@ -150,11 +155,13 @@ define concat(
     file { $fragdir:
       ensure => directory,
       mode   => '0750',
+      source_permissions => $source_permissions,
     }
 
     file { "${fragdir}/fragments":
       ensure  => directory,
       mode    => '0750',
+      source_permissions => $source_permissions,
       force   => true,
       ignore  => ['.svn', '.git', '.gitignore'],
       notify  => Exec["concat_${name}"],
@@ -165,11 +172,13 @@ define concat(
     file { "${fragdir}/fragments.concat":
       ensure => present,
       mode   => '0640',
+      source_permissions => $source_permissions,
     }
 
     file { "${fragdir}/${concat_name}":
       ensure => present,
       mode   => '0640',
+      source_permissions => $source_permissions,
     }
 
     file { $name:
@@ -177,6 +186,7 @@ define concat(
       owner   => $owner,
       group   => $group,
       mode    => $mode,
+      source_permissions => $source_permissions,
       replace => $replace,
       path    => $path,
       alias   => "concat_${name}",
