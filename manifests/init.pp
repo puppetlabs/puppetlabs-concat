@@ -64,6 +64,7 @@ define concat(
   $replace        = true,
   $order          = 'alpha',
   $ensure_newline = false,
+  $validate_cmd   = undef,
   $gnu            = undef
 ) {
   validate_re($ensure, '^present$|^absent$')
@@ -81,6 +82,9 @@ define concat(
   validate_bool($replace)
   validate_re($order, '^alpha$|^numeric$')
   validate_bool($ensure_newline)
+  if $validate_cmd and ! is_string($validate_cmd) {
+    fail('$validate_cmd must be a string')
+  }
   if $gnu {
     warning('The $gnu parameter to concat is deprecated and has no effect')
   }
@@ -173,15 +177,16 @@ define concat(
     }
 
     file { $name:
-      ensure  => present,
-      owner   => $owner,
-      group   => $group,
-      mode    => $mode,
-      replace => $replace,
-      path    => $path,
-      alias   => "concat_${name}",
-      source  => "${fragdir}/${concat_name}",
-      backup  => $backup,
+      ensure       => present,
+      owner        => $owner,
+      group        => $group,
+      mode         => $mode,
+      replace      => $replace,
+      path         => $path,
+      alias        => "concat_${name}",
+      source       => "${fragdir}/${concat_name}",
+      validate_cmd => $validate_cmd,
+      backup       => $backup,
     }
 
     # remove extra whitespace from string interpolation to make testing easier
