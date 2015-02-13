@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'concat validate_cmd parameter' do
+describe 'concat validate_cmd parameter', :unless => (fact('kernel') != 'Linux') do
   basedir = default.tmpdir('concat')
   context '=> "/usr/bin/test -e %"' do
     before(:all) do
