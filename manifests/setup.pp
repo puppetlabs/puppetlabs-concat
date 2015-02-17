@@ -25,15 +25,7 @@ class concat::setup {
   $fragment_owner = $::osfamily ? { 'windows' => undef, default => $::id }
   $fragment_mode  = $::osfamily ? { 'windows' => undef, default => '0640' }
 
-  # PR #174 introduced changes to the concatfragments.sh script that are
-  # incompatible with Solaris 10 but reportedly OK on Solaris 11.  As a work
-  # around we are enable the .rb concat script on all Solaris versions.  If
-  # this goes smoothly, we should move towards completely eliminating the .sh
-  # version.
-  $script_name = $::osfamily? {
-    /(?i:(Windows|Solaris|AIX))/ => 'concatfragments.rb',
-    default                      => 'concatfragments.sh'
-  }
+  $script_name = 'concatfragments.rb'
 
   $script_path = "${concatdir}/bin/${script_name}"
 

@@ -34,7 +34,7 @@
 #
 # === Actions:
 # * Creates fragment directories if it didn't exist already
-# * Executes the concatfragments.sh script to build the final file, this
+# * Executes the concatfragments.rb script to build the final file, this
 #   script will create directory/fragments.concat.   Execution happens only
 #   when:
 #   * The directory changes
@@ -210,7 +210,7 @@ define concat(
     }
 
     # if puppet is running as root, this exec should also run as root to allow
-    # the concatfragments.sh script to potentially be installed in path that
+    # the concatfragments.rb script to potentially be installed in path that
     # may not be accessible by a target non-root owner.
     exec { "concat_${name}":
       alias     => "concat_${fragdir}",
