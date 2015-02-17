@@ -1,5 +1,19 @@
-##2014-10-28 - Supported Release 1.1.2
+##2015-02-17 - Supported Release 1.2.0
+###Summary
 
+This release includes a number of bugfixes and adds support for running a validation command when using puppet >= 3.5.0.
+
+####Features
+- Support running a validation command for Puppet >= 3.5.0
+
+####Bugfixes
+- Reset poisoned defaults from Exec
+- Use concatfragments.rb on AIX since it doesn't support print0
+- Make sure ruby is in the path for PE (MODULES-1456)
+- Fix missing method for check_is_owned_by for windows (MODULES-1764)
+- Fix sort by numeric
+
+##2014-10-28 - Supported Release 1.1.2
 ###Summary
 
 This release includes bugfixes and test improvements. The module was tested against SLES10 and SLES12 and found to work against those platforms with no module improvements. Metadata was updated to include those as supported platforms.
@@ -12,7 +26,6 @@ This release includes bugfixes and test improvements. The module was tested agai
 - Fix typo in CHANGELOG.md
 
 ##2014-09-10 - Supported Release 1.1.1
-
 ###Summary
 
 This is a bugfix release, and the first supported release of the 1.1.x series.
@@ -32,7 +45,6 @@ This is a bugfix release, and the first supported release of the 1.1.x series.
 - Synchronized files for more consistency across modules via modulesync
 
 ##2014-05-14 - Release 1.1.0
-
 ###Summary
 
 This release is primarily a bugfix release since 1.1.0-rc1.
@@ -47,7 +59,6 @@ This release is primarily a bugfix release since 1.1.0-rc1.
 - Fix newlines
 
 ##2014-01-03 - Release 1.1.0-rc1
-
 ###Summary
 
 This release of concat was 90% written by Joshua Hoblitt, and the module team
@@ -137,7 +148,6 @@ This is a supported release. No functional changes were made from 1.0.1.
 
 
 ##2014-02-12 - 1.0.1
-
 ###Summary
 
 Minor bugfixes for sorting of fragments and ordering of resources.
@@ -150,7 +160,6 @@ fragments.
 
 
 ##2013-08-09 - 1.0.0
-
 ###Summary
 
 Many new features and bugfixes in this release, and if you're a heavy concat
