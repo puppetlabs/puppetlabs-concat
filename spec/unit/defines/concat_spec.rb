@@ -19,7 +19,6 @@ describe 'concat', :type => :define do
       :replace        => true,
       :order          => 'alpha',
       :ensure_newline => false,
-      :validate_cmd   => nil,
     }.merge(params)
 
     safe_name            = title.gsub('/', '_')
@@ -86,7 +85,6 @@ describe 'concat', :type => :define do
           :path         => p[:path],
           :alias        => "concat_#{title}",
           :source       => "#{fragdir}/#{concat_name}",
-          :validate_cmd => p[:validate_cmd],
           :backup       => p[:backup],
         }))
       end
@@ -95,7 +93,7 @@ describe 'concat', :type => :define do
             "-o \"#{concatdir}/#{safe_name}/fragments.concat.out\" " +
             "-d \"#{concatdir}/#{safe_name}\""
 
-      # flag order: fragdir, warnflag, forceflag, orderflag, newlineflag 
+      # flag order: fragdir, warnflag, forceflag, orderflag, newlineflag
       if p.has_key?(:warn)
         case p[:warn]
         when TrueClass
@@ -384,16 +382,29 @@ describe 'concat', :type => :define do
   end # ensure_newline =>
 
   context 'validate_cmd =>' do
-    context '/usr/bin/test -e %' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
+    before(:each) do
+      Puppet::Util::Execution.stubs(:execute)
     end
 
-    [ 1234, true ].each do |cmd|
-      context cmd do
+    context '/usr/bin/test -e' do
+      if (Puppet.version >= '3.5.0')
+        let(:facts) {{ :puppetversion => Puppet.version }}
+        it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e' }
+      else
         let(:title) { '/etc/foo.bar' }
-        let(:params) {{ :validate_cmd => cmd }}
+        let(:facts) {
+          {
+            :puppetversion => Puppet.version,
+            :concat_basedir => '/var/lib/puppet/concat',
+          }
+      }
+        let(:params) {
+          {
+            :validate_cmd => '/usr/bin/test -e'
+          }
+      }
         it 'should fail' do
-          expect { should }.to raise_error(Puppet::Error, /\$validate_cmd must be a string/)
+          expect { should }.to raise_error(/validate_cmd is a limted to Puppet > 3.5, you are on/)
         end
       end
     end
