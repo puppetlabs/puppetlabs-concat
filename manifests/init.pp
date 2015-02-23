@@ -199,7 +199,7 @@ define concat(
     $command = strip(regsubst("${script_command} -o \"${fragdir}/${concat_name}\" -d \"${fragdir}\" ${warnflag} ${forceflag} ${orderflag} ${newlineflag}", '\s+', ' ', 'G'))
 
     # make sure ruby is in the path for PE
-    if $::is_pe {
+    if getvar('::is_pe') {
       if $::kernel == 'windows' {
         $command_path = "${::env_windows_installdir}/bin:${::path}"
       } else {
