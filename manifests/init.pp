@@ -31,6 +31,8 @@
 # [*ensure_newline*]
 # [*gnu*]
 #   Deprecated
+# [*show_diff*]
+#   Boolean whether or not to show diffs.
 #
 # === Actions:
 # * Creates fragment directories if it didn't exist already
@@ -65,7 +67,8 @@ define concat(
   $order          = 'alpha',
   $ensure_newline = false,
   $validate_cmd   = undef,
-  $gnu            = undef
+  $gnu            = undef,
+  $show_diff      = true
 ) {
   validate_re($ensure, '^present$|^absent$')
   validate_absolute_path($path)
@@ -177,15 +180,16 @@ define concat(
     }
 
     file { $name:
-      ensure       => present,
-      owner        => $owner,
-      group        => $group,
-      mode         => $mode,
-      replace      => $replace,
-      path         => $path,
-      alias        => "concat_${name}",
-      source       => "${fragdir}/${concat_name}",
-      backup       => $backup,
+      ensure    => present,
+      owner     => $owner,
+      group     => $group,
+      mode      => $mode,
+      replace   => $replace,
+      path      => $path,
+      alias     => "concat_${name}",
+      source    => "${fragdir}/${concat_name}",
+      backup    => $backup,
+      show_diff => $show_diff,
     }
 
     # Only newer versions of puppet 3.x support the validate_cmd parameter
