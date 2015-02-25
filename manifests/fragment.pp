@@ -70,6 +70,7 @@ define concat::fragment(
 
   $safe_name        = regsubst($name, '[/:\n]', '_', 'GM')
   $safe_target_name = regsubst($target, '[/:\n]', '_', 'GM')
+  $safe_order       = regsubst($order, '[/:\n]', '_', 'GM')
   $concatdir        = $concat::setup::concatdir
   $fragdir          = "${concatdir}/${safe_target_name}"
   $fragowner            = $concat::setup::fragment_owner
@@ -112,7 +113,7 @@ define concat::fragment(
 
   # punt on group ownership until some point in the distant future when $::gid
   # can be relied on to be present
-  file { "${fragdir}/fragments/${order}_${safe_name}":
+  file { "${fragdir}/fragments/${safe_order}_${safe_name}":
     ensure  => $safe_ensure,
     owner   => $fragowner,
     mode    => $fragmode,
