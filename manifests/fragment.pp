@@ -42,7 +42,7 @@ define concat::fragment(
   }
   if !(is_string($order) or is_integer($order)) {
     fail('$order is not a string or integer.')
-  } elsif $order =~ /[:\n\/]/ {
+  } elsif (is_string($order) and $order =~ /[:\n\/]/) {
     fail("Order cannot contain '/', ':', or '\n'.")
   }
   if $mode {
