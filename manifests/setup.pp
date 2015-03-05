@@ -37,6 +37,8 @@ class concat::setup {
 
   $script_owner = $::osfamily ? { 'windows' => undef, default => $::id }
 
+  $script_group = $script_owner ? { 'root' => '0', default => undef }
+
   $script_mode = $::osfamily ? { 'windows' => undef, default => '0755' }
 
   $script_command = $::osfamily? {
@@ -51,6 +53,7 @@ class concat::setup {
   file { $script_path:
     ensure => file,
     owner  => $script_owner,
+    group  => $script_group,
     mode   => $script_mode,
     source => "puppet:///modules/concat/${script_name}",
   }
