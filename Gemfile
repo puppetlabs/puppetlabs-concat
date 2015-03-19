@@ -13,7 +13,6 @@ end
 group :development, :unit_tests do
   gem 'rake',                    :require => false
   gem 'rspec-core', '3.1.7',     :require => false
-  gem 'rspec-puppet', '~> 1.0',  :require => false
   gem 'puppetlabs_spec_helper',  :require => false
   gem 'puppet-lint',             :require => false
   gem 'simplecov',               :require => false

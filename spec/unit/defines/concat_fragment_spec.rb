@@ -79,7 +79,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :target => false }}
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string/)
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
       end
     end
   end # target =>
@@ -121,7 +121,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :content => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string/)
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
       end
     end
   end # content =>
@@ -142,7 +142,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :source => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string or an Array/)
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a string or an Array/)
       end
     end
   end # source =>
@@ -163,7 +163,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :order => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /is not a string or integer/)
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a string or integer/)
       end
     end
 
@@ -173,7 +173,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :order => '123:456', :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /cannot contain/)
+        expect { catalogue }.to raise_error(Puppet::Error, /cannot contain/)
       end
     end
     context '123/456' do
@@ -182,7 +182,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :order => '123/456', :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /cannot contain/)
+        expect { catalogue }.to raise_error(Puppet::Error, /cannot contain/)
       end
     end
     context '123\n456' do
@@ -191,7 +191,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :order => "123\n456", :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /cannot contain/)
+        expect { catalogue }.to raise_error(Puppet::Error, /cannot contain/)
       end
     end
   end # order =>
@@ -219,7 +219,7 @@ describe 'concat::fragment', :type => :define do
       end
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /#{Regexp.escape(error_msg)}/m)
+        expect { catalogue }.to raise_error(Puppet::Error, /#{Regexp.escape(error_msg)}/m)
       end
     end
 
@@ -243,7 +243,7 @@ describe 'concat::fragment', :type => :define do
       end
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /#{Regexp.escape(error_msg)}/m)
+        expect { catalogue }.to raise_error(Puppet::Error, /#{Regexp.escape(error_msg)}/m)
       end
     end
 
@@ -267,7 +267,7 @@ describe 'concat::fragment', :type => :define do
       end
 
       it 'should fail' do
-        expect { should }.to raise_error(Puppet::Error, /#{Regexp.escape(error_msg)}/m)
+        expect { catalogue }.to raise_error(Puppet::Error, /#{Regexp.escape(error_msg)}/m)
       end
     end
 
