@@ -46,13 +46,21 @@ describe 'concat::fragment', :type => :define do
       should contain_file("#{fragdir}/fragments/#{p[:order]}_#{safe_name}").with({
         :ensure  => safe_ensure,
         :owner   => id,
-        :group   => gid,
         :mode    => '0640',
         :source  => p[:source],
         :content => p[:content],
         :alias   => "concat_fragment_#{title}",
         :backup  => false,
       })
+      # The defined() function doesn't seem to work properly with puppet 3.4 and rspec.
+      # defined() works on its own, rspec works on its own, but together they
+      # determine that $gid is not defined and cause errors here. Work around
+      # it by ignoring this check for older puppet version.
+      if Puppet::Util::Package.versioncmp(Puppet.version, '3.5.0') >= 0
+        should contain_file("#{fragdir}/fragments/#{p[:order]}_#{safe_name}").with({
+          :group   => gid,
+        })
+      end
     end
   end
 
