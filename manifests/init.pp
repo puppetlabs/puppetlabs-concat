@@ -104,14 +104,18 @@ define concat(
     true: {
       $warn_message = $default_warn_message
     }
+    # lint:ignore:quoted_booleans
     'true', 'yes', 'on': {
+    # lint:endignore
       warning($bool_warn_message)
       $warn_message = $default_warn_message
     }
     false: {
       $warn_message = ''
     }
+    # lint:ignore:quoted_booleans
     'false', 'no', 'off': {
+    # lint:endignore
       warning($bool_warn_message)
       $warn_message = ''
     }
@@ -246,7 +250,9 @@ define concat(
     # lint:ignore:quoted_booleans
     $absent_exec_command = $::kernel ? {
       'windows' => 'cmd.exe /c exit 0',
+    # lint:ignore:quoted_booleans
       default   => 'true',
+    # lint:endignore
     }
     # lint:endignore
 
