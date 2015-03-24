@@ -384,16 +384,18 @@ describe 'concat', :type => :define do
   end # ensure_newline =>
 
   context 'validate_cmd =>' do
-    context '/usr/bin/test -e %' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
-    end
+    if Puppet::Util::Package::versioncmp(Puppet::version, '3.5.0') > 0
+      context '/usr/bin/test -e %' do
+        it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
+      end
 
-    [ 1234, true ].each do |cmd|
-      context cmd do
-        let(:title) { '/etc/foo.bar' }
-        let(:params) {{ :validate_cmd => cmd }}
-        it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /\$validate_cmd must be a string/)
+      [ 1234, true ].each do |cmd|
+        context cmd do
+          let(:title) { '/etc/foo.bar' }
+          let(:params) {{ :validate_cmd => cmd }}
+          it 'should fail' do
+            expect { catalogue }.to raise_error(Puppet::Error, /\$validate_cmd must be a string/)
+          end
         end
       end
     end
