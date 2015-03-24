@@ -103,14 +103,18 @@ define concat(
     true: {
       $warn_message = $default_warn_message
     }
+    # lint:ignore:quoted_booleans
     'true', 'yes', 'on': {
+    # lint:endignore
       warning($bool_warn_message)
       $warn_message = $default_warn_message
     }
     false: {
       $warn_message = ''
     }
+    # lint:ignore:quoted_booleans
     'false', 'no', 'off': {
+    # lint:endignore
       warning($bool_warn_message)
       $warn_message = ''
     }
@@ -177,15 +181,15 @@ define concat(
     }
 
     file { $name:
-      ensure       => present,
-      owner        => $owner,
-      group        => $group,
-      mode         => $mode,
-      replace      => $replace,
-      path         => $path,
-      alias        => "concat_${name}",
-      source       => "${fragdir}/${concat_name}",
-      backup       => $backup,
+      ensure  => present,
+      owner   => $owner,
+      group   => $group,
+      mode    => $mode,
+      replace => $replace,
+      path    => $path,
+      alias   => "concat_${name}",
+      source  => "${fragdir}/${concat_name}",
+      backup  => $backup,
     }
 
     # Only newer versions of puppet 3.x support the validate_cmd parameter
@@ -243,7 +247,9 @@ define concat(
 
     $absent_exec_command = $::kernel ? {
       'windows' => 'cmd.exe /c exit 0',
+    # lint:ignore:quoted_booleans
       default   => 'true',
+    # lint:endignore
     }
 
     $absent_exec_path = $::kernel ? {
