@@ -145,7 +145,7 @@ describe 'concat::fragment source' do
     EOS
 
     it 'applies the manifest with resource failures' do
-      apply_manifest(pp, :expect_failures => true)
+      expect(apply_manifest(pp, :catch_failures => true).stderr).to match(/Failed to generate additional resources using 'eval_generate'/)
     end
     describe file("#{basedir}/fail_no_source") do
       #FIXME: Serverspec::Type::File doesn't support exists? for some reason. so... hack.
