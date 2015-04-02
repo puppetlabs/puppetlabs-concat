@@ -6,10 +6,15 @@
 #   is where the fragments live and is set on the fact concat_basedir.
 #   Since puppet should always manage files in $concatdir and they should
 #   not be deleted ever, /tmp is not an option.
+# [*backup*]
+#   Controls the filebucketing behavior of concatfragments.{sh,rb}.
+#   Defaults to 'puppet'
 #
 # It also copies out the concatfragments.{sh,rb} file to ${concatdir}/bin
 #
-class concat::setup {
+class concat::setup (
+  $backup = 'puppet',
+) {
   if $caller_module_name != $module_name {
     warning("${name} is deprecated as a public API of the ${module_name} module and should no longer be directly included in the manifest.")
   }
@@ -18,6 +23,10 @@ class concat::setup {
     $concatdir = $::concat_basedir
   } else {
     fail ('$concat_basedir not defined. Try running again with pluginsync=true on the [master] and/or [main] section of your node\'s \'/etc/puppet/puppet.conf\'.')
+  }
+
+  if ! concat_is_bool($backup) and ! is_string($backup) {
+    fail('$backup must be string or bool!')
   }
 
   # owner,group and mode of fragment files (on windows owner and access rights should
@@ -56,6 +65,7 @@ class concat::setup {
     group  => $script_group,
     mode   => $script_mode,
     source => "puppet:///modules/concat/${script_name}",
+    backup => $backup,
   }
 
   file { [ $concatdir, "${concatdir}/bin" ]:

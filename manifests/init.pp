@@ -89,7 +89,7 @@ define concat(
     warning('The $gnu parameter to concat is deprecated and has no effect')
   }
 
-  include concat::setup
+  ensure_resource('class', 'concat::setup', { backup => $backup })
 
   $safe_name            = regsubst($name, '[/:]', '_', 'G')
   $concatdir            = $concat::setup::concatdir
