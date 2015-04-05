@@ -30,7 +30,7 @@ describe 'concat::setup', :type => :class do
         should contain_file(file).with({
           :ensure => 'directory',
           :mode   => '0755',
-	      :owner  => 'root',
+          :owner  => 'root',
           :group  => 0,
           :backup => false,
         })
