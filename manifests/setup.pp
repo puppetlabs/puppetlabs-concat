@@ -46,10 +46,6 @@ class concat::setup {
     default   => $script_path
   }
 
-  File {
-    backup => false,
-  }
-
   file { $script_path:
     ensure => file,
     owner  => $script_owner,
