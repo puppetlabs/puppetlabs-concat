@@ -141,7 +141,7 @@ define concat(
   }
 
   File {
-    backup  => false,
+    backup  => $backup,
   }
 
   # reset poisoned Exec defaults
