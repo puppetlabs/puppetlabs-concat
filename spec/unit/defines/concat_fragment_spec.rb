@@ -51,7 +51,7 @@ describe 'concat::fragment', :type => :define do
         :source  => p[:source],
         :content => p[:content],
         :alias   => "concat_fragment_#{title}",
-        :backup  => false,
+        :backup  => 'puppet',
       })
     end
   end
