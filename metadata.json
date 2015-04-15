@@ -112,6 +112,6 @@
     {
       "name": "electrical/file_concat",
       "version_requirement": ">= 1.0.0"
-    },
-  ],
+    }
+  ]
 }
