@@ -90,7 +90,7 @@ define concat(
     file_concat { $name:
       tag          => $safe_name,
       path         => $path,
-      owner        => $user,
+      owner        => $owner,
       group        => $group,
       mode         => $mode,
       replace      => $replace,
