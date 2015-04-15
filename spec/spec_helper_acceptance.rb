@@ -16,21 +16,29 @@ unless ENV['RS_PROVISION'] == 'no' or ENV['BEAKER_provision'] == 'no'
   hosts.each do |host|
     on hosts, "mkdir -p #{host['distmoduledir']}"
     if host['platform'] =~ /sles-1/i || host['platform'] =~ /solaris-1/i
-      get_stdlib = <<-EOS
+      get_deps = <<-EOS
       package{'wget':}
-      exec{'download':
+      exec{'download-stdlib':
         command => "wget -P /root/ https://forgeapi.puppetlabs.com/v3/files/puppetlabs-stdlib-4.5.1.tar.gz --no-check-certificate",
         path    => ['/opt/csw/bin/','/usr/bin/']
       }
+      exec{'download-file_concat':
+        command => "wget -P /root/ https://forgeapi.puppetlabs.com/v3/files/electrical-file_concat-1.0.0.tar.gz --no-check-certificate",
+        path    => ['/opt/csw/bin/','/usr/bin/']
+      }
       EOS
-      apply_manifest_on(host, get_stdlib)
+      apply_manifest_on(host, get_deps)
       # have to use force otherwise it checks ssl cert even though it is a local file
       on host, puppet('module install /root/puppetlabs-stdlib-4.5.1.tar.gz --force --ignore-dependencies'), {:acceptable_exit_codes => [0, 1]}
+      on host, puppet('module install /root/electrical-file_concat-1.0.0.tar.gz --force --ignore-dependencies'), {:acceptable_exit_codes => [0, 1]}
     elsif host['platform'] =~ /windows/i
       on host, shell('curl -k -o c:/puppetlabs-stdlib-4.5.1.tar.gz https://forgeapi.puppetlabs.com/v3/files/puppetlabs-stdlib-4.5.1.tar.gz')
       on host, puppet('module install c:/puppetlabs-stdlib-4.5.1.tar.gz --force --ignore-dependencies'), {:acceptable_exit_codes => [0, 1]}
+      on host, shell('curl -k -o c:/electrical-file_concat-1.0.0.tar.gz https://forgeapi.puppetlabs.com/v3/files/electrical-file_concat-1.0.0.tar.gz')
+      on host, puppet('module install c:/electrical-file_concat-1.0.0.tar.gz --force --ignore-dependencies'), {:acceptable_exit_codes => [0, 1]}
     else
       on host, puppet('module install puppetlabs-stdlib'), {:acceptable_exit_codes => [0, 1]}
+      on host, puppet('module install electrical-file_concat'), {:acceptable_exit_codes => [0, 1]}
     end
   end
 end
