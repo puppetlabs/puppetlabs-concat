@@ -1,11 +1,11 @@
 require 'spec_helper_acceptance'
 
-describe 'concat warn_header =>' do
+describe 'concat warn =>' do
   basedir = default.tmpdir('concat')
   context 'true should enable default warning message' do
     pp = <<-EOS
       concat { '#{basedir}/file':
-        warn_header  => true,
+        warn  => true,
       }
 
       concat::fragment { '1':
@@ -38,7 +38,7 @@ describe 'concat warn_header =>' do
   context 'false should not enable default warning message' do
     pp = <<-EOS
       concat { '#{basedir}/file':
-        warn_header  => false,
+        warn  => false,
       }
 
       concat::fragment { '1':
@@ -71,7 +71,7 @@ describe 'concat warn_header =>' do
   context '# foo should overide default warning message' do
     pp = <<-EOS
       concat { '#{basedir}/file':
-        warn_header  => "# foo\n",
+        warn  => "# foo\n",
       }
 
       concat::fragment { '1':

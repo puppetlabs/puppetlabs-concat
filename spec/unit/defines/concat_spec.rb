@@ -13,8 +13,7 @@ describe 'concat', :type => :define do
       :owner          => nil,
       :group          => nil,
       :mode           => '0644',
-      :warn_header    => false,
-      #:force          => false,
+      :warn           => false,
       :backup         => 'puppet',
       :replace        => true,
     }.merge(params)
@@ -168,17 +167,17 @@ describe 'concat', :type => :define do
     end
   end # mode =>
 
-  context 'warn_header =>' do
+  context 'warn =>' do
     [true, false, '# foo'].each do |warn|
       context warn do
-        it_behaves_like 'concat', '/etc/foo.bar', { :warn_header => warn }
+        it_behaves_like 'concat', '/etc/foo.bar', { :warn => warn }
       end
     end
 
     context '(stringified boolean)' do
       ['true', 'yes', 'on', 'false', 'no', 'off'].each do |warn|
         context warn do
-          it_behaves_like 'concat', '/etc/foo.bar', { :warn_header => warn }
+          it_behaves_like 'concat', '/etc/foo.bar', { :warn => warn }
 
           it 'should create a warning' do
             skip('rspec-puppet support for testing warning()')
@@ -189,28 +188,12 @@ describe 'concat', :type => :define do
 
     context '123' do
       let(:title) { '/etc/foo.bar' }
-      let(:params) {{ :warn_header => 123 }}
+      let(:params) {{ :warn => 123 }}
       it 'should fail' do
         expect { catalogue }.to raise_error(Puppet::Error, /is not a string or boolean/)
       end
     end
   end # warn =>
-
-  #context 'force =>' do
-  #  [true, false].each do |force|
-  #    context force do
-  #      it_behaves_like 'concat', '/etc/foo.bar', { :force => force }
-  #    end
-  #  end
-
-  #  context '123' do
-  #    let(:title) { '/etc/foo.bar' }
-  #    let(:params) {{ :force => 123 }}
-  #    it 'should fail' do
-  #      expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
-  #    end
-  #  end
-  #end # force =>
 
   context 'backup =>' do
     context 'reverse' do
@@ -250,19 +233,19 @@ describe 'concat', :type => :define do
     end
   end # replace =>
 
-  #context 'order =>' do
-  #  ['alpha', 'numeric'].each do |order|
-  #    context order do
-  #      it_behaves_like 'concat', '/etc/foo.bar', { :order => order }
-  #    end
-  #  end
+  context 'order =>' do
+    ['alpha', 'numeric'].each do |order|
+      context order do
+        it_behaves_like 'concat', '/etc/foo.bar', { :order => order }
+      end
+    end
 
-  #  context 'invalid' do
-  #    let(:title) { '/etc/foo.bar' }
-  #    let(:params) {{ :order => 'invalid' }}
-  #    it 'should fail' do
-  #      expect { catalogue }.to raise_error(Puppet::Error, /#{Regexp.escape('does not match "^alpha$|^numeric$"')}/)
-  #    end
-  #  end
-  #end # order =>
+    context 'invalid' do
+      let(:title) { '/etc/foo.bar' }
+      let(:params) {{ :order => 'invalid' }}
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /#{Regexp.escape('does not match "^alpha$|^numeric$"')}/)
+      end
+    end
+  end # order =>
 end
