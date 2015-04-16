@@ -16,11 +16,17 @@
 #
 define concat::fragment(
     $target,
+    $ensure  = undef,
     $content = undef,
     $source  = undef,
     $order   = '10',
 ) {
   validate_string($target)
+
+  if $ensure != undef {
+    warning('The $ensure parameter to concat::fragment is deprecated and has no effect.')
+  }
+
   validate_string($content)
   if !(is_string($source) or is_array($source)) {
     fail('$source is not a string or an Array.')

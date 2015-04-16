@@ -46,7 +46,8 @@ define concat(
   $owner          = undef,
   $group          = undef,
   $mode           = '0644',
-  $warn_header    = false,
+  $warn           = false,
+  $force          = undef,
   $backup         = 'puppet',
   $replace        = true,
   $order          = 'alpha',
@@ -57,8 +58,8 @@ define concat(
   validate_string($owner)
   validate_string($group)
   validate_string($mode)
-  if ! (is_string($warn_header) or $warn_header == true or $warn_header == false) {
-    fail('$warn_header is not a string or boolean')
+  if ! (is_string($warn) or $warn == true or $warn == false) {
+    fail('$warn is not a string or boolean')
   }
   if ! is_bool($backup) and ! is_string($backup) {
     fail('$backup must be string or bool!')
@@ -69,10 +70,14 @@ define concat(
     fail('$validate_cmd must be a string')
   }
 
+  if $force != undef {
+    warning('The $force parameter to concat is deprecated and has no effect.')
+  }
+
   $safe_name            = regsubst($name, '[/:\n\s]', '_', 'G')
   $default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
 
-  case $warn_header {
+  case $warn {
     true: {
       $warn_message = $default_warn_message
       $append_header = true
@@ -81,7 +86,7 @@ define concat(
       $warn_message = ''
     }
     default: {
-      $warn_message = $warn_header
+      $warn_message = $warn
       $append_header = true
     }
   }
