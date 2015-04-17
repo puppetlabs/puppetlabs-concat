@@ -35,7 +35,7 @@ unless ENV['RS_PROVISION'] == 'no' or ENV['BEAKER_provision'] == 'no'
       on host, shell('curl -k -o c:/puppetlabs-stdlib-4.5.1.tar.gz https://forgeapi.puppetlabs.com/v3/files/puppetlabs-stdlib-4.5.1.tar.gz')
       on host, puppet('module install c:/puppetlabs-stdlib-4.5.1.tar.gz --force --ignore-dependencies'), {:acceptable_exit_codes => [0, 1]}
       on host, shell('curl -k -o c:/electrical-file_concat-1.0.1.tar.gz https://forgeapi.puppetlabs.com/v3/files/electrical-file_concat-1.0.1.tar.gz')
-      on host, puppet('module install c:/electrical-file_concat-1.0.0.tar.gz --force --ignore-dependencies'), {:acceptable_exit_codes => [0, 1]}
+      on host, puppet('module install c:/electrical-file_concat-1.0.1.tar.gz --force --ignore-dependencies'), {:acceptable_exit_codes => [0, 1]}
     else
       on host, puppet('module install puppetlabs-stdlib'), {:acceptable_exit_codes => [0, 1]}
       on host, puppet('module install electrical-file_concat'), {:acceptable_exit_codes => [0, 1]}
