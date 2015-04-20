@@ -80,14 +80,15 @@ define concat(
   case $warn {
     true: {
       $warn_message = $default_warn_message
-      $append_header = true
+      $_append_header = true
     }
     false: {
       $warn_message = ''
+      $_append_header = false
     }
     default: {
       $warn_message = $warn
-      $append_header = true
+      $_append_header = true
     }
   }
 
@@ -104,7 +105,7 @@ define concat(
       validate_cmd => $validate_cmd,
     }
 
-    if $append_header {
+    if $_append_header {
       file_fragment { "#{$name}_header":
         tag     => $safe_name,
         content => $warn_message,
