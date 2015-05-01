@@ -16,7 +16,7 @@
 #   Who will own the file
 # [*mode*]
 #   The mode of the final file
-# [*warn_header*]
+# [*warn*]
 #   Adds a normal shell style comment top of the file indicating that it is
 #   built by puppet
 # [*backup*]
@@ -27,6 +27,13 @@
 # [*order*]
 #   Select whether to order associated fragments by 'alpha' or 'numeric'.
 #   Defaults to 'alpha'.
+# [*ensure_newline*]
+#   Specifies whether to ensure there's a new line at the end of each fragment.
+#   Valid options: 'true' and 'false'. Default value: 'false'.
+# [*validate_cmd*]
+#   Specifies a validation command to apply to the destination file.
+#   Requires Puppet version 3.5 or newer. Valid options: a string to be passed
+#   to a file resource. Default value: undefined.
 #
 
 define concat(
@@ -40,6 +47,7 @@ define concat(
   $backup         = 'puppet',
   $replace        = true,
   $order          = 'alpha',
+  $ensure_newline = false,
   $validate_cmd   = undef,
 ) {
   validate_re($ensure, '^present$|^absent$')
@@ -55,6 +63,8 @@ define concat(
   }
   validate_bool($replace)
   validate_re($order, '^alpha$|^numeric$')
+  validate_bool($ensure_newline)
+
   if $validate_cmd and ! is_string($validate_cmd) {
     fail('$validate_cmd must be a string')
   }
@@ -83,15 +93,16 @@ define concat(
 
   if $ensure == 'present' {
     concat_file { $name:
-      tag          => $safe_name,
-      path         => $path,
-      owner        => $owner,
-      group        => $group,
-      mode         => $mode,
-      replace      => $replace,
-      backup       => $backup,
-      order        => $order,
-      validate_cmd => $validate_cmd,
+      tag            => $safe_name,
+      path           => $path,
+      owner          => $owner,
+      group          => $group,
+      mode           => $mode,
+      replace        => $replace,
+      backup         => $backup,
+      order          => $order,
+      ensure_newline => $ensure_newline,
+      validate_cmd   => $validate_cmd,
     }
 
     if $_append_header {
