@@ -142,7 +142,7 @@ Puppet::Type.newtype(:concat_file) do
     end
 
     if self[:ensure_newline]
-      fragment_content<<"\n"
+      fragment_content<<"\n" unless fragment_content =~ /\n$/
     end
 
     fragment_content
