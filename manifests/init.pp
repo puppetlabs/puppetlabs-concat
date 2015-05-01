@@ -28,17 +28,6 @@
 #   Select whether to order associated fragments by 'alpha' or 'numeric'.
 #   Defaults to 'alpha'.
 #
-# === Actions:
-# * Creates a file_concat resource from the electrical/puppet-lib-file_concat library.
-# * Creates file_fragment resources from electrical/puppet-lib-file_concat
-#
-# === Aliases:
-#
-# * The exec can notified using Exec["concat_/path/to/file"] or
-#   Exec["concat_/path/to/directory"]
-# * The final file can be referenced as File["/path/to/file"] or
-#   File["concat_/path/to/file"]
-#
 
 define concat(
   $ensure         = 'present',
@@ -93,7 +82,7 @@ define concat(
   }
 
   if $ensure == 'present' {
-    file_concat { $name:
+    concat_file { $name:
       tag          => $safe_name,
       path         => $path,
       owner        => $owner,
@@ -106,14 +95,14 @@ define concat(
     }
 
     if $_append_header {
-      file_fragment { "#{$name}_header":
+      concat_fragment { "#{$name}_header":
         tag     => $safe_name,
         content => $warn_message,
         order   => '0',
       }
     }
   } else {
-    file_concat { $name:
+    concat_file { $name:
       ensure => $ensure,
       tag    => $safe_name,
       path   => $path,

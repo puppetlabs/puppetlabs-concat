@@ -106,6 +106,5 @@
   ],
   "dependencies": [
     {"name":"puppetlabs/stdlib","version_requirement":">= 4.5.0 < 5.0.0"},
-    {"name":"electrical/file_concat","version_requirement":"1.0.1"}
   ]
 }

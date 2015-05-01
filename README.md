@@ -23,12 +23,6 @@ The concat module lets you construct files from multiple ordered fragments of te
 
 The concat module lets you gather `concat::fragment` resources from your other modules and order them into a coherent file through a single `concat` resource.
 
-##Setup
-
-###What concat affects
-
-The concat module requires the [file_concat module](https://forge.puppetlabs.com/electrical/file_concat). If you don't have file_concat installed, concat installs it for you.
-
 ###Beginning with concat
 
 To start using concat you need to create:
@@ -240,4 +234,8 @@ For more information, see our [module contribution guide.](https://docs.puppetla
 
 ###Contributors
 
-To see who's already involved, see the [list of contributors.](https://github.com/puppetlabs/puppetlabs-concat/graphs/contributors)
+Richard Pijnenburg ([@Richardp82](http://twitter.com/richardp82))
+
+Joshua Hoblitt ([@jhoblitt](http://twitter.com/jhoblitt))
+
+[More contributors.](https://github.com/puppetlabs/puppetlabs-concat/graphs/contributors)

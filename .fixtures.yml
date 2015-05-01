@@ -3,8 +3,5 @@ fixtures:
     'stdlib':
       repo: 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
       ref: '4.5.1'
-    'file_concat':
-      repo: 'git://github.com/electrical/puppet-lib-file_concat.git'
-      ref: '1.0.1'
   symlinks:
     'concat': '#{source_dir}'
