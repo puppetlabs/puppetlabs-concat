@@ -1,6 +1,6 @@
 # == Define: concat::fragment
 #
-# Creates a file_fragment in the catalogue
+# Creates a concat_fragment in the catalogue
 #
 # === Options:
 #
@@ -46,7 +46,7 @@ define concat::fragment(
 
   $safe_target_name = regsubst($target, '[/:\n\s]', '_', 'GM')
 
-  file_fragment { $name:
+  concat_fragment { $name:
     tag     => $safe_target_name,
     order   => $order,
     content => $content,
