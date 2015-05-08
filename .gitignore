@@ -7,4 +7,3 @@ spec/fixtures/
 coverage/
 .idea/
 *.iml
-*.swp
