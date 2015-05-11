@@ -1,3 +1,11 @@
+##2015-05-12 - Supported Release 1.2.2
+###Summary
+
+This release includes a bugfix.
+
+####Bugfixes
+- Fixes a bug introduced by MODULES-1700, in handling default retrieval of fragment backup parameter.
+
 ##2015-04-14 - Supported Release 1.2.1
 ###Summary
 
