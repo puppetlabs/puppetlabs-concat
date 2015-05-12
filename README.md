@@ -120,9 +120,13 @@ When you're finished, the motd file will look something like this:
 * `concat`: Manages a file, compiled from one or more text fragments.
 * `concat::fragment`: Manages a fragment of text to be compiled into a file.
 
+###Types
+* `concat_file`: Generates a file with content from fragments sharing a common unique tag.
+* `concat_fragment`: Manages the fragment.
+
 ###Parameters
 
-####`concat`
+####Define: `concat`
 
 All the parameters listed below are optional.
 
@@ -133,6 +137,10 @@ Specifies whether (and how) to back up the destination file before overwriting i
 #####`ensure`
 
 Specifies whether the destination file should exist. Setting to 'absent' tells Puppet to delete the destination file if it exists, and negates the effect of any other parameters. Valid options: 'present' and 'absent'. Default value: 'present'.
+
+#####`ensure_newline`
+
+Specifies whether to add a line break at the end of each fragment that doesn't already end in one. Valid options: 'true' and 'false'. Default value: 'false'.
 
 #####`force`
 
@@ -178,7 +186,7 @@ If you set 'warn' to 'true', `concat` adds the following message:
 # This file is managed by Puppet. DO NOT EDIT.
 ~~~
 
-####`concat::fragment`
+####Define: `concat::fragment`
 
 Except where noted, all the below parameters are optional.
 
@@ -202,12 +210,80 @@ Specifies a file to read into the content of the fragment. **Note**: You must su
 
 *Required.* Specifies the destination file of the fragment. Valid options: a string containing an absolute path.
 
+
+####Type: `concat_file`
+
+#####`backup`
+
+Specifies whether (and how) to back up the destination file before overwriting it. Your value gets passed on to Puppet's [native `file` resource](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-backup) for execution. Valid options: 'true', 'false', or a string representing either a target filebucket or a filename extension beginning with ".". Default value: 'puppet'.
+
+#####`ensure`
+
+Specifies whether the destination file should exist. Setting to 'absent' tells Puppet to delete the destination file if it exists, and negates the effect of any other parameters. Valid options: 'present' and 'absent'. Default value: 'present'.
+
+#####`ensure_newline`
+
+Specifies whether to add a line break at the end of each fragment that doesn't already end in one. Valid options: 'true' and 'false'. Default value: 'false'.
+
+#####`group`
+
+Specifies a permissions group for the destination file. Valid options: a string containing a group name. Default value: undefined.
+
+#####`mode`
+
+Specifies the permissions mode of the destination file. Valid options: a string containing a permission mode value in octal notation. Default value: '0644'.
+
+#####`order`
+
+Specifies a method for sorting your fragments by name within the destination file. Valid options: 'alpha' (e.g., '1, 10, 2') or 'numeric' (e.g., '1, 2, 10'). Default value: 'numeric'.
+
+You can override this setting for individual fragments by adjusting the `order` parameter in their `concat::fragment` declarations.
+
+#####`owner`
+
+Specifies the owner of the destination file. Valid options: a string containing a username. Default value: undefined.
+
+#####`path`
+
+Specifies a destination file for the combined fragments. Valid options: a string containing an absolute path. Default value: the title of your declared resource.
+
+#####`replace`
+
+Specifies whether to overwrite the destination file if it already exists. Valid options: 'true' and 'false'. Default value: 'true'.
+
+####`tag`
+
+*Required.* Specifies a unique tag reference to collect all concat_fragments with the same tag.
+
+#####`validate_cmd`
+
+Specifies a validation command to apply to the destination file. Requires Puppet version 3.5 or newer. Valid options: a string to be passed to a file resource. Default value: undefined.
+
+####Type: `concat_fragment`
+
+#####`content`
+
+Supplies the content of the fragment. **Note**: You must supply either a `content` parameter or a `source` parameter. Valid options: a string. Default value: undef.
+
+#####`order`
+
+Reorders your fragments within the destination file. Fragments that share the same order number are ordered by name. Valid options: a string (recommended) or an integer. Default value: '10'.
+
+#####`source`
+
+Specifies a file to read into the content of the fragment. **Note**: You must supply either a `content` parameter or a `source` parameter. Valid options: a string or an array, containing one or more Puppet URLs. Default value: undefined.
+
+#####`tag`
+
+*Required.* Specifies a unique tag to be used by concat_file to reference and collect content.
+
+#####`target`
+
+*Required.* Specifies the destination file of the fragment. Valid options: a string containing an absolute path.
+
 ###Removed functionality
 
-The following functionality existed in previous versions of the concat module, but were removed in version 2.0.0:
-
-Parameters removed from `concat`:
-* `ensure_newline`
+The following functionality existed in previous versions of the concat module, but was removed in version 2.0.0:
 
 Parameters removed from `concat::fragment`:
 * `gnu`
