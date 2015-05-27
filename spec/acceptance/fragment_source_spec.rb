@@ -149,7 +149,6 @@ describe 'concat::fragment source' do
     end
     describe file("#{basedir}/fail_no_source") do
       #FIXME: Serverspec::Type::File doesn't support exists? for some reason. so... hack.
-      it { should_not be_file }
       it { should_not be_directory }
     end
   end
