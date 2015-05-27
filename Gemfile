@@ -12,12 +12,10 @@ end
 
 group :development, :unit_tests do
   gem 'rspec-core', '3.1.7',     :require => false
-  gem 'rspec-puppet', '~> 2.0',  :require => false
   gem 'puppetlabs_spec_helper',  :require => false
   gem 'simplecov',               :require => false
   gem 'puppet_facts',            :require => false
   gem 'json',                    :require => false
-  gem 'pry'
 end
 
 group :system_tests do
