@@ -17,6 +17,10 @@ Puppet::Type.newtype(:concat_fragment) do
     desc "Unique name"
   end
 
+  newparam(:target) do
+    desc "Target"
+  end
+
   newparam(:content) do
     desc "Content"
   end
@@ -38,7 +42,19 @@ Puppet::Type.newtype(:concat_fragment) do
     desc "Tag name to be used by concat to collect all concat_fragments by tag name"
   end
 
+  autorequire(:file) do
+    unless catalog.resource("Concat_file[#{self[:target]}]")
+      warning "Target Concat_file[#{self[:target]}] not found in the catalog"
+    end
+  end
+
   validate do
+    # Check if target is set
+    fail Puppet::ParseError, "Target not set" if self[:target].nil?
+
+    # Check if tag is set
+    fail Puppet::ParseError, "Tag not set" if self[:tag].nil?
+
     # Check if either source or content is set. raise error if none is set
     fail Puppet::ParseError, "Set either 'source' or 'content'" if self[:source].nil? && self[:content].nil?
 
