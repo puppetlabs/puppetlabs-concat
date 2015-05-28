@@ -107,6 +107,7 @@ define concat(
 
     if $_append_header {
       concat_fragment { "${name}_header":
+        target  => $name,
         tag     => $safe_name,
         content => $warn_message,
         order   => '0',
