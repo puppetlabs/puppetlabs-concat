@@ -183,8 +183,12 @@ Specifies whether to add a header message at the top of the destination file. Va
 If you set 'warn' to 'true', `concat` adds the following message:
 
 ~~~
-# This file is managed by Puppet. DO NOT EDIT.
+# This file is managed by Puppet. DO NOT EDIT.\n
 ~~~
+
+Before 2.0.0, this parameter would add a newline at the end of the warn
+message. To improve flexibilty, this was removed. Please add it explicitely if
+you need it.
 
 ####Define: `concat::fragment`
 
