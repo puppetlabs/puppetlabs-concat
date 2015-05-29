@@ -163,7 +163,11 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   def eval_generate
-    catalog.resource("File[#{self[:path]}]")[:content] = should_content
+    content = should_content
+
+    if !content.nil? and !content.empty?
+      catalog.resource("File[#{self[:path]}]")[:content] = content
+    end
     []
   end
 end
