@@ -180,10 +180,10 @@ Specifies a validation command to apply to the destination file. Requires Puppet
 
 Specifies whether to add a header message at the top of the destination file. Valid options: the booleans 'true' and 'false', or a string to serve as the header. Default value: 'false'.
 
-If you set 'warn' to 'true', `concat` adds the following message:
+If you set 'warn' to 'true', `concat` adds the following line with an `order` of `0`:
 
 ~~~
-# This file is managed by Puppet. DO NOT EDIT.\n
+# This file is managed by Puppet. DO NOT EDIT.
 ~~~
 
 Before 2.0.0, this parameter would add a newline at the end of the warn
