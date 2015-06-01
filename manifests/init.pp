@@ -243,10 +243,12 @@ define concat(
       backup => $backup,
     }
 
+    # lint:ignore:quoted_booleans
     $absent_exec_command = $::kernel ? {
       'windows' => 'cmd.exe /c exit 0',
-      default   => true,
+      default   => 'true',
     }
+    # lint:endignore
 
     $absent_exec_path = $::kernel ? {
       'windows' => $::path,
