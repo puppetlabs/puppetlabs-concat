@@ -1,3 +1,12 @@
+##2015-06-02 - Supported Release 1.2.3
+###Summary
+
+This release includes a README fix to document correct behavior of fragment target parameter.
+
+####Bugfixes
+
+- README Fix to correctly document how a fragment $target param should work.
+
 ##2015-05-12 - Supported Release 1.2.2
 ###Summary
 
