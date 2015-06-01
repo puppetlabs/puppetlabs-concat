@@ -1,4 +1,15 @@
 =======
+##2015-06-02 - Supported Release 2.0.1
+###Summary
+
+This is a bugfix release. 
+
+####Bugfixes
+- Fixes dependency graphing with concurrent modification of the same file.
+- Fixes handling fragment target.
+- Fixes the defaulted force behavior to handle empty concats correctly.
+
+=======
 ##2015-05-12 - Supported Release 2.0.0
 ###Summary
 
