@@ -99,6 +99,7 @@ define concat(
   $default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
   $bool_warn_message    = 'Using stringified boolean values (\'true\', \'yes\', \'on\', \'false\', \'no\', \'off\') to represent boolean true/false as the $warn parameter to concat is deprecated and will be treated as the warning message in a future release'
 
+  # lint:ignore:quoted_booleans
   case $warn {
     true: {
       $warn_message = $default_warn_message
@@ -118,6 +119,7 @@ define concat(
       $warn_message = $warn
     }
   }
+  # lint:endignore
 
   $warnmsg_escaped = regsubst($warn_message, '\'', '\'\\\'\'', 'G')
   $warnflag = $warnmsg_escaped ? {
@@ -177,15 +179,15 @@ define concat(
     }
 
     file { $name:
-      ensure       => present,
-      owner        => $owner,
-      group        => $group,
-      mode         => $mode,
-      replace      => $replace,
-      path         => $path,
-      alias        => "concat_${name}",
-      source       => "${fragdir}/${concat_name}",
-      backup       => $backup,
+      ensure  => present,
+      owner   => $owner,
+      group   => $group,
+      mode    => $mode,
+      replace => $replace,
+      path    => $path,
+      alias   => "concat_${name}",
+      source  => "${fragdir}/${concat_name}",
+      backup  => $backup,
     }
 
     # Only newer versions of puppet 3.x support the validate_cmd parameter
@@ -243,7 +245,7 @@ define concat(
 
     $absent_exec_command = $::kernel ? {
       'windows' => 'cmd.exe /c exit 0',
-      default   => 'true',
+      default   => true,
     }
 
     $absent_exec_path = $::kernel ? {
