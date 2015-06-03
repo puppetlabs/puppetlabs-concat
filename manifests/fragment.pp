@@ -47,6 +47,7 @@ define concat::fragment(
   $safe_target_name = regsubst($target, '[/:\n\s]', '_', 'GM')
 
   concat_fragment { $name:
+    target  => $target,
     tag     => $safe_target_name,
     order   => $order,
     content => $content,

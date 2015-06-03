@@ -1,4 +1,15 @@
 =======
+##2015-06-02 - Supported Release 2.0.1
+###Summary
+
+This is a bugfix release. 
+
+####Bugfixes
+- Fixes dependency graphing with concurrent modification of the same file.
+- Fixes handling fragment target.
+- Fixes the defaulted force behavior to handle empty concats correctly.
+
+=======
 ##2015-05-12 - Supported Release 2.0.0
 ###Summary
 
@@ -10,6 +21,15 @@ This is a major release. Includes re-implementation of concat to use native Type
 ####Bugfixes
 - Fixes a bug in alpha ordering of fragments.
 
+=======
+##2015-06-02 - Supported Release 1.2.3
+###Summary
+
+This release includes a README fix to document correct behavior of fragment target parameter.
+
+####Bugfixes
+
+- README Fix to correctly document how a fragment $target param should work.
 
 ##2015-05-12 - Supported Release 1.2.2
 ###Summary
