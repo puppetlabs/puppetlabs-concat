@@ -149,5 +149,37 @@ describe 'basic concat test' do
         it { should_not be_file }
       end
     end
+    context 'works when set to present with path that has special characters' do
+      before(:all) do
+        pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        EOS
+        apply_manifest(pp)
+      end
+      pp="
+        concat { 'file(a:b)':
+          ensure => present,
+          path   => '#{basedir}/file(a:b)',
+          mode   => '0644',
+        }
+        concat::fragment { '1':
+          target  => 'file(a:b)',
+          content => '1',
+          order   => '01',
+        }
+      "
+
+      it_behaves_like 'successfully_applied', pp
+
+      describe file("#{basedir}/file(a:b)") do
+        it { should be_file }
+        it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
+          should be_mode 644
+        }
+        its(:content) { should match '1' }
+      end
+    end
   end
 end
