@@ -76,7 +76,7 @@ define concat(
     warning('The $force parameter to concat is deprecated and has no effect.')
   }
 
-  $safe_name            = regsubst($name, '[/:\n\s]', '_', 'G')
+  $safe_name            = regsubst($name, '[/:\n\s\(\)]', '_', 'G')
   $default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
 
   case $warn {
