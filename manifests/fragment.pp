@@ -44,7 +44,7 @@ define concat::fragment(
     fail("Can't use 'source' and 'content' at the same time")
   }
 
-  $safe_target_name = regsubst($target, '[/:\n\s]', '_', 'GM')
+  $safe_target_name = regsubst($target, '[/:\n\s\(\)]', '_', 'GM')
 
   concat_fragment { $name:
     target  => $target,
