@@ -89,20 +89,9 @@ Puppet::Type.newtype(:concat_file) do
     end.compact
   end
 
-  # Copied from puppet's file type
-  # Autorequire the nearest ancestor directory found in the catalog.
+  # Autorequire the file we are generating below
   autorequire(:file) do
-    req = []
-    path = Pathname.new(self[:path])
-    if !path.root?
-      # Start at our parent, to avoid autorequiring ourself
-      parents = path.parent.enum_for(:ascend)
-      if found = parents.find { |p| catalog.resource(:file, p.to_s) }
-        req << found.to_s
-      end
-    end
-
-    req
+    [self[:path]]
   end
 
   def should_content
