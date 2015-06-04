@@ -18,7 +18,10 @@
 #   The mode of the final file
 # [*warn*]
 #   Adds a normal shell style comment top of the file indicating that it is
-#   built by puppet
+#   built by puppet.
+#   Before 2.0.0, this parameter would add a newline at the end of the warn
+#   message. To improve flexibilty, this was removed. Please add it explicitely
+#   if you need it.
 # [*backup*]
 #   Controls the filebucketing behavior of the final file and see File type
 #   reference for its use.  Defaults to 'puppet'
