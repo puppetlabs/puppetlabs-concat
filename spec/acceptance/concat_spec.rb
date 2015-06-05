@@ -150,6 +150,8 @@ describe 'basic concat test' do
       end
     end
     context 'works when set to present with path that has special characters' do
+      filename = fact('osfamily') == 'windows' ? 'file(1)' : 'file(1:2)'
+
       before(:all) do
         pp = <<-EOS
         file { '#{basedir}':
@@ -159,13 +161,13 @@ describe 'basic concat test' do
         apply_manifest(pp)
       end
       pp="
-        concat { 'file(a:b)':
+        concat { '#{filename}':
           ensure => present,
-          path   => '#{basedir}/file(a:b)',
+          path   => '#{basedir}/#{filename}',
           mode   => '0644',
         }
         concat::fragment { '1':
-          target  => 'file(a:b)',
+          target  => '#{filename}',
           content => '1',
           order   => '01',
         }
@@ -173,7 +175,7 @@ describe 'basic concat test' do
 
       it_behaves_like 'successfully_applied', pp
 
-      describe file("#{basedir}/file(a:b)") do
+      describe file("#{basedir}/#{filename}") do
         it { should be_file }
         it("should be mode", :unless => (fact('osfamily') == 'AIX' or fact('osfamily') == 'windows')) {
           should be_mode 644
