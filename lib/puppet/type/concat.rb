@@ -3,14 +3,14 @@ require 'puppet/type/file/group'
 require 'puppet/type/file/mode'
 require 'puppet/util/checksums'
 
-Puppet::Type.newtype(:concat_file) do
+Puppet::Type.newtype(:concat) do
   @doc = "Gets all the file fragments and puts these into the target file.
     This will mostly be used with exported resources.
 
     example:
       Concat_fragment <<| tag == 'unique_tag' |>>
 
-      concat_file { '/tmp/file':
+      concat { '/tmp/file':
         tag            => 'unique_tag', # Mandatory
         path           => '/tmp/file',  # Optional. If given it overrides the resource name
         owner          => 'root',       # Optional. Default to undef
@@ -164,7 +164,16 @@ Puppet::Type.newtype(:concat_file) do
       end
     end
 
-    [Puppet::Type.type(:file).new(file_opts)]
+    file = Puppet::Type.type(:file).new(file_opts)
+    catalog.add_resource(file)
+    catalog.relationship_graph.add_relationship(self,file)
+    deps = catalog.relationship_graph.dependents(self).map(&:builddepends)
+    [deps,self.builddepends].flatten.each do |edge|
+      newedge = edge.dup
+      newedge.source = catalog.resource("File[#{self[:path]}]")
+      catalog.relationship_graph.add_edge(newedge)
+    end
+    []
   end
 
   def eval_generate
