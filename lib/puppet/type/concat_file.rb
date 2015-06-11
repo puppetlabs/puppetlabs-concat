@@ -24,6 +24,45 @@ Puppet::Type.newtype(:concat_file) do
     defaultvalues
 
     defaultto { :present }
+
+    # Workaround for PUP-1963 (https://tickets.puppetlabs.com/browse/PUP-1963)
+    #
+    # Because notify/subscribe relationships are not propogated through to
+    # generated resources, the insync status of the concat_file resource is
+    # configured to be whether or not the generated file resource is insync.
+    # This will result in subscribe relationships working correctly.
+    def insync?(is)
+      # Determine if there are changes pending to the generated file resource
+      generated_file = resource.catalog.resource("File[#{@resource[:path]}]")
+      current_values = generated_file.retrieve_resource.to_hash
+      pending_change = generated_file.properties.any? do |property|
+        current_value = current_values[property.name]
+        property.should && !property.safe_insync?(current_value) ? true : false
+      end
+
+      # If no changes are pending, then the concat resource is in sync
+      !pending_change
+    end
+
+    # The generated file resource will perform the relevant work
+    def sync; end
+
+    # When any resource is synchronized an event is logged. In the case of the
+    # PE-1963 workaround the concat_file event is really just an event proxy
+    # for the associated change that will be made to the generated file
+    # resource, so the event text should be adjusted to reflect that.
+
+    def change_to_s(currentvalue, newvalue)
+      "concat file will be updated"
+    end
+
+    def is_to_s(value)
+      "is incorrect"
+    end
+
+    def should_to_s(value)
+      "updated"
+    end
   end
 
   def exists?
