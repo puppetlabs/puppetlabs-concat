@@ -43,8 +43,8 @@ Puppet::Type.newtype(:concat_fragment) do
   end
 
   autorequire(:file) do
-    unless catalog.resource("Concat_file[#{self[:target]}]")
-      warning "Target Concat_file[#{self[:target]}] not found in the catalog"
+    unless catalog.resource("Concat[#{self[:target]}]")
+      warning "Target Concat[#{self[:target]}] not found in the catalog"
     end
   end
 
