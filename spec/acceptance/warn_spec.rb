@@ -71,7 +71,7 @@ describe 'concat warn =>' do
   context '# foo should overide default warning message' do
     pp = <<-EOS
       concat { '#{basedir}/file':
-        warn  => "# foo\n",
+        warn  => '# foo',
       }
 
       concat::fragment { '1':
