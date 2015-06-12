@@ -1,5 +1,5 @@
 =======
-##2015-06-02 - Supported Release 2.0.1
+##2015-06-02 - Supported Release 2.0.1 [YANKED]
 ###Summary
 
 This is a bugfix release. 
@@ -10,7 +10,7 @@ This is a bugfix release.
 - Fixes the defaulted force behavior to handle empty concats correctly.
 
 =======
-##2015-05-12 - Supported Release 2.0.0
+##2015-05-12 - Supported Release 2.0.0 [YANKED]
 ###Summary
 
 This is a major release. Includes re-implementation of concat to use native Type and Providers, resulting in significantly improved performance and testability. Also includes a bugfix to alpha ordering of fragments.

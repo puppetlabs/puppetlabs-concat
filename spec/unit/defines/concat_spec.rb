@@ -14,13 +14,19 @@ describe 'concat', :type => :define do
       :group          => nil,
       :mode           => '0644',
       :warn           => false,
+      :force          => false,
       :backup         => 'puppet',
       :replace        => true,
+      :order          => 'alpha',
+      :ensure_newline => false,
+      :validate_cmd   => nil,
     }.merge(params)
 
     safe_name            = title.gsub('/', '_')
+    concatdir            = '/var/lib/puppet/concat'
+    fragdir              = "#{concatdir}/#{safe_name}"
     concat_name          = 'fragments.concat.out'
-    default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
+    default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
 
     file_defaults = {
       :backup  => p[:backup],
@@ -30,6 +36,7 @@ describe 'concat', :type => :define do
     let(:params) { params }
     let(:facts) do
       {
+        :concat_basedir => concatdir,
         :id             => id,
         :osfamily       => 'Debian',
         :path           => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
@@ -40,22 +47,116 @@ describe 'concat', :type => :define do
 
     if p[:ensure] == 'present'
       it do
-        should contain_concat(title).with(file_defaults.merge({
+        should contain_file(fragdir).with(file_defaults.merge({
+          :ensure => 'directory',
+          :mode   => '0750',
+        }))
+      end
+
+      it do
+        should contain_file("#{fragdir}/fragments").with(file_defaults.merge({
+          :ensure  => 'directory',
+          :mode    => '0750',
+          :force   => true,
+          :ignore  => ['.svn', '.git', '.gitignore'],
+          :purge   => true,
+          :recurse => true,
+        }))
+      end
+
+      [
+        "#{fragdir}/fragments.concat",
+        "#{fragdir}/#{concat_name}",
+      ].each do |file|
+        it do
+          should contain_file(file).with(file_defaults.merge({
+            :ensure => 'present',
+            :mode   => '0640',
+          }))
+        end
+      end
+
+      it do
+        should contain_file(title).with(file_defaults.merge({
           :ensure       => 'present',
           :owner        => p[:owner],
           :group        => p[:group],
           :mode         => p[:mode],
-          :path         => p[:path],
-          :backup       => p[:backup],
           :replace      => p[:replace],
+          :path         => p[:path],
+          :alias        => "concat_#{title}",
+          :source       => "#{fragdir}/#{concat_name}",
+          :validate_cmd => p[:validate_cmd],
+          :backup       => p[:backup],
         }))
       end
-    else
+
+      cmd = "#{concatdir}/bin/concatfragments.rb " +
+            "-o \"#{concatdir}/#{safe_name}/fragments.concat.out\" " +
+            "-d \"#{concatdir}/#{safe_name}\""
+
+      # flag order: fragdir, warnflag, forceflag, orderflag, newlineflag 
+      if p.has_key?(:warn)
+        case p[:warn]
+        when TrueClass
+          message = default_warn_message
+        when 'true', 'yes', 'on'
+          # should generate a stringified boolean warning
+          message = default_warn_message
+        when FalseClass
+          message = nil
+        when 'false', 'no', 'off'
+          # should generate a stringified boolean warning
+          message = nil
+        else
+          message = p[:warn]
+        end
+
+        unless message.nil?
+          cmd += " -w \'#{message}\'"
+        end
+      end
+
+      cmd += " -f" if p[:force]
+      cmd += " -n" if p[:order] == 'numeric'
+      cmd += " -l" if p[:ensure_newline] == true
+
       it do
-        should contain_concat(title).with(file_defaults.merge({
+        should contain_exec("concat_#{title}").with({
+          :alias   => "concat_#{fragdir}",
+          :command => cmd,
+          :unless  => "#{cmd} -t",
+        })
+      end
+    else
+      [
+        fragdir,
+        "#{fragdir}/fragments",
+        "#{fragdir}/fragments.concat",
+        "#{fragdir}/#{concat_name}",
+      ].each do |file|
+        it do
+          should contain_file(file).with(file_defaults.merge({
+            :ensure => 'absent',
+            :force  => true,
+          }))
+        end
+      end
+
+      it do
+        should contain_file(title).with(file_defaults.merge({
           :ensure => 'absent',
           :backup => p[:backup],
         }))
+      end
+
+      it do
+        should contain_exec("concat_#{title}").with({
+          :alias   => "concat_#{fragdir}",
+          :command => 'true',
+          :unless  => 'true',
+          :path    => '/bin:/usr/bin',
+        })
       end
     end
   end
@@ -81,7 +182,7 @@ describe 'concat', :type => :define do
     end
 
     context 'with path param' do
-      ['/foo', 'foo', 'foo/bar'].each do |title|
+      ['./foo', 'foo', 'foo/bar'].each do |title|
         context title do
           it_behaves_like 'concat', title, { :path => '/etc/foo.bar' }
         end
@@ -195,6 +296,22 @@ describe 'concat', :type => :define do
     end
   end # warn =>
 
+  context 'force =>' do
+    [true, false].each do |force|
+      context force do
+        it_behaves_like 'concat', '/etc/foo.bar', { :force => force }
+      end
+    end
+
+    context '123' do
+      let(:title) { '/etc/foo.bar' }
+      let(:params) {{ :force => 123 }}
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
+      end
+    end
+  end # force =>
+
   context 'backup =>' do
     context 'reverse' do
       it_behaves_like 'concat', '/etc/foo.bar', { :backup => 'reverse' }
@@ -266,18 +383,35 @@ describe 'concat', :type => :define do
   end # ensure_newline =>
 
   context 'validate_cmd =>' do
-    context '/usr/bin/test -e %' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
-    end
+    if Puppet::Util::Package::versioncmp(Puppet::version, '3.5.0') > 0
+      context '/usr/bin/test -e %' do
+        it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
+      end
 
-    [ 1234, true ].each do |cmd|
-      context cmd do
-        let(:title) { '/etc/foo.bar' }
-        let(:params) {{ :validate_cmd => cmd }}
-        it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /\$validate_cmd must be a string/)
+      [ 1234, true ].each do |cmd|
+        context cmd do
+          let(:title) { '/etc/foo.bar' }
+          let(:params) {{ :validate_cmd => cmd }}
+          it 'should fail' do
+            expect { catalogue }.to raise_error(Puppet::Error, /\$validate_cmd must be a string/)
+          end
         end
       end
     end
   end # validate_cmd =>
+
+  describe 'deprecated parameter' do
+    context 'gnu =>' do
+      context 'foo' do
+        it_behaves_like 'concat', '/etc/foo.bar', { :gnu => 'foo'}
+
+        it 'should create a warning' do
+          skip('rspec-puppet support for testing warning()')
+        end
+      end
+    end
+  end
+
 end
+
+# vim:sw=2:ts=2:expandtab:textwidth=79
