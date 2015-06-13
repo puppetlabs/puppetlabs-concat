@@ -36,6 +36,9 @@ Puppet::Type.newtype(:concat) do
 
   newparam(:tag) do
     desc "Tag reference to collect all concat_fragment's with the same tag"
+    defaultto do
+      resource.value(:name).gsub(/[\/:\n\s\(\)]/, '_')
+    end
   end
 
   newparam(:path) do
