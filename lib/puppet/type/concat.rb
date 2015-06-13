@@ -170,8 +170,13 @@ Puppet::Type.newtype(:concat) do
     deps = catalog.relationship_graph.dependents(self).map(&:builddepends)
     [deps,self.builddepends].flatten.each do |edge|
       newedge = edge.dup
-      newedge.source = catalog.resource("File[#{self[:path]}]")
-      catalog.relationship_graph.add_edge(newedge)
+      if newedge.source == self
+        newedge.source = catalog.resource("File[#{self[:path]}]")
+        catalog.relationship_graph.add_edge(newedge)
+      elsif newedge.target == self
+        newedge.target = catalog.resource("File[#{self[:path]}]")
+        catalog.relationship_graph.add_edge(newedge)
+      end
     end
     []
   end
