@@ -46,42 +46,87 @@ Puppet::Type.newtype(:concat) do
     defaultto do
       resource.value(:name)
     end
+    validate do |path|
+      unless Puppet::Util.absolute_path?(path, :posix) or Puppet::Util.absolute_path?(path, :windows)
+        raise Puppet::ResourceError, "#{path.inspect} is not an absolute path."
+      end
+    end
   end
 
   newparam(:owner, :parent => Puppet::Type::File::Owner) do
     desc "Desired file owner."
+    validate do |owner|
+      unless owner.is_a?(String)
+        raise Puppet::ResourceError, "owner parameter #{owner} is not a string"
+      end
+    end
   end
 
   newparam(:group, :parent => Puppet::Type::File::Group) do
     desc "Desired file group."
+    validate do |group|
+      unless group.is_a?(String)
+        raise Puppet::ResourceError, "group parameter #{group} is not a string"
+      end
+    end
   end
 
   newparam(:mode, :parent => Puppet::Type::File::Mode) do
     desc "Desired file mode."
+    validate do |mode|
+      unless mode.is_a?(String)
+        raise Puppet::ResourceError, "mode parameter #{mode} is not a string"
+      end
+    end
   end
 
   newparam(:order) do
     desc "Controls the ordering of fragments. Can be set to alphabetical or numeric."
     defaultto 'numeric'
+    validate do |order|
+      unless ['alpha', 'numeric'].include?(order)
+        raise Puppet::ResourceError, "invalid order parameter #{order}; valid values are [alpha, numeric]"
+      end
+    end
   end
 
   newparam(:backup) do
     desc "Controls the filebucketing behavior of the final file and see File type reference for its use."
     defaultto 'puppet'
+    validate do |backup|
+      unless [String, TrueClass, FalseClass].include?(backup.class)
+        raise Puppet::ResourceError, "invalid backup parameter #{backup.inspect}; must be string or bool"
+      end
+    end
   end
 
   newparam(:replace) do
     desc "Whether to replace a file that already exists on the local system."
     defaultto true
+    validate do |replace|
+      unless [TrueClass, FalseClass].include?(replace.class)
+        raise Puppet::ResourceError, "invalid replace parameter #{replace.inspect}; is not a boolean"
+      end
+    end
   end
 
   newparam(:validate_cmd) do
     desc "Validates file."
+    validate do |validate_cmd|
+      unless validate_cmd.kind_of?(String)
+        raise Puppet::ResourceError, "invalid validate_cmd parameter #{validate_cmd.inspect}; is not a string"
+      end
+    end
   end
 
   newparam(:ensure_newline) do
     desc "Whether to ensure there is a newline after each fragment."
     defaultto false
+    validate do |ensure_newline|
+      unless [TrueClass, FalseClass].include?(ensure_newline.class)
+        raise Puppet::ResourceError, "invalid ensure_newline parameter #{ensure_newline.inspect}; is not a boolean"
+      end
+    end
   end
 
   autorequire(:concat_fragment) do

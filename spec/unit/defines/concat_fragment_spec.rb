@@ -22,7 +22,6 @@ describe 'concat::fragment', :type => :define do
 
     it do
       should contain_concat(p[:target])
-      should contain_concat_file(p[:target])
       should contain_concat_fragment(title)
     end
   end
