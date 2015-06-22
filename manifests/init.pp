@@ -205,7 +205,7 @@ define concat(
     $command = strip(regsubst("${script_command} -o \"${fragdir}/${concat_name}\" -d \"${fragdir}\" ${warnflag} ${forceflag} ${orderflag} ${newlineflag}", '\s+', ' ', 'G'))
 
     # make sure ruby is in the path for PE
-    if defined('$is_pe') and $::is_pe {
+    if defined('$is_pe') and str2bool("${::is_pe}") { # lint:ignore:only_variable_string
       if $::kernel == 'windows' {
         $command_path = "${::env_windows_installdir}/bin:${::path}"
       } else {
