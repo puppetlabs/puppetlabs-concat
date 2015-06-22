@@ -6,11 +6,17 @@ case fact('osfamily')
     groupname = 'system'
     scriptname = 'concatfragments.rb'
     vardir = default['puppetvardir']
+    if vardir == ''
+      vardir = '/opt/puppetlabs/puppet/cache'
+    end
   when 'Darwin'
     username = 'root'
     groupname = 'wheel'
     scriptname = 'concatfragments.rb'
     vardir = default['puppetvardir']
+    if vardir == ''
+      vardir = '/opt/puppetlabs/puppet/cache'
+    end
   when 'windows'
     username = 'Administrator'
     groupname = 'Administrators'
@@ -22,11 +28,17 @@ case fact('osfamily')
     groupname = 'root'
     scriptname = 'concatfragments.rb'
     vardir = default['puppetvardir']
+    if vardir == ''
+      vardir = '/opt/puppetlabs/puppet/cache'
+    end
   else
     username = 'root'
     groupname = 'root'
     scriptname = 'concatfragments.rb'
     vardir = default['puppetvardir']
+    if vardir == ''
+      vardir = '/opt/puppetlabs/puppet/cache'
+    end
 end
 
 describe 'basic concat test' do
