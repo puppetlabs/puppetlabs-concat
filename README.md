@@ -268,7 +268,7 @@ The `concat::setup` class should no longer be directly included in the manifest.
 
 ##Limitations
 
-This module has been tested on [all PE-supported platforms](https://forge.puppetlabs.com/supported#compat-matrix), and no issues have been identified.
+This module has been tested on [all PE-supported platforms](https://forge.puppetlabs.com/supported#compat-matrix), and no issues have been identified. Additionally, it is tested (but not supported) on Solaris 12.
 
 ##Development
 
