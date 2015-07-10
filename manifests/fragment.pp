@@ -15,6 +15,9 @@
 #   anything else using this to influence the order of the content in the file
 # [*ensure*]
 #   Present/Absent or destination to a file to include another file
+# [*show_diff*]
+#   Use metaparam for files to show/hide diffs for reporting when using eyaml
+#   secrets.  Defaults to true
 # [*mode*]
 #   Deprecated
 # [*owner*]
@@ -26,17 +29,19 @@
 #
 define concat::fragment(
     $target,
-    $content = undef,
-    $source  = undef,
-    $order   = '10',
-    $ensure  = undef,
-    $mode    = undef,
-    $owner   = undef,
-    $group   = undef,
-    $backup  = undef
+    $content   = undef,
+    $source    = undef,
+    $order     = '10',
+    $ensure    = undef,
+    $mode      = undef,
+    $owner     = undef,
+    $group     = undef,
+    $backup    = undef,
+    $show_diff = true,
 ) {
   validate_string($target)
   validate_string($content)
+  validate_bool($show_diff)
   if !(is_string($source) or is_array($source)) {
     fail('$source is not a string or an Array.')
   }
@@ -119,15 +124,16 @@ define concat::fragment(
   }
 
   file { "${fragdir}/fragments/${order}_${safe_name}":
-    ensure  => $safe_ensure,
-    owner   => $fragowner,
-    group   => $fraggroup,
-    mode    => $fragmode,
-    source  => $source,
-    content => $content,
-    backup  => $_backup,
-    replace => true,
-    alias   => "concat_fragment_${name}",
-    notify  => Exec["concat_${target}"]
+    ensure    => $safe_ensure,
+    owner     => $fragowner,
+    group     => $fraggroup,
+    mode      => $fragmode,
+    source    => $source,
+    content   => $content,
+    backup    => $_backup,
+    show_diff => $show_diff,
+    replace   => true,
+    alias     => "concat_fragment_${name}",
+    notify    => Exec["concat_${target}"]
   }
 }
