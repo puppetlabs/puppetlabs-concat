@@ -5,7 +5,7 @@ case fact('osfamily')
     username = 'root'
     groupname = 'system'
     scriptname = 'concatfragments.rb'
-    vardir = default['puppetvardir']
+    vardir = default.puppet['vardir']
     if vardir.nil? or vardir == ''
       vardir = '/opt/puppetlabs/puppet/cache'
     end
@@ -13,7 +13,7 @@ case fact('osfamily')
     username = 'root'
     groupname = 'wheel'
     scriptname = 'concatfragments.rb'
-    vardir = default['puppetvardir']
+    vardir = default.puppet['vardir']
     if vardir.nil? or vardir == ''
       vardir = '/opt/puppetlabs/puppet/cache'
     end
@@ -21,13 +21,13 @@ case fact('osfamily')
     username = 'Administrator'
     groupname = 'Administrators'
     scriptname = 'concatfragments.rb'
-    result = on default, "echo #{default['puppetvardir']}"
+    result = on default, "echo #{default.puppet['vardir']}"
     vardir = result.raw_output.chomp
   when 'Solaris'
     username = 'root'
     groupname = 'root'
     scriptname = 'concatfragments.rb'
-    vardir = default['puppetvardir']
+    vardir = host.puppet['vardir']
     if vardir.nil? or vardir == ''
       vardir = '/opt/puppetlabs/puppet/cache'
     end
@@ -35,7 +35,7 @@ case fact('osfamily')
     username = 'root'
     groupname = 'root'
     scriptname = 'concatfragments.rb'
-    vardir = default['puppetvardir']
+    vardir = default.puppet['vardir']
     if vardir.nil? or vardir == ''
       vardir = '/opt/puppetlabs/puppet/cache'
     end
