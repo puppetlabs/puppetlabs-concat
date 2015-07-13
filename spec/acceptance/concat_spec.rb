@@ -27,7 +27,7 @@ case fact('osfamily')
     username = 'root'
     groupname = 'root'
     scriptname = 'concatfragments.rb'
-    vardir = host.puppet['vardir']
+    vardir = default.puppet['vardir']
     if vardir.nil? or vardir == ''
       vardir = '/opt/puppetlabs/puppet/cache'
     end
