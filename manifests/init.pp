@@ -209,10 +209,12 @@ define concat(
       if $::kernel == 'windows' {
         $command_path = "${::env_windows_installdir}/bin:${::path}"
       } else {
-        $command_path = "/opt/puppet/bin:${::path}"
+        $command_path = "/opt/puppetlabs/puppet/bin:/opt/puppet/bin:${::path}"
       }
-    } else {
+    } elsif $::kernel == 'windows' {
       $command_path = $::path
+    } else {
+      $command_path = "/opt/puppetlabs/puppet/bin:${::path}"
     }
 
     # if puppet is running as root, this exec should also run as root to allow
