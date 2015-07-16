@@ -180,6 +180,10 @@ Specifies a destination file for the combined fragments. Valid options: a string
 
 Specifies whether to overwrite the destination file if it already exists. Valid options: 'true' and 'false'. Default value: 'true'.
 
+#####`show_diff`
+
+Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure reporting methods. Valid options: 'true' and 'false'. Default value: 'true'.
+
 #####`validate_cmd`
 
 Specifies a validation command to apply to the destination file. Requires Puppet version 3.5 or newer. Valid options: a string to be passed to a file resource. Default value: undefined.
@@ -211,6 +215,10 @@ Specifies whether the fragment should be included in the destination file or dis
 #####`order`
 
 Reorders your fragments within the destination file. Fragments that share the same order number are ordered by name. Valid options: a string (recommended) or an integer. Default value: '10'.
+
+#####`show_diff`
+
+Specifies whether to set the show_diff parameter for the fragment. Useful for hiding secrets stored in hiera from insecure reporting methods. Valid options: 'true' and 'false'. Default value: 'true'.
 
 #####`source`
 
