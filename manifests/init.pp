@@ -104,14 +104,18 @@ define concat(
     true: {
       $warn_message = $default_warn_message
     }
+    # lint:ignore:quoted_booleans
     'true', 'yes', 'on': {
+    # lint:endignore
       warning($bool_warn_message)
       $warn_message = $default_warn_message
     }
     false: {
       $warn_message = ''
     }
+    # lint:ignore:quoted_booleans
     'false', 'no', 'off': {
+    # lint:endignore
       warning($bool_warn_message)
       $warn_message = ''
     }
@@ -201,14 +205,16 @@ define concat(
     $command = strip(regsubst("${script_command} -o \"${fragdir}/${concat_name}\" -d \"${fragdir}\" ${warnflag} ${forceflag} ${orderflag} ${newlineflag}", '\s+', ' ', 'G'))
 
     # make sure ruby is in the path for PE
-    if defined('$is_pe') and $::is_pe {
+    if defined('$is_pe') and str2bool("${::is_pe}") { # lint:ignore:only_variable_string
       if $::kernel == 'windows' {
         $command_path = "${::env_windows_installdir}/bin:${::path}"
       } else {
-        $command_path = "/opt/puppet/bin:${::path}"
+        $command_path = "/opt/puppetlabs/puppet/bin:/opt/puppet/bin:${::path}"
       }
-    } else {
+    } elsif $::kernel == 'windows' {
       $command_path = $::path
+    } else {
+      $command_path = "/opt/puppetlabs/puppet/bin:${::path}"
     }
 
     # if puppet is running as root, this exec should also run as root to allow
@@ -246,7 +252,9 @@ define concat(
     # lint:ignore:quoted_booleans
     $absent_exec_command = $::kernel ? {
       'windows' => 'cmd.exe /c exit 0',
+    # lint:ignore:quoted_booleans
       default   => 'true',
+    # lint:endignore
     }
     # lint:endignore
 
