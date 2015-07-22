@@ -43,7 +43,10 @@ class concat::setup {
 
   $script_command = $::osfamily? {
     'windows' => "ruby.exe '${script_path}'",
-    'openbsd' => "/usr/local/bin/ruby21 '${script_path}'",
+    'openbsd' => $::kernelversion ? {
+                    '5.7'   => "/usr/local/bin/ruby21 '${script_path}'",
+                    default => "/usr/local/bin/ruby22 '${script_path}'"
+                  },
     'freebsd' => "/usr/local/bin/ruby '${script_path}'",
     default   => $script_path
   }
