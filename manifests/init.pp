@@ -146,10 +146,6 @@ define concat(
     false => '',
   }
 
-  File {
-    backup  => $backup,
-  }
-
   # reset poisoned Exec defaults
   Exec {
     user  => undef,
@@ -168,6 +164,7 @@ define concat(
       force   => true,
       ignore  => ['.svn', '.git', '.gitignore'],
       notify  => Exec["concat_${name}"],
+      backup  => false,
       purge   => true,
       recurse => true,
     }
