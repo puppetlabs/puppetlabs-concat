@@ -50,7 +50,7 @@ describe 'concat::fragment', :type => :define do
         :source  => p[:source],
         :content => p[:content],
         :alias   => "concat_fragment_#{title}",
-        :backup  => 'puppet',
+        :backup  => false,
       })
       # The defined() function doesn't seem to work properly with puppet 3.4 and rspec.
       # defined() works on its own, rspec works on its own, but together they
