@@ -199,6 +199,36 @@ If you set this parameter to 'true', Puppet adds the following message:
 # This file is managed by Puppet. DO NOT EDIT.
 ~~~
 
+#####`selinux_ignore_defaults`
+
+See the `file` type's
+[`selinux_ignore_defaults`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selinux_ignore_defaults)
+documentention.
+
+#####`selrange`
+
+See the `file` type's
+[`selrange`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange)
+documentention.
+
+#####`selrole`
+
+See the `file` type's
+[`selrole`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole)
+documentention.
+
+#####`seltype`
+
+See the `file` type's
+[`seltype`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype)
+documentention.
+
+#####`seluser`
+
+See the `file` type's
+[`seluser`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser)
+documentention.
+
 ####`concat::fragment`
 
 
