@@ -28,6 +28,10 @@ describe 'concat', :type => :define do
     concat_name          = 'fragments.concat.out'
     default_warn_message = '# This file is managed by Puppet. DO NOT EDIT.'
 
+    file_defaults = {
+      :backup  => p[:backup],
+    }
+
     let(:title) { title }
     let(:params) { params }
     let(:facts) do
@@ -43,22 +47,21 @@ describe 'concat', :type => :define do
 
     if p[:ensure] == 'present'
       it do
-        should contain_file(fragdir).with({
+        should contain_file(fragdir).with(file_defaults.merge({
           :ensure => 'directory',
           :mode   => '0750',
-        })
+        }))
       end
 
       it do
-        should contain_file("#{fragdir}/fragments").with({
+        should contain_file("#{fragdir}/fragments").with(file_defaults.merge({
           :ensure  => 'directory',
           :mode    => '0750',
           :force   => true,
           :ignore  => ['.svn', '.git', '.gitignore'],
-          :backup  => false,
           :purge   => true,
           :recurse => true,
-        })
+        }))
       end
 
       [
@@ -66,15 +69,15 @@ describe 'concat', :type => :define do
         "#{fragdir}/#{concat_name}",
       ].each do |file|
         it do
-          should contain_file(file).with({
+          should contain_file(file).with(file_defaults.merge({
             :ensure => 'present',
             :mode   => '0640',
-          })
+          }))
         end
       end
 
       it do
-        should contain_file(title).with({
+        should contain_file(title).with(file_defaults.merge({
           :ensure       => 'present',
           :owner        => p[:owner],
           :group        => p[:group],
@@ -85,7 +88,7 @@ describe 'concat', :type => :define do
           :source       => "#{fragdir}/#{concat_name}",
           :validate_cmd => p[:validate_cmd],
           :backup       => p[:backup],
-        })
+        }))
       end
 
       cmd = "#{concatdir}/bin/concatfragments.rb " +
@@ -133,18 +136,18 @@ describe 'concat', :type => :define do
         "#{fragdir}/#{concat_name}",
       ].each do |file|
         it do
-          should contain_file(file).with({
+          should contain_file(file).with(file_defaults.merge({
             :ensure => 'absent',
             :force  => true,
-          })
+          }))
         end
       end
 
       it do
-        should contain_file(title).with({
+        should contain_file(title).with(file_defaults.merge({
           :ensure => 'absent',
           :backup => p[:backup],
-        })
+        }))
       end
 
       it do
