@@ -146,16 +146,11 @@ define concat(
     false => '',
   }
 
-  # reset poisoned Exec defaults
-  Exec {
-    user  => undef,
-    group => undef,
-  }
-
   if $ensure == 'present' {
     file { $fragdir:
       ensure => directory,
       mode   => '0750',
+      backup => false,
     }
 
     file { "${fragdir}/fragments":
@@ -172,11 +167,13 @@ define concat(
     file { "${fragdir}/fragments.concat":
       ensure => present,
       mode   => '0640',
+      backup => false,
     }
 
     file { "${fragdir}/${concat_name}":
       ensure => present,
       mode   => '0640',
+      backup => false,
     }
 
     file { $name:
@@ -224,6 +221,8 @@ define concat(
       subscribe => File[$fragdir],
       unless    => "${command} -t",
       path      => $command_path,
+      user      => undef,
+      group     => undef,
       require   => [
         File[$fragdir],
         File["${fragdir}/fragments"],
@@ -239,6 +238,7 @@ define concat(
     ]:
       ensure => absent,
       force  => true,
+      backup => false,
     }
 
     file { $path:
@@ -266,6 +266,8 @@ define concat(
       command => $absent_exec_command,
       unless  => $absent_exec_command,
       path    => $absent_exec_path,
+      user    => undef,
+      group   => undef,
     }
   }
 }
