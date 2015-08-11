@@ -8,18 +8,19 @@ describe 'concat', :type => :define do
 
     # default param values
     p = {
-      :ensure         => 'present',
-      :path           => title,
-      :owner          => nil,
-      :group          => nil,
-      :mode           => '0644',
-      :warn           => false,
-      :force          => false,
-      :backup         => 'puppet',
-      :replace        => true,
-      :order          => 'alpha',
-      :ensure_newline => false,
-      :validate_cmd   => nil,
+      :ensure           => 'present',
+      :path             => title,
+      :owner            => nil,
+      :group            => nil,
+      :mode             => '0644',
+      :warn             => false,
+      :force            => false,
+      :backup           => 'puppet',
+      :backup_fragments => false,
+      :replace          => true,
+      :order            => 'alpha',
+      :ensure_newline   => false,
+      :validate_cmd     => nil,
     }.merge(params)
 
     safe_name            = title.gsub('/', '_')
@@ -331,6 +332,23 @@ describe 'concat', :type => :define do
     end
   end # backup =>
 
+  context 'backup_fragments =>' do
+    context 'true' do
+      it_behaves_like 'concat', '/etc/foo.bar', { :backup_fragments => true }
+    end
+
+    context 'false' do
+      it_behaves_like 'concat', '/etc/foo.bar', { :backup_fragments => false }
+    end
+
+    context 'invalid' do
+      let(:title) { '/etc/foo.bar' }
+      let(:params) {{ :backup_fragments => "invalid" }}
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
+      end
+    end
+  end # backup_fragments =>
   context 'replace =>' do
     [true, false].each do |replace|
       context replace do
