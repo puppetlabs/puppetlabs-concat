@@ -139,6 +139,10 @@ All the parameters listed below are optional.
 
 Specifies whether (and how) to back up the destination file before overwriting it. Your value gets passed on to Puppet's [native `file` resource](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-backup) for execution. Valid options: 'true', 'false', or a string representing either a target filebucket or a filename extension beginning with ".". Default value: 'puppet'.
 
+#####`backup_fragments`
+
+Specifies whether to backup concat fragments using the backup setting of the target concat file. Valid options: 'true' and 'false'. Default value: 'false'.
+
 #####`ensure`
 
 Specifies whether the destination file should exist. Setting to 'absent' tells Puppet to delete the destination file if it exists, and negates the effect of any other parameters. Valid options: 'present' and 'absent'. Default value: 'present'.

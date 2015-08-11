@@ -25,6 +25,9 @@
 # [*backup*]
 #   Controls the filebucketing behavior of the final file and see File type
 #   reference for its use.  Defaults to 'puppet'
+# [*backup_fragments*]
+#   Enables backup of fragments using the backup setting of the target 
+#   concat file. Defaults to 'false'
 # [*replace*]
 #   Whether to replace a file that already exists on the local system
 # [*order*]
@@ -53,19 +56,20 @@
 #   File["concat_/path/to/file"]
 #
 define concat(
-  $ensure         = 'present',
-  $path           = $name,
-  $owner          = undef,
-  $group          = undef,
-  $mode           = '0644',
-  $warn           = false,
-  $force          = false,
-  $backup         = 'puppet',
-  $replace        = true,
-  $order          = 'alpha',
-  $ensure_newline = false,
-  $validate_cmd   = undef,
-  $gnu            = undef
+  $ensure           = 'present',
+  $path             = $name,
+  $owner            = undef,
+  $group            = undef,
+  $mode             = '0644',
+  $warn             = false,
+  $force            = false,
+  $backup           = 'puppet',
+  $backup_fragments = false,
+  $replace          = true,
+  $order            = 'alpha',
+  $ensure_newline   = false,
+  $validate_cmd     = undef,
+  $gnu              = undef
 ) {
   validate_re($ensure, '^present$|^absent$')
   validate_absolute_path($path)
@@ -79,6 +83,7 @@ define concat(
   if ! concat_is_bool($backup) and ! is_string($backup) {
     fail('$backup must be string or bool!')
   }
+  validate_bool($backup_fragments)
   validate_bool($replace)
   validate_re($order, '^alpha$|^numeric$')
   validate_bool($ensure_newline)
