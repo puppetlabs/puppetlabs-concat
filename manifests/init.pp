@@ -34,6 +34,10 @@
 # [*ensure_newline*]
 # [*gnu*]
 #   Deprecated
+# [*selinux_ignore_defaults*]
+# [*selrange*]
+# [*selrole*]
+# [*seltype*]
 #
 # === Actions:
 # * Creates fragment directories if it didn't exist already
@@ -56,20 +60,25 @@
 #   File["concat_/path/to/file"]
 #
 define concat(
-  $ensure           = 'present',
-  $path             = $name,
-  $owner            = undef,
-  $group            = undef,
-  $mode             = '0644',
-  $warn             = false,
-  $force            = false,
-  $backup           = 'puppet',
-  $backup_fragments = false,
-  $replace          = true,
-  $order            = 'alpha',
-  $ensure_newline   = false,
-  $validate_cmd     = undef,
-  $gnu              = undef
+  $ensure                  = 'present',
+  $path                    = $name,
+  $owner                   = undef,
+  $group                   = undef,
+  $mode                    = '0644',
+  $warn                    = false,
+  $force                   = false,
+  $backup                  = 'puppet',
+  $backup_fragments        = false,
+  $replace                 = true,
+  $order                   = 'alpha',
+  $ensure_newline          = false,
+  $validate_cmd            = undef,
+  $gnu                     = undef,
+  $selinux_ignore_defaults = undef,
+  $selrange                = undef,
+  $selrole                 = undef,
+  $seltype                 = undef,
+  $seluser                 = undef
 ) {
   validate_re($ensure, '^present$|^absent$')
   validate_absolute_path($path)
@@ -93,6 +102,13 @@ define concat(
   if $gnu {
     warning('The $gnu parameter to concat is deprecated and has no effect')
   }
+  if $selinux_ignore_defaults {
+    validate_bool($selinux_ignore_defaults)
+  }
+  validate_string($selrange)
+  validate_string($selrole)
+  validate_string($seltype)
+  validate_string($seluser)
 
   include concat::setup
 
@@ -182,15 +198,20 @@ define concat(
     }
 
     file { $name:
-      ensure  => present,
-      owner   => $owner,
-      group   => $group,
-      mode    => $mode,
-      replace => $replace,
-      path    => $path,
-      alias   => "concat_${name}",
-      source  => "${fragdir}/${concat_name}",
-      backup  => $backup,
+      ensure                  => present,
+      owner                   => $owner,
+      group                   => $group,
+      mode                    => $mode,
+      selinux_ignore_defaults => $selinux_ignore_defaults,
+      selrange                => $selrange,
+      selrole                 => $selrole,
+      seltype                 => $seltype,
+      seluser                 => $seluser,
+      replace                 => $replace,
+      path                    => $path,
+      alias                   => "concat_${name}",
+      source                  => "${fragdir}/${concat_name}",
+      backup                  => $backup,
     }
 
     # Only newer versions of puppet 3.x support the validate_cmd parameter
