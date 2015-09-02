@@ -15,6 +15,7 @@ describe 'concat', :type => :define do
       :mode           => '0644',
       :warn           => false,
       :force          => false,
+      :show_diff      => true,
       :backup         => 'puppet',
       :replace        => true,
       :order          => 'alpha',
