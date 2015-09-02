@@ -1,3 +1,14 @@
+##2015-07-21 - Supported Release 1.2.4
+###Summary
+
+This release includes some ruby path and lint fixes.
+
+####Bugfixes
+- Use correct ruby path with PE and AIO
+- Lint fixes
+- Use correct ruby path on FreeBSD
+- Test fixes
+
 ##2015-06-02 - Supported Release 2.0.1 [YANKED]
 ###Summary
 
@@ -14,7 +25,6 @@ This is a bugfix release.
 This release includes a README fix to document correct behavior of fragment target parameter.
 
 ####Bugfixes
-
 - README Fix to correctly document how a fragment $target param should work.
 
 ##2015-05-12 - Supported Release 2.0.0 [YANKED]

@@ -43,7 +43,10 @@ class concat::setup {
 
   $script_command = $::osfamily? {
     'windows' => "ruby.exe '${script_path}'",
-    'openbsd' => "/usr/local/bin/ruby21 '${script_path}'",
+    'openbsd' => $::kernelversion ? {
+                    '5.7'   => "/usr/local/bin/ruby21 '${script_path}'",
+                    default => "/usr/local/bin/ruby22 '${script_path}'"
+                  },
     'freebsd' => "/usr/local/bin/ruby '${script_path}'",
     default   => $script_path
   }
@@ -54,6 +57,7 @@ class concat::setup {
     group  => $default_group,
     mode   => $script_mode,
     source => "puppet:///modules/concat/${script_name}",
+    backup => false,
   }
 
   file { [ $concatdir, "${concatdir}/bin" ]:
@@ -61,5 +65,6 @@ class concat::setup {
     owner  => $default_owner,
     group  => $default_group,
     mode   => '0755',
+    backup => false,
   }
 }
