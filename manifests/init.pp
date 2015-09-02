@@ -27,12 +27,19 @@
 # [*backup*]
 #   Controls the filebucketing behavior of the final file and see File type
 #   reference for its use.  Defaults to 'puppet'
+# [*backup_fragments*]
+#   Enables backup of fragments using the backup setting of the target 
+#   concat file. Defaults to 'false'
 # [*replace*]
 #   Whether to replace a file that already exists on the local system
 # [*order*]
 # [*ensure_newline*]
 # [*gnu*]
 #   Deprecated
+# [*selinux_ignore_defaults*]
+# [*selrange*]
+# [*selrole*]
+# [*seltype*]
 #
 # === Actions:
 # * Creates fragment directories if it didn't exist already
@@ -55,20 +62,26 @@
 #   File["concat_/path/to/file"]
 #
 define concat(
-  $ensure         = 'present',
-  $path           = $name,
-  $owner          = undef,
-  $group          = undef,
-  $mode           = '0644',
-  $warn           = false,
-  $force          = false,
-  $show_diff      = true,
-  $backup         = 'puppet',
-  $replace        = true,
-  $order          = 'alpha',
-  $ensure_newline = false,
-  $validate_cmd   = undef,
-  $gnu            = undef
+  $ensure                  = 'present',
+  $path                    = $name,
+  $owner                   = undef,
+  $group                   = undef,
+  $mode                    = '0644',
+  $warn                    = false,
+  $force                   = false,
+  $show_diff               = true,
+  $backup                  = 'puppet',
+  $backup_fragments        = false,
+  $replace                 = true,
+  $order                   = 'alpha',
+  $ensure_newline          = false,
+  $validate_cmd            = undef,
+  $gnu                     = undef,
+  $selinux_ignore_defaults = undef,
+  $selrange                = undef,
+  $selrole                 = undef,
+  $seltype                 = undef,
+  $seluser                 = undef
 ) {
   validate_re($ensure, '^present$|^absent$')
   validate_absolute_path($path)
@@ -83,6 +96,7 @@ define concat(
   if ! concat_is_bool($backup) and ! is_string($backup) {
     fail('$backup must be string or bool!')
   }
+  validate_bool($backup_fragments)
   validate_bool($replace)
   validate_re($order, '^alpha$|^numeric$')
   validate_bool($ensure_newline)
@@ -92,6 +106,13 @@ define concat(
   if $gnu {
     warning('The $gnu parameter to concat is deprecated and has no effect')
   }
+  if $selinux_ignore_defaults {
+    validate_bool($selinux_ignore_defaults)
+  }
+  validate_string($selrange)
+  validate_string($selrole)
+  validate_string($seltype)
+  validate_string($seluser)
 
   include concat::setup
 
@@ -150,20 +171,11 @@ define concat(
     false => '',
   }
 
-  File {
-    backup  => $backup,
-  }
-
-  # reset poisoned Exec defaults
-  Exec {
-    user  => undef,
-    group => undef,
-  }
-
   if $ensure == 'present' {
     file { $fragdir:
       ensure => directory,
       mode   => '0750',
+      backup => false,
     }
 
     file { "${fragdir}/fragments":
@@ -172,6 +184,7 @@ define concat(
       force   => true,
       ignore  => ['.svn', '.git', '.gitignore'],
       notify  => Exec["concat_${name}"],
+      backup  => false,
       purge   => true,
       recurse => true,
     }
@@ -179,24 +192,31 @@ define concat(
     file { "${fragdir}/fragments.concat":
       ensure => present,
       mode   => '0640',
+      backup => false,
     }
 
     file { "${fragdir}/${concat_name}":
       ensure => present,
       mode   => '0640',
+      backup => false,
     }
 
     file { $name:
-      ensure    => present,
-      owner     => $owner,
-      group     => $group,
-      mode      => $mode,
-      replace   => $replace,
-      path      => $path,
-      alias     => "concat_${name}",
-      source    => "${fragdir}/${concat_name}",
-      backup    => $backup,
-      show_diff => $show_diff,
+      ensure                  => present,
+      owner                   => $owner,
+      group                   => $group,
+      mode                    => $mode,
+      selinux_ignore_defaults => $selinux_ignore_defaults,
+      selrange                => $selrange,
+      selrole                 => $selrole,
+      seltype                 => $seltype,
+      seluser                 => $seluser,
+      replace                 => $replace,
+      path                    => $path,
+      alias                   => "concat_${name}",
+      source                  => "${fragdir}/${concat_name}",
+      backup                  => $backup,
+      show_diff               => $show_diff,
     }
 
     # Only newer versions of puppet 3.x support the validate_cmd parameter
@@ -232,6 +252,8 @@ define concat(
       subscribe => File[$fragdir],
       unless    => "${command} -t",
       path      => $command_path,
+      user      => undef,
+      group     => undef,
       require   => [
         File[$fragdir],
         File["${fragdir}/fragments"],
@@ -247,6 +269,7 @@ define concat(
     ]:
       ensure => absent,
       force  => true,
+      backup => false,
     }
 
     file { $path:
@@ -275,6 +298,8 @@ define concat(
       command => $absent_exec_command,
       unless  => $absent_exec_command,
       path    => $absent_exec_path,
+      user    => undef,
+      group   => undef,
     }
   }
 }
