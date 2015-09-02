@@ -53,13 +53,14 @@ describe 'concat', :type => :define do
 
       it do
         should contain_file("#{fragdir}/fragments").with({
-          :ensure  => 'directory',
-          :mode    => '0750',
-          :force   => true,
-          :ignore  => ['.svn', '.git', '.gitignore'],
-          :backup  => false,
-          :purge   => true,
-          :recurse => true,
+          :ensure    => 'directory',
+          :mode      => '0750',
+          :force     => true,
+          :ignore    => ['.svn', '.git', '.gitignore'],
+          :show_diff => p[:show_diff],
+          :backup    => false,
+          :purge     => true,
+          :recurse   => true,
         })
       end
 
@@ -86,6 +87,7 @@ describe 'concat', :type => :define do
           :alias                   => "concat_#{title}",
           :source                  => "#{fragdir}/#{concat_name}",
           :validate_cmd            => p[:validate_cmd],
+          :show_diff               => p[:show_diff],
           :backup                  => p[:backup],
           :selinux_ignore_defaults => p[:selinux_ignore_defaults],
           :selrange                => p[:selrange],
