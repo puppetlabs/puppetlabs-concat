@@ -234,11 +234,15 @@ describe 'concat', :type => :define do
       it_behaves_like 'concat', '/etc/foo.bar', { :owner => 'apenny' }
     end
 
+    context '1000' do
+      it_behaves_like 'concat', '/etc/foo.bar', { :owner => 1000 }
+    end
+
     context 'false' do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :owner => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+        expect { catalogue }.to raise_error(Puppet::Error, /\$owner must be a string or integer/)
       end
     end
   end # owner =>
@@ -248,11 +252,15 @@ describe 'concat', :type => :define do
       it_behaves_like 'concat', '/etc/foo.bar', { :group => 'apenny' }
     end
 
+    context '1000' do
+      it_behaves_like 'concat', '/etc/foo.bar', { :group => 1000 }
+    end
+
     context 'false' do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :group => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+        expect { catalogue }.to raise_error(Puppet::Error, /\$group must be a string or integer/)
       end
     end
   end # group =>
