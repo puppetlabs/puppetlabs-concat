@@ -184,6 +184,10 @@ Specifies a destination file for the combined fragments. Valid options: a string
 
 Specifies whether to overwrite the destination file if it already exists. Valid options: 'true' and 'false'. Default value: 'true'.
 
+#####`show_diff`
+
+Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure reporting methods. Valid options: 'true
+
 #####`validate_cmd`
 
 Specifies a validation command to apply to the destination file. Requires Puppet version 3.5 or newer. Valid options: a string to be passed to a file resource. Default value: undefined.

@@ -122,15 +122,16 @@ define concat::fragment(
   }
 
   file { "${fragdir}/fragments/${order}_${safe_name}":
-    ensure  => $safe_ensure,
-    owner   => $fragowner,
-    group   => $fraggroup,
-    mode    => $fragmode,
-    source  => $source,
-    content => $content,
-    backup  => $_backup,
-    replace => true,
-    alias   => "concat_fragment_${name}",
-    notify  => Exec["concat_${target}"]
+    ensure    => $safe_ensure,
+    owner     => $fragowner,
+    group     => $fraggroup,
+    mode      => $fragmode,
+    source    => $source,
+    content   => $content,
+    backup    => $_backup,
+    show_diff => false,
+    replace   => true,
+    alias     => "concat_fragment_${name}",
+    notify    => Exec["concat_${target}"]
   }
 }
