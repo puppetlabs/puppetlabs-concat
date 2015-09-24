@@ -173,6 +173,6 @@ Puppet::Type.newtype(:concat_file) do
     if !content.nil? and !content.empty?
       catalog.resource("File[#{self[:path]}]")[:content] = content
     end
-    []
+    [ catalog.resource("File[#{self[:name]}]") ]
   end
 end
