@@ -200,22 +200,25 @@ define concat(
       mode   => '0640',
       backup => false,
     }
-
-    file { $name:
-      ensure                  => present,
-      owner                   => $owner,
-      group                   => $group,
-      mode                    => $mode,
-      selinux_ignore_defaults => $selinux_ignore_defaults,
-      selrange                => $selrange,
-      selrole                 => $selrole,
-      seltype                 => $seltype,
-      seluser                 => $seluser,
-      replace                 => $replace,
-      path                    => $path,
-      alias                   => "concat_${name}",
-      source                  => "${fragdir}/${concat_name}",
-      backup                  => $backup,
+    
+    # Prevent duplicate declaration errors
+    if ( ! defined( File[ $name ] )) {
+      file { $name:
+        ensure                  => present,
+        owner                   => $owner,
+        group                   => $group,
+        mode                    => $mode,
+        selinux_ignore_defaults => $selinux_ignore_defaults,
+        selrange                => $selrange,
+        selrole                 => $selrole,
+        seltype                 => $seltype,
+        seluser                 => $seluser,
+        replace                 => $replace,
+        path                    => $path,
+        alias                   => "concat_${name}",
+        source                  => "${fragdir}/${concat_name}",
+        backup                  => $backup,
+      }
     }
 
     # Only newer versions of puppet 3.x support the validate_cmd parameter
