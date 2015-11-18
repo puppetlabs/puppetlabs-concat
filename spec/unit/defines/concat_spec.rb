@@ -15,6 +15,7 @@ describe 'concat', :type => :define do
       :mode             => '0644',
       :warn             => false,
       :force            => false,
+      :show_diff        => true,
       :backup           => 'puppet',
       :backup_fragments => false,
       :replace          => true,
@@ -85,6 +86,7 @@ describe 'concat', :type => :define do
           :alias                   => "concat_#{title}",
           :source                  => "#{fragdir}/#{concat_name}",
           :validate_cmd            => p[:validate_cmd],
+          :show_diff               => p[:show_diff],
           :backup                  => p[:backup],
           :selinux_ignore_defaults => p[:selinux_ignore_defaults],
           :selrange                => p[:selrange],
@@ -322,6 +324,22 @@ describe 'concat', :type => :define do
       end
     end
   end # force =>
+
+  context 'show_diff =>' do
+    [true, false].each do |show_diff|
+      context show_diff do
+        it_behaves_like 'concat', '/etc/foo.bar', { :show_diff => show_diff }
+      end
+    end
+
+    context '123' do
+      let(:title) { '/etc/foo.bar' }
+      let(:params) {{ :show_diff => 123 }}
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
+      end
+    end
+  end # show_diff =>
 
   context 'backup =>' do
     context 'reverse' do

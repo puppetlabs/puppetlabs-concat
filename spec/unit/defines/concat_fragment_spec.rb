@@ -44,13 +44,14 @@ describe 'concat::fragment', :type => :define do
       should contain_class('concat::setup')
       should contain_concat(p[:target])
       should contain_file("#{fragdir}/fragments/#{p[:order]}_#{safe_name}").with({
-        :ensure  => safe_ensure,
-        :owner   => id,
-        :mode    => '0640',
-        :source  => p[:source],
-        :content => p[:content],
-        :alias   => "concat_fragment_#{title}",
-        :backup  => false,
+        :ensure    => safe_ensure,
+        :owner     => id,
+        :mode      => '0640',
+        :source    => p[:source],
+        :content   => p[:content],
+        :alias     => "concat_fragment_#{title}",
+        :backup    => false,
+        :show_diff => false,
       })
       # The defined() function doesn't seem to work properly with puppet 3.4 and rspec.
       # defined() works on its own, rspec works on its own, but together they

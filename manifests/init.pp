@@ -18,6 +18,9 @@
 #   The mode of the final file
 # [*force*]
 #   Enables creating empty files if no fragments are present
+# [*show_diff*]
+#   Use metaparam for files to show/hide diffs for reporting when using eyaml
+#   secrets.  Defaults to true
 # [*warn*]
 #   Adds a normal shell style comment top of the file indicating that it is
 #   built by puppet
@@ -67,6 +70,7 @@ define concat(
   $mode                    = '0644',
   $warn                    = false,
   $force                   = false,
+  $show_diff               = true,
   $backup                  = 'puppet',
   $backup_fragments        = false,
   $replace                 = true,
@@ -93,6 +97,7 @@ define concat(
     fail('$warn is not a string or boolean')
   }
   validate_bool($force)
+  validate_bool($show_diff)
   if ! concat_is_bool($backup) and ! is_string($backup) {
     fail('$backup must be string or bool!')
   }
@@ -216,6 +221,7 @@ define concat(
       alias                   => "concat_${name}",
       source                  => "${fragdir}/${concat_name}",
       backup                  => $backup,
+      show_diff               => $show_diff,
     }
 
     # Only newer versions of puppet 3.x support the validate_cmd parameter
@@ -272,8 +278,9 @@ define concat(
     }
 
     file { $path:
-      ensure => absent,
-      backup => $backup,
+      ensure    => absent,
+      backup    => $backup,
+      show_diff => $show_diff,
     }
 
     # lint:ignore:quoted_booleans
