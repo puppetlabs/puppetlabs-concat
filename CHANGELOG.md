@@ -1,3 +1,8 @@
+##Supported Release 1.2.5
+###Summary
+
+Small release for support of newer PE versions. This increments the version of PE in the metadata.json file.
+
 ##2015-07-21 - Supported Release 1.2.4
 ###Summary
 

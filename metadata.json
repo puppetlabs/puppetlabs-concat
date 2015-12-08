@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-concat",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "author": "Puppet Labs",
   "summary": "Construct files from multiple fragments.",
   "license": "Apache-2.0",
@@ -100,7 +100,7 @@
   "requirements": [
     {
       "name": "pe",
-      "version_requirement": ">= 3.0.0 < 2015.3.0"
+      "version_requirement": ">= 3.0.0 < 2015.4.0"
     },
     {
       "name": "puppet",
