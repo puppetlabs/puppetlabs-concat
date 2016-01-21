@@ -1,5 +1,20 @@
-=======
-##2015-06-02 - Supported Release 2.0.1
+##Supported Release 1.2.5
+###Summary
+
+Small release for support of newer PE versions. This increments the version of PE in the metadata.json file.
+
+##2015-07-21 - Supported Release 1.2.4
+###Summary
+
+This release includes some ruby path and lint fixes.
+
+####Bugfixes
+- Use correct ruby path with PE and AIO
+- Lint fixes
+- Use correct ruby path on FreeBSD
+- Test fixes
+
+##2015-06-02 - Supported Release 2.0.1 [YANKED]
 ###Summary
 
 This is a bugfix release. 
@@ -9,8 +24,15 @@ This is a bugfix release.
 - Fixes handling fragment target.
 - Fixes the defaulted force behavior to handle empty concats correctly.
 
-=======
-##2015-05-12 - Supported Release 2.0.0
+##2015-06-02 - Supported Release 1.2.3
+###Summary
+
+This release includes a README fix to document correct behavior of fragment target parameter.
+
+####Bugfixes
+- README Fix to correctly document how a fragment $target param should work.
+
+##2015-05-12 - Supported Release 2.0.0 [YANKED]
 ###Summary
 
 This is a major release. Includes re-implementation of concat to use native Type and Providers, resulting in significantly improved performance and testability. Also includes a bugfix to alpha ordering of fragments.
@@ -20,16 +42,6 @@ This is a major release. Includes re-implementation of concat to use native Type
 
 ####Bugfixes
 - Fixes a bug in alpha ordering of fragments.
-
-=======
-##2015-06-02 - Supported Release 1.2.3
-###Summary
-
-This release includes a README fix to document correct behavior of fragment target parameter.
-
-####Bugfixes
-
-- README Fix to correctly document how a fragment $target param should work.
 
 ##2015-05-12 - Supported Release 1.2.2
 ###Summary

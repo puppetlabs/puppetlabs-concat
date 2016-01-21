@@ -16,6 +16,9 @@
 #   Who will own the file
 # [*mode*]
 #   The mode of the final file
+# [*show_diff*]
+#   Use metaparam for files to show/hide diffs for reporting when using eyaml
+#   secrets.  Defaults to true
 # [*warn*]
 #   Adds a normal shell style comment top of the file indicating that it is
 #   built by puppet.
@@ -33,6 +36,10 @@
 # [*ensure_newline*]
 #   Specifies whether to ensure there's a new line at the end of each fragment.
 #   Valid options: 'true' and 'false'. Default value: 'false'.
+# [*selinux_ignore_defaults*]
+# [*selrange*]
+# [*selrole*]
+# [*seltype*]
 # [*validate_cmd*]
 #   Specifies a validation command to apply to the destination file.
 #   Requires Puppet version 3.5 or newer. Valid options: a string to be passed
@@ -40,27 +47,38 @@
 #
 
 define concat(
-  $ensure         = 'present',
-  $path           = $name,
-  $owner          = undef,
-  $group          = undef,
-  $mode           = '0644',
-  $warn           = false,
-  $force          = undef,
-  $backup         = 'puppet',
-  $replace        = true,
-  $order          = 'alpha',
-  $ensure_newline = false,
-  $validate_cmd   = undef,
+  $ensure                  = 'present',
+  $path                    = $name,
+  $owner                   = undef,
+  $group                   = undef,
+  $mode                    = '0644',
+  $warn                    = false,
+  $force                   = undef,
+  $show_diff               = true,
+  $backup                  = 'puppet',
+  $replace                 = true,
+  $order                   = 'alpha',
+  $ensure_newline          = false,
+  $validate_cmd            = undef,
+  $selinux_ignore_defaults = undef,
+  $selrange                = undef,
+  $selrole                 = undef,
+  $seltype                 = undef,
+  $seluser                 = undef
 ) {
   validate_re($ensure, '^present$|^absent$')
   validate_absolute_path($path)
-  validate_string($owner)
-  validate_string($group)
   validate_string($mode)
+  if ! (is_string($owner) or is_integer($owner)) {
+    fail("\$owner must be a string or integer, got ${owner}")
+  }
+  if ! (is_string($group) or is_integer($group)) {
+    fail("\$group must be a string or integer, got ${group}")
+  }
   if ! (is_string($warn) or $warn == true or $warn == false) {
     fail('$warn is not a string or boolean')
   }
+  validate_bool($show_diff)
   if ! is_bool($backup) and ! is_string($backup) {
     fail('$backup must be string or bool!')
   }
@@ -75,6 +93,13 @@ define concat(
   if $force != undef {
     warning('The $force parameter to concat is deprecated and has no effect.')
   }
+  if $selinux_ignore_defaults {
+    validate_bool($selinux_ignore_defaults)
+  }
+  validate_string($selrange)
+  validate_string($selrole)
+  validate_string($seltype)
+  validate_string($seluser)
 
   $safe_name            = regsubst($name, '[/:\n\s\(\)]', '_', 'G')
   $default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
@@ -96,16 +121,22 @@ define concat(
 
   if $ensure == 'present' {
     concat_file { $name:
-      tag            => $safe_name,
-      path           => $path,
-      owner          => $owner,
-      group          => $group,
-      mode           => $mode,
-      replace        => $replace,
-      backup         => $backup,
-      order          => $order,
-      ensure_newline => $ensure_newline,
-      validate_cmd   => $validate_cmd,
+      tag                     => $safe_name,
+      path                    => $path,
+      owner                   => $owner,
+      group                   => $group,
+      mode                    => $mode,
+      selinux_ignore_defaults => $selinux_ignore_defaults,
+      selrange                => $selrange,
+      selrole                 => $selrole,
+      seltype                 => $seltype,
+      seluser                 => $seluser,
+      replace                 => $replace,
+      backup                  => $backup,
+      show_diff               => $show_diff,
+      order                   => $order,
+      ensure_newline          => $ensure_newline,
+      validate_cmd            => $validate_cmd,
     }
 
     if $_append_header {

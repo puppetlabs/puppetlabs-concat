@@ -5,28 +5,40 @@ case fact('osfamily')
     username = 'root'
     groupname = 'system'
     scriptname = 'concatfragments.rb'
-    vardir = default['puppetvardir']
+    vardir = default.puppet['vardir']
+    if vardir.nil? or vardir == ''
+      vardir = '/opt/puppetlabs/puppet/cache'
+    end
   when 'Darwin'
     username = 'root'
     groupname = 'wheel'
     scriptname = 'concatfragments.rb'
-    vardir = default['puppetvardir']
+    vardir = default.puppet['vardir']
+    if vardir.nil? or vardir == ''
+      vardir = '/opt/puppetlabs/puppet/cache'
+    end
   when 'windows'
     username = 'Administrator'
     groupname = 'Administrators'
     scriptname = 'concatfragments.rb'
-    result = on default, "echo #{default['puppetvardir']}"
+    result = on default, "echo #{default.puppet['vardir']}"
     vardir = result.raw_output.chomp
   when 'Solaris'
     username = 'root'
     groupname = 'root'
     scriptname = 'concatfragments.rb'
-    vardir = default['puppetvardir']
+    vardir = default.puppet['vardir']
+    if vardir.nil? or vardir == ''
+      vardir = '/opt/puppetlabs/puppet/cache'
+    end
   else
     username = 'root'
     groupname = 'root'
     scriptname = 'concatfragments.rb'
-    vardir = default['puppetvardir']
+    vardir = default.puppet['vardir']
+    if vardir.nil? or vardir == ''
+      vardir = '/opt/puppetlabs/puppet/cache'
+    end
 end
 
 describe 'basic concat test' do
