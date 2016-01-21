@@ -1,3 +1,58 @@
+=======
+##2015-06-02 - Supported Release 2.0.1
+###Summary
+
+This is a bugfix release. 
+
+####Bugfixes
+- Fixes dependency graphing with concurrent modification of the same file.
+- Fixes handling fragment target.
+- Fixes the defaulted force behavior to handle empty concats correctly.
+
+=======
+##2015-05-12 - Supported Release 2.0.0
+###Summary
+
+This is a major release. Includes re-implementation of concat to use native Type and Providers, resulting in significantly improved performance and testability. Also includes a bugfix to alpha ordering of fragments.
+
+####Features
+- Re-implementation of concat to use native Type and Providers.
+
+####Bugfixes
+- Fixes a bug in alpha ordering of fragments.
+
+=======
+##2015-06-02 - Supported Release 1.2.3
+###Summary
+
+This release includes a README fix to document correct behavior of fragment target parameter.
+
+####Bugfixes
+
+- README Fix to correctly document how a fragment $target param should work.
+
+##2015-05-12 - Supported Release 1.2.2
+###Summary
+
+This release includes a bugfix.
+
+####Bugfixes
+- Fixes a bug introduced by MODULES-1700, in handling default retrieval of fragment backup parameter.
+
+##2015-04-14 - Supported Release 1.2.1
+###Summary
+
+This release includes bugfixes, test improvements, and a rewritten README.
+
+####Bugfixes
+
+- Verifies existence of $is_pe before using it.
+- Adds validation for $order param to not allow restricted characters.
+- Sets the group id on Fragments for versions of Facter that contain the $gid fact.
+- Sets the script group to 0 if the script is owned by root.
+- Explicitly sets script and concat directories to the same owner and group.
+- Re-adds support for fragment backup, so that static compiler can work with filebucket (MODULES-1700).
+
 ##2015-02-17 - Supported Release 1.2.0
 ###Summary
 
