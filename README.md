@@ -134,6 +134,10 @@ All the parameters listed below are optional.
 
 Specifies whether (and how) to back up the destination file before overwriting it. Your value gets passed on to Puppet's [native `file` resource](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-backup) for execution. Valid options: 'true', 'false', or a string representing either a target filebucket or a filename extension beginning with ".". Default value: 'puppet'.
 
+#####`backup_fragments`
+
+Specifies whether to backup concat fragments using the backup setting of the target concat file. Valid options: 'true' and 'false'. Default value: 'false'.
+
 #####`ensure`
 
 Specifies whether the destination file should exist. Setting to 'absent' tells Puppet to delete the destination file if it exists, and negates the effect of any other parameters. Valid options: 'present' and 'absent'. Default value: 'present'.
@@ -172,6 +176,10 @@ Specifies a destination file for the combined fragments. Valid options: a string
 
 Specifies whether to overwrite the destination file if it already exists. Valid options: 'true' and 'false'. Default value: 'true'.
 
+#####`show_diff`
+
+Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure reporting methods. Valid options: 'true
+
 #####`validate_cmd`
 
 Specifies a validation command to apply to the destination file. Requires Puppet version 3.5 or newer. Valid options: a string to be passed to a file resource. Default value: undefined.
@@ -187,8 +195,39 @@ If you set 'warn' to 'true', `concat` adds the following line with an `order` of
 ~~~
 
 Before 2.0.0, this parameter would add a newline at the end of the warn
-message. To improve flexibilty, this was removed. Please add it explicitely if
+message. To improve flexibilty, this was removed. Please add it explicitly if
 you need it.
+
+#####`selinux_ignore_defaults`
+
+See the `file` type's
+[`selinux_ignore_defaults`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selinux_ignore_defaults)
+documentention.
+
+#####`selrange`
+
+See the `file` type's
+[`selrange`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange)
+documentention.
+
+#####`selrole`
+
+See the `file` type's
+[`selrole`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole)
+documentention.
+
+#####`seltype`
+
+See the `file` type's
+[`seltype`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype)
+documentention.
+
+#####`seluser`
+
+See the `file` type's
+[`seluser`](https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser)
+documentention.
+
 
 ####Define: `concat::fragment`
 

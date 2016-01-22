@@ -41,13 +41,18 @@ describe 'concat', :type => :define do
     if p[:ensure] == 'present'
       it do
         should contain_concat(title).with(file_defaults.merge({
-          :ensure       => 'present',
-          :owner        => p[:owner],
-          :group        => p[:group],
-          :mode         => p[:mode],
-          :path         => p[:path],
-          :backup       => p[:backup],
-          :replace      => p[:replace],
+          :ensure                  => 'present',
+          :owner                   => p[:owner],
+          :group                   => p[:group],
+          :mode                    => p[:mode],
+          :path                    => p[:path],
+          :backup                  => p[:backup],
+          :replace                 => p[:replace],
+          :selinux_ignore_defaults => p[:selinux_ignore_defaults],
+          :selrange                => p[:selrange],
+          :selrole                 => p[:selrole],
+          :seltype                 => p[:seltype],
+          :seluser                 => p[:seluser],
         }))
       end
     else
@@ -130,11 +135,15 @@ describe 'concat', :type => :define do
       it_behaves_like 'concat', '/etc/foo.bar', { :owner => 'apenny' }
     end
 
+    context '1000' do
+      it_behaves_like 'concat', '/etc/foo.bar', { :owner => 1000 }
+    end
+
     context 'false' do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :owner => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+        expect { catalogue }.to raise_error(Puppet::Error, /\$owner must be a string or integer/)
       end
     end
   end # owner =>
@@ -144,11 +153,15 @@ describe 'concat', :type => :define do
       it_behaves_like 'concat', '/etc/foo.bar', { :group => 'apenny' }
     end
 
+    context '1000' do
+      it_behaves_like 'concat', '/etc/foo.bar', { :group => 1000 }
+    end
+
     context 'false' do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :group => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+        expect { catalogue }.to raise_error(Puppet::Error, /\$group must be a string or integer/)
       end
     end
   end # group =>
@@ -194,6 +207,22 @@ describe 'concat', :type => :define do
       end
     end
   end # warn =>
+
+  context 'show_diff =>' do
+    [true, false].each do |show_diff|
+      context show_diff do
+        it_behaves_like 'concat', '/etc/foo.bar', { :show_diff => show_diff }
+      end
+    end
+
+    context '123' do
+      let(:title) { '/etc/foo.bar' }
+      let(:params) {{ :show_diff => 123 }}
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
+      end
+    end
+  end # show_diff =>
 
   context 'backup =>' do
     context 'reverse' do
@@ -266,18 +295,61 @@ describe 'concat', :type => :define do
   end # ensure_newline =>
 
   context 'validate_cmd =>' do
-    context '/usr/bin/test -e %' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
-    end
+    if Puppet::Util::Package::versioncmp(Puppet::version, '3.5.0') > 0
+      context '/usr/bin/test -e %' do
+        it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
+      end
 
-    [ 1234, true ].each do |cmd|
-      context cmd do
-        let(:title) { '/etc/foo.bar' }
-        let(:params) {{ :validate_cmd => cmd }}
-        it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /\$validate_cmd must be a string/)
+      [ 1234, true ].each do |cmd|
+        context cmd do
+          let(:title) { '/etc/foo.bar' }
+          let(:params) {{ :validate_cmd => cmd }}
+          it 'should fail' do
+            expect { catalogue }.to raise_error(Puppet::Error, /\$validate_cmd must be a string/)
+          end
         end
       end
     end
   end # validate_cmd =>
+
+  context 'selinux_ignore_defaults =>' do
+    let(:title) { '/etc/foo.bar' }
+
+    [true, false].each do |v|
+      context v do
+        it_behaves_like 'concat', '/etc/foo.bar', { :selinux_ignore_defaults => v }
+      end
+    end
+
+    context '123' do
+      let(:title) { '/etc/foo.bar' }
+      let(:params) {{ :selinux_ignore_defaults => 123 }}
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
+      end
+    end
+  end # selinux_ignore_defaults =>
+
+  [
+    :selrange,
+    :selrole,
+    :seltype,
+    :seluser,
+  ].each do |p|
+    context " #{p} =>" do
+      let(:title) { '/etc/foo.bar' }
+
+      context 'foo' do
+        it_behaves_like 'concat', '/etc/foo.bar', { p => 'foo' }
+      end
+
+      context 'false' do
+        let(:title) { '/etc/foo.bar' }
+        let(:params) {{ p => false }}
+        it 'should fail' do
+          expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+        end
+      end
+    end # #{p} =>
+  end
 end

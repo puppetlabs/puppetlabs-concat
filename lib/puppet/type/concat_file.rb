@@ -81,6 +81,26 @@ Puppet::Type.newtype(:concat_file) do
     defaultto false
   end
 
+  # Inherit File parameters
+  newparam(:selinux_ignore_defaults) do
+  end
+
+  newparam(:selrange) do
+  end
+
+  newparam(:selrole) do
+  end
+
+  newparam(:seltype) do
+  end
+
+  newparam(:seluser) do
+  end
+
+  newparam(:show_diff) do
+  end
+  # End file parameters
+
   autorequire(:concat_fragment) do
     catalog.resources.collect do |r|
       if r.is_a?(Puppet::Type.type(:concat_fragment)) && r[:tag] == self[:tag]
@@ -158,7 +178,18 @@ Puppet::Type.newtype(:concat_file) do
       :ensure => self[:ensure] == :absent ? :absent : :file,
     }
 
-    [:path, :owner, :group, :mode, :replace, :backup].each do |param|
+    [:path,
+     :owner,
+     :group,
+     :mode,
+     :replace,
+     :backup,
+     :selinux_ignore_defaults,
+     :selrange,
+     :selrole,
+     :seltype,
+     :seluser,
+     :show_diff].each do |param|
       unless self[param].nil?
         file_opts[param] = self[param]
       end
