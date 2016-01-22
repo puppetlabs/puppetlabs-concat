@@ -9,7 +9,7 @@ This is a re-release of concat as a resource type. This release also includes ne
 - Allows integer UID/GID values to be passed into `$owner` and `$group`
 
 ####Bugfixes
-- PUP-1963: Fixes generated resources never receiving dependency edges.
+- Adds a workaround to PUP-1963: generated resources never receiving dependency edges.
 - Fixes occassional failure to find directory environment.
 
 ##Supported Release 1.2.5
