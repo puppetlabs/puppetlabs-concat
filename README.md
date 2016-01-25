@@ -178,7 +178,7 @@ Specifies whether to overwrite the destination file if it already exists. Valid 
 
 #####`show_diff`
 
-Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure reporting methods. Valid options: 'true
+Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure reporting methods. Valid options: 'true'.
 
 #####`validate_cmd`
 
