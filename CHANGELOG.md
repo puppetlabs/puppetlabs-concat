@@ -1,3 +1,17 @@
+##Supported Release 2.1.0
+###Summary
+
+This is a re-release of concat as a resource type. This release also includes new features and bugfixes on top of the previously YANKED 2.0.1 release.
+
+####Features
+- Adds the show_diff property.
+- Adds the selinux related file params.
+- Allows integer UID/GID values to be passed into `$owner` and `$group`
+
+####Bugfixes
+- Adds a workaround to PUP-1963: generated resources never receiving dependency edges.
+- Fixes occassional failure to find directory environment.
+
 ##Supported Release 1.2.5
 ###Summary
 

@@ -8,3 +8,5 @@ coverage/
 log/
 .idea/
 *.iml
+*.swp
+log/
