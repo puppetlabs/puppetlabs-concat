@@ -18,7 +18,6 @@ describe 'concat', :type => :define do
       :replace        => true,
     }.merge(params)
 
-    safe_name            = title.gsub('/', '_')
     concat_name          = 'fragments.concat.out'
     default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
 
@@ -87,6 +86,14 @@ describe 'concat', :type => :define do
 
     context 'with path param' do
       ['/foo', 'foo', 'foo/bar'].each do |title|
+        context title do
+          it_behaves_like 'concat', title, { :path => '/etc/foo.bar' }
+        end
+      end
+    end
+
+    context 'with special characters in title' do
+      ['foo:bar', 'foo*bar', 'foo(bar)'].each do |title|
         context title do
           it_behaves_like 'concat', title, { :path => '/etc/foo.bar' }
         end
