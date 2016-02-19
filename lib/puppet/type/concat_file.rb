@@ -137,11 +137,7 @@ Puppet::Type.newtype(:concat_file) do
       end
     else
       sorted = content_fragments.sort do |a, b|
-        def decompound(d)
-          d.split('___').first
-        end
-
-        decompound(a[0]) <=> decompound(b[0])
+        a[0] <=> b[0]
       end
     end
 
