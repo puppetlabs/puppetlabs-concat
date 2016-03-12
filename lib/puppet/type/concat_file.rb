@@ -186,6 +186,7 @@ Puppet::Type.newtype(:concat_file) do
      :selrole,
      :seltype,
      :seluser,
+     :validate_cmd,
      :show_diff].each do |param|
       unless self[param].nil?
         file_opts[param] = self[param]
