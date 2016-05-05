@@ -251,7 +251,7 @@ Specifies a file to read into the content of the fragment. **Note**: You must su
 
 #####`target`
 
-*Required.* Specifies the destination file of the fragment. Valid options: a string containing the title of the parent `concat` resource.
+*Required.* Specifies the destination file of the fragment. Valid options: a string containing the path or title of the parent `concat` resource.
 
 
 ####Type: `concat_file`
@@ -322,7 +322,7 @@ Specifies a file to read into the content of the fragment. **Note**: You must su
 
 #####`target`
 
-*Required.* Specifies the destination file of the fragment. Valid options: a string containing the title of the parent `concat_file` resource.
+*Required.* Specifies the destination file of the fragment. Valid options: a string containing the path or title of the parent `concat_file` resource.
 
 ###Removed functionality
 
