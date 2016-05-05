@@ -49,7 +49,7 @@ describe 'warnings' do
         path => '#{basedir}/file',
       }
       concat::fragment { 'foo':
-        target  => '#{basedir}/file',
+        target  => '#{basedir}/bar',
         content => 'bar',
       }
     EOS
