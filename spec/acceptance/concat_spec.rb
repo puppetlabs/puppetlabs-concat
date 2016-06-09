@@ -195,5 +195,34 @@ describe 'basic concat test' do
         its(:content) { should match '1' }
       end
     end
+    context 'noop properly' do
+      before(:all) do
+        pp = <<-EOS
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        EOS
+        apply_manifest(pp)
+      end
+      pp="
+        concat { 'file':
+          ensure => present,
+          path   => '#{basedir}/file',
+          mode   => '0644',
+          noop   => true,
+        }
+        concat::fragment { '1':
+          target  => 'file',
+          content => '1',
+          order   => '01',
+        }
+      "
+
+      it_behaves_like 'successfully_applied', pp
+
+      describe file("#{basedir}/file") do
+        it { should_not be_file }
+      end
+    end
   end
 end

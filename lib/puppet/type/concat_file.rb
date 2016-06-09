@@ -193,6 +193,15 @@ Puppet::Type.newtype(:concat_file) do
       end
     end
 
+    metaparams = Puppet::Type.metaparams
+    excluded_metaparams = [ :before, :notify, :require, :subscribe, :tag ]
+
+    metaparams.reject! { |param| excluded_metaparams.include? param }
+
+    metaparams.each do |metaparam|
+      file_opts[metaparam] = self[metaparam] if self[metaparam]
+    end
+
     [Puppet::Type.type(:file).new(file_opts)]
   end
 
