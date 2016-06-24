@@ -1,3 +1,21 @@
+##Supported Release 2.2.0
+###Summary
+
+This release includes support for Debian 8 and Ubuntu 16.04 in addition to numerous bugfixes.
+
+####Features
+- Adds Debian 8 support
+- Adds Ubuntu 16.04 support
+
+####Bugfixes
+- Fixes the stdlib lower dependency.
+- (MODULES-3027) Fixes escaping the '*' character in tag creation.
+- (MODULES-3097) Fixes fragment sorting by alpha
+- Correctly propagates 'validate_cmd' parameter to generated file resource
+- Correctly escapes disallowed characters in fragment tag creation
+- (MODULES-3332) Correct the target path validation
+- (MODULES-3463) Properly passes metaparams to generated resource
+
 ##Supported Release 2.1.0
 ###Summary
 
