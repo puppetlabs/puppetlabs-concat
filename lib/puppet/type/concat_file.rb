@@ -130,14 +130,14 @@ Puppet::Type.newtype(:concat_file) do
     if self[:order] == 'numeric'
       sorted = content_fragments.sort do |a, b|
         def decompound(d)
-          d.split('___').map { |v| v =~ /^\d+$/ ? v.to_i : v }
+          d.split('___', 2).map { |v| v =~ /^\d+$/ ? v.to_i : v }
         end
 
         decompound(a[0]) <=> decompound(b[0])
       end
     else
       sorted = content_fragments.sort_by do |a|
-        a_order, a_name = a[0].split('__')
+        a_order, a_name = a[0].split('__', 2)
         [a_order, a_name]
       end
     end
