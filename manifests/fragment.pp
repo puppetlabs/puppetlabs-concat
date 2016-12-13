@@ -22,6 +22,7 @@ define concat::fragment(
     $order   = '10',
 ) {
   validate_string($target)
+  $resource = 'Concat::Fragment'
 
   if $ensure != undef {
     warning('The $ensure parameter to concat::fragment is deprecated and has no effect.')
@@ -29,19 +30,19 @@ define concat::fragment(
 
   validate_string($content)
   if !(is_string($source) or is_array($source)) {
-    fail('$source is not a string or an Array.')
+    fail("${resource}['${title}']: 'source' is not a String or an Array.")
   }
 
   if !(is_string($order) or is_integer($order)) {
-    fail('$order is not a string or integer.')
+    fail("${resource}['${title}']: 'order' is not a String or an Integer.")
   } elsif (is_string($order) and $order =~ /[:\n\/]/) {
-    fail("Order cannot contain '/', ':', or '\n'.")
+    fail("${resource}['${title}']: 'order' cannot contain '/', ':', or '\n'.")
   }
 
   if ! ($content or $source) {
     crit('No content, source or symlink specified')
   } elsif ($content and $source) {
-    fail("Can't use 'source' and 'content' at the same time")
+    fail("${resource}['${title}']: Can't use 'source' and 'content' at the same time.")
   }
 
   $safe_target_name = regsubst($target, '[/:~\n\s\+\*\(\)]', '_', 'GM')
