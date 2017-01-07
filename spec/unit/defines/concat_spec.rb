@@ -147,7 +147,7 @@ describe 'concat', :type => :define do
 
   context 'owner =>' do
     ['apenney',1000,'1001'].each do |owner|
-      context "#{owner}" do
+      context owner do
         it_behaves_like 'concat', '/etc/foo.bar', { :owner => owner }
       end
     end
@@ -163,7 +163,7 @@ describe 'concat', :type => :define do
 
   context 'group =>' do
     ['apenney',1000,'1001'].each do |group|
-      context "#{group}" do
+      context group do
         it_behaves_like 'concat', '/etc/foo.bar', { :group => group }
       end
     end
