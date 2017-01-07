@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'concat', :type => :define do
 
-  shared_examples 'concat' do |title, params, id| 
+  shared_examples 'concat' do |title, params, id|
     params = {} if params.nil?
     id = 'root' if id.nil?
 
@@ -78,7 +78,7 @@ describe 'concat', :type => :define do
         context title do
           let(:title) { title }
           it 'should fail' do
-            expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
+            expect { catalogue }.to raise_error(Puppet::Error, /\$name is not a path, \$path must be an absolute path/)
           end
         end
       end
@@ -116,7 +116,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :ensure => 'invalid' }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /#{Regexp.escape('does not match "^present$|^absent$"')}/)
+        expect { catalogue }.to raise_error(Puppet::Error, /expects a match for Enum\['absent', 'present'\]/)
       end
     end
   end # ensure =>
@@ -126,49 +126,53 @@ describe 'concat', :type => :define do
       it_behaves_like 'concat', '/etc/foo.bar', { :path => '/foo' }
     end
 
-    ['./foo', 'foo', 'foo/bar', false].each do |path|
+    context 'false' do
+      let(:title) { '/etc/foo.bar' }
+      let(:params) {{ :path => false }}
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'path' expects a String value/)
+      end
+    end
+
+    ['./foo', 'foo', 'foo/bar'].each do |path|
       context path do
         let(:title) { '/etc/foo.bar' }
         let(:params) {{ :path => path }}
         it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /is not an absolute path/)
+          expect { catalogue }.to raise_error(Puppet::Error, /\$name is not a path, \$path must be an absolute path/)
         end
       end
     end
   end # path =>
 
   context 'owner =>' do
-    context 'apenney' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :owner => 'apenny' }
-    end
-
-    context '1000' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :owner => 1000 }
+    ['apenney',1000,'1001'].each do |owner|
+      context "#{owner}" do
+        it_behaves_like 'concat', '/etc/foo.bar', { :owner => owner }
+      end
     end
 
     context 'false' do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :owner => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /\$owner must be a string or integer/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'owner' expects a value of type String or Integer/)
       end
     end
   end # owner =>
 
   context 'group =>' do
-    context 'apenney' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :group => 'apenny' }
-    end
-
-    context '1000' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :group => 1000 }
+    ['apenney',1000,'1001'].each do |group|
+      context "#{group}" do
+        it_behaves_like 'concat', '/etc/foo.bar', { :group => group }
+      end
     end
 
     context 'false' do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :group => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /\$group must be a string or integer/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'group' expects a value of type String or Integer/)
       end
     end
   end # group =>
@@ -182,7 +186,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :mode => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'mode' expects a String value/)
       end
     end
   end # mode =>
@@ -210,7 +214,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :warn => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string or boolean/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'warn' expects a value of type Boolean or String/)
       end
     end
   end # warn =>
@@ -226,29 +230,23 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :show_diff => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'show_diff' expects a Boolean value/)
       end
     end
   end # show_diff =>
 
   context 'backup =>' do
-    context 'reverse' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :backup => 'reverse' }
-    end
-
-    context 'false' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :backup => false }
-    end
-
-    context 'true' do
-      it_behaves_like 'concat', '/etc/foo.bar', { :backup => true }
+    ['reverse',false,true].each do |backup|
+      context "#{backup}" do
+        it_behaves_like 'concat', '/etc/foo.bar', { :backup => backup }
+      end
     end
 
     context 'true' do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :backup => [] }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /backup must be string or bool/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'backup' expects a value of type Boolean or String/)
       end
     end
   end # backup =>
@@ -264,7 +262,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :replace => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'replace' expects a Boolean value/)
       end
     end
   end # replace =>
@@ -280,7 +278,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :order => 'invalid' }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /#{Regexp.escape('does not match "^alpha$|^numeric$"')}/)
+        expect { catalogue }.to raise_error(Puppet::Error, /expects a match for Enum\['alpha', 'numeric'\]/)
       end
     end
   end # order =>
@@ -296,24 +294,22 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :ensure_newline => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'ensure_newline' expects a Boolean value/)
       end
     end
   end # ensure_newline =>
 
   context 'validate_cmd =>' do
-    if Puppet::Util::Package::versioncmp(Puppet::version, '3.5.0') > 0
-      context '/usr/bin/test -e %' do
-        it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
-      end
+    context '/usr/bin/test -e %' do
+      it_behaves_like 'concat', '/etc/foo.bar', { :validate_cmd => '/usr/bin/test -e %' }
+    end
 
-      [ 1234, true ].each do |cmd|
-        context cmd do
-          let(:title) { '/etc/foo.bar' }
-          let(:params) {{ :validate_cmd => cmd }}
-          it 'should fail' do
-            expect { catalogue }.to raise_error(Puppet::Error, /\$validate_cmd must be a string/)
-          end
+    [ 1234, true ].each do |cmd|
+      context cmd do
+        let(:title) { '/etc/foo.bar' }
+        let(:params) {{ :validate_cmd => cmd }}
+        it 'should fail' do
+          expect { catalogue }.to raise_error(Puppet::Error, /parameter 'validate_cmd' expects a String value/)
         end
       end
     end
@@ -332,7 +328,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :selinux_ignore_defaults => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a boolean/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'selinux_ignore_defaults' expects a Boolean value/)
       end
     end
   end # selinux_ignore_defaults =>
@@ -354,7 +350,7 @@ describe 'concat', :type => :define do
         let(:title) { '/etc/foo.bar' }
         let(:params) {{ p => false }}
         it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+          expect { catalogue }.to raise_error(Puppet::Error, /parameter '#{p}' expects a String value/)
         end
       end
     end # #{p} =>
