@@ -31,7 +31,6 @@ end
 supports_windows = false
 
 group :development do
-  gem 'puppet-strings',                     :require => false
   gem 'puppet-lint',                        :require => false
   gem 'metadata-json-lint',                 :require => false, :platforms => 'ruby'
   gem 'puppet_facts',                       :require => false
@@ -61,7 +60,7 @@ group :system_tests do
   gem 'beaker-module_install_helper',                                            :require => false
   gem 'master_manipulator',                                                      :require => false
   gem 'beaker-hostgenerator', *location_for(ENV['BEAKER_HOSTGENERATOR_VERSION'])
-  gem 'beaker-abs', *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')
+  gem 'beaker-abs', *location_for(ENV['BEAKER_ABS_VERSION'] || '~> 0.1')        
 end
 
 gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION'])

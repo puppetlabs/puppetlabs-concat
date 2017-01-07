@@ -45,6 +45,15 @@ describe 'concat::fragment', :type => :define do
         }
       end
     end
+
+    context 'false' do
+      let(:title) { 'motd_header' }
+      let(:params) {{ :target => false }}
+
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'target' expects a String value/)
+      end
+    end
   end # target =>
 
   context 'content =>' do
@@ -54,6 +63,15 @@ describe 'concat::fragment', :type => :define do
           :content => content,
           :target  => '/etc/motd',
         }
+      end
+    end
+
+    context 'false' do
+      let(:title) { 'motd_header' }
+      let(:params) {{ :content => false, :target => '/etc/motd' }}
+
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'content' expects a String value/)
       end
     end
   end # content =>
@@ -67,6 +85,15 @@ describe 'concat::fragment', :type => :define do
         }
       end
     end
+
+    context 'false' do
+       let(:title) { 'motd_header' }
+       let(:params) {{ :source => false, :target => '/etc/motd' }}
+
+       it 'should fail' do
+         expect { catalogue }.to raise_error(Puppet::Error, /parameter 'source' expects a value of type String or Array/)
+       end
+     end
   end # source =>
 
   context 'order =>' do
