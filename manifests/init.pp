@@ -1,52 +1,49 @@
-# == Define: concat
-#
 # Sets up so that you can use fragments to build a final config file,
 #
-# === Options:
-#
-# [*ensure*]
+# @param ensure
 #   Present/Absent
-# [*path*]
+# @param path
 #   The path to the final file. Use this in case you want to differentiate
 #   between the name of a resource and the file path.  Note: Use the name you
 #   provided in the target of your fragments.
-# [*owner*]
+# @param owner
 #   Who will own the file
-# [*group*]
+# @param group
 #   Who will own the file
-# [*mode*]
+# @param mode
 #   The mode of the final file
-# [*show_diff*]
+# @param show_diff
 #   Use metaparam for files to show/hide diffs for reporting when using eyaml
 #   secrets.  Defaults to true
-# [*warn*]
+# @param warn
 #   Adds a normal shell style comment top of the file indicating that it is
 #   built by puppet.
 #   Before 2.0.0, this parameter would add a newline at the end of the warn
 #   message. To improve flexibilty, this was removed. Please add it explicitely
 #   if you need it.
-# [*backup*]
+# @param force Deprecated.
+# @param backup
 #   Controls the filebucketing behavior of the final file and see File type
 #   reference for its use.  Defaults to 'puppet'
-# [*replace*]
+# @param replace
 #   Whether to replace a file that already exists on the local system
-# [*order*]
+# @param order
 #   Select whether to order associated fragments by 'alpha' or 'numeric'.
 #   Defaults to 'alpha'.
-# [*ensure_newline*]
+# @param ensure_newline
 #   Specifies whether to ensure there's a new line at the end of each fragment.
 #   Valid options: 'true' and 'false'. Default value: 'false'.
-# [*selinux_ignore_defaults*]
-# [*selrange*]
-# [*selrole*]
-# [*seltype*]
-# [*validate_cmd*]
+# @param selinux_ignore_defaults
+# @param selrange
+# @param selrole
+# @param seltype
+# @param seluser
+# @param validate_cmd
 #   Specifies a validation command to apply to the destination file.
 #   Requires Puppet version 3.5 or newer. Valid options: a string to be passed
 #   to a file resource. Default value: undefined.
 #
-
-define concat(
+define concat (
   $ensure                  = 'present',
   $path                    = $name,
   $owner                   = undef,

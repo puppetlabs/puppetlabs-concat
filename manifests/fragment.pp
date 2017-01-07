@@ -1,25 +1,19 @@
-# == Define: concat::fragment
-#
 # Creates a concat_fragment in the catalogue
 #
-# === Options:
-#
-# [*target*]
-#   The file that these fragments belong to
-# [*content*]
-#   If present puts the content into the file
-# [*source*]
-#   If content was not specified, use the source
-# [*order*]
+# @param target The file that these fragments belong to
+# @param ensure
+# @param content If present puts the content into the file
+# @param source If content was not specified, use the source
+# @param order
 #   By default all files gets a 10_ prefix in the directory you can set it to
 #   anything else using this to influence the order of the content in the file
 #
 define concat::fragment(
-    $target,
-    $ensure  = undef,
-    $content = undef,
-    $source  = undef,
-    $order   = '10',
+  $target,
+  $ensure  = undef,
+  $content = undef,
+  $source  = undef,
+  $order   = '10',
 ) {
   validate_string($target)
   $resource = 'Concat::Fragment'
