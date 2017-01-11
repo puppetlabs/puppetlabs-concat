@@ -38,10 +38,6 @@ Puppet::Type.newtype(:concat_fragment) do
     end
   end
 
-  newparam(:tag) do
-    desc "Tag name to be used by concat to collect all concat_fragments by tag name"
-  end
-
   autorequire(:file) do
     unless catalog.resource("Concat_file[#{self[:target]}]")
       warning "Target Concat_file[#{self[:target]}] not found in the catalog"

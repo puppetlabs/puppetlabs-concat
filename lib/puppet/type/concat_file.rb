@@ -30,15 +30,7 @@ Puppet::Type.newtype(:concat_file) do
     self[:ensure] == :present
   end
 
-  newparam(:name, :namevar => true) do
-    desc "Resource name"
-  end
-
-  newparam(:tag) do
-    desc "Tag reference to collect all concat_fragment's with the same tag"
-  end
-
-  newparam(:path) do
+  newparam(:path, :namevar => true) do
     desc "The output file"
     defaultto do
       resource.value(:name)
@@ -103,7 +95,7 @@ Puppet::Type.newtype(:concat_file) do
 
   autorequire(:concat_fragment) do
     catalog.resources.collect do |r|
-      if r.is_a?(Puppet::Type.type(:concat_fragment)) && r[:tag] == self[:tag]
+      if r.is_a?(Puppet::Type.type(:concat_fragment)) && r[:target] == self[:path]
         r.name
       end
     end.compact
@@ -120,7 +112,7 @@ Puppet::Type.newtype(:concat_file) do
     content_fragments = []
 
     resources = catalog.resources.select do |r|
-      r.is_a?(Puppet::Type.type(:concat_fragment)) && r[:tag] == self[:tag]
+      r.is_a?(Puppet::Type.type(:concat_fragment)) && r[:target] == self[:path]
     end
 
     resources.each do |r|
