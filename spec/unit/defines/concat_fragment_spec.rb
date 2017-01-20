@@ -91,7 +91,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :source => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string or an Array/)
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a String or an Array/)
       end
     end
   end # source =>
@@ -111,7 +111,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :order => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string or integer/)
+        expect { catalogue }.to raise_error(Puppet::Error, /is not a String or an Integer/)
       end
     end
 
@@ -146,7 +146,7 @@ describe 'concat::fragment', :type => :define do
       let(:title) { 'motd_header' }
       let(:params) do
         {
-          :target => '/etc/motd', 
+          :target => '/etc/motd',
           :source => '/foo',
           :content => 'bar',
         }
