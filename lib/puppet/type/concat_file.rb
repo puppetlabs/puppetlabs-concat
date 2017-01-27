@@ -58,7 +58,7 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:order) do
-    desc "Controls the ordering of fragments. Can be set to alphabetical or numeric."
+    desc "Controls the ordering of fragments. Can be set to :alpha or :numeric."
 
     newvalues(:alpha, :numeric)
 
@@ -70,18 +70,18 @@ Puppet::Type.newtype(:concat_file) do
     defaultto 'puppet'
   end
 
-  newparam(:replace) do
+  newparam(:replace, :boolean => true, :parent => Puppet::Parameter::Boolean) do
     desc "Whether to replace a file that already exists on the local system."
-    defaultto true
+    defaultto :true
   end
 
   newparam(:validate_cmd) do
     desc "Validates file."
   end
 
-  newparam(:ensure_newline) do
+  newparam(:ensure_newline, :boolean => true, :parent => Puppet::Parameter::Boolean) do
     desc "Whether to ensure there is a newline after each fragment."
-    defaultto false
+    defaultto :false
   end
 
   # Inherit File parameters
