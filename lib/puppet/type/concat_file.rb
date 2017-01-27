@@ -59,7 +59,10 @@ Puppet::Type.newtype(:concat_file) do
 
   newparam(:order) do
     desc "Controls the ordering of fragments. Can be set to alphabetical or numeric."
-    defaultto 'numeric'
+
+    newvalues(:alpha, :numeric)
+
+    defaultto :numeric
   end
 
   newparam(:backup) do
@@ -119,7 +122,7 @@ Puppet::Type.newtype(:concat_file) do
       content_fragments << ["#{r[:order]}___#{r[:name]}", fragment_content(r)]
     end
 
-    if self[:order] == 'numeric'
+    if self[:order] == :numeric
       sorted = content_fragments.sort do |a, b|
         def decompound(d)
           d.split('___', 2).map { |v| v =~ /^\d+$/ ? v.to_i : v }
