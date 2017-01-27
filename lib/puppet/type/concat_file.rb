@@ -20,6 +20,7 @@ Puppet::Type.newtype(:concat_file) do
         ensure_newline => false         # Optional, Defaults to false
       }
   "
+
   ensurable do
     defaultvalues
 
@@ -30,18 +31,17 @@ Puppet::Type.newtype(:concat_file) do
     self[:ensure] == :present
   end
 
-  newparam(:name, :namevar => true) do
-    desc "Resource name"
-  end
-
   newparam(:tag) do
     desc "Tag reference to collect all concat_fragment's with the same tag"
   end
 
-  newparam(:path) do
+  newparam(:path, :namevar => true) do
     desc "The output file"
-    defaultto do
-      resource.value(:name)
+
+    validate do |value|
+      unless Puppet::Util.absolute_path?(value)
+        raise ArgumentError, "File paths must be fully qualified, not '#{value}'"
+      end
     end
   end
 
