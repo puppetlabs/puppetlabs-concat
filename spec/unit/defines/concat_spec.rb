@@ -93,7 +93,7 @@ describe 'concat', :type => :define do
     end
 
     context 'with special characters in title' do
-      ['foo:bar', 'foo*bar', 'foo(bar)'].each do |title|
+      ['foo:bar', 'foo*bar', 'foo(bar)', 'foo@bar'].each do |title|
         context title do
           it_behaves_like 'concat', title, { :path => '/etc/foo.bar' }
         end
