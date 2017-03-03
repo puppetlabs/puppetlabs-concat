@@ -101,14 +101,6 @@ Puppet::Type.newtype(:concat_file) do
   end
   # End file parameters
 
-  autorequire(:concat_fragment) do
-    catalog.resources.collect do |r|
-      if r.is_a?(Puppet::Type.type(:concat_fragment)) && r[:tag] == self[:tag]
-        r.name
-      end
-    end.compact
-  end
-
   # Autorequire the file we are generating below
   autorequire(:file) do
     [self[:path]]
