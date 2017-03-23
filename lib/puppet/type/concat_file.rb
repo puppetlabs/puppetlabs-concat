@@ -58,7 +58,7 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:order) do
-    desc "Controls the ordering of fragments. Can be set to :alpha or :numeric."
+    desc "Controls the ordering of fragments. Can be set to alpha or numeric."
 
     newvalues(:alpha, :numeric)
 
