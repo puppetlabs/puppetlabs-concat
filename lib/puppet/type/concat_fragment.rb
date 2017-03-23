@@ -43,7 +43,7 @@ Puppet::Type.newtype(:concat_fragment) do
   end
 
   autorequire(:file) do
-    if catalog.resources.select {|x| x.class == Puppet::Type::Concat_file and (x[:path] == self[:target] || x[:name] == self[:target]) }.empty?
+    if catalog.resources.select {|x| x.class == Puppet::Type.type(:concat_file) and (x[:path] == self[:target] || x.title == self[:target]) }.empty?
       warning "Target Concat_file with path of #{self[:target]} not found in the catalog"
     end
   end

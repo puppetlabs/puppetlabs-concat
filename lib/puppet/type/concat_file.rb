@@ -20,6 +20,7 @@ Puppet::Type.newtype(:concat_file) do
         ensure_newline => false         # Optional, Defaults to false
       }
   "
+
   ensurable do
     defaultvalues
 
@@ -30,18 +31,17 @@ Puppet::Type.newtype(:concat_file) do
     self[:ensure] == :present
   end
 
-  newparam(:name, :namevar => true) do
-    desc "Resource name"
-  end
-
   newparam(:tag) do
     desc "Tag reference to collect all concat_fragment's with the same tag"
   end
 
-  newparam(:path) do
+  newparam(:path, :namevar => true) do
     desc "The output file"
-    defaultto do
-      resource.value(:name)
+
+    validate do |value|
+      unless Puppet::Util.absolute_path?(value)
+        raise ArgumentError, "File paths must be fully qualified, not '#{value}'"
+      end
     end
   end
 
@@ -58,8 +58,11 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:order) do
-    desc "Controls the ordering of fragments. Can be set to alphabetical or numeric."
-    defaultto 'numeric'
+    desc "Controls the ordering of fragments. Can be set to alpha or numeric."
+
+    newvalues(:alpha, :numeric)
+
+    defaultto :numeric
   end
 
   newparam(:backup) do
@@ -67,18 +70,18 @@ Puppet::Type.newtype(:concat_file) do
     defaultto 'puppet'
   end
 
-  newparam(:replace) do
+  newparam(:replace, :boolean => true, :parent => Puppet::Parameter::Boolean) do
     desc "Whether to replace a file that already exists on the local system."
-    defaultto true
+    defaultto :true
   end
 
   newparam(:validate_cmd) do
     desc "Validates file."
   end
 
-  newparam(:ensure_newline) do
+  newparam(:ensure_newline, :boolean => true, :parent => Puppet::Parameter::Boolean) do
     desc "Whether to ensure there is a newline after each fragment."
-    defaultto false
+    defaultto :false
   end
 
   # Inherit File parameters
@@ -119,7 +122,7 @@ Puppet::Type.newtype(:concat_file) do
       content_fragments << ["#{r[:order]}___#{r[:name]}", fragment_content(r)]
     end
 
-    if self[:order] == 'numeric'
+    if self[:order] == :numeric
       sorted = content_fragments.sort do |a, b|
         def decompound(d)
           d.split('___', 2).map { |v| v =~ /^\d+$/ ? v.to_i : v }
