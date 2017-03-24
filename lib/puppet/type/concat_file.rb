@@ -39,7 +39,7 @@ Puppet::Type.newtype(:concat_file) do
     desc "The output file"
 
     validate do |value|
-      unless Puppet::Util.absolute_path?(value)
+      unless (Puppet::Util.absolute_path?(value, :posix) or Puppet::Util.absolute_path?(value, :windows))
         raise ArgumentError, "File paths must be fully qualified, not '#{value}'"
       end
     end
