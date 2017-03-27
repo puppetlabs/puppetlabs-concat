@@ -11,9 +11,6 @@ describe 'concat::fragment', :type => :define do
       :order   => 10,
     }.merge(params)
 
-    id               = 'root'
-    gid              = 'root'
-
     let(:title) { title }
     let(:params) { params }
     let(:pre_condition) do
@@ -91,7 +88,7 @@ describe 'concat::fragment', :type => :define do
        let(:params) {{ :source => false, :target => '/etc/motd' }}
 
        it 'should fail' do
-         expect { catalogue }.to raise_error(Puppet::Error, /parameter 'source' expects a value of type String or Array/)
+         expect { catalogue }.to raise_error(Puppet::Error, /parameter 'source' expects a value of type String, Array/)
        end
      end
   end # source =>
@@ -111,7 +108,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :order => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /expects a value of type String or Integer/)
+        expect { catalogue }.to raise_error(Puppet::Error, /expects a value of type String, Integer, Pattern, or Array/)
       end
     end
 

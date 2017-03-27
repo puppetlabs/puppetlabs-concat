@@ -18,9 +18,6 @@ describe 'concat', :type => :define do
       :replace        => true,
     }.merge(params)
 
-    concat_name          = 'fragments.concat.out'
-    default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
-
     file_defaults = {
       :backup  => p[:backup],
     }
@@ -78,7 +75,7 @@ describe 'concat', :type => :define do
         context title do
           let(:title) { title }
           it 'should fail' do
-            expect { catalogue }.to raise_error(Puppet::Error, /\$name is not a path, \$path must be an absolute path/)
+            expect { catalogue }.to raise_error(Puppet::Error, /Stdlib::Unixpath/)
           end
         end
       end
@@ -130,7 +127,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :path => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'path' expects a String value/)
+        expect { catalogue }.to raise_error(Puppet::Error, /Stdlib::Unixpath/)
       end
     end
 
@@ -139,7 +136,7 @@ describe 'concat', :type => :define do
         let(:title) { '/etc/foo.bar' }
         let(:params) {{ :path => path }}
         it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /\$name is not a path, \$path must be an absolute path/)
+          expect { catalogue }.to raise_error(Puppet::Error, /Stdlib::Unixpath/)
         end
       end
     end
@@ -156,7 +153,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :owner => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'owner' expects a value of type String or Integer/)
+        expect { catalogue }.to raise_error(Puppet::Error, /expects a value of type String, Integer, Pattern, or Array/)
       end
     end
   end # owner =>
@@ -172,7 +169,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :group => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'group' expects a value of type String or Integer/)
+        expect { catalogue }.to raise_error(Puppet::Error, /expects a value of type String, Integer, Pattern, or Array/)
       end
     end
   end # group =>
@@ -328,7 +325,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :selinux_ignore_defaults => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'selinux_ignore_defaults' expects a Boolean value/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'selinux_ignore_defaults' expects a value of type Undef or Boolean/)
       end
     end
   end # selinux_ignore_defaults =>
