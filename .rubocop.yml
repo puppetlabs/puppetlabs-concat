@@ -70,7 +70,7 @@ Style/WhileUntilModifier:
 Lint/AmbiguousRegexpLiteral:
   Enabled: True
 
-Security/Eval:
+Lint/Eval:
   Enabled: True
 
 Lint/BlockAlignment:
@@ -298,7 +298,7 @@ Style/EmptyLiteral:
 Metrics/LineLength:
   Enabled: False
 
-Style/MethodCallWithoutArgsParentheses:
+Style/MethodCallParentheses:
   Enabled: True
 
 Style/MethodDefParentheses:
