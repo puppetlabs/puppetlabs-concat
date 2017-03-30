@@ -15,27 +15,15 @@
 #   anything else using this to influence the order of the content in the file
 #
 define concat::fragment(
-    $target,
-    $ensure  = undef,
-    $content = undef,
-    $source  = undef,
-    $order   = '10',
+    String $target,
+    Optional[String] $content                = undef,
+    Optional[Variant[String, Array]] $source = undef,
+    Variant[String, Array] $order            = '10',
 ) {
-  validate_string($target)
+
   $resource = 'Concat::Fragment'
 
-  if $ensure != undef {
-    warning('The $ensure parameter to concat::fragment is deprecated and has no effect.')
-  }
-
-  validate_string($content)
-  if !(is_string($source) or is_array($source)) {
-    fail("${resource}['${title}']: 'source' is not a String or an Array.")
-  }
-
-  if !(is_string($order) or is_integer($order)) {
-    fail("${resource}['${title}']: 'order' is not a String or an Integer.")
-  } elsif (is_string($order) and $order =~ /[:\n\/]/) {
+  if ($order =~ /[:\n\/]/) {
     fail("${resource}['${title}']: 'order' cannot contain '/', ':', or '\n'.")
   }
 

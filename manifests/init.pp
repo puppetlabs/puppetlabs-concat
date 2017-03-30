@@ -47,59 +47,25 @@
 #
 
 define concat(
-  $ensure                  = 'present',
-  $path                    = $name,
-  $owner                   = undef,
-  $group                   = undef,
-  $mode                    = '0644',
-  $warn                    = false,
-  $force                   = undef,
-  $show_diff               = true,
-  $backup                  = 'puppet',
-  $replace                 = true,
-  $order                   = 'alpha',
-  $ensure_newline          = false,
-  $validate_cmd            = undef,
-  $selinux_ignore_defaults = undef,
-  $selrange                = undef,
-  $selrole                 = undef,
-  $seltype                 = undef,
-  $seluser                 = undef
+  Enum['absent', 'present'] $ensure          = 'present',
+  Stdlib::Absolutepath $path                 = $name,
+  Optional[Variant[Integer, String]] $owner  = undef,
+  Optional[Variant[Integer, String]] $group  = undef,
+  $mode                                      = '0644',
+  Variant[Boolean, String] $warn             = false,
+  $force                                     = undef,
+  Boolean $show_diff                         = true,
+  Variant[Boolean, String] $backup           = 'puppet',
+  Boolean $replace                           = true,
+  Enum['alpha', 'numeric'] $order            = 'alpha',
+  Boolean $ensure_newline                    = false,
+  Optional[String] $validate_cmd             = undef,
+  Optional[Boolean] $selinux_ignore_defaults = undef,
+  Optional[String] $selrange                 = undef,
+  Optional[String] $selrole                  = undef,
+  Optional[String] $seltype                  = undef,
+  Optional[String] $seluser                  = undef
 ) {
-  validate_re($ensure, '^present$|^absent$')
-  validate_absolute_path($path)
-  validate_string($mode)
-  if ! (is_string($owner) or is_integer($owner)) {
-    fail("\$owner must be a string or integer, got ${owner}")
-  }
-  if ! (is_string($group) or is_integer($group)) {
-    fail("\$group must be a string or integer, got ${group}")
-  }
-  if ! (is_string($warn) or $warn == true or $warn == false) {
-    fail('$warn is not a string or boolean')
-  }
-  validate_bool($show_diff)
-  if ! is_bool($backup) and ! is_string($backup) {
-    fail('$backup must be string or bool!')
-  }
-  validate_bool($replace)
-  validate_re($order, '^alpha$|^numeric$')
-  validate_bool($ensure_newline)
-
-  if $validate_cmd and ! is_string($validate_cmd) {
-    fail('$validate_cmd must be a string')
-  }
-
-  if $force != undef {
-    warning('The $force parameter to concat is deprecated and has no effect.')
-  }
-  if $selinux_ignore_defaults {
-    validate_bool($selinux_ignore_defaults)
-  }
-  validate_string($selrange)
-  validate_string($selrole)
-  validate_string($seltype)
-  validate_string($seluser)
 
   $safe_name            = regsubst($name, '[/:~\n\s\+\*\(\)@]', '_', 'G')
   $default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
