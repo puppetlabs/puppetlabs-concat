@@ -20,6 +20,10 @@ define concat::fragment(
     $content = undef,
     $source  = undef,
     $order   = '10',
+    $owner   = undef, # Unused, hack
+    $group   = undef, # Unused, hack
+    $backup  = undef, # Unused, hack
+    $mode    = undef, # Unused, hack
 ) {
   validate_string($target)
   $resource = 'Concat::Fragment'
