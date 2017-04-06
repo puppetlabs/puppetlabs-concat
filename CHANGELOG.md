@@ -1,3 +1,17 @@
+##Supported Release 2.2.1
+###Summary
+
+This is a backwards compatible bugfix release.
+
+####Bugfixes
+
+- (MODULES-4350) Makes :path the namevar for concat_file
+- (MODULES-4351) Prevents the :order parameter from accepting arbitrary values in concat_file
+- (MODULES-4352) Restricts the :replace parameter to values accepted by file
+- (MODULES-4474) Drops auto requirement of fragments
+- (MODULES-3900) Improves error messages in concat::fragment
+- Uses the whole fragment title when sorting
+
 ##Supported Release 2.2.0
 ###Summary
 
