@@ -70,7 +70,7 @@ Puppet::Type.newtype(:concat_file) do
     defaultto 'puppet'
   end
 
-  newparam(:replace, :boolean => true, :parent => Puppet::Parameter::Boolean) do
+  newparam(:replace, :boolean => true) do
     desc "Whether to replace a file that already exists on the local system."
     defaultto :true
   end
@@ -79,7 +79,7 @@ Puppet::Type.newtype(:concat_file) do
     desc "Validates file."
   end
 
-  newparam(:ensure_newline, :boolean => true, :parent => Puppet::Parameter::Boolean) do
+  newparam(:ensure_newline, :boolean => true) do
     desc "Whether to ensure there is a newline after each fragment."
     defaultto :false
   end
