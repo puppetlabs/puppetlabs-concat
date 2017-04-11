@@ -11,9 +11,6 @@ describe 'concat::fragment', :type => :define do
       :order   => 10,
     }.merge(params)
 
-    id               = 'root'
-    gid              = 'root'
-
     let(:title) { title }
     let(:params) { params }
     let(:pre_condition) do
@@ -51,7 +48,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :target => false }}
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'target' expects a String value/)
       end
     end
   end # target =>
@@ -71,7 +68,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :content => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a string/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'content' expects a String value/)
       end
     end
   end # content =>
@@ -87,13 +84,13 @@ describe 'concat::fragment', :type => :define do
     end
 
     context 'false' do
-      let(:title) { 'motd_header' }
-      let(:params) {{ :source => false, :target => '/etc/motd' }}
+       let(:title) { 'motd_header' }
+       let(:params) {{ :source => false, :target => '/etc/motd' }}
 
-      it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a String or an Array/)
-      end
-    end
+       it 'should fail' do
+         expect { catalogue }.to raise_error(Puppet::Error, /parameter 'source' expects a value of type String, Array/)
+       end
+     end
   end # source =>
 
   context 'order =>' do
@@ -111,7 +108,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :order => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /is not a String or an Integer/)
+        expect { catalogue }.to raise_error(Puppet::Error, /expects a value of type String, Integer, Pattern, or Array/)
       end
     end
 
