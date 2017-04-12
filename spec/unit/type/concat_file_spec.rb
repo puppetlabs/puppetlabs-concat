@@ -2,12 +2,12 @@ require 'spec_helper'
 
 shared_examples 'Puppet::Parameter::Boolean' do |parameter|
     it "accepts true (#{true.class}) as a value" do
-    resource[parameter] = value
+    resource[parameter] = true
     expect(resource[parameter]).to eq(:true)
   end
 
   it "accepts false (#{false.class}) as a value" do
-    resource[parameter] = value
+    resource[parameter] = true
     expect(resource[parameter]).to eq(:false)
   end
 end
