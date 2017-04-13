@@ -108,7 +108,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :order => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /expects a value of type String, Integer, Pattern, or Array/)
+        expect { catalogue }.to raise_error(Puppet::Error, /Evaluation Error.*expects.*Boolean.*/)
       end
     end
 

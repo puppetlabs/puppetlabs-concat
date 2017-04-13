@@ -153,7 +153,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :owner => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /expects a value of type String, Integer, Pattern, or Array/)
+        expect { catalogue }.to raise_error(Puppet::Error, /Evaluation Error.*expects.*Boolean.*/)
       end
     end
   end # owner =>
@@ -169,7 +169,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :group => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /expects a value of type String, Integer, Pattern, or Array/)
+        expect { catalogue }.to raise_error(Puppet::Error, /Evaluation Error.*expects.*Boolean.*/)
       end
     end
   end # group =>
@@ -325,7 +325,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :selinux_ignore_defaults => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'selinux_ignore_defaults' expects a value of type Undef or Boolean/)
+        expect { catalogue }.to raise_error(Puppet::Error, /Evaluation Error.*expects.*Boolean.*/)
       end
     end
   end # selinux_ignore_defaults =>
