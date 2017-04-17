@@ -61,27 +61,6 @@ define concat(
   Optional[String]                   $seltype                 = undef,
   Optional[String]                   $seluser                 = undef,
 ) {
-  if ! (is_string($owner) or is_integer($owner)) {
-    fail("\$owner must be a string or integer, got ${owner}")
-  }
-  if ! (is_string($group) or is_integer($group)) {
-    fail("\$group must be a string or integer, got ${group}")
-  }
-  if ! (is_string($warn) or $warn == true or $warn == false) {
-    fail('$warn is not a string or boolean')
-  }
-  if ! is_bool($backup) and ! is_string($backup) {
-    fail('$backup must be string or boolean')
-  }
-
-  if $name !~ Stdlib::AbsolutePath {
-    if $path !~ Stdlib::AbsolutePath {
-      fail('If $name is not a path, $path must be an absolute path')
-    }
-  }
-  if $path and $path !~ Stdlib::AbsolutePath {
-    fail('If $name is not a path, $path must be an absolute path')
-  }
 
   $safe_name            = regsubst($name, '[/:~\n\s\+\*\(\)@]', '_', 'G')
   $default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
