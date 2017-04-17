@@ -43,40 +43,44 @@
 #   to a file resource. Default value: undefined.
 #
 define concat(
-  Enum['present', 'absent']                                                           $ensure                  = 'present',
-  Stdlib::Absolutepath                                                                $path                    = $name,
-  Optional[Variant[String, Stdlib::Compat::String, Integer, Stdlib::Compat::Integer]] $owner                   = undef,
-  Optional[Variant[String, Stdlib::Compat::String, Integer, Stdlib::Compat::Integer]] $group                   = undef,
-  Variant[String, Stdlib::Compat::String]                                             $mode                    = '0644',
-  Variant[Boolean, String, Stdlib::Compat::String]                                    $warn                    = false,
-                                                                                      $force                   = undef,
-  Boolean                                                                             $show_diff               = true,
-  Variant[Boolean, String, Stdlib::Compat::String]                                    $backup                  = 'puppet',
-  Boolean                                                                             $replace                 = true,
-  Enum['alpha','numeric']                                                             $order                   = 'alpha',
-  Boolean                                                                             $ensure_newline          = false,
-  Optional[Variant[String, Stdlib::Compat::String]]                                   $validate_cmd            = undef,
-  Optional[Boolean]                                                                   $selinux_ignore_defaults = undef,
-  Optional[Variant[String, Stdlib::Compat::String]]                                   $selrange                = undef,
-  Optional[Variant[String, Stdlib::Compat::String]]                                   $selrole                 = undef,
-  Optional[Variant[String, Stdlib::Compat::String]]                                   $seltype                 = undef,
-  Optional[Variant[String, Stdlib::Compat::String]]                                   $seluser                 = undef,
+  Enum['present', 'absent']          $ensure                  = 'present',
+  Stdlib::Absolutepath               $path                    = $name,
+  Optional[Variant[String, Integer]] $owner                   = undef,
+  Optional[Variant[String, Integer]] $group                   = undef,
+  String                             $mode                    = '0644',
+  Variant[Boolean, String]           $warn                    = false,
+  Boolean                            $show_diff               = true,
+  Variant[Boolean, String]           $backup                  = 'puppet',
+  Boolean                            $replace                 = true,
+  Enum['alpha','numeric']            $order                   = 'alpha',
+  Boolean                            $ensure_newline          = false,
+  Optional[String]                   $validate_cmd            = undef,
+  Optional[Boolean]                  $selinux_ignore_defaults = undef,
+  Optional[String]                   $selrange                = undef,
+  Optional[String]                   $selrole                 = undef,
+  Optional[String]                   $seltype                 = undef,
+  Optional[String]                   $seluser                 = undef,
 ) {
-  if $owner =~ Integer or $owner =~ Stdlib::Compat::Integer { validate_legacy(Integer, 'validate_integer', $owner) }
-  if $owner =~ String or $owner =~ Stdlib::Compat::String { validate_legacy(String, 'validate_string', $owner) }
-  if $group =~ Integer or $group =~ Stdlib::Compat::Integer { validate_legacy(Integer, 'validate_integer', $group) }
-  if $group =~ String or $group =~ Stdlib::Compat::String { validate_legacy(String, 'validate_string', $group) }
-  validate_legacy(String, 'validate_string', $mode)
-  if $warn !~ Boolean { validate_legacy(String, 'validate_string', $warn) }
-  if $backup !~ Boolean { validate_legacy(String, 'validate_string', $backup) }
-  validate_legacy(String, 'validate_string', $validate_cmd)
-  validate_legacy(String, 'validate_string', $selrange)
-  validate_legacy(String, 'validate_string', $selrole)
-  validate_legacy(String, 'validate_string', $seltype)
-  validate_legacy(String, 'validate_string', $seluser)
+  if ! (is_string($owner) or is_integer($owner)) {
+    fail("\$owner must be a string or integer, got ${owner}")
+  }
+  if ! (is_string($group) or is_integer($group)) {
+    fail("\$group must be a string or integer, got ${group}")
+  }
+  if ! (is_string($warn) or $warn == true or $warn == false) {
+    fail('$warn is not a string or boolean')
+  }
+  if ! is_bool($backup) and ! is_string($backup) {
+    fail('$backup must be string or boolean')
+  }
 
-  if $force != undef {
-    warning('The $force parameter to concat is deprecated and has no effect.')
+  if $name !~ Stdlib::AbsolutePath {
+    if $path !~ Stdlib::AbsolutePath {
+      fail('If $name is not a path, $path must be an absolute path')
+    }
+  }
+  if $path and $path !~ Stdlib::AbsolutePath {
+    fail('If $name is not a path, $path must be an absolute path')
   }
 
   $safe_name            = regsubst($name, '[/:~\n\s\+\*\(\)@]', '_', 'G')
