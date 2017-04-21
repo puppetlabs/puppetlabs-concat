@@ -8,23 +8,14 @@
 #   anything else using this to influence the order of the content in the file
 #
 define concat::fragment(
-  Variant[String, Stdlib::Compat::String]                                         $target,
-                                                                                  $ensure  = undef,
-  Optional[Variant[String, Stdlib::Compat::String]]                               $content = undef,
-  Optional[Variant[String, Stdlib::Compat::String, Array, Stdlib::Compat::Array]] $source  = undef,
-  Variant[String, Stdlib::Compat::String, Integer, Stdlib::Compat::Integer]       $order   = '10',
+  String                             $target,
+  Optional[String]                   $content = undef,
+  Optional[Variant[String, Array]]   $source  = undef,
+  Variant[String, Integer]           $order   = '10',
 ) {
   $resource = 'Concat::Fragment'
 
-  validate_legacy(String, 'validate_string', $target)
-  if $content {
-    validate_legacy(String, 'validate_string', $content)
-  }
-  if $ensure != undef {
-    warning('The $ensure parameter to concat::fragment is deprecated and has no effect.')
-  }
-
-  if (($order =~ String or $order =~ Stdlib::Compat::String) and $order =~ Pattern[/[:\n\/]/]) {
+  if (is_string($order) and $order =~ /[:\n\/]/) {
     fail("${resource}['${title}']: 'order' cannot contain '/', ':', or '\n'.")
   }
 

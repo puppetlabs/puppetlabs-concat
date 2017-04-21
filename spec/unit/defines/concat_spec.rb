@@ -153,7 +153,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :owner => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /Evaluation Error.*expects.*Boolean.*/)
+        expect { catalogue }.to raise_error(Puppet::Error, /Evaluation Error.*expects.*String.*Boolean.*/)
       end
     end
   end # owner =>
@@ -169,7 +169,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :group => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /Evaluation Error.*expects.*Boolean.*/)
+        expect { catalogue }.to raise_error(Puppet::Error, /Evaluation Error.*expects.*String.*Boolean.*/)
       end
     end
   end # group =>
@@ -183,7 +183,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :mode => false }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'mode' expects a String value/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'mode' expects .*String.*/)
       end
     end
   end # mode =>
@@ -211,7 +211,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :warn => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'warn' expects a value of type Boolean or String/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'warn' expects .*Boolean.*String.*/)
       end
     end
   end # warn =>
@@ -227,7 +227,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :show_diff => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'show_diff' expects a Boolean value/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'show_diff' expects .*Boolean.*/)
       end
     end
   end # show_diff =>
@@ -243,7 +243,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :backup => [] }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'backup' expects a value of type Boolean or String/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'backup' expects .*Boolean.*String.*/)
       end
     end
   end # backup =>
@@ -259,7 +259,7 @@ describe 'concat', :type => :define do
       let(:title) { '/etc/foo.bar' }
       let(:params) {{ :replace => 123 }}
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'replace' expects a Boolean value/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'replace' expects .*Boolean.*/)
       end
     end
   end # replace =>
@@ -306,7 +306,7 @@ describe 'concat', :type => :define do
         let(:title) { '/etc/foo.bar' }
         let(:params) {{ :validate_cmd => cmd }}
         it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /parameter 'validate_cmd' expects a String value/)
+          expect { catalogue }.to raise_error(Puppet::Error, /parameter 'validate_cmd' expects.*String.*/)
         end
       end
     end
@@ -347,7 +347,7 @@ describe 'concat', :type => :define do
         let(:title) { '/etc/foo.bar' }
         let(:params) {{ p => false }}
         it 'should fail' do
-          expect { catalogue }.to raise_error(Puppet::Error, /parameter '#{p}' expects a String value/)
+          expect { catalogue }.to raise_error(Puppet::Error, /parameter '#{p}' expects.*String.*/)
         end
       end
     end # #{p} =>

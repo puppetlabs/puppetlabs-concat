@@ -48,7 +48,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :target => false }}
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'target' expects a String value/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'target' expects a .*String.*/)
       end
     end
   end # target =>
@@ -68,7 +68,7 @@ describe 'concat::fragment', :type => :define do
       let(:params) {{ :content => false, :target => '/etc/motd' }}
 
       it 'should fail' do
-        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'content' expects a String value/)
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'content' expects a .*String.*/ )
       end
     end
   end # content =>
@@ -88,7 +88,7 @@ describe 'concat::fragment', :type => :define do
        let(:params) {{ :source => false, :target => '/etc/motd' }}
 
        it 'should fail' do
-         expect { catalogue }.to raise_error(Puppet::Error, /parameter 'source' expects a value of type String, Array/)
+         expect { catalogue }.to raise_error(Puppet::Error, /parameter 'source' expects a .*String.*Array.*/)
        end
      end
   end # source =>
