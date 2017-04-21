@@ -138,10 +138,6 @@ Specifies whether (and how) to back up the destination file before overwriting i
 
 Default value: 'puppet'.
 
-##### `backup_fragments`
-
-Specifies whether to backup concat fragments using the backup setting of the target concat file. Valid options: `true` and `false`. Default value: `false`.
-
 ##### `ensure`
 
 Data type: String.
