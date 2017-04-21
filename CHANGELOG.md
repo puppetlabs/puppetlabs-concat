@@ -1,3 +1,20 @@
+## Supported Releases 3.0.0 & 4.0.0
+### Summary
+
+This double release adds new Puppet 4 data types. The 3.0.0 release is fully backwards compatible to 
+existing Puppet 4 configurations and provides you with [deprecation warnings](https://github.com/puppetlabs/puppetlabs-stdlib#deprecation) for every argument that 
+will not work as expected with the final 4.0.0 release. See the [stdlib docs](https://github.com/puppetlabs/puppetlabs-stdlib#validate_legacy) for an in-depth discussion of this.
+
+If you're still running Puppet 3, remain on the latest puppetlabs-concat 2.x release for now, and see the documentation to [upgrade to Puppet 4](https://docs.puppet.com/puppet/4.6/reference/upgrade_major_pre.html).
+
+#### Added
+- puppet-strings documentation
+- Puppet 4 data types and deprecation warnings
+
+#### Changed
+- stdlib dependency changed to 4.13.1
+- supported Puppet version changed to 4.7.
+
 ## Supported Release 2.2.1
 ### Summary
 
