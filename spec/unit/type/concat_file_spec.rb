@@ -1,22 +1,14 @@
 require 'spec_helper'
 
 shared_examples 'Puppet::Parameter::Boolean' do |parameter|
-  [true, :true, 'true', :yes, 'yes'].each do |value|
-    it "accepts #{value} (#{value.class}) as a value" do
-      resource[parameter] = value
-      expect(resource[parameter]).to eq(true)
-    end
+    it "accepts true (#{true.class}) as a value" do
+    resource[parameter] = true
+    expect(resource[parameter]).to eq(:true)
   end
 
-  [false, :false, 'false', :no, 'no'].each do |value|
-    it "accepts #{value} (#{value.class}) as a value" do
-      resource[parameter] = value
-      expect(resource[parameter]).to eq(false)
-    end
-  end
-
-  it 'does not accept "foo" as a value' do
-    expect { resource[parameter] = 'foo' }.to raise_error(%r{Invalid value "foo"})
+  it "accepts false (#{false.class}) as a value" do
+    resource[parameter] = true
+    expect(resource[parameter]).to eq(:false)
   end
 end
 
