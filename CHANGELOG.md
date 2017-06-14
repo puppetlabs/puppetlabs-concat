@@ -1,3 +1,12 @@
+## Supported Releases 4.0.1
+### Summary
+
+This is a small release that updates regex in a test due to changes made in Puppet.
+
+#### Bugfixes
+
+- (MODULES-5085) Ensure that replace test handles qoutes in change message
+
 ## Supported Releases 3.0.0 & 4.0.0
 ### Summary
 
