@@ -84,6 +84,14 @@ Puppet::Type.newtype(:concat_file) do
     defaultto :false
   end
 
+  newparam(:format) do
+    desc "What data type to merge the fragments as."
+
+    newvalues(:plain, :yaml, :json, :'json-pretty')
+
+    defaultto :plain
+  end
+
   # Inherit File parameters
   newparam(:selinux_ignore_defaults) do
   end
@@ -137,9 +145,50 @@ Puppet::Type.newtype(:concat_file) do
       end
     end
 
-    @generated_content = sorted.map { |cf| cf[1] }.join
+    case self[:format]
+    when :plain
+      @generated_content = sorted.map { |cf| cf[1] }.join
+    when :yaml
+      content_array = sorted.map do |cf|
+        YAML.load(cf[1])
+      end
+      content_hash = content_array.reduce({}) do |memo, current|
+        nested_merge(memo, current)
+      end
+      @generated_content = content_hash.to_yaml
+    when :json
+      content_array = sorted.map do |cf|
+        JSON.parse(cf[1])
+      end
+      content_hash = content_array.reduce({}) do |memo, current|
+        nested_merge(memo, current)
+      end
+      # Convert Hash
+      @generated_content = content_hash.to_json
+    when :'json-pretty'
+      content_array = sorted.map do |cf|
+        JSON.parse(cf[1])
+      end
+      content_hash = content_array.reduce({}) do |memo, current|
+        nested_merge(memo, current)
+      end
+      @generated_content = JSON.pretty_generate(content_hash)
+    end
 
     @generated_content
+  end
+
+  def nested_merge(hash1, hash2)
+    # Deep-merge Hashes; higher order value is kept
+    hash1.merge(hash2) do |k, v1, v2|
+      if v1.is_a?(Hash) and v2.is_a?(Hash)
+        nested_merge(v1, v2)
+      elsif v1.is_a?(Array) and v2.is_a?(Array)
+        (v1+v2).uniq
+      else
+        v1
+      end
+    end
   end
 
   def fragment_content(r)
