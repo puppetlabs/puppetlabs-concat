@@ -396,11 +396,19 @@ Data type: String.
 
 ##### `validate_cmd`
 
-Data typeL String
+Data type: String
 
 Specifies a validation command to apply to the destination file. Requires Puppet version 3.5 or newer. Valid options: a string to be passed to a file resource. 
 
 Default value: `undef`.
+
+##### `format`
+
+Data type: String
+
+Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-pretty'.
+
+Default value: `plain`.
 
 #### Type: `concat_fragment`
 
