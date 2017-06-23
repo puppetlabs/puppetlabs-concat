@@ -194,8 +194,8 @@ define concat(
       backup  => $backup,
     }
 
-    # Only newer versions of puppet 3.x support the validate_cmd parameter
-    if $validate_cmd {
+    # Only versions of puppet >= 3.5 support the validate_cmd parameter
+    if $validate_cmd and (versioncmp($::puppetversion, '3.5') >= 0) {
       File[$name] {
         validate_cmd => $validate_cmd,
       }
