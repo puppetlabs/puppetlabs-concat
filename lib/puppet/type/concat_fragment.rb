@@ -19,14 +19,26 @@ Puppet::Type.newtype(:concat_fragment) do
 
   newparam(:target) do
     desc "Target"
+
+    validate do |value|
+      raise ArgumentError, 'Target must be a String' unless value.is_a?(String)
+    end
   end
 
   newparam(:content) do
     desc "Content"
+
+    validate do |value|
+      raise ArgumentError, 'Content must be a String' unless value.is_a?(String)
+    end
   end
 
   newparam(:source) do
     desc "Source"
+
+    validate do |value|
+      raise ArgumentError, 'Content must be a String or Array' unless [String, Array].include?(value.class)
+    end
   end
 
   newparam(:order) do
@@ -43,17 +55,22 @@ Puppet::Type.newtype(:concat_fragment) do
   end
 
   autorequire(:file) do
-    if catalog.resources.select {|x| x.class == Puppet::Type.type(:concat_file) and (x[:path] == self[:target] || x.title == self[:target]) }.empty?
-      warning "Target Concat_file with path of #{self[:target]} not found in the catalog"
+    found = catalog.resources.select do |resource|
+      next unless resource.is_a?(Puppet::Type.type(:concat_file))
+
+      resource[:path] == self[:target] || resource.title == self[:target] ||
+        (resource[:tag] && resource[:tag] == self[:tag])
+    end
+
+    if found.empty?
+      tag_message = self[:tag] ? "or tag '#{self[:tag]} " : ''
+      warning "Target Concat_file with path or title '#{self[:target]}' #{tag_message}not found in the catalog"
     end
   end
 
   validate do
     # Check if target is set
-    fail Puppet::ParseError, "Target not set" if self[:target].nil?
-
-    # Check if tag is set
-    fail Puppet::ParseError, "Tag not set" if self[:tag].nil?
+    fail Puppet::ParseError, "No 'target' or 'tag' set" unless self[:target] || self[:tag]
 
     # Check if either source or content is set. raise error if none is set
     fail Puppet::ParseError, "Set either 'source' or 'content'" if self[:source].nil? && self[:content].nil?
