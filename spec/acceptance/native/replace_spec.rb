@@ -217,8 +217,8 @@ describe 'concat_file' do
       EOS
 
       it 'applies the manifest twice with stderr for changing to file' do
-        expect(apply_manifest(pp, :expect_failures => true).stderr).to match(/change from directory to file failed/)
-        expect(apply_manifest(pp, :expect_failures => true).stderr).to match(/change from directory to file failed/)
+        expect(apply_manifest(pp, :expect_failures => true).stderr).to match(/change from '?directory'? to '?file'? failed/)
+        expect(apply_manifest(pp, :expect_failures => true).stderr).to match(/change from '?directory'? to '?file'? failed/)
       end
 
       describe file("#{basedir}/file") do
