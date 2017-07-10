@@ -15,7 +15,7 @@ define concat::fragment(
 ) {
   $resource = 'Concat::Fragment'
 
-  if (is_string($order) and $order =~ /[:\n\/]/) {
+  if ($order =~ String and $order =~ /[:\n\/]/) {
     fail("${resource}['${title}']: 'order' cannot contain '/', ':', or '\n'.")
   }
 
