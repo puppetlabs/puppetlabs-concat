@@ -92,6 +92,12 @@ Puppet::Type.newtype(:concat_file) do
     defaultto :plain
   end
 
+  newparam(:force, :boolean => true, :parent => Puppet::Parameter::Boolean) do
+    desc "Forcibly merge duplicate keys keeping values of the highest order."
+
+    defaultto :false
+  end
+
   # Inherit File parameters
   newparam(:selinux_ignore_defaults) do
   end
@@ -186,6 +192,17 @@ Puppet::Type.newtype(:concat_file) do
       elsif v1.is_a?(Array) and v2.is_a?(Array)
         (v1+v2).uniq
       else
+        # Fail if there are duplicate keys without force
+        unless v1 == v2
+          unless self[:force]
+            err_message = [
+              "Duplicate key '#{k}' found with values '#{v1}' and #{v2}'.",
+              'Use \'force\' attribute to merge keys.',
+            ]
+            fail(err_message.join(' '))
+          end
+          Puppet.debug("Key '#{k}': replacing '#{v2}' with '#{v1}'.")
+        end
         v1
       end
     end

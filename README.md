@@ -410,6 +410,14 @@ Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml'
 
 Default value: `plain`.
 
+##### `force`
+
+Data type: Boolean
+
+Specifies whether to merge data structures, keeping the values with higher order. Valid options: `true` and `false`.
+
+Default value: `false`.
+
 #### Type: `concat_fragment`
 
 ##### `content`
