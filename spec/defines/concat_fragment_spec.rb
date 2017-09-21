@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'concat::fragment', :type => :define do
+describe 'concat::fragment' do
 
   shared_examples 'fragment' do |title, params|
     params = {} if params.nil?
@@ -95,7 +95,7 @@ describe 'concat::fragment', :type => :define do
 
   context 'order =>' do
     ['', '42', 'a', 'z'].each do |order|
-      context '\'\'' do
+      context "'#{order}'" do
         it_behaves_like 'fragment', 'motd_header', {
           :order  => order,
           :target => '/etc/motd',

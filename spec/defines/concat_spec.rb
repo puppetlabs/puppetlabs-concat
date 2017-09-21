@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'concat', :type => :define do
+describe 'concat' do
 
   shared_examples 'concat' do |title, params, id|
     params = {} if params.nil?
