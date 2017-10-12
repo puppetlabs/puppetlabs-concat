@@ -107,4 +107,35 @@ describe Puppet::Type.type(:concat_file) do
   describe 'parameter :selinux_ignore_defaults' do
     it_behaves_like 'Puppet::Parameter::Boolean', :selinux_ignore_defaults
   end
+
+  describe 'parameter :force' do
+    it_behaves_like 'Puppet::Parameter::Boolean', :force
+  end
+
+  describe 'parameter :format' do
+    it 'accepts "plain" as a value' do
+      resource[:format] = 'plain'
+      expect(resource[:format]).to eq(:plain)
+    end
+
+    it 'accepts "yaml" as a value' do
+      resource[:format] = 'yaml'
+      expect(resource[:format]).to eq(:yaml)
+    end
+
+    it 'accepts "json" as a value' do
+      resource[:format] = 'json'
+      expect(resource[:format]).to eq(:json)
+    end
+
+    it 'accepts "json-pretty" as a value' do
+      resource[:format] = 'json-pretty'
+      expect(resource[:format]).to eq(:'json-pretty')
+    end
+
+    it 'does not accept "bar" as a value' do
+      expect { resource[:format] = 'bar' }.to raise_error(%r{Invalid value "bar"})
+    end
+  end
+
 end
