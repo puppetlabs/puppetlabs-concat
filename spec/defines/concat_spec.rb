@@ -16,6 +16,7 @@ describe 'concat' do
       :warn           => false,
       :backup         => 'puppet',
       :replace        => true,
+      :force          => false,
     }.merge(params)
 
     file_defaults = {
@@ -49,6 +50,7 @@ describe 'concat' do
           :selrole                 => p[:selrole],
           :seltype                 => p[:seltype],
           :seluser                 => p[:seluser],
+          :force                   => p[:force],
         }))
       end
     else
@@ -263,6 +265,22 @@ describe 'concat' do
       end
     end
   end # replace =>
+
+  context 'force =>' do
+    [true, false].each do |force|
+      context force do
+        it_behaves_like 'concat', '/etc/foo.bar', { :force => force }
+      end
+    end
+
+    context '123' do
+      let(:title) { '/etc/foo.bar' }
+      let(:params) {{ :force => 123 }}
+      it 'should fail' do
+        expect { catalogue }.to raise_error(Puppet::Error, /parameter 'force' expects .*Boolean.*/)
+      end
+    end
+  end # force =>
 
   context 'order =>' do
     ['alpha', 'numeric'].each do |order|

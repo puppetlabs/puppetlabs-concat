@@ -41,6 +41,14 @@
 #   Specifies a validation command to apply to the destination file.
 #   Requires Puppet version 3.5 or newer. Valid options: a string to be passed
 #   to a file resource. Default value: undefined.
+# @param format
+#   Specify what data type to merge the fragments as.
+#   Valid options: 'plain', 'yaml', 'json', 'json-pretty'. Default value: `plain`.
+# @param force
+#   Specifies whether to merge data structures, keeping the values with higher order.
+#   Used when format is specified as a value other than 'plain'.
+#   Valid options: `true` and `false`. Default value: `false`.
+#
 #
 define concat(
   Enum['present', 'absent']          $ensure                  = 'present',
@@ -60,6 +68,8 @@ define concat(
   Optional[String]                   $selrole                 = undef,
   Optional[String]                   $seltype                 = undef,
   Optional[String]                   $seluser                 = undef,
+  Optional[String]                   $format                  = 'plain',
+  Optional[Boolean]                  $force                   = false,
 ) {
 
   $safe_name            = regsubst($name, '[/:~\n\s\+\*\(\)@]', '_', 'G')
@@ -98,6 +108,8 @@ define concat(
       order                   => $order,
       ensure_newline          => $ensure_newline,
       validate_cmd            => $validate_cmd,
+      format                  => $format,
+      force                   => $force,
     }
 
     if $_append_header {
