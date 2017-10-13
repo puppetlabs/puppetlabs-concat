@@ -5,7 +5,7 @@ require 'beaker/puppet_install_helper'
 require 'beaker/module_install_helper'
 
 run_puppet_install_helper
-install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ /pe/i
+install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
 install_module_on(hosts)
 install_module_dependencies_on(hosts)
 
@@ -13,10 +13,10 @@ RSpec.configure do |c|
   # Readable test descriptions
   c.formatter = :documentation
 
-  c.before(:all) do
+  c.before(:each) do
     shell('mkdir -p /tmp/concat')
   end
-  c.after(:all) do
+  c.after(:each) do
     shell('rm -rf /tmp/concat /var/lib/puppet/concat')
   end
 
