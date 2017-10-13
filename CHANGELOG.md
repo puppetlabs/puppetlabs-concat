@@ -1,3 +1,19 @@
+## Supported Releases 4.1.0
+### Summary
+
+This release is a rollup of changes. The most notable change being the addition of the 'format' attribute which allows output in JSON and YAML formats, and the 'force' attribute which if true forces a merge of duplicate keys for these formats.
+
+#### Features:
+- Format and force attributes added.
+- Deprecated is_string in favour of puppet language.
+- Unsupported Ubuntu releases removed from compatibility list.
+- Debian 9 added and Debian 6 removed from compatibility list.
+
+#### Bug Fixes:
+- (MODULES-4359) Fix native types so they can be used directly.
+- Update to tests to handle errors containing quote marks.
+- Update to tests to follow rspec-puppet pattern.
+
 ## Supported Releases 4.0.1
 ### Summary
 
