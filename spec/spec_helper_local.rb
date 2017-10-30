@@ -25,7 +25,7 @@ shared_examples 'a parameter that accepts only string values' do |parameter|
   end
 
   it 'does not accept an array value' do
-    expect { resource[parameter] = %w(foo bar) }.to raise_error(%r{must be a String})
+    expect { resource[parameter] = %w[foo bar] }.to raise_error(%r{must be a String})
   end
 
   it 'does not accept a hash value' do

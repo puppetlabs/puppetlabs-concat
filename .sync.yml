@@ -11,3 +11,7 @@ appveyor.yml:
       RUBY_VER: 23-x64
 spec/spec_helper.rb:
   allow_deprecations: true
+ .travis.yml:
+   extras:
+   - rvm: 2.1.9
+     script: bundle exec rake rubocop 

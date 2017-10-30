@@ -35,30 +35,30 @@ Puppet::Type.newtype(:concat_file) do
     desc "Tag reference to collect all concat_fragment's with the same tag"
   end
 
-  newparam(:path, :namevar => true) do
-    desc "The output file"
+  newparam(:path, namevar: true) do
+    desc 'The output file'
 
     validate do |value|
-      unless (Puppet::Util.absolute_path?(value, :posix) or Puppet::Util.absolute_path?(value, :windows))
+      unless Puppet::Util.absolute_path?(value, :posix) || Puppet::Util.absolute_path?(value, :windows)
         raise ArgumentError, "File paths must be fully qualified, not '#{value}'"
       end
     end
   end
 
-  newparam(:owner, :parent => Puppet::Type::File::Owner) do
-    desc "Desired file owner."
+  newparam(:owner, parent: Puppet::Type::File::Owner) do
+    desc 'Desired file owner.'
   end
 
-  newparam(:group, :parent => Puppet::Type::File::Group) do
-    desc "Desired file group."
+  newparam(:group, parent: Puppet::Type::File::Group) do
+    desc 'Desired file group.'
   end
 
-  newparam(:mode, :parent => Puppet::Type::File::Mode) do
-    desc "Desired file mode."
+  newparam(:mode, parent: Puppet::Type::File::Mode) do
+    desc 'Desired file mode.'
   end
 
   newparam(:order) do
-    desc "Controls the ordering of fragments. Can be set to alpha or numeric."
+    desc 'Controls the ordering of fragments. Can be set to alpha or numeric.'
 
     newvalues(:alpha, :numeric)
 
@@ -66,7 +66,7 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:backup) do
-    desc "Controls the filebucketing behavior of the final file and see File type reference for its use."
+    desc 'Controls the filebucketing behavior of the final file and see File type reference for its use.'
 
     validate do |value|
       unless [TrueClass, FalseClass, String].include?(value.class)
@@ -75,13 +75,13 @@ Puppet::Type.newtype(:concat_file) do
     end
   end
 
-  newparam(:replace, :boolean => true, :parent => Puppet::Parameter::Boolean) do
-    desc "Whether to replace a file that already exists on the local system."
+  newparam(:replace, boolean: true, parent: Puppet::Parameter::Boolean) do
+    desc 'Whether to replace a file that already exists on the local system.'
     defaultto :true
   end
 
   newparam(:validate_cmd) do
-    desc "Validates file."
+    desc 'Validates file.'
 
     validate do |value|
       unless value.is_a?(String)
@@ -90,27 +90,27 @@ Puppet::Type.newtype(:concat_file) do
     end
   end
 
-  newparam(:ensure_newline, :boolean => true, :parent => Puppet::Parameter::Boolean) do
-    desc "Whether to ensure there is a newline after each fragment."
+  newparam(:ensure_newline, boolean: true, parent: Puppet::Parameter::Boolean) do
+    desc 'Whether to ensure there is a newline after each fragment.'
     defaultto :false
   end
 
   newparam(:format) do
-    desc "What data type to merge the fragments as."
+    desc 'What data type to merge the fragments as.'
 
     newvalues(:plain, :yaml, :json, :'json-pretty')
 
     defaultto :plain
   end
 
-  newparam(:force, :boolean => true, :parent => Puppet::Parameter::Boolean) do
-    desc "Forcibly merge duplicate keys keeping values of the highest order."
+  newparam(:force, boolean: true, parent: Puppet::Parameter::Boolean) do
+    desc 'Forcibly merge duplicate keys keeping values of the highest order.'
 
     defaultto :false
   end
 
   # Inherit File parameters
-  newparam(:selinux_ignore_defaults, :boolean => true, :parent => Puppet::Parameter::Boolean)
+  newparam(:selinux_ignore_defaults, boolean: true, parent: Puppet::Parameter::Boolean)
 
   newparam(:selrange) do
     validate do |value|
@@ -136,7 +136,7 @@ Puppet::Type.newtype(:concat_file) do
     end
   end
 
-  newparam(:show_diff, :boolean => true, :parent => Puppet::Parameter::Boolean)
+  newparam(:show_diff, boolean: true, parent: Puppet::Parameter::Boolean)
   # End file parameters
 
   # Autorequire the file we are generating below
@@ -147,46 +147,46 @@ Puppet::Type.newtype(:concat_file) do
 
   def fragments
     # Collect fragments that target this resource by path, title or tag.
-    @fragments ||= catalog.resources.map do |resource|
+    @fragments ||= catalog.resources.map { |resource|
       next unless resource.is_a?(Puppet::Type.type(:concat_fragment))
 
       if resource[:target] == self[:path] || resource[:target] == title ||
-        (resource[:tag] && resource[:tag] == self[:tag])
+         (resource[:tag] && resource[:tag] == self[:tag])
         resource
       end
-    end.compact
+    }.compact
+  end
+
+  def decompound(d)
+    d.split('___', 2).map { |v| (v =~ %r{^\d+$}) ? v.to_i : v }
   end
 
   def should_content
     return @generated_content if @generated_content
-    @generated_content = ""
+    @generated_content = ''
     content_fragments = []
 
     fragments.each do |r|
       content_fragments << ["#{r[:order]}___#{r[:name]}", fragment_content(r)]
     end
 
-    if self[:order] == :numeric
-      sorted = content_fragments.sort do |a, b|
-        def decompound(d)
-          d.split('___', 2).map { |v| v =~ /^\d+$/ ? v.to_i : v }
-        end
-
-        decompound(a[0]) <=> decompound(b[0])
-      end
-    else
-      sorted = content_fragments.sort_by do |a|
-        a_order, a_name = a[0].split('__', 2)
-        [a_order, a_name]
-      end
-    end
+    sorted = if self[:order] == :numeric
+               content_fragments.sort do |a, b|
+                 decompound(a[0]) <=> decompound(b[0])
+               end
+             else
+               content_fragments.sort_by do |a|
+                 a_order, a_name = a[0].split('__', 2)
+                 [a_order, a_name]
+               end
+             end
 
     case self[:format]
     when :plain
       @generated_content = sorted.map { |cf| cf[1] }.join
     when :yaml
       content_array = sorted.map do |cf|
-        YAML.load(cf[1])
+        YAML.safe_load(cf[1])
       end
       content_hash = content_array.reduce({}) do |memo, current|
         nested_merge(memo, current)
@@ -217,10 +217,10 @@ Puppet::Type.newtype(:concat_file) do
   def nested_merge(hash1, hash2)
     # Deep-merge Hashes; higher order value is kept
     hash1.merge(hash2) do |k, v1, v2|
-      if v1.is_a?(Hash) and v2.is_a?(Hash)
+      if v1.is_a?(Hash) && v2.is_a?(Hash)
         nested_merge(v1, v2)
-      elsif v1.is_a?(Array) and v2.is_a?(Array)
-        (v1+v2).uniq
+      elsif v1.is_a?(Array) && v2.is_a?(Array)
+        (v1 + v2).uniq
       else
         # Fail if there are duplicate keys without force
         unless v1 == v2
@@ -229,7 +229,7 @@ Puppet::Type.newtype(:concat_file) do
               "Duplicate key '#{k}' found with values '#{v1}' and #{v2}'.",
               'Use \'force\' attribute to merge keys.',
             ]
-            fail(err_message.join(' '))
+            raise(err_message.join(' '))
           end
           Puppet.debug("Key '#{k}': replacing '#{v2}' with '#{v1}'.")
         end
@@ -245,17 +245,17 @@ Puppet::Type.newtype(:concat_file) do
       @source = nil
       Array(r[:source]).each do |source|
         if Puppet::FileServing::Metadata.indirection.find(source)
-          @source = source 
+          @source = source
           break
         end
       end
-      self.fail "Could not retrieve source(s) #{r[:source].join(", ")}" unless @source
+      raise "Could not retrieve source(s) #{r[:source].join(', ')}" unless @source
       tmp = Puppet::FileServing::Content.indirection.find(@source)
       fragment_content = tmp.content unless tmp.nil?
     end
 
     if self[:ensure_newline]
-      fragment_content<<"\n" unless fragment_content =~ /\n$/
+      fragment_content << "\n" unless fragment_content =~ %r{\n$}
     end
 
     fragment_content
@@ -263,7 +263,7 @@ Puppet::Type.newtype(:concat_file) do
 
   def generate
     file_opts = {
-      :ensure => self[:ensure] == :absent ? :absent : :file,
+      ensure: (self[:ensure] == :absent) ? :absent : :file,
     }
 
     [:path,
@@ -279,13 +279,11 @@ Puppet::Type.newtype(:concat_file) do
      :seluser,
      :validate_cmd,
      :show_diff].each do |param|
-      unless self[param].nil?
-        file_opts[param] = self[param]
-      end
+      file_opts[param] = self[param] unless self[param].nil?
     end
 
     metaparams = Puppet::Type.metaparams
-    excluded_metaparams = [ :before, :notify, :require, :subscribe, :tag ]
+    excluded_metaparams = [:before, :notify, :require, :subscribe, :tag]
 
     metaparams.reject! { |param| excluded_metaparams.include? param }
 
@@ -299,10 +297,10 @@ Puppet::Type.newtype(:concat_file) do
   def eval_generate
     content = should_content
 
-    if !content.nil? and !content.empty?
+    if !content.nil? && !content.empty?
       catalog.resource("File[#{self[:path]}]")[:content] = content
     end
 
-    [ catalog.resource("File[#{self[:path]}]") ]
+    [catalog.resource("File[#{self[:path]}]")]
   end
 end

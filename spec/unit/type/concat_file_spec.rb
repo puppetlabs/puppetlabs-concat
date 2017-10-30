@@ -14,7 +14,7 @@ describe Puppet::Type.type(:concat_file) do
   describe 'parameter :path' do
     it 'does not accept unqualified paths' do
       expect { resource[:path] = 'foo' }.to raise_error(
-        %r{File paths must be fully qualified}
+        %r{File paths must be fully qualified},
       )
     end
   end
@@ -137,5 +137,4 @@ describe Puppet::Type.type(:concat_file) do
       expect { resource[:format] = 'bar' }.to raise_error(%r{Invalid value "bar"})
     end
   end
-
 end

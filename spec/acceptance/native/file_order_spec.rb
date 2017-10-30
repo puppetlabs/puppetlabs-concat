@@ -1,25 +1,25 @@
 require 'spec_helper_acceptance'
 
-describe 'concat order' do
+describe 'concat_file order' do
   basedir = default.tmpdir('concat')
 
   context '=> ' do
     shared_examples 'sortby' do |order_by, match_output|
       pp = <<-EOS
-      concat { '#{basedir}/foo':
+      concat_file { '#{basedir}/foo':
         order => '#{order_by}'
       }
-      concat::fragment { '1':
+      concat_fragment { '1':
         target  => '#{basedir}/foo',
         content => 'string1',
         order   => '1',
       }
-      concat::fragment { '2':
+      concat_fragment { '2':
         target  => '#{basedir}/foo',
         content => 'string2',
         order   => '2',
       }
-      concat::fragment { '10':
+      concat_fragment { '10':
         target  => '#{basedir}/foo',
         content => 'string10',
       }
