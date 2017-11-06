@@ -1,15 +1,24 @@
+## Supported Releases 4.1.1
+### Summary
+This release is to update the formatting of the module, rubocop having been run for all ruby files and been set to run automatically on all future commits.
+
+#### Changed
+- Rubocop has been implemented.
+- SLES 10, Windows 2003 R2 and OSX 10.9 removed as supported.
+- OSX 10.10 and 10.11 added as supported.
+
 ## Supported Releases 4.1.0
 ### Summary
 
 This release is a rollup of changes. The most notable change being the addition of the 'format' attribute which allows output in JSON and YAML formats, and the 'force' attribute which if true forces a merge of duplicate keys for these formats.
 
-#### Features:
+#### Features
 - Format and force attributes added.
 - Deprecated is_string in favour of puppet language.
-- Unsupported Ubuntu releases removed from compatibility list.
-- Debian 9 added and Debian 6 removed from compatibility list.
+- End of Life Ubuntu releases removed as supported.
+- Debian 9 added and Debian 6 removed as supported.
 
-#### Bug Fixes:
+#### Bugfixes
 - (MODULES-4359) Fix native types so they can be used directly.
 - Update to tests to handle errors containing quote marks.
 - Update to tests to follow rspec-puppet pattern.
