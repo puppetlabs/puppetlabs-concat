@@ -2,19 +2,19 @@ require 'spec_helper_acceptance'
 
 describe 'concat_file' do
   basedir = default.tmpdir('concat')
-  context 'file with replace => false' do
+  context 'with file replace => false' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat_file { '#{basedir}/file':
           replace => false,
         }
@@ -28,7 +28,7 @@ describe 'concat_file' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -49,19 +49,19 @@ describe 'concat_file' do
     end
   end
 
-  context 'file with replace => true' do
+  context 'with file replace => true' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat_file { '#{basedir}/file':
           replace => true,
         }
@@ -75,7 +75,7 @@ describe 'concat_file' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -96,12 +96,12 @@ describe 'concat_file' do
     end
   end
 
-  context 'symlink should not succeed', unless: (fact('osfamily') == 'windows') do
+  context 'when symlink should not succeed', unless: (fact('osfamily') == 'windows') do
     # XXX the core puppet file type will replace a symlink with a plain file
     # when using ensure => present and source => ... but it will not when using
     # ensure => present and content => ...; this is somewhat confusing behavior
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
@@ -109,11 +109,11 @@ describe 'concat_file' do
             ensure => link,
             target => '#{basedir}/dangling',
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
 
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat_file { '#{basedir}/file':
           replace => false,
         }
@@ -127,7 +127,7 @@ describe 'concat_file' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -146,12 +146,12 @@ describe 'concat_file' do
     end
   end
 
-  context 'symlink should succeed', unless: (fact('osfamily') == 'windows') do
+  context 'when symlink should succeed', unless: (fact('osfamily') == 'windows') do
     # XXX the core puppet file type will replace a symlink with a plain file
     # when using ensure => present and source => ... but it will not when using
     # ensure => present and content => ...; this is somewhat confusing behavior
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
@@ -159,11 +159,11 @@ describe 'concat_file' do
             ensure => link,
             target => '#{basedir}/dangling',
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
 
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat_file { '#{basedir}/file':
           replace => true,
         }
@@ -177,7 +177,7 @@ describe 'concat_file' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -193,21 +193,22 @@ describe 'concat_file' do
         is_expected.to match '2'
       end
     end
-  end # symlink
+  end
+  # symlink
 
-  context 'directory should not succeed' do
+  context 'when directory should not succeed' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             ensure => directory,
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat_file { '#{basedir}/file': }
 
         concat_fragment { '1':
@@ -219,7 +220,7 @@ describe 'concat_file' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     i = 0
     num = 2
@@ -240,30 +241,32 @@ describe 'concat_file' do
   # files and symlinks, not directories.  The semantics either need to be
   # changed, extended, or a new param introduced to control directory
   # replacement.
-  context 'directory should succeed', pending: 'not yet implemented' do
-    pp = <<-EOS
-        concat_file { '#{basedir}/file':
-        }
-
-        concat_fragment { '1':
-          target  => '#{basedir}/file',
-          content => '1',
-        }
-
-        concat_fragment { '2':
-          target  => '#{basedir}/file',
-          content => '2',
-        }
-      EOS
-
-    it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
-    end
-
-    describe file("#{basedir}/file") do
-      it { is_expected.to be_file }
-      its(:content) { is_expected.to match '1' }
-    end
-  end # directory
+  context 'when directory should succeed' do
+    pending('This has yet to be implemented')
+    # pp = <<-MANIFEST
+    #     concat_file { '#{basedir}/file':
+    #     }
+    #
+    #     concat_fragment { '1':
+    #       target  => '#{basedir}/file',
+    #       content => '1',
+    #     }
+    #
+    #     concat_fragment { '2':
+    #       target  => '#{basedir}/file',
+    #       content => '2',
+    #     }
+    #   MANIFEST
+    #
+    # it 'applies the manifest twice with no stderr' do
+    #   apply_manifest(pp, catch_failures: true)
+    #   apply_manifest(pp, catch_changes: true)
+    # end
+    #
+    # describe file("#{basedir}/file") do
+    #   it { is_expected.to be_file }
+    #   its(:content) { is_expected.to match '1' }
+    # end
+  end
+  # directory
 end

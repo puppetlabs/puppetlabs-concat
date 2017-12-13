@@ -2,7 +2,7 @@ require 'spec_helper_acceptance'
 
 describe 'concat_file symbolic name' do
   basedir = default.tmpdir('concat')
-  pp = <<-EOS
+  pp = <<-MANIFEST
     concat_file { 'not_abs_path':
       path => '#{basedir}/file',
     }
@@ -18,7 +18,7 @@ describe 'concat_file symbolic name' do
       content => '2',
       order   => '02',
     }
-  EOS
+  MANIFEST
 
   it 'applies the manifest twice with no stderr' do
     apply_manifest(pp, catch_failures: true)

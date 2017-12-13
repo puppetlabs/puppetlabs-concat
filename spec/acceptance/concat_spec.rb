@@ -28,16 +28,16 @@ describe 'basic concat test' do
     end
   end
 
-  context 'owner/group root' do
+  context 'with owner/group root' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
         file { '#{basedir}':
           ensure => directory,
         }
-      EOS
+      MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
       concat { '#{basedir}/file':
         owner => '#{username}',
         group => '#{groupname}',
@@ -55,7 +55,7 @@ describe 'basic concat test' do
         content => '2',
         order   => '02',
       }
-    EOS
+    MANIFEST
 
     it_behaves_like 'successfully_applied', pp
 
@@ -75,13 +75,13 @@ describe 'basic concat test' do
     end
   end
 
-  context 'ensure works when set to present with path set' do
+  context 'when present with path set' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
         file { '#{basedir}':
           ensure => directory,
         }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
     pp = "
@@ -107,13 +107,13 @@ describe 'basic concat test' do
       its(:content) { is_expected.to match '1' }
     end
   end
-  context 'works when set to absent with path set' do
+  context 'when absent with path set' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
         file { '#{basedir}':
           ensure => directory,
         }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
     pp = "
@@ -138,15 +138,15 @@ describe 'basic concat test' do
       it { is_expected.not_to be_file }
     end
   end
-  context 'ensure works when set to present with path that has special characters' do
+  context 'when present with path that has special characters' do
     filename = (fact('osfamily') == 'windows') ? 'file(1)' : 'file(1:2)'
 
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
         file { '#{basedir}':
           ensure => directory,
         }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
     pp = "
@@ -172,13 +172,13 @@ describe 'basic concat test' do
       its(:content) { is_expected.to match '1' }
     end
   end
-  context 'ensure noop properly' do
+  context 'with noop properly' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
         file { '#{basedir}':
           ensure => directory,
         }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
     pp = "

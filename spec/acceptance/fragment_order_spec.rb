@@ -3,9 +3,9 @@ require 'spec_helper_acceptance'
 describe 'concat::fragment order' do
   basedir = default.tmpdir('concat')
 
-  context '=> reverse order' do
+  context 'with reverse order' do
     shared_examples 'order_by' do |order_by, match_output|
-      pp = <<-EOS
+      pp = <<-MANIFEST
       concat { '#{basedir}/foo':
           order => '#{order_by}'
       }
@@ -24,7 +24,7 @@ describe 'concat::fragment order' do
         content => 'string3',
         order   => '1',
       }
-      EOS
+      MANIFEST
 
       it 'applies the manifest twice with no stderr' do
         apply_manifest(pp, catch_failures: true)
@@ -44,8 +44,8 @@ describe 'concat::fragment order' do
     end
   end
 
-  context '=> normal order' do
-    pp = <<-EOS
+  context 'with normal order' do
+    pp = <<-MANIFEST
       concat { '#{basedir}/foo': }
       concat::fragment { '1':
         target  => '#{basedir}/foo',
@@ -62,7 +62,7 @@ describe 'concat::fragment order' do
         content => 'string3',
         order   => '03',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -74,4 +74,5 @@ describe 'concat::fragment order' do
       its(:content) { is_expected.to match %r{string1string2string3} }
     end
   end
-end # concat::fragment order
+end
+# concat::fragment order

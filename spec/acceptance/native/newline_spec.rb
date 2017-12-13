@@ -2,17 +2,17 @@ require 'spec_helper_acceptance'
 
 describe 'concat_file ensure_newline parameter' do
   basedir = default.tmpdir('concat')
-  context '=> false' do
+  context 'when false' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
         file { '#{basedir}':
           ensure => directory
         }
-      EOS
+      MANIFEST
 
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
       concat_file { '#{basedir}/file':
         ensure_newline => false,
       }
@@ -24,7 +24,7 @@ describe 'concat_file ensure_newline parameter' do
         target  => '#{basedir}/file',
         content => '2',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -37,8 +37,8 @@ describe 'concat_file ensure_newline parameter' do
     end
   end
 
-  context '=> true' do
-    pp = <<-EOS
+  context 'when true' do
+    pp = <<-MANIFEST
       concat_file { '#{basedir}/file':
         ensure_newline => true,
       }
@@ -50,7 +50,7 @@ describe 'concat_file ensure_newline parameter' do
         target  => '#{basedir}/file',
         content => '2',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)

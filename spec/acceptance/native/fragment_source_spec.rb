@@ -17,8 +17,8 @@ end
 
 describe 'concat_fragment source' do
   basedir = default.tmpdir('concat')
-  context 'should read file fragments from local system' do
-    pp = <<-EOS
+  context 'when run should read file fragments from local system' do
+    pp = <<-MANIFEST
       file { '#{basedir}/file1':
         content => "file1 contents\n"
       }
@@ -41,7 +41,7 @@ describe 'concat_fragment source' do
         source  => '#{basedir}/file2',
         require => File['#{basedir}/file2'],
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -60,10 +60,11 @@ describe 'concat_fragment source' do
         is_expected.to match 'file2 contents'
       end
     end
-  end # should read file fragments from local system
+  end
+  # should read file fragments from local system
 
-  context 'should create files containing first match only.' do
-    pp = <<-EOS
+  context 'when run should create files containing first match only.' do
+    pp = <<-MANIFEST
       file { '#{basedir}/file1':
         content => "file1 contents\n"
       }
@@ -104,7 +105,7 @@ describe 'concat_fragment source' do
         require => [ File['#{basedir}/file1'], File['#{basedir}/file2'] ],
         order   => '01',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -139,8 +140,8 @@ describe 'concat_fragment source' do
     end
   end
 
-  context 'should fail if no match on source.' do
-    pp = <<-EOS
+  context 'when no match on source it should fail' do
+    pp = <<-MANIFEST
       concat_file { '#{basedir}/fail_no_source':
         owner   => '#{username}',
         group   => '#{groupname}',
@@ -152,7 +153,7 @@ describe 'concat_fragment source' do
         source => [ '#{basedir}/nofilehere', '#{basedir}/nothereeither' ],
         order   => '01',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest with resource failures' do
       expect(apply_manifest(pp, catch_failures: true).stderr).to match(%r{Failed to generate additional resources using 'eval_generate'})

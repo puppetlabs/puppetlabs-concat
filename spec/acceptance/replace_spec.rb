@@ -2,19 +2,19 @@ require 'spec_helper_acceptance'
 
 describe 'replacement of' do
   basedir = default.tmpdir('concat')
-  context 'file should not succeed' do
+  context 'when file should not succeed' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           replace => false,
         }
@@ -28,7 +28,7 @@ describe 'replacement of' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -49,19 +49,19 @@ describe 'replacement of' do
     end
   end
 
-  context 'file should succeed' do
+  context 'when file should succeed' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           replace => true,
         }
@@ -75,7 +75,7 @@ describe 'replacement of' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -96,12 +96,12 @@ describe 'replacement of' do
     end
   end
 
-  context 'symlink should not succeed', unless: (fact('osfamily') == 'windows') do
+  context 'when symlink should not succeed', unless: (fact('osfamily') == 'windows') do
     # XXX the core puppet file type will replace a symlink with a plain file
     # when using ensure => present and source => ... but it will not when using
     # ensure => present and content => ...; this is somewhat confusing behavior
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
@@ -109,11 +109,11 @@ describe 'replacement of' do
             ensure => link,
             target => '#{basedir}/dangling',
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
 
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           replace => false,
         }
@@ -127,7 +127,7 @@ describe 'replacement of' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -146,12 +146,12 @@ describe 'replacement of' do
     end
   end
 
-  context 'symlink should succeed', unless: (fact('osfamily') == 'windows') do
+  context 'when symlink should succeed', unless: (fact('osfamily') == 'windows') do
     # XXX the core puppet file type will replace a symlink with a plain file
     # when using ensure => present and source => ... but it will not when using
     # ensure => present and content => ...; this is somewhat confusing behavior
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
@@ -159,11 +159,11 @@ describe 'replacement of' do
             ensure => link,
             target => '#{basedir}/dangling',
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
 
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           replace => true,
         }
@@ -177,7 +177,7 @@ describe 'replacement of' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -195,19 +195,19 @@ describe 'replacement of' do
     end
   end
 
-  context 'directory should not succeed' do
+  context 'when directory should not succeed' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             ensure => directory,
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file': }
 
         concat::fragment { '1':
@@ -219,7 +219,7 @@ describe 'replacement of' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     i = 0
     num = 2
@@ -240,8 +240,8 @@ describe 'replacement of' do
   # files and symlinks, not directories.  The semantics either need to be
   # changed, extended, or a new param introduced to control directory
   # replacement.
-  context 'directory should succeed', pending: 'not yet implemented' do
-    pp = <<-EOS
+  context 'when directory should succeed', pending: 'not yet implemented' do
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
         }
 
@@ -254,7 +254,7 @@ describe 'replacement of' do
           target  => '#{basedir}/file',
           content => '2',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)

@@ -4,19 +4,19 @@ describe 'quoted paths' do
   basedir = default.tmpdir('concat')
 
   before(:all) do
-    pp = <<-EOS
+    pp = <<-MANIFEST
       file { '#{basedir}':
         ensure => directory,
       }
       file { '#{basedir}/concat test':
         ensure => directory,
       }
-    EOS
+    MANIFEST
     apply_manifest(pp)
   end
 
-  context 'path with blanks' do
-    pp = <<-EOS
+  context 'with path with blanks' do
+    pp = <<-MANIFEST
       concat { '#{basedir}/concat test/foo':
       }
       concat::fragment { '1':
@@ -27,7 +27,7 @@ describe 'quoted paths' do
         target  => '#{basedir}/concat test/foo',
         content => 'string2',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)

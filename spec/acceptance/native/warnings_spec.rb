@@ -12,9 +12,9 @@ describe 'concat_fragment warnings' do
     end
   end
 
-  context 'concat_fragment target not found' do
-    context 'target not found' do
-      pp = <<-EOS
+  context 'when concat_fragment target not found' do
+    context 'when target not found' do
+      pp = <<-MANIFEST
       concat_file { 'file':
         path => '#{basedir}/file',
       }
@@ -22,7 +22,7 @@ describe 'concat_fragment warnings' do
         target  => '#{basedir}/bar',
         content => 'bar',
       }
-    EOS
+    MANIFEST
       w = 'not found in the catalog'
 
       it_behaves_like 'has_warning', pp, w

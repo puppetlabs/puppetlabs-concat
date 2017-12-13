@@ -10,8 +10,8 @@ command = case fact('osfamily')
 describe 'concat_file with metaparameters with subscribed resources' do
   basedir = default.tmpdir('concat')
 
-  context 'should trigger refresh' do
-    pp = <<-EOS
+  context 'when run should trigger refresh' do
+    pp = <<-MANIFEST
         concat_file { "foobar":
           ensure => 'present',
           path   => '#{basedir}/foobar',
@@ -28,7 +28,7 @@ describe 'concat_file with metaparameters with subscribed resources' do
           subscribe   => Concat_file['foobar'],
           refreshonly => true,
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with stdout regex first' do
       expect(apply_manifest(pp, catch_failures: true).stdout).to match(%r{Triggered 'refresh'})
