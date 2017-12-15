@@ -77,7 +77,7 @@ Puppet::Type.newtype(:concat_file) do
 
   newparam(:replace, boolean: true, parent: Puppet::Parameter::Boolean) do
     desc 'Whether to replace a file that already exists on the local system.'
-    defaultto :true
+    defaultto true
   end
 
   newparam(:validate_cmd) do
@@ -92,7 +92,7 @@ Puppet::Type.newtype(:concat_file) do
 
   newparam(:ensure_newline, boolean: true, parent: Puppet::Parameter::Boolean) do
     desc 'Whether to ensure there is a newline after each fragment.'
-    defaultto :false
+    defaultto false
   end
 
   newparam(:format) do
@@ -106,7 +106,7 @@ Puppet::Type.newtype(:concat_file) do
   newparam(:force, boolean: true, parent: Puppet::Parameter::Boolean) do
     desc 'Forcibly merge duplicate keys keeping values of the highest order.'
 
-    defaultto :false
+    defaultto false
   end
 
   # Inherit File parameters

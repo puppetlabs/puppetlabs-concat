@@ -2,19 +2,19 @@ require 'spec_helper_acceptance'
 
 basedir = default.tmpdir('concat')
 describe 'force merge of file' do
-  context 'should not force' do
+  context 'when run should not force' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           format => 'yaml',
           force => false,
@@ -29,7 +29,7 @@ describe 'force merge of file' do
           target  => '#{basedir}/file',
           content => '{"one": "bar"}',
         }
-      EOS
+      MANIFEST
 
     i = 0
     num = 2
@@ -54,19 +54,19 @@ describe 'force merge of file' do
     end
   end
 
-  context 'should not force by default' do
+  context 'when run should not force by default' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           format => 'yaml',
         }
@@ -80,7 +80,7 @@ describe 'force merge of file' do
           target  => '#{basedir}/file',
           content => '{"one": "bar"}',
         }
-      EOS
+      MANIFEST
 
     i = 0
     num = 2
@@ -105,19 +105,19 @@ describe 'force merge of file' do
     end
   end
 
-  context 'should force' do
+  context 'when run should force' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           format => 'yaml',
           force => true,
@@ -132,7 +132,7 @@ describe 'force merge of file' do
           target  => '#{basedir}/file',
           content => '{"one": "bar"}',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -147,19 +147,19 @@ describe 'force merge of file' do
     end
   end
 
-  context 'should not force on plain' do
+  context 'when run should not force on plain' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           force => true,
           format => plain,
@@ -174,7 +174,7 @@ describe 'force merge of file' do
           target  => '#{basedir}/file',
           content => '{"one": "bar"}',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)

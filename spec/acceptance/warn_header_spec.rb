@@ -2,8 +2,8 @@ require 'spec_helper_acceptance'
 
 describe 'concat warn =>' do
   basedir = default.tmpdir('concat')
-  context 'true should enable default warning message' do
-    pp = <<-EOS
+  context 'when true should enable default warning message' do
+    pp = <<-MANIFEST
       concat { '#{basedir}/file':
         warn  => true,
       }
@@ -19,7 +19,7 @@ describe 'concat warn =>' do
         content => '2',
         order   => '02',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -39,8 +39,8 @@ describe 'concat warn =>' do
       end
     end
   end
-  context 'false should not enable default warning message' do
-    pp = <<-EOS
+  context 'when false should not enable default warning message' do
+    pp = <<-MANIFEST
       concat { '#{basedir}/file':
         warn  => false,
       }
@@ -56,7 +56,7 @@ describe 'concat warn =>' do
         content => '2',
         order   => '02',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -76,8 +76,8 @@ describe 'concat warn =>' do
       end
     end
   end
-  context '# foo should overide default warning message' do
-    pp = <<-EOS
+  context 'when foo should overide default warning message' do
+    pp = <<-MANIFEST
       concat { '#{basedir}/file':
         warn  => "# foo\n",
       }
@@ -93,7 +93,7 @@ describe 'concat warn =>' do
         content => '2',
         order   => '02',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)

@@ -2,19 +2,19 @@ require 'spec_helper_acceptance'
 
 basedir = default.tmpdir('concat')
 describe 'format of file' do
-  context 'should default to plain' do
+  context 'when run should default to plain' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
         }
 
@@ -27,7 +27,7 @@ describe 'format of file' do
           target  => '#{basedir}/file',
           content => '{"one": "bar"}',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -42,19 +42,19 @@ describe 'format of file' do
     end
   end
 
-  context 'should output to plain format' do
+  context 'when run should output to plain format' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           format => plain,
         }
@@ -68,7 +68,7 @@ describe 'format of file' do
           target  => '#{basedir}/file',
           content => '{"one": "bar"}',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -83,19 +83,19 @@ describe 'format of file' do
     end
   end
 
-  context 'should output to yaml format' do
+  context 'when run should output to yaml format' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           format => 'yaml',
         }
@@ -109,7 +109,7 @@ describe 'format of file' do
           target  => '#{basedir}/file',
           content => '{"two": "bar"}',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -126,19 +126,19 @@ describe 'format of file' do
     end
   end
 
-  context 'should output to json format' do
+  context 'when run should output to json format' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           format => 'json',
         }
@@ -152,7 +152,7 @@ describe 'format of file' do
           target  => '#{basedir}/file',
           content => '{"two": "bar"}',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
@@ -167,19 +167,19 @@ describe 'format of file' do
     end
   end
 
-  context 'should output to json-pretty format' do
+  context 'when run should output to json-pretty format' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
           file { '#{basedir}':
             ensure => directory,
           }
           file { '#{basedir}/file':
             content => "file exists\n"
           }
-        EOS
+        MANIFEST
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
         concat { '#{basedir}/file':
           format => 'json-pretty',
         }
@@ -193,7 +193,7 @@ describe 'format of file' do
           target  => '#{basedir}/file',
           content => '{"two": "bar"}',
         }
-      EOS
+      MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)

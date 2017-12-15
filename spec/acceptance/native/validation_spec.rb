@@ -2,17 +2,17 @@ require 'spec_helper_acceptance'
 
 describe 'concat_file validate_cmd parameter', unless: (fact('kernel') != 'Linux') do
   basedir = default.tmpdir('concat')
-  context '=> "/usr/bin/test -e %"' do
+  context 'with "/usr/bin/test -e %"' do
     before(:all) do
-      pp = <<-EOS
+      pp = <<-MANIFEST
         file { '#{basedir}':
           ensure => directory
         }
-      EOS
+      MANIFEST
 
       apply_manifest(pp)
     end
-    pp = <<-EOS
+    pp = <<-MANIFEST
       concat_file { '#{basedir}/file':
         validate_cmd => '/usr/bin/test -e %',
       }
@@ -20,7 +20,7 @@ describe 'concat_file validate_cmd parameter', unless: (fact('kernel') != 'Linux
         target  => '#{basedir}/file',
         content => 'content',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)

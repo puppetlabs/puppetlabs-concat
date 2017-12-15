@@ -2,8 +2,8 @@ require 'spec_helper_acceptance'
 
 describe 'concat_file with file recursive purge' do
   basedir = default.tmpdir('concat')
-  context 'should still create concat file' do
-    pp = <<-EOS
+  context 'when run should still create concat file' do
+    pp = <<-MANIFEST
       file { '#{basedir}/bar':
         ensure => directory,
         purge  => true,
@@ -19,7 +19,7 @@ describe 'concat_file with file recursive purge' do
         target => 'foobar',
         content => 'foo',
       }
-    EOS
+    MANIFEST
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
