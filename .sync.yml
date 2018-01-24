@@ -1,21 +1,15 @@
 ---
 appveyor.yml:
   matrix:
-    - PUPPET_GEM_VERSION: '~> 4.0'
-      RUBY_VER: 21
-    - PUPPET_GEM_VERSION: '~> 4.0'
-      RUBY_VER: 21-x64
-    - PUPPET_GEM_VERSION: '~> 4.0'
-      RUBY_VER: 23
-    - PUPPET_GEM_VERSION: '~> 4.0'
-      RUBY_VER: 23-x64
     - RUBY_VERSION: 24-x64
       CHECK: "syntax lint"
     - RUBY_VERSION: 24-x64
       CHECK: metadata_lint
     - RUBY_VERSION: 24-x64
       CHECK: rubocop
-
+    - PUPPET_GEM_VERSION: ~> 4.0
+      RUBY_VERSION: 21
+      CHECK: spec
 spec/spec_helper.rb:
   allow_deprecations: true
 .travis.yml:
@@ -36,8 +30,8 @@ spec/spec_helper.rb:
   branches:
     - release
   extras:
-    - rvm: 2.1.9
-      script: "\"bundle exec rake release_checks\""
+    - env: CHECK=release_checks
+      rvm: 2.1.9
 
 Gemfile:
   required:
