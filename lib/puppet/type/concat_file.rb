@@ -157,36 +157,24 @@ Puppet::Type.newtype(:concat_file) do
     }.compact
   end
 
-  def decompound(d)
-    d.split('___', 2).map { |v| (v =~ %r{^\d+$}) ? v.to_i : v }
-  end
-
   def should_content
     return @generated_content if @generated_content
     @generated_content = ''
-    content_fragments = []
 
-    fragments.each do |r|
-      content_fragments << ["#{r[:order]}___#{r[:name]}", fragment_content(r)]
+    sorted = fragments.sort_by do |a|
+      if self[:order] == :numeric
+        [a[:order], a[:name]].map { |v| (v =~ %r{^\d+$}) ? v.to_i : v }
+      else
+        [a[:order], a[:name]]
+      end
     end
-
-    sorted = if self[:order] == :numeric
-               content_fragments.sort do |a, b|
-                 decompound(a[0]) <=> decompound(b[0])
-               end
-             else
-               content_fragments.sort_by do |a|
-                 a_order, a_name = a[0].split('__', 2)
-                 [a_order, a_name]
-               end
-             end
 
     case self[:format]
     when :plain
-      @generated_content = sorted.map { |cf| cf[1] }.join
+      @generated_content = sorted.map { |cf| fragment_content(cf) }.join
     when :yaml
       content_array = sorted.map do |cf|
-        YAML.safe_load(cf[1])
+        YAML.safe_load(fragment_content(cf))
       end
       content_hash = content_array.reduce({}) do |memo, current|
         nested_merge(memo, current)
@@ -194,7 +182,7 @@ Puppet::Type.newtype(:concat_file) do
       @generated_content = content_hash.to_yaml
     when :json
       content_array = sorted.map do |cf|
-        JSON.parse(cf[1])
+        JSON.parse(fragment_content(cf))
       end
       content_hash = content_array.reduce({}) do |memo, current|
         nested_merge(memo, current)
@@ -203,7 +191,7 @@ Puppet::Type.newtype(:concat_file) do
       @generated_content = content_hash.to_json
     when :'json-pretty'
       content_array = sorted.map do |cf|
-        JSON.parse(cf[1])
+        JSON.parse(fragment_content(cf))
       end
       content_hash = content_array.reduce({}) do |memo, current|
         nested_merge(memo, current)
