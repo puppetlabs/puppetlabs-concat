@@ -8,9 +8,11 @@
   "project_page": "https://github.com/puppetlabs/puppetlabs-concat",
   "issues_url": "https://tickets.puppetlabs.com/browse/MODULES",
   "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 4.13.1 < 5.0.0"}
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.13.1 < 5.0.0"
+    }
   ],
-  "data_provider": null,
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
@@ -108,5 +110,8 @@
       "name": "puppet",
       "version_requirement": ">= 4.7.0 < 6.0.0"
     }
-  ]
+  ],
+  "pdk-version": "1.4.0.pre (heads/master-0-gfffe46a)",
+  "template-url": "https://github.com/HelenCampbell/pdk-templates",
+  "template-ref": "heads/master-0-g1af2e38"
 }
