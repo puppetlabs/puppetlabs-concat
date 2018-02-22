@@ -1,3 +1,11 @@
+## Supported Release 4.2.0
+### Summary
+This release introduces the conversion of the module to use PDK 1.3.2, along with the addition of rubocop with associated fixes.
+
+#### Changed
+- All changes in this release are for enabling rubocop, alongside the module then being converted over to the PDK.
+
+
 ## Supported Releases 4.1.1
 ### Summary
 This release is to update the formatting of the module, rubocop having been run for all ruby files and been set to run automatically on all future commits.
