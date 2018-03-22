@@ -249,7 +249,7 @@ Puppet::Type.newtype(:concat_file) do
           break
         end
       end
-      raise "Could not retrieve source(s) #{r[:source].join(', ')}" unless @source
+      raise "Could not retrieve source(s) #{Array(r[:source]).join(', ')}" unless @source
       tmp = Puppet::FileServing::Content.indirection.find(@source)
       fragment_content = tmp.content unless tmp.nil?
     end
