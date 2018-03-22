@@ -172,7 +172,7 @@ describe 'basic concat_file test' do
       its(:content) { is_expected.to match '1' }
     end
   end
-  context 'when noop' do
+  context 'when noop => true' do
     before(:all) do
       pp = <<-MANIFEST
         file { '#{basedir}':
@@ -199,6 +199,38 @@ describe 'basic concat_file test' do
 
     describe file("#{basedir}/file") do
       it { is_expected.not_to be_file }
+    end
+  end
+  context 'when noop => false' do
+    before(:all) do
+      pp = <<-MANIFEST
+        file { '#{basedir}':
+          ensure => directory,
+        }
+        MANIFEST
+      apply_manifest(pp)
+    end
+    pp = "
+      concat_file { 'file':
+        ensure => present,
+        path   => '#{basedir}/file',
+        mode   => '0644',
+        noop   => false,
+      }
+      concat_fragment { '1':
+        target  => 'file',
+        content => '1',
+        order   => '01',
+      }
+    "
+
+    it 'applies the manifest twice in noop mode with no stderr' do
+      apply_manifest(pp, catch_failures: true, noop: true)
+      apply_manifest(pp, catch_changes: true, noop: true)
+    end
+
+    describe file("#{basedir}/file") do
+      it { is_expected.to be_file }
     end
   end
 end

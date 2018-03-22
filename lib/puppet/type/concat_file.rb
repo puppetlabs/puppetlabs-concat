@@ -288,7 +288,7 @@ Puppet::Type.newtype(:concat_file) do
     metaparams.reject! { |param| excluded_metaparams.include? param }
 
     metaparams.each do |metaparam|
-      file_opts[metaparam] = self[metaparam] if self[metaparam]
+      file_opts[metaparam] = self[metaparam] unless self[metaparam].nil?
     end
 
     [Puppet::Type.type(:file).new(file_opts)]
