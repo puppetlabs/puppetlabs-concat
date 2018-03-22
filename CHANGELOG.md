@@ -1,3 +1,14 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
+
+## Supported Release [4.2.1](https://github.com/puppetlabs/puppetlabs-concat/tree/4.2.1)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.2.0...4.2.1)
+
+### Fixed
+- \(MODULES-6817\) noop =\> false for concat\_file [\#492](https://github.com/puppetlabs/puppetlabs-concat/pull/492) ([hunner](https://github.com/hunner))
+
 ## Supported Release 4.2.0
 ### Summary
 This release introduces the conversion of the module to use PDK 1.3.2, along with the addition of rubocop with associated fixes.
