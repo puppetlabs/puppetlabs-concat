@@ -10,25 +10,32 @@ init:
   - 'mkdir C:\ProgramData\PuppetLabs\puppet\var && exit 0'
 environment:
   matrix:
-    - RUBY_VERSION: 24-x64
-      CHECK: syntax lint
-    - RUBY_VERSION: 24-x64
-      CHECK: metadata_lint
-    - RUBY_VERSION: 24-x64
-      CHECK: rubocop
-    - PUPPET_GEM_VERSION: ~> 4.0
-      RUBY_VERSION: 21-x64
-      CHECK: spec
-    - PUPPET_GEM_VERSION: ~> 5.0
+    -
       RUBY_VERSION: 24-x64
-      CHECK: spec
-    - PUPPET_GEM_VERSION: ~> 4.0
+      CHECK: syntax lint
+    -
+      RUBY_VERSION: 24-x64
+      CHECK: metadata_lint
+    -
+      RUBY_VERSION: 24-x64
+      CHECK: rubocop
+    -
+      PUPPET_GEM_VERSION: ~> 4.0
       RUBY_VERSION: 21
       CHECK: spec
-    - PUPPET_GEM_VERSION: ~> 5.0
+    -
+      PUPPET_GEM_VERSION: ~> 4.0
+      RUBY_VERSION: 21-x64
+      CHECK: spec
+    -
+      PUPPET_GEM_VERSION: ~> 5.0
       RUBY_VERSION: 24
       CHECK: spec
-matrix: 
+    -
+      PUPPET_GEM_VERSION: ~> 5.0
+      RUBY_VERSION: 24-x64
+      CHECK: spec
+matrix:
   fast_finish: true
 install:
   - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
