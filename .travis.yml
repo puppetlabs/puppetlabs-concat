@@ -16,7 +16,8 @@ bundler_args: --without system_tests
 rvm:
   - 2.4.1
 env:
-  - PUPPET_GEM_VERSION="~> 5.0" CHECK=spec
+  global:
+    - BEAKER_PUPPET_COLLECTION=puppet5 PUPPET_GEM_VERSION="~> 5.0"
 matrix:
   fast_finish: true
   include:
@@ -43,11 +44,11 @@ matrix:
     -
       env: CHECK=metadata_lint
     -
-      env: CHECK=release_checks
+      env: CHECK="check:symlinks check:git_ignore check:dot_underscore check:test_file"
     -
-      env: CHECK=spec
+      env: CHECK=parallel_spec
     -
-      env: PUPPET_GEM_VERSION="~> 4.0" CHECK=spec
+      env: PUPPET_GEM_VERSION="~> 4.0" CHECK=parallel_spec
       rvm: 2.1.9
 branches:
   only:
