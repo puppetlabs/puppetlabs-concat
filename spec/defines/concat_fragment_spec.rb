@@ -28,7 +28,7 @@ describe 'concat::fragment' do
   end
 
   context 'when title' do
-    %w[0 1 a z].each do |title|
+    ['0', '1', 'a', 'z'].each do |title|
       it_behaves_like 'fragment', title, target: '/etc/motd',
                                          content: "content for #{title}"
     end

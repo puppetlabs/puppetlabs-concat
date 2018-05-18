@@ -103,7 +103,7 @@ describe 'concat' do
   end
 
   context 'when ensure =>' do
-    %w[present absent].each do |ens|
+    ['present', 'absent'].each do |ens|
       context ens do
         it_behaves_like 'concat', '/etc/foo.bar', ensure: ens
       end
@@ -207,7 +207,7 @@ describe 'concat' do
     end
 
     context 'when (stringified boolean)' do
-      %w[true yes on false no off].each do |warn|
+      ['true', 'yes', 'on', 'false', 'no', 'off'].each do |warn|
         define warn do
           it_behaves_like 'concat', '/etc/foo.bar', warn: warn
 
@@ -302,7 +302,7 @@ describe 'concat' do
   # force =>
 
   context 'when order =>' do
-    %w[alpha numeric].each do |order|
+    ['alpha', 'numeric'].each do |order|
       context order do
         it_behaves_like 'concat', '/etc/foo.bar', order: order
       end
