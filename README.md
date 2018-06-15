@@ -212,7 +212,7 @@ Default value: `true`.
 
 Data type: Boolean.
 
-Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure reporting methods. Valid options: `true`.
+Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure reporting methods. Valid options: `true` and `false`.
 
 Default value: `true`.
 
