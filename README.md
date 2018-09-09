@@ -406,7 +406,7 @@ Default value: `undef`.
 
 Data type: String
 
-Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-pretty'.
+Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty'.
 
 Default value: `plain`.
 

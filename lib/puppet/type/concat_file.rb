@@ -98,7 +98,7 @@ Puppet::Type.newtype(:concat_file) do
   newparam(:format) do
     desc 'What data type to merge the fragments as.'
 
-    newvalues(:plain, :yaml, :json, :'json-pretty')
+    newvalues(:plain, :yaml, :json, :'json-array', :'json-pretty', :'json-array-pretty')
 
     defaultto :plain
   end
@@ -192,23 +192,30 @@ Puppet::Type.newtype(:concat_file) do
         nested_merge(memo, current)
       end
       @generated_content = content_hash.to_yaml
-    when :json
+    when :json, :'json-array', :'json-pretty', :'json-array-pretty'
       content_array = sorted.map do |cf|
         JSON.parse(cf[1])
       end
-      content_hash = content_array.reduce({}) do |memo, current|
-        nested_merge(memo, current)
+
+      if [:json, :'json-pretty'].include?(self[:format])
+        content_hash = content_array.reduce({}) do |memo, current|
+          nested_merge(memo, current)
+        end
+
+        @generated_content =
+          if self[:format] == :json
+            content_hash.to_json
+          else
+            JSON.pretty_generate(content_hash)
+          end
+      else
+        @generated_content =
+          if self[:format] == :'json-array'
+            content_array.to_json
+          else
+            JSON.pretty_generate(content_array)
+          end
       end
-      # Convert Hash
-      @generated_content = content_hash.to_json
-    when :'json-pretty'
-      content_array = sorted.map do |cf|
-        JSON.parse(cf[1])
-      end
-      content_hash = content_array.reduce({}) do |memo, current|
-        nested_merge(memo, current)
-      end
-      @generated_content = JSON.pretty_generate(content_hash)
     end
 
     @generated_content
