@@ -255,7 +255,8 @@ Puppet::Type.newtype(:concat_file) do
     end
 
     if self[:ensure_newline]
-      fragment_content << "\n" unless fragment_content =~ %r{\n$}
+      # Avoid trying to modify a frozen string
+      fragment_content = "#{fragment_content}\n" unless fragment_content =~ %r{\n$}
     end
 
     fragment_content
