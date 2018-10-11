@@ -58,9 +58,10 @@ describe 'concat ensure_newline parameter' do
     end
 
     describe file("#{basedir}/file") do
+      newline = (fact('operatingsystem') == 'windows') ? "\r\n" : "\n"
       it { is_expected.to be_file }
       its(:content) do
-        is_expected.to match %r{1\n2\n}
+        is_expected.to match %r{1#{newline}2#{newline}}
       end
     end
   end

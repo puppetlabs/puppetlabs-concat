@@ -255,7 +255,8 @@ Puppet::Type.newtype(:concat_file) do
     end
 
     if self[:ensure_newline]
-      fragment_content << "\n" unless fragment_content =~ %r{\n$}
+      newline = Puppet::Util::Platform.windows? ? "\r\n" : "\n"
+      fragment_content << newline unless fragment_content =~ %r{#{newline}$}
     end
 
     fragment_content
