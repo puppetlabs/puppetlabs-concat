@@ -43,7 +43,7 @@
 #   to a file resource. Default value: undefined.
 # @param format
 #   Specify what data type to merge the fragments as.
-#   Valid options: 'plain', 'yaml', 'json', 'json-pretty'. Default value: `plain`.
+#   Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty'. Default value: `plain`.
 # @param force
 #   Specifies whether to merge data structures, keeping the values with higher order.
 #   Used when format is specified as a value other than 'plain'.
