@@ -222,12 +222,19 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   def nested_merge(hash1, hash2)
+    # If a hash is empty, simply return the other
+    return hash1 if hash2.empty?
+    return hash2 if hash1.empty?
+
+    # Unique merge for arrays
+    if hash1.is_a?(Array) && hash2.is_a?(Array)
+      return (hash1 + hash2).uniq
+    end
+
     # Deep-merge Hashes; higher order value is kept
     hash1.merge(hash2) do |k, v1, v2|
       if v1.is_a?(Hash) && v2.is_a?(Hash)
         nested_merge(v1, v2)
-      elsif v1.is_a?(Array) && v2.is_a?(Array)
-        (v1 + v2).uniq
       else
         # Fail if there are duplicate keys without force
         unless v1 == v2

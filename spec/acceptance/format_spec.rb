@@ -126,6 +126,49 @@ describe 'format of file' do
     end
   end
 
+  context 'when run should output yaml arrays to yaml format' do
+    before(:all) do
+      pp = <<-MANIFEST
+          file { '#{basedir}':
+            ensure => directory,
+          }
+          file { '#{basedir}/file':
+            content => "file exists\n"
+          }
+        MANIFEST
+      apply_manifest(pp)
+    end
+    pp = <<-MANIFEST
+        concat { '#{basedir}/file':
+          format => 'yaml',
+        }
+
+        concat::fragment { '1':
+          target  => '#{basedir}/file',
+          content => to_yaml([{ 'one.a' => 'foo', 'one.b' => 'bar' }]),
+        }
+
+        concat::fragment { '2':
+          target  => '#{basedir}/file',
+          content => to_yaml([{ 'two.a' => 'dip', 'two.b' => 'doot' }]),
+        }
+      MANIFEST
+
+    it 'applies the manifest twice with no stderr' do
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+
+    describe file("#{basedir}/file") do
+      it { is_expected.to be_file }
+    end
+    describe file("#{basedir}/file") do
+      its(:content) do
+        is_expected.to match '- one.a: foo\n  one.b: bar\n- two.a: dip\n  two.b: doot'
+      end
+    end
+  end
+
   context 'when run should output to json format' do
     before(:all) do
       pp = <<-MANIFEST
