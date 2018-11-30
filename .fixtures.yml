@@ -1,5 +1,6 @@
 fixtures:
   repositories:
     'stdlib': 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
+    'translate': 'git://github.com/puppetlabs/puppetlabs-translate.git'
   symlinks:
     'concat': '#{source_dir}'

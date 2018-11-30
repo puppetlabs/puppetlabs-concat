@@ -24,13 +24,13 @@ define concat::fragment(
   $resource = 'Concat::Fragment'
 
   if ($order =~ String and $order =~ /[:\n\/]/) {
-    fail("${resource}['${title}']: 'order' cannot contain '/', ':', or '\n'.")
+    fail(translate("%{_resource}['%{_title}']: 'order' cannot contain '/', ':', or '\\n'.", {'_resource' => $resource, '_title' => $title}))
   }
 
   if ! ($content or $source) {
     crit('No content, source or symlink specified')
   } elsif ($content and $source) {
-    fail("${resource}['${title}']: Can't use 'source' and 'content' at the same time.")
+    fail(translate("%{_resource}['%{_title}']: Can't use 'source' and 'content' at the same time.", {'_resource' => $resource, '_title' => $title}))
   }
 
   $safe_target_name = regsubst($target, '[/:~\n\s\+\*\(\)@]', '_', 'GM')

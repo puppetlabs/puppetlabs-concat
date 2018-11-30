@@ -26,7 +26,7 @@ Puppet::Type.newtype(:concat_fragment) do
     DOC
 
     validate do |value|
-      raise ArgumentError, 'Target must be a String' unless value.is_a?(String)
+      raise ArgumentError, _('Target must be a String') unless value.is_a?(String)
     end
   end
 
@@ -36,7 +36,7 @@ Puppet::Type.newtype(:concat_fragment) do
     DOC
 
     validate do |value|
-      raise ArgumentError, 'Content must be a String' unless value.is_a?(String)
+      raise ArgumentError, _('Content must be a String') unless value.is_a?(String)
     end
   end
 
@@ -47,7 +47,7 @@ Puppet::Type.newtype(:concat_fragment) do
     DOC
 
     validate do |value|
-      raise ArgumentError, 'Content must be a String or Array' unless [String, Array].include?(value.class)
+      raise ArgumentError, _('Content must be a String or Array') unless [String, Array].include?(value.class)
     end
   end
 
@@ -59,8 +59,8 @@ Puppet::Type.newtype(:concat_fragment) do
 
     defaultto '10'
     validate do |val|
-      raise Puppet::ParseError, '$order is not a string or integer.' unless val.is_a?(String) || val.is_a?(Integer)
-      raise Puppet::ParseError, "Order cannot contain '/', ':', or '\n'." if val.to_s =~ %r{[:\n\/]}
+      raise Puppet::ParseError, _('$order is not a string or integer.') unless val.is_a?(String) || val.is_a?(Integer)
+      raise Puppet::ParseError, _('Order cannot contain \'/\', \':\', or \'\\n\'.') if val.to_s =~ %r{[:\n\/]}
     end
   end
 
@@ -84,12 +84,12 @@ Puppet::Type.newtype(:concat_fragment) do
 
   validate do
     # Check if target is set
-    raise Puppet::ParseError, "No 'target' or 'tag' set" unless self[:target] || self[:tag]
+    raise Puppet::ParseError, _("No 'target' or 'tag' set") unless self[:target] || self[:tag]
 
     # Check if either source or content is set. raise error if none is set
-    raise Puppet::ParseError, "Set either 'source' or 'content'" if self[:source].nil? && self[:content].nil?
+    raise Puppet::ParseError, _("Set either 'source' or 'content'") if self[:source].nil? && self[:content].nil?
 
     # Check if both are set, if so rais error
-    raise Puppet::ParseError, "Can't use 'source' and 'content' at the same time" if !self[:source].nil? && !self[:content].nil?
+    raise Puppet::ParseError, _("Can't use 'source' and 'content' at the same time") if !self[:source].nil? && !self[:content].nil?
   end
 end

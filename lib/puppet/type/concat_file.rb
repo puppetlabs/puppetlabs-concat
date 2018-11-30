@@ -49,7 +49,7 @@ Puppet::Type.newtype(:concat_file) do
 
     validate do |value|
       unless Puppet::Util.absolute_path?(value, :posix) || Puppet::Util.absolute_path?(value, :windows)
-        raise ArgumentError, "File paths must be fully qualified, not '#{value}'"
+        raise ArgumentError, _("File paths must be fully qualified, not '%{_value}'") % { _value: value }
       end
     end
   end
@@ -93,7 +93,7 @@ Puppet::Type.newtype(:concat_file) do
 
     validate do |value|
       unless [TrueClass, FalseClass, String].include?(value.class)
-        raise ArgumentError, 'Backup must be a Boolean or String'
+        raise ArgumentError, _('Backup must be a Boolean or String')
       end
     end
   end
@@ -111,7 +111,7 @@ Puppet::Type.newtype(:concat_file) do
 
     validate do |value|
       unless value.is_a?(String)
-        raise ArgumentError, 'Validate_cmd must be a String'
+        raise ArgumentError, _('Validate_cmd must be a String')
       end
     end
   end
@@ -147,28 +147,28 @@ Puppet::Type.newtype(:concat_file) do
   newparam(:selrange) do
     desc "See the file type's selrange documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange"
     validate do |value|
-      raise ArgumentError, 'Selrange must be a String' unless value.is_a?(String)
+      raise ArgumentError, _('Selrange must be a String') unless value.is_a?(String)
     end
   end
 
   newparam(:selrole) do
     desc "See the file type's selrole documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole"
     validate do |value|
-      raise ArgumentError, 'Selrole must be a String' unless value.is_a?(String)
+      raise ArgumentError, _('Selrole must be a String') unless value.is_a?(String)
     end
   end
 
   newparam(:seltype) do
     desc "See the file type's seltype documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype"
     validate do |value|
-      raise ArgumentError, 'Seltype must be a String' unless value.is_a?(String)
+      raise ArgumentError, _('Seltype must be a String') unless value.is_a?(String)
     end
   end
 
   newparam(:seluser) do
     desc "See the file type's seluser documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser"
     validate do |value|
-      raise ArgumentError, 'Seluser must be a String' unless value.is_a?(String)
+      raise ArgumentError, _('Seluser must be a String') unless value.is_a?(String)
     end
   end
 
@@ -281,9 +281,9 @@ Puppet::Type.newtype(:concat_file) do
           unless self[:force]
             err_message = [
               "Duplicate key '#{k}' found with values '#{v1}' and #{v2}'.",
-              'Use \'force\' attribute to merge keys.',
+              "Use 'force' attribute to merge keys.",
             ]
-            raise(err_message.join(' '))
+            raise(_(err_message.join(' ')))
           end
           Puppet.debug("Key '#{k}': replacing '#{v2}' with '#{v1}'.")
         end
@@ -303,7 +303,7 @@ Puppet::Type.newtype(:concat_file) do
           break
         end
       end
-      raise "Could not retrieve source(s) #{Array(r[:source]).join(', ')}" unless @source
+      raise _('Could not retrieve source(s) %{_array}') % { _array: Array(r[:source]).join(', ') } unless @source
       tmp = Puppet::FileServing::Content.indirection.find(@source)
       fragment_content = tmp.content unless tmp.nil?
     end

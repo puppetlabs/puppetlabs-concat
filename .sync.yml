@@ -19,6 +19,8 @@ Gemfile:
           - mswin
           - mingw
           - x64_mingw
+    ':development':
+    - gem: puppet-lint-i18n
   optional:
     ':development':
       - gem: 'github_changelog_generator'
@@ -27,4 +29,15 @@ Gemfile:
         condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')"
 
 .gitlab-ci.yml:
- unmanaged: true
+  unmanaged: true
+
+Rakefile:
+  requires:
+    - puppet_pot_generator/rake_tasks
+
+.rubocop.yml:
+  default_configs:
+    inherit_from: .rubocop_todo.yml
+    require:
+      - rubocop-i18n
+      - rubocop-rspec
