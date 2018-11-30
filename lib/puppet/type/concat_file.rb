@@ -4,10 +4,11 @@ require 'puppet/type/file/mode'
 require 'puppet/util/checksums'
 
 Puppet::Type.newtype(:concat_file) do
-  @doc = "Gets all the file fragments and puts these into the target file.
-    This will mostly be used with exported resources.
+  @doc = <<-DOC
+    @summary
+      Generates a file with content from fragments sharing a common unique tag.
 
-    example:
+    @example
       Concat_fragment <<| tag == 'unique_tag' |>>
 
       concat_file { '/tmp/file':
@@ -19,9 +20,14 @@ Puppet::Type.newtype(:concat_file) do
         order          => 'numeric'     # Optional, Default to 'numeric'
         ensure_newline => false         # Optional, Defaults to false
       }
-  "
+  DOC
 
   ensurable do
+    desc <<-DOC
+      Specifies whether the destination file should exist. Setting to 'absent' tells Puppet to delete the destination file if it exists, and
+      negates the effect of any other parameters.
+    DOC
+
     defaultvalues
 
     defaultto { :present }
@@ -32,11 +38,14 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:tag) do
-    desc "Tag reference to collect all concat_fragment's with the same tag"
+    desc 'Required. Specifies a unique tag reference to collect all concat_fragments with the same tag.'
   end
 
   newparam(:path, namevar: true) do
-    desc 'The output file'
+    desc <<-DOC
+      Specifies a destination file for the combined fragments. Valid options: a string containing an absolute path. Default value: the
+      title of your declared resource.
+    DOC
 
     validate do |value|
       unless Puppet::Util.absolute_path?(value, :posix) || Puppet::Util.absolute_path?(value, :windows)
@@ -46,19 +55,29 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:owner, parent: Puppet::Type::File::Owner) do
-    desc 'Desired file owner.'
+    desc <<-DOC
+      Specifies the owner of the destination file. Valid options: a string containing a username or integer containing a uid.
+    DOC
   end
 
   newparam(:group, parent: Puppet::Type::File::Group) do
-    desc 'Desired file group.'
+    desc <<-DOC
+      Specifies a permissions group for the destination file. Valid options: a string containing a group name or integer containing a
+      gid.
+    DOC
   end
 
   newparam(:mode, parent: Puppet::Type::File::Mode) do
-    desc 'Desired file mode.'
+    desc <<-DOC
+      Specifies the permissions mode of the destination file. Valid options: a string containing a permission mode value in octal notation.
+    DOC
   end
 
   newparam(:order) do
-    desc 'Controls the ordering of fragments. Can be set to alpha or numeric.'
+    desc <<-DOC
+      Specifies a method for sorting your fragments by name within the destination file. You can override this setting for individual
+      fragments by adjusting the order parameter in their concat::fragment declarations.
+    DOC
 
     newvalues(:alpha, :numeric)
 
@@ -66,7 +85,11 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:backup) do
-    desc 'Controls the filebucketing behavior of the final file and see File type reference for its use.'
+    desc <<-DOC
+      Specifies whether (and how) to back up the destination file before overwriting it. Your value gets passed on to Puppet's native file
+      resource for execution. Valid options: true, false, or a string representing either a target filebucket or a filename extension
+      beginning with ".".'
+    DOC
 
     validate do |value|
       unless [TrueClass, FalseClass, String].include?(value.class)
@@ -76,12 +99,15 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:replace, boolean: true, parent: Puppet::Parameter::Boolean) do
-    desc 'Whether to replace a file that already exists on the local system.'
+    desc 'Specifies whether to overwrite the destination file if it already exists.'
     defaultto true
   end
 
   newparam(:validate_cmd) do
-    desc 'Validates file.'
+    desc <<-DOC
+      Specifies a validation command to apply to the destination file. Requires Puppet version 3.5 or newer. Valid options: a string to
+      be passed to a file resource.
+    DOC
 
     validate do |value|
       unless value.is_a?(String)
@@ -91,12 +117,14 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:ensure_newline, boolean: true, parent: Puppet::Parameter::Boolean) do
-    desc 'Whether to ensure there is a newline after each fragment.'
+    desc "Specifies whether to add a line break at the end of each fragment that doesn't already end in one."
     defaultto false
   end
 
   newparam(:format) do
-    desc 'What data type to merge the fragments as.'
+    desc <<-DOC
+    Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty'.
+    DOC
 
     newvalues(:plain, :yaml, :json, :'json-array', :'json-pretty', :'json-array-pretty')
 
@@ -104,40 +132,52 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:force, boolean: true, parent: Puppet::Parameter::Boolean) do
-    desc 'Forcibly merge duplicate keys keeping values of the highest order.'
+    desc 'Specifies whether to merge data structures, keeping the values with higher order.'
 
     defaultto false
   end
 
-  # Inherit File parameters
-  newparam(:selinux_ignore_defaults, boolean: true, parent: Puppet::Parameter::Boolean)
+  newparam(:selinux_ignore_defaults, boolean: true, parent: Puppet::Parameter::Boolean) do
+    desc <<-DOC
+      See the file type's selinux_ignore_defaults documentention:
+      https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selinux_ignore_defaults.
+    DOC
+  end
 
   newparam(:selrange) do
+    desc "See the file type's selrange documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange"
     validate do |value|
       raise ArgumentError, 'Selrange must be a String' unless value.is_a?(String)
     end
   end
 
   newparam(:selrole) do
+    desc "See the file type's selrole documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole"
     validate do |value|
       raise ArgumentError, 'Selrole must be a String' unless value.is_a?(String)
     end
   end
 
   newparam(:seltype) do
+    desc "See the file type's seltype documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype"
     validate do |value|
       raise ArgumentError, 'Seltype must be a String' unless value.is_a?(String)
     end
   end
 
   newparam(:seluser) do
+    desc "See the file type's seluser documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser"
     validate do |value|
       raise ArgumentError, 'Seluser must be a String' unless value.is_a?(String)
     end
   end
 
-  newparam(:show_diff, boolean: true, parent: Puppet::Parameter::Boolean)
-  # End file parameters
+  newparam(:show_diff, boolean: true, parent: Puppet::Parameter::Boolean) do
+    desc <<-DOC
+      Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure
+      reporting methods.
+    DOC
+  end
 
   # Autorequire the file we are generating below
   # Why is this necessary ?
