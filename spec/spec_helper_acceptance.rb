@@ -1,50 +1,75 @@
-require 'beaker-pe'
-require 'beaker-puppet'
-require 'beaker-rspec/spec_helper'
-require 'beaker-rspec/helpers/serverspec'
-require 'acceptance/specinfra_stubs'
-require 'beaker/puppet_install_helper'
-require 'beaker/module_install_helper'
-require 'beaker/i18n_helper'
-require 'beaker-task_helper'
+require 'serverspec'
+require 'solid_waffle'
+include SolidWaffle
 
-run_puppet_install_helper
-configure_type_defaults_on(hosts)
-install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
-install_module_on(hosts)
-install_module_dependencies_on(hosts)
+UNSUPPORTED_PLATFORMS = ['AIX', 'windows', 'Solaris', 'Suse'].freeze
 
-RSpec.configure do |c|
-  # Readable test descriptions
-  c.formatter = :documentation
-
-  c.before(:each) do
-    shell('mkdir -p /tmp/concat')
+if ENV['TARGET_HOST'].nil? || ENV['TARGET_HOST'] == 'localhost'
+  puts 'Running tests against this machine !'
+  if Gem.win_platform?
+    set :backend, :cmd
+  else
+    set :backend, :exec
   end
-  c.after(:each) do
-    shell('rm -rf /tmp/concat /var/lib/puppet/concat')
-  end
+else
+  puts "TARGET_HOST #{ENV['TARGET_HOST']}"
+  # load inventory
+  inventory_hash = inventory_hash_from_inventory_file
+  node_config = config_from_node(inventory_hash, ENV['TARGET_HOST'])
 
-  c.treat_symbols_as_metadata_keys_with_true_values = true
-  hosts.each do |host|
-    # This will be removed, this is temporary to test localisation.
-    if (fact('osfamily') == 'Debian' || fact('osfamily') == 'RedHat') &&
-       (Gem::Version.new(puppet_version) >= Gem::Version.new('4.10.5') &&
-        Gem::Version.new(puppet_version) < Gem::Version.new('5.2.0'))
-      on(host, 'mkdir /opt/puppetlabs/puppet/share/locale/ja')
-      on(host, 'touch /opt/puppetlabs/puppet/share/locale/ja/puppet.po')
-    end
-    if fact('osfamily') == 'Debian'
-      # install language on debian systems
-      install_language_on(host, 'ja_JP.utf-8') if not_controller(host)
-      # This will be removed, this is temporary to test localisation.
-    end
-    # Required for binding tests.
-    if fact('osfamily') == 'RedHat'
-      if fact('operatingsystemmajrelease') =~ %r{7} || fact('operatingsystem') =~ %r{Fedora}
-        shell('yum install -y bzip2')
-      end
-    end
-    on host, puppet('module', 'install', 'stahnma/epel')
+  if target_in_group(inventory_hash, ENV['TARGET_HOST'], 'ssh_nodes')
+    set :backend, :ssh
+    options = Net::SSH::Config.for(host)
+    options[:user] = node_config.dig('ssh', 'user') unless node_config.dig('ssh', 'user').nil?
+    options[:port] = node_config.dig('ssh', 'port') unless node_config.dig('ssh', 'port').nil?
+    options[:password] = node_config.dig('ssh', 'password') unless node_config.dig('ssh', 'password').nil?
+    host = if ENV['TARGET_HOST'].include?(':')
+             ENV['TARGET_HOST'].split(':').first
+           else
+             ENV['TARGET_HOST']
+           end
+    set :host,        options[:host_name] || host
+    set :ssh_options, options
+  elsif target_in_group(inventory_hash, ENV['TARGET_HOST'], 'winrm_nodes')
+    require 'winrm'
+
+    set :backend, :winrm
+    set :os, family: 'windows'
+    user = node_config.dig('winrm', 'user') unless node_config.dig('winrm', 'user').nil?
+    pass = node_config.dig('winrm', 'password') unless node_config.dig('winrm', 'password').nil?
+    endpoint = "http://#{ENV['TARGET_HOST']}:5985/wsman"
+
+    opts = {
+      user: user,
+      password: pass,
+      endpoint: endpoint,
+      operation_timeout: 300,
+    }
+
+    winrm = WinRM::Connection.new opts
+    Specinfra.configuration.winrm = winrm
   end
+end
+
+def setup_test_directory
+  basedir = case os[:family]
+            when 'windows'
+              'c:/concat_test'
+            else
+              '/tmp/concat_test'
+            end
+  pp = <<-MANIFEST
+    file { '#{basedir}':
+      ensure  => directory,
+      force   => true,
+      purge   => true,
+      recurse => true,
+    }
+    file { '#{basedir}/file':
+      content => "file exists\n",
+      force   => true,
+    }
+  MANIFEST
+  apply_manifest(pp)
+  basedir
 end

@@ -123,3 +123,5 @@ Style/IfUnlessModifier:
   Enabled: false
 Style/SymbolProc:
   Enabled: false
+RSpec/InstanceVariable:
+  Enabled: false

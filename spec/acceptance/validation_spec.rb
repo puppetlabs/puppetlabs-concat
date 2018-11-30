@@ -1,35 +1,27 @@
 require 'spec_helper_acceptance'
 
-describe 'concat validate_cmd parameter', unless: (fact('kernel') != 'Linux') do
-  basedir = default.tmpdir('concat')
+describe 'concat validate_cmd parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os[:family]) do
+  before(:all) do
+    @basedir = setup_test_directory
+  end
   context 'with "/usr/bin/test -e %"' do
-    before(:all) do
-      pp = <<-MANIFEST
-        file { '#{basedir}':
-          ensure => directory
-        }
-      MANIFEST
-
-      apply_manifest(pp)
-    end
-    pp = <<-MANIFEST
-      concat { '#{basedir}/file':
+    let(:pp) do
+      <<-MANIFEST
+      concat { '#{@basedir}/file':
         validate_cmd => '/usr/bin/test -e %',
       }
       concat::fragment { 'content':
-        target  => '#{basedir}/file',
+        target  => '#{@basedir}/file',
         content => 'content',
       }
-    MANIFEST
+      MANIFEST
+    end
 
     it 'applies the manifest twice with no stderr' do
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
-    end
-
-    describe file("#{basedir}/file") do
-      it { is_expected.to be_file }
-      it { is_expected.to contain 'content' }
+      expect(file("#{@basedir}/file")).to be_file
+      expect(file("#{@basedir}/file").content).to contain 'content'
     end
   end
 end

@@ -13,18 +13,12 @@ init:
   - 'mkdir C:\ProgramData\PuppetLabs\hiera && exit 0'
   - 'mkdir C:\ProgramData\PuppetLabs\puppet\var && exit 0'
 environment:
+  GITHUB_TOKEN:
+    secure: M1kPyYWdqOK4PkhJMMgo51dXa2eFhl3waqHpmWv9t5pxbUcNwaknpNoeALyA2s5n
   matrix:
     -
       RUBY_VERSION: 24-x64
       CHECK: syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop
-    -
-      PUPPET_GEM_VERSION: ~> 4.0
-      RUBY_VERSION: 21
-      CHECK: parallel_spec
-    -
-      PUPPET_GEM_VERSION: ~> 4.0
-      RUBY_VERSION: 21-x64
-      CHECK: parallel_spec
     -
       PUPPET_GEM_VERSION: ~> 5.0
       RUBY_VERSION: 24
@@ -41,8 +35,25 @@ environment:
       PUPPET_GEM_VERSION: ~> 6.0
       RUBY_VERSION: 25-x64
       CHECK: parallel_spec
+    -
+      RUBY_VERSION: 25-x64
+      ACCEPTANCE: yes
+      TARGET_HOST: localhost
 matrix:
   fast_finish: true
+for:
+-
+  matrix:
+    only:
+      - ACCEPTANCE: yes
+  install:
+    - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
+    - bundle install --jobs 4 --retry 2
+    - type Gemfile.lock
+  test_script:
+     - bundle exec rake spec_prep
+     - bundle exec rake acceptance:localhost
+     
 install:
   - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
   - bundle install --jobs 4 --retry 2 --without system_tests
