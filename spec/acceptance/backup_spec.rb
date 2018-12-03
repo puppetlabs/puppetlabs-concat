@@ -76,8 +76,6 @@ describe 'concat backup parameter' do
     end
   end
 
-  # XXX The backup parameter uses validate_string() and thus can't be the
-  # boolean false value, but the string 'false' has the same effect in Puppet 3
   context "when 'false'" do
     before(:all) do
       pp = <<-MANIFEST

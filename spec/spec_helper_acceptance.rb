@@ -40,10 +40,8 @@ RSpec.configure do |c|
       # This will be removed, this is temporary to test localisation.
     end
     # Required for binding tests.
-    if fact('osfamily') == 'RedHat'
-      if fact('operatingsystemmajrelease') =~ %r{7} || fact('operatingsystem') =~ %r{Fedora}
-        shell('yum install -y bzip2')
-      end
+    if fact('operatingsystemmajrelease') =~ %r{7} || fact('operatingsystem') =~ %r{Fedora}
+      shell('yum install -y bzip2')
     end
     on host, puppet('module', 'install', 'stahnma/epel')
   end
