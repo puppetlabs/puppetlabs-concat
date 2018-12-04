@@ -61,7 +61,9 @@ describe 'basic concat test' do
 
     describe file("#{basedir}/file") do
       it { is_expected.to be_file }
-      it { is_expected.to be_owned_by username }
+      it('is owned by', unless: (fact('osfamily') == 'windows' && (fact('operatingsystemmajrelease') == '10' || fact('operatingsystemmajrelease') == '2016'))) {
+        is_expected.to be_owned_by username
+      }
       it('is group', unless: (fact('osfamily') == 'windows')) { is_expected.to be_grouped_into groupname }
       it('is mode', unless: (fact('osfamily') == 'AIX' || fact('osfamily') == 'windows')) {
         is_expected.to be_mode 644
