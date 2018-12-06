@@ -48,7 +48,7 @@ describe 'basic concat test' do
 
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file")).to be_owned_by username
-      expect(file("#{@basedir}/file")).to be_grouped_into groupname unless (os[:family] == 'windows'  && fact('operatingsystemmajrelease') == '10' || fact('operatingsystemmajrelease') == '2016') || os[:family] == 'darwin'
+      expect(file("#{@basedir}/file")).to be_grouped_into groupname unless os[:family] == 'windows' || os[:family] == 'darwin'
       expect(file("#{@basedir}/file")).to be_mode 644 unless os[:family] == 'AIX' || os[:family] == 'windows'
       expect(file("#{@basedir}/file").content).to match '1'
       expect(file("#{@basedir}/file").content).to match '2'

@@ -39,6 +39,11 @@ environment:
       RUBY_VERSION: 25-x64
       ACCEPTANCE: yes
       TARGET_HOST: localhost
+    -
+      RUBY_VERSION: 25-x64
+      ACCEPTANCE: yes
+      TARGET_HOST: localhost
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 matrix:
   fast_finish: true
 for:
@@ -53,7 +58,6 @@ for:
   test_script:
      - bundle exec rake spec_prep
      - bundle exec rake acceptance:localhost
-     
 install:
   - set PATH=C:\Ruby%RUBY_VERSION%\bin;%PATH%
   - bundle install --jobs 4 --retry 2 --without system_tests
