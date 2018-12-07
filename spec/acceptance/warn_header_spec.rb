@@ -26,8 +26,7 @@ describe 'concat warn =>' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match %r{# This file is managed by Puppet\. DO NOT EDIT\.}
       expect(file("#{@basedir}/file").content).to match %r{1}
@@ -56,8 +55,7 @@ describe 'concat warn =>' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).not_to match %r{# This file is managed by Puppet\. DO NOT EDIT\.}
       expect(file("#{@basedir}/file").content).to match %r{1}
@@ -86,8 +84,7 @@ describe 'concat warn =>' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match %r{# foo}
       expect(file("#{@basedir}/file").content).to match %r{1}

@@ -26,8 +26,7 @@ describe 'with file recursive purge' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/bar/foobar")).to be_file
       expect(file("#{@basedir}/bar/foobar").content).to match 'foo'
     end

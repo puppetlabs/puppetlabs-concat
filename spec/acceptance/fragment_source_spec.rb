@@ -48,8 +48,7 @@ describe 'concat::fragment source' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).to match 'file1 contents'
       expect(file("#{@basedir}/foo").content).to match 'string1 contents'
@@ -105,8 +104,7 @@ describe 'concat::fragment source' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/result_file1")).to be_file
       expect(file("#{@basedir}/result_file1").content).to match 'file1 contents'
       expect(file("#{@basedir}/result_file1").content).not_to match 'file2 contents'

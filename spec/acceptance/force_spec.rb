@@ -84,8 +84,7 @@ describe 'force merge of file' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match 'one: foo'
     end
@@ -112,8 +111,7 @@ describe 'force merge of file' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '{"one": "foo"}{"one": "bar"}'
     end

@@ -24,8 +24,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match 'file exists'
       expect(file("#{@basedir}/file").content).not_to match '1'
@@ -53,8 +52,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).not_to match 'file exists'
       expect(file("#{@basedir}/file").content).to match '1'
@@ -98,8 +96,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_linked_to "#{@basedir}/dangling" unless os[:family] == 'AIX' || os[:family] == 'windows'
       expect(file("#{@basedir}/dangling")).not_to be_file
       expect(file("#{@basedir}/dangling")).not_to be_directory
@@ -142,8 +139,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '1'
       expect(file("#{@basedir}/file").content).to match '2'
@@ -209,8 +205,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '1'
     end

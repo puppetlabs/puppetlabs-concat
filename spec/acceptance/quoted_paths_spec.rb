@@ -28,8 +28,7 @@ describe 'quoted paths' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      apply_manifest_and_idempotent(pp)
       expect(file("#{@basedir}/concat test/foo")).to be_file
       expect(file("#{@basedir}/concat test/foo").content).to match %r{string1string2}
     end

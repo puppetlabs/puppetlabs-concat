@@ -28,10 +28,8 @@ describe 'concat::fragment replace' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp1, catch_failures: true)
-      apply_manifest(pp1, catch_changes: true)
-      apply_manifest(pp2, catch_failures: true)
-      apply_manifest(pp2, catch_changes: true)
+      apply_manifest_and_idempotent(pp1)
+      apply_manifest_and_idempotent(pp2)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).not_to match 'caller has replace unset run 1'
       expect(file("#{@basedir}/foo").content).to match 'caller has replace unset run 2'
@@ -64,10 +62,8 @@ describe 'concat::fragment replace' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp1, catch_failures: true)
-      apply_manifest(pp1, catch_changes: true)
-      apply_manifest(pp2, catch_failures: true)
-      apply_manifest(pp2, catch_changes: true)
+      apply_manifest_and_idempotent(pp1)
+      apply_manifest_and_idempotent(pp2)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).not_to match 'caller has replace true set run 1'
       expect(file("#{@basedir}/foo").content).to match 'caller has replace true set run 2'
@@ -100,10 +96,8 @@ describe 'concat::fragment replace' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      apply_manifest(pp1, catch_failures: true)
-      apply_manifest(pp1, catch_changes: true)
-      apply_manifest(pp2, catch_failures: true)
-      apply_manifest(pp2, catch_changes: true)
+      apply_manifest_and_idempotent(pp1)
+      apply_manifest_and_idempotent(pp2)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).not_to match 'caller has replace false set run 1'
       expect(file("#{@basedir}/foo").content).to match 'caller has replace false set run 2'
