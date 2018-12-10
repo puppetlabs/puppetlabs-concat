@@ -4,8 +4,6 @@
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with concat](#setup)
-    * [What concat affects](#what-concat-affects)
     * [Beginning with concat](#beginning-with-concat)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
@@ -13,14 +11,17 @@
 6. [Limitations - OS compatibility, etc.](#limitations)
 7. [Development - Guide for contributing to the module](#development)
 
+<a id="overview"></a>
 ## Overview
 
 The concat module lets you construct files from multiple ordered fragments of text.
 
+<a id="module-description"></a>
 ## Module Description
 
 The concat module lets you gather `concat::fragment` resources from your other modules and order them into a coherent file through a single `concat` resource.
 
+<a id="beginning-with-concat"></a>
 ### Beginning with concat
 
 To start using concat you need to create:
@@ -42,6 +43,7 @@ concat::fragment { 'tmpfile':
 }
 ~~~
 
+<a id="usage"></a>
 ## Usage
 
 ### Maintain a list of the major modules on a node
@@ -112,10 +114,12 @@ When you're finished, the motd file will look something like this:
   <contents of /etc/motd.local>
 ~~~
 
+<a id="reference"></a>
 ## Reference
 
 See [REFERENCE.md](https://github.com/puppetlabs/puppetlabs-concat/blob/master/REFERENCE.md)
 
+<a id="removed-functionality"></a>
 ### Removed functionality
 
 The following functionality existed in previous versions of the concat module, but was removed in version 2.0.0:
@@ -131,12 +135,14 @@ The `concat::setup` class has also been removed.
 
 Prior to concat version 2.0.0, if you set the `warn` parameter to a string value of `true`, `false`, 'yes', 'no', 'on', or 'off', the module translated the string to the corresponding boolean value. In concat version 2.0.0 and newer, the `warn_header` parameter treats those values the same as other strings and uses them as the content of your header message. To avoid that, pass the `true` and `false` values as booleans instead of strings.
 
+<a id="limitations"></a>
 ## Limitations
 
 This module has been tested on [all PE-supported platforms](https://forge.puppetlabs.com/supported#compat-matrix), and no issues have been identified.
 
 For an extensive list of supported operating systems, see [metadata.json](https://github.com/puppetlabs/puppetlabs-concat/blob/master/metadata.json)
 
+<a id="development"></a>
 ## Development
 
 Puppet modules on the Puppet Forge are open projects, and community contributions are essential for keeping them great. We can't access the huge number of platforms and myriad of hardware, software, and deployment configurations that Puppet is intended to serve.
