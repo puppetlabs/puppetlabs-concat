@@ -4,6 +4,8 @@
 
 1. [Overview](#overview)
 2. [Module Description - What the module does and why it is useful](#module-description)
+3. [Setup - The basics of getting started with concat](#setup)
+    * [What concat affects](#what-concat-affects)
     * [Beginning with concat](#beginning-with-concat)
 4. [Usage - Configuration options and additional functionality](#usage)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
