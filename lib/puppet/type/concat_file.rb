@@ -145,28 +145,28 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:selrange) do
-    desc "See the file type's selrange documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange"
+    desc "See the file type's selrange documentation: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange"
     validate do |value|
       raise ArgumentError, _('Selrange must be a String') unless value.is_a?(String)
     end
   end
 
   newparam(:selrole) do
-    desc "See the file type's selrole documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole"
+    desc "See the file type's selrole documentation: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole"
     validate do |value|
       raise ArgumentError, _('Selrole must be a String') unless value.is_a?(String)
     end
   end
 
   newparam(:seltype) do
-    desc "See the file type's seltype documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype"
+    desc "See the file type's seltype documentation: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype"
     validate do |value|
       raise ArgumentError, _('Seltype must be a String') unless value.is_a?(String)
     end
   end
 
   newparam(:seluser) do
-    desc "See the file type's seluser documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser"
+    desc "See the file type's seluser documentation: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser"
     validate do |value|
       raise ArgumentError, _('Seluser must be a String') unless value.is_a?(String)
     end
