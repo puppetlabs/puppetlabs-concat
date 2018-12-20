@@ -149,7 +149,7 @@ Puppet modules on the Puppet Forge are open projects, and community contribution
 
 We want to keep it as easy as possible to contribute changes so that our modules work in your environment. There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
 
-For more information, see our [module contribution guide.](https://docs.puppetlabs.com/forge/contributing.html)
+For more information, see our [module contribution guide](https://docs.puppetlabs.com/forge/contributing.html).
 
 ### Contributors
 
@@ -157,4 +157,4 @@ Richard Pijnenburg ([@Richardp82](http://twitter.com/richardp82))
 
 Joshua Hoblitt ([@jhoblitt](http://twitter.com/jhoblitt))
 
-[More contributors.](https://github.com/puppetlabs/puppetlabs-concat/graphs/contributors)
+[More contributors](https://github.com/puppetlabs/puppetlabs-concat/graphs/contributors).
