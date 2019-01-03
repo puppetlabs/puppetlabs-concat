@@ -36,12 +36,12 @@ describe 'concat localisation', if: (fact('osfamily') == 'Debian' || fact('osfam
   describe 'ruby translations' do
     it 'translates a simple string' do
       apply_manifest(ruby_simple_pp, expect_failures: true) do |r|
-        expect(r.stderr).to match(%r{Şḗŧ ḗīŧħḗř 'şǿŭřƈḗ' ǿř 'ƈǿƞŧḗƞŧ'})
+        expect(r.stderr).to match(%r{'source'または'content'を設定してください})
       end
     end
     it 'translates an interpolated string' do
       apply_manifest(ruby_interpolated_pp, expect_failures: true) do |r|
-        expect(r.stderr).to match(%r{Ƒīŀḗ ƥȧŧħş ḿŭşŧ ƀḗ ƒŭŀŀẏ ɋŭȧŀīƒīḗḓ, ƞǿŧ 'tmp/locale_file'})
+        expect(r.stderr).to match(%r{ファイルパスは'tmp/locale_file'ではなく、完全修飾でなければなりません})
       end
     end
   end
@@ -49,7 +49,7 @@ describe 'concat localisation', if: (fact('osfamily') == 'Debian' || fact('osfam
   describe 'puppet translations' do
     it 'translates an interpolated string' do
       apply_manifest(puppet_interpolated_pp, expect_failures: true) do |r|
-        expect(r.stderr).to match(%r{Concat::Fragment\['fragment2'\]: Ƈȧƞ'ŧ ŭşḗ 'şǿŭřƈḗ' ȧƞḓ 'ƈǿƞŧḗƞŧ' ȧŧ ŧħḗ şȧḿḗ ŧīḿḗ.})
+        expect(r.stderr).to match(%r{Concat::Fragment\['fragment2'\]: 'source'と'content'は同時に使用できません。})
       end
     end
   end
