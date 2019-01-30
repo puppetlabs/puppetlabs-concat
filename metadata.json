@@ -99,13 +99,6 @@
         "6.1",
         "7.1"
       ]
-    },
-    {
-      "operatingsystem": "OSX",
-      "operatingsystemrelease": [
-        "10.10",
-        "10.11"
-      ]
     }
   ],
   "requirements": [
