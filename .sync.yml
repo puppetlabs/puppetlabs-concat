@@ -1,4 +1,14 @@
 ---
+.gitlab-ci.yml:
+  unmanaged: true
+
+.rubocop.yml:
+  default_configs:
+    inherit_from: .rubocop_todo.yml
+    require:
+      - rubocop-i18n
+      - rubocop-rspec
+
 .travis.yml:
   docker_sets:
     - set: docker/centos-7
@@ -28,16 +38,10 @@ Gemfile:
         ref: '20ee04ba1234e9e83eb2ffb5056e23d641c7a018'
         condition: "Gem::Version.new(RUBY_VERSION.dup) >= Gem::Version.new('2.2.2')"
 
-.gitlab-ci.yml:
-  unmanaged: true
-
 Rakefile:
   requires:
     - puppet_pot_generator/rake_tasks
 
-.rubocop.yml:
-  default_configs:
-    inherit_from: .rubocop_todo.yml
-    require:
-      - rubocop-i18n
-      - rubocop-rspec
+spec/spec_helper.rb:
+  mock_with: ':rspec'
+  coverage_report: true
