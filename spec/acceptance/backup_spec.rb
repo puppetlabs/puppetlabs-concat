@@ -44,8 +44,7 @@ describe 'concat backup parameter' do
     # XXX Puppet doesn't mention anything about filebucketing with a given
     # extension like .backup
     it 'applies the manifest twice no stderr' do
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+      idempotent_apply(default, pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match %r{backup extension}
       expect(file("#{@basedir}/file.backup")).to be_file

@@ -36,7 +36,7 @@ describe 'with metaparameters' do
 
     it 'applies the manifest twice with no changes second apply' do
       expect(apply_manifest(pp, catch_failures: true).stdout).to match(%r{Triggered 'refresh'})
-      expect(apply_manifest(pp, catch_failures: true).stdout).not_to match(%r{Triggered 'refresh'})
+      expect(apply_manifest(pp, catch_changes: true).stdout).not_to match(%r{Triggered 'refresh'})
     end
   end
 
@@ -64,7 +64,7 @@ describe 'with metaparameters' do
 
     it 'applies the manifest twice with no changes second apply' do
       expect(apply_manifest(pp, catch_failures: true).stdout).to match(%r{Triggered 'refresh'})
-      expect(apply_manifest(pp, catch_failures: true).stdout).not_to match(%r{Triggered 'refresh'})
+      expect(apply_manifest(pp, catch_changes: true).stdout).not_to match(%r{Triggered 'refresh'})
     end
   end
 end
