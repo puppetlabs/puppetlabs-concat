@@ -30,8 +30,8 @@ describe 'force merge of file' do
       expect(apply_manifest(pp, catch_failures: true).stderr).to match("Duplicate key 'one' found with values 'foo' and bar'. Use 'force' attribute to merge keys.")
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match 'file exists'
-      expect(file("#{@basedir}/file").content).to_not match 'one: foo'
-      expect(file("#{@basedir}/file").content).to_not match 'one: bar'
+      expect(file("#{@basedir}/file").content).not_to match 'one: foo'
+      expect(file("#{@basedir}/file").content).not_to match 'one: bar'
     end
   end
 
@@ -59,13 +59,13 @@ describe 'force merge of file' do
       expect(apply_manifest(pp, catch_failures: true).stderr).to match("Duplicate key 'one' found with values 'foo' and bar'. Use 'force' attribute to merge keys.")
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match 'file exists'
-      expect(file("#{@basedir}/file").content).to_not match 'one: foo'
-      expect(file("#{@basedir}/file").content).to_not match 'one: bar'
+      expect(file("#{@basedir}/file").content).not_to match 'one: foo'
+      expect(file("#{@basedir}/file").content).not_to match 'one: bar'
     end
   end
 
   describe 'when run should force' do
-    let(:pp) do 
+    let(:pp) do
       <<-MANIFEST
         concat { '#{@basedir}/file':
           format => 'yaml',
@@ -110,7 +110,7 @@ describe 'force merge of file' do
         }
       MANIFEST
     end
-    
+
     it 'applies the manifest twice with no stderr' do
       idempotent_apply(default, pp)
       expect(file("#{@basedir}/file")).to be_file

@@ -6,7 +6,7 @@ describe 'format of file' do
   end
 
   describe 'when run should default to plain' do
-    let(:pp) do 
+    let(:pp) do
       <<-MANIFEST
         concat { '#{@basedir}/file':
         }
@@ -31,7 +31,7 @@ describe 'format of file' do
   end
 
   describe 'when run should output to plain format' do
-    let(:pp) do 
+    let(:pp) do
       <<-MANIFEST
         concat { '#{@basedir}/file':
           format => plain,
@@ -83,7 +83,7 @@ describe 'format of file' do
   end
 
   describe 'when run should output yaml arrays to yaml format' do
-    let(:pp) do 
+    let(:pp) do
       <<-MANIFEST
         concat { '#{@basedir}/file':
           format => 'yaml',
@@ -100,7 +100,7 @@ describe 'format of file' do
         }
       MANIFEST
     end
-    
+
     it 'idempotent, file matches' do
       idempotent_apply(default, pp)
       expect(file("#{@basedir}/file")).to be_file
@@ -109,7 +109,7 @@ describe 'format of file' do
   end
 
   describe 'when run should output to json format' do
-    let(:pp) do 
+    let(:pp) do
       <<-MANIFEST
         concat { '#{@basedir}/file':
           format => 'json',
@@ -126,7 +126,7 @@ describe 'format of file' do
         }
       MANIFEST
     end
-    
+
     it 'idempotent, file matches' do
       idempotent_apply(default, pp)
       expect(file("#{@basedir}/file")).to be_file
@@ -135,7 +135,7 @@ describe 'format of file' do
   end
 
   describe 'when run should output to json-array format' do
-    let(:pp) do  
+    let(:pp) do
       <<-MANIFEST
         concat { '#{@basedir}/file':
           format => 'json-array',
@@ -161,7 +161,7 @@ describe 'format of file' do
   end
 
   describe 'when run should output to json-pretty format' do
-    let(:pp) do 
+    let(:pp) do
       <<-MANIFEST
         concat { '#{@basedir}/file':
           format => 'json-pretty',
@@ -187,7 +187,7 @@ describe 'format of file' do
   end
 
   describe 'when run should output to json-array-pretty format' do
-    let(:pp) do 
+    let(:pp) do
       <<-MANIFEST
         concat { '#{@basedir}/file':
           format => 'json-array-pretty',

@@ -14,7 +14,7 @@ install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
 install_module_on(hosts)
 install_module_dependencies_on(hosts)
 
-RSpec.configure do |c|
+RSpec.configure do |_c|
   hosts.each do |host|
     # This will be removed, this is temporary to test localisation.
     if (fact('osfamily') == 'Debian' || fact('osfamily') == 'RedHat') &&

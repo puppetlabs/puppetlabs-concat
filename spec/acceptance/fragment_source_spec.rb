@@ -101,7 +101,7 @@ describe 'concat::fragment source' do
         }
       MANIFEST
     end
-    
+
     it 'idempotent, files match' do
       idempotent_apply(default, pp)
       expect(file("#{@basedir}/result_file1")).to be_file

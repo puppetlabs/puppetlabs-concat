@@ -96,7 +96,7 @@ describe 'basic concat test' do
 
     it 'applies the manifest twice with no stderr' do
       idempotent_apply(default, pp)
-      expect(file("#{@basedir}/file")).to_not be_file
+      expect(file("#{@basedir}/file")).not_to be_file
     end
   end
 
@@ -145,7 +145,7 @@ describe 'basic concat test' do
 
     it 'applies manifest twice with no stderr' do
       idempotent_apply(default, pp)
-      expect(file("#{@basedir}/file")).to_not be_file
+      expect(file("#{@basedir}/file")).not_to be_file
     end
   end
 end
