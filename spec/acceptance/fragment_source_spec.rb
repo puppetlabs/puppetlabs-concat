@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 case os[:family]
-when 'AIX'
+when 'aix'
   username = 'root'
   groupname = 'system'
 when 'darwin'

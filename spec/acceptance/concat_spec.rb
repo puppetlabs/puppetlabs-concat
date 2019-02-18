@@ -1,10 +1,10 @@
 require 'spec_helper_acceptance'
 
 case os[:family]
-when 'AIX'
+when 'aix'
   username = 'root'
   groupname = 'system'
-when 'Darwin'
+when 'darwin'
   username = 'root'
   groupname = 'wheel'
 when 'windows'
@@ -48,7 +48,7 @@ describe 'basic concat test' do
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file")).to be_owned_by username
       expect(file("#{@basedir}/file")).to be_grouped_into groupname unless os[:family] == 'windows' || os[:family] == 'darwin'
-      expect(file("#{@basedir}/file")).to be_mode 644 unless os[:family] == 'AIX' || os[:family] == 'windows'
+      expect(file("#{@basedir}/file")).to be_mode 644 unless os[:family] == 'aix' || os[:family] == 'windows'
       expect(file("#{@basedir}/file").content).to match '1'
       expect(file("#{@basedir}/file").content).to match '2'
     end
@@ -73,7 +73,7 @@ describe 'basic concat test' do
     it 'idempotent, file matches' do
       idempotent_apply(default, pp)
       expect(file("#{@basedir}/file")).to be_file
-      expect(file("#{@basedir}/file")).to be_mode 644 unless os[:family] == 'AIX' || os[:family] == 'windows'
+      expect(file("#{@basedir}/file")).to be_mode 644 unless os[:family] == 'aix' || os[:family] == 'windows'
       expect(file("#{@basedir}/file").content).to match '1'
     end
   end
@@ -121,7 +121,7 @@ describe 'basic concat test' do
     it 'idempotent, file matches' do
       idempotent_apply(default, pp)
       expect(file("#{@basedir}/#{filename}")).to be_file
-      expect(file("#{@basedir}/#{filename}")).to be_mode 644 unless os[:family] == 'AIX' || os[:family] == 'windows'
+      expect(file("#{@basedir}/#{filename}")).to be_mode 644 unless os[:family] == 'aix' || os[:family] == 'windows'
       expect(file("#{@basedir}/#{filename}").content).to match '1'
     end
   end

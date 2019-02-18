@@ -98,7 +98,7 @@ describe 'replacement of' do
 
     it 'applies the manifest twice with no stderr' do
       idempotent_apply(default, pp)
-      expect(file("#{@basedir}/file")).to be_linked_to "#{@basedir}/dangling" unless os[:family] == 'AIX' || os[:family] == 'windows'
+      expect(file("#{@basedir}/file")).to be_linked_to "#{@basedir}/dangling" unless os[:family] == 'aix' || os[:family] == 'windows'
       expect(file("#{@basedir}/dangling")).not_to be_file
       expect(file("#{@basedir}/dangling")).not_to be_directory
     end
