@@ -3,13 +3,13 @@
 #
 # @param content
 #   Supplies the content of the fragment. Note: You must supply either a content parameter or a source parameter.
-# 
+#
 # @param order
 #   Reorders your fragments within the destination file. Fragments that share the same order number are ordered by name. The string
 #   option is recommended.
 #
 # @param source
-#   Specifies a file to read into the content of the fragment. Note: You must supply either a content parameter or a source parameter. 
+#   Specifies a file to read into the content of the fragment. Note: You must supply either a content parameter or a source parameter.
 #   Valid options: a string or an array, containing one or more Puppet URLs.
 #
 # @param target

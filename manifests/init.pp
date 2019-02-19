@@ -10,23 +10,23 @@
 #   }
 #
 # @param backup
-#   Specifies whether (and how) to back up the destination file before overwriting it. Your value gets passed on to Puppet's native file 
-#   resource for execution. Valid options: true, false, or a string representing either a target filebucket or a filename extension 
+#   Specifies whether (and how) to back up the destination file before overwriting it. Your value gets passed on to Puppet's native file
+#   resource for execution. Valid options: true, false, or a string representing either a target filebucket or a filename extension
 #   beginning with ".".
 #
 # @param ensure
-#   Specifies whether the destination file should exist. Setting to 'absent' tells Puppet to delete the destination file if it exists, and 
+#   Specifies whether the destination file should exist. Setting to 'absent' tells Puppet to delete the destination file if it exists, and
 #   negates the effect of any other parameters.
 #
 # @param ensure_newline
 #   Specifies whether to add a line break at the end of each fragment that doesn't already end in one.
 #
 # @param format
-#   Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty', 
+#   Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty',
 #   'json-array-pretty'.
 #
 # @param force
-#   Specifies whether to merge data structures, keeping the values with higher order. Used when format is specified as a value other than 
+#   Specifies whether to merge data structures, keeping the values with higher order. Used when format is specified as a value other than
 #   'plain'.
 #
 # @param group
@@ -36,7 +36,7 @@
 #   Specifies the permissions mode of the destination file. Valid options: a string containing a permission mode value in octal notation.
 #
 # @param order
-#   Specifies a method for sorting your fragments by name within the destination file. You can override this setting for individual 
+#   Specifies a method for sorting your fragments by name within the destination file. You can override this setting for individual
 #   fragments by adjusting the order parameter in their concat::fragment declarations.
 #
 # @param owner
@@ -46,10 +46,10 @@
 #   Specifies a destination file for the combined fragments.
 #
 # @param replace
-#   Specifies whether to overwrite the destination file if it already exists. 
+#   Specifies whether to overwrite the destination file if it already exists.
 #
 # @param selinux_ignore_defaults
-#   See the file type's selinux_ignore_defaults documentention: 
+#   See the file type's selinux_ignore_defaults documentention:
 #   https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selinux_ignore_defaults
 #
 # @param selrange
@@ -65,7 +65,7 @@
 #   See the file type's seluser documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser
 #
 # @param show_diff
-#   Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure 
+#   Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure
 #   reporting methods.
 #
 # @param validate_cmd
@@ -73,10 +73,10 @@
 #
 # @param warn
 #   Specifies whether to add a header message at the top of the destination file. Valid options: the booleans true and false, or a string
-#   to serve as the header. 
+#   to serve as the header.
 #   If you set 'warn' to true, concat adds the following line with an order of 0:
 #   `# This file is managed by Puppet. DO NOT EDIT.`
-#   Before 2.0.0, this parameter would add a newline at the end of the warn message. To improve flexibilty, this was removed. Please add 
+#   Before 2.0.0, this parameter would add a newline at the end of the warn message. To improve flexibilty, this was removed. Please add
 #   it explicitly if you need it.
 #
 define concat(
