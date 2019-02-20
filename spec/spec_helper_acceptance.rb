@@ -14,18 +14,7 @@ install_ca_certs unless ENV['PUPPET_INSTALL_TYPE'] =~ %r{pe}i
 install_module_on(hosts)
 install_module_dependencies_on(hosts)
 
-RSpec.configure do |c|
-  # Readable test descriptions
-  c.formatter = :documentation
-
-  c.before(:each) do
-    shell('mkdir -p /tmp/concat')
-  end
-  c.after(:each) do
-    shell('rm -rf /tmp/concat /var/lib/puppet/concat')
-  end
-
-  c.treat_symbols_as_metadata_keys_with_true_values = true
+RSpec.configure do |_c|
   hosts.each do |host|
     # This will be removed, this is temporary to test localisation.
     if (fact('osfamily') == 'Debian' || fact('osfamily') == 'RedHat') &&
@@ -46,5 +35,42 @@ RSpec.configure do |c|
       end
     end
     on host, puppet('module', 'install', 'stahnma/epel')
+  end
+end
+
+def setup_test_directory
+  basedir = case os[:family]
+            when 'windows'
+              'c:/concat_test'
+            else
+              '/tmp/concat_test'
+            end
+  pp = <<-MANIFEST
+    file { '#{basedir}':
+      ensure  => directory,
+      force   => true,
+      purge   => true,
+      recurse => true,
+    }
+    file { '#{basedir}/file':
+      content => "file exists\n",
+      force   => true,
+    }
+  MANIFEST
+  apply_manifest(pp)
+  basedir
+end
+
+def idempotent_apply(hosts, manifest, opts = {}, &block)
+  block_on hosts, opts do |host|
+    file_path = host.tmpfile('apply_manifest.pp')
+    create_remote_file(host, file_path, manifest + "\n")
+
+    puppet_apply_opts = { :verbose => nil, 'detailed-exitcodes' => nil }
+    on_options = { acceptable_exit_codes: [0, 2] }
+    on host, puppet('apply', file_path, puppet_apply_opts), on_options, &block
+    puppet_apply_opts2 = { :verbose => nil, 'detailed-exitcodes' => nil }
+    on_options2 = { acceptable_exit_codes: [0] }
+    on host, puppet('apply', file_path, puppet_apply_opts2), on_options2, &block
   end
 end
