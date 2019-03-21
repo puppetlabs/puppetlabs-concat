@@ -60,7 +60,7 @@ class motd {
     mode  => '0644'
   }
 
-  concat::fragment{ 'motd_header':
+  concat::fragment { 'motd_header':
     target  => $motd,
     content => "\nPuppet modules on this server:\n\n",
     order   => '01'
@@ -68,7 +68,7 @@ class motd {
 
   # let local users add to the motd by creating a file called
   # /etc/motd.local
-  concat::fragment{ 'motd_local':
+  concat::fragment { 'motd_local':
     target => $motd,
     source => '/etc/motd.local',
     order  => '15'
@@ -76,14 +76,17 @@ class motd {
 }
 
 # let other modules register themselves in the motd
-define motd::register($content="", $order='10') {
+define motd::register (
+  $content = "",
+  $order   = '10',
+) {
   if $content == "" {
     $body = $name
   } else {
     $body = $content
   }
 
-  concat::fragment{ "motd_fragment_$name":
+  concat::fragment { "motd_fragment_$name":
     target  => '/etc/motd',
     order   => $order,
     content => "    -- $body\n"
@@ -97,7 +100,7 @@ Then, in the declarations for each module on the node, add `motd::register{ 'Apa
 class apache {
   include apache::install, apache::config, apache::service
 
-  motd::register{ 'Apache': }
+  motd::register { 'Apache': }
 }
 ~~~
 
