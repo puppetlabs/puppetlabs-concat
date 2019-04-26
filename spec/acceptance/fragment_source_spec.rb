@@ -49,7 +49,7 @@ describe 'concat::fragment source' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).to match 'file1 contents'
       expect(file("#{@basedir}/foo").content).to match 'file2 contents'
@@ -103,7 +103,7 @@ describe 'concat::fragment source' do
     end
 
     it 'idempotent, files match' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/result_file1")).to be_file
       expect(file("#{@basedir}/result_file1").content).to match 'file1 contents'
       expect(file("#{@basedir}/result_file1").content).not_to match 'file2 contents'
@@ -136,7 +136,7 @@ describe 'concat::fragment source' do
     end
 
     it 'applies the manifest with resource failures' do
-      expect(apply_manifest(pp, catch_failures: true).stderr).to match(%r{Failed to generate additional resources using 'eval_generate'})
+      expect(apply_manifest(pp, expect_failures: true)['result']['stderr']).to match(%r{Failed to generate additional resources using 'eval_generate'})
       expect(file("#{@basedir}/fail_no_source")).not_to be_directory
     end
   end

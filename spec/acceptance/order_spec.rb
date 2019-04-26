@@ -28,7 +28,7 @@ describe 'concat order' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).to match %r{string1string10string2}
     end
@@ -58,7 +58,7 @@ describe 'concat order' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).to match %r{string1string2string10}
     end

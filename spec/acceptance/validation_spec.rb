@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'concat validate_cmd parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os[:family]) do
+describe 'validation, concat validate_cmd parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os[:family]) do
   before(:all) do
     @basedir = setup_test_directory
   end
@@ -19,7 +19,7 @@ describe 'concat validate_cmd parameter', if: ['debian', 'redhat', 'ubuntu'].inc
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to contain 'content'
     end

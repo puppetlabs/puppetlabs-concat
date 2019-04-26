@@ -25,7 +25,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match 'file exists'
       expect(file("#{@basedir}/file").content).not_to match '1'
@@ -53,7 +53,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).not_to match 'file exists'
       expect(file("#{@basedir}/file").content).to match '1'
@@ -97,7 +97,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_linked_to "#{@basedir}/dangling" unless os[:family] == 'aix' || os[:family] == 'windows'
       expect(file("#{@basedir}/dangling")).not_to be_file
       expect(file("#{@basedir}/dangling")).not_to be_directory
@@ -140,7 +140,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '1'
       expect(file("#{@basedir}/file").content).to match '2'
@@ -176,8 +176,8 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with stderr' do
-      expect(apply_manifest(pp, expect_failures: true).stderr).to match(%r{change from '?directory'? to '?file'? failed})
-      expect(apply_manifest(pp, expect_failures: true).stderr).to match(%r{change from '?directory'? to '?file'? failed})
+      expect(apply_manifest(pp, expect_failures: true)['result']['stderr']).to match(%r{change from '?directory'? to '?file'? failed})
+      expect(apply_manifest(pp, expect_failures: true)['result']['stderr']).to match(%r{change from '?directory'? to '?file'? failed})
       expect(file("#{@basedir}/file")).to be_directory
     end
   end
@@ -206,7 +206,7 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '1'
     end

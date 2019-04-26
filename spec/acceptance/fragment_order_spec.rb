@@ -30,7 +30,7 @@ describe 'concat::fragment order' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).to match %r{string3string2string1}
     end
@@ -61,7 +61,7 @@ describe 'concat::fragment order' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).to match %r{string3string2string1}
     end
@@ -90,7 +90,7 @@ describe 'concat::fragment order' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).to match %r{string1string2string3}
     end
