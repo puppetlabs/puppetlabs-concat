@@ -3,17 +3,14 @@ require 'spec_helper_acceptance'
 describe 'quoted paths' do
   before(:all) do
     @basedir = setup_test_directory
-    pp = <<-MANIFEST
-      file { '#{@basedir}/concat test':
-        ensure => directory,
-      }
-    MANIFEST
-    apply_manifest(pp)
   end
 
   describe 'with path with blanks' do
     let(:pp) do
       <<-MANIFEST
+        file { '#{@basedir}/concat test':
+          ensure => directory,
+        }
         concat { '#{@basedir}/concat test/foo':
         }
         concat::fragment { '1':
