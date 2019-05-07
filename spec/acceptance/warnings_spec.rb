@@ -19,8 +19,8 @@ describe 'warnings' do
     end
 
     it 'applies manifests, check stderr' do
-      expect(apply_manifest(pp, catch_failures: true).stderr).to match 'not found in the catalog'
-      expect(apply_manifest(pp, catch_changes: true).stderr).to match 'not found in the catalog'
+      expect(apply_manifest(pp, expect_failures: true)['result']['stderr']).to match 'not found in the catalog'
+      expect(apply_manifest(pp, expect_failures: true)['result']['stderr']).to match 'not found in the catalog'
     end
   end
 end

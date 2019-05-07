@@ -22,7 +22,7 @@ describe 'concat ensure_newline parameter' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '12'
     end
@@ -46,7 +46,7 @@ describe 'concat ensure_newline parameter' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match %r{1\r?\n2\r?\n}
     end

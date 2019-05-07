@@ -1,5 +1,4 @@
 require 'spec_helper_acceptance'
-require 'beaker/i18n_helper'
 
 ruby_simple_pp = <<-MANIFEST
 concat::fragment { 'fragment1':
@@ -25,12 +24,9 @@ concat::fragment { 'fragment2':
 }
 MANIFEST
 
-describe 'concat localisation', if: (fact('osfamily') == 'Debian' || fact('osfamily') == 'RedHat') && (Gem::Version.new(puppet_version) >= Gem::Version.new('4.10.5')) do
+describe 'concat localisation', unless: (os[:family] == 'windows') do
   before :all do
-    hosts.each do |host|
-      on(host, "sed -i \"96i FastGettext.locale='ja'\" /opt/puppetlabs/puppet/lib/ruby/vendor_ruby/puppet.rb")
-      change_locale_on(host, 'ja_JP.utf-8')
-    end
+    run_shell("export LANGUAGE='ja'")
   end
 
   describe 'ruby translations' do
@@ -55,9 +51,6 @@ describe 'concat localisation', if: (fact('osfamily') == 'Debian' || fact('osfam
   end
 
   after :all do
-    hosts.each do |host|
-      on(host, 'sed -i "96d" /opt/puppetlabs/puppet/lib/ruby/vendor_ruby/puppet.rb')
-      change_locale_on(host, 'en_US')
-    end
+    run_shell("export LANGUAGE='en'")
   end
 end

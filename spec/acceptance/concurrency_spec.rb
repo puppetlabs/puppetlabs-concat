@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'with file recursive purge' do
+describe 'concurrency, with file recursive purge' do
   before(:all) do
     @basedir = setup_test_directory
   end
@@ -27,7 +27,7 @@ describe 'with file recursive purge' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/bar/foobar")).to be_file
       expect(file("#{@basedir}/bar/foobar").content).to match 'foo'
     end

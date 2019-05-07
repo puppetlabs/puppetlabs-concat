@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'concat warn =>' do
+describe 'concat warn_header =>' do
   before(:all) do
     @basedir = setup_test_directory
   end
@@ -27,7 +27,7 @@ describe 'concat warn =>' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match %r{# This file is managed by Puppet\. DO NOT EDIT\.}
       expect(file("#{@basedir}/file").content).to match %r{1}
@@ -57,7 +57,7 @@ describe 'concat warn =>' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).not_to match %r{# This file is managed by Puppet\. DO NOT EDIT\.}
       expect(file("#{@basedir}/file").content).to match %r{1}
@@ -87,7 +87,7 @@ describe 'concat warn =>' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match %r{# foo}
       expect(file("#{@basedir}/file").content).to match %r{1}

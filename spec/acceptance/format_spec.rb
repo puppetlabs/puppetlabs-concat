@@ -24,7 +24,7 @@ describe 'format of file' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '{"one": "foo"}{"one": "bar"}'
     end
@@ -50,7 +50,7 @@ describe 'format of file' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '{"one": "foo"}{"one": "bar"}'
     end
@@ -76,9 +76,9 @@ describe 'format of file' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
-      expect(file("#{@basedir}/file").content).to match 'one: foo\ntwo: bar'
+      expect(file("#{@basedir}/file").content).to match 'one: foo\Rtwo: bar'
     end
   end
 
@@ -102,9 +102,9 @@ describe 'format of file' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
-      expect(file("#{@basedir}/file").content).to match '- one.a: foo\n  one.b: bar\n- two.a: dip\n  two.b: doot'
+      expect(file("#{@basedir}/file").content).to match '- one.a: foo\R  one.b: bar\R- two.a: dip\R  two.b: doot'
     end
   end
 
@@ -128,7 +128,7 @@ describe 'format of file' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '{"one":"foo","two":"bar"}'
     end
@@ -154,7 +154,7 @@ describe 'format of file' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '[{"one":"foo"},{"two":"bar"}]'
     end
@@ -180,9 +180,9 @@ describe 'format of file' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
-      expect(file("#{@basedir}/file").content).to match '{\n  "one": "foo",\n  "two": "bar"\n}'
+      expect(file("#{@basedir}/file").content).to match '{\R  "one": "foo",\R  "two": "bar"\R}'
     end
   end
 
@@ -206,7 +206,7 @@ describe 'format of file' do
     end
 
     it 'idempotent, file matches' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match '[\n  {\n    "one": "foo"\n  },\n  {\n    "two": "bar"\n  }\n]'
     end

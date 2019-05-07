@@ -18,7 +18,7 @@ describe 'concat noop parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp)
+      idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to contain 'content'
     end

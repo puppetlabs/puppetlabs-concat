@@ -26,8 +26,8 @@ describe 'concat::fragment replace' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp1)
-      idempotent_apply(default, pp2)
+      idempotent_apply(pp1)
+      idempotent_apply(pp2)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).not_to match 'caller has replace unset run 1'
       expect(file("#{@basedir}/foo").content).to match 'caller has replace unset run 2'
@@ -58,8 +58,8 @@ describe 'concat::fragment replace' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp1)
-      idempotent_apply(default, pp2)
+      idempotent_apply(pp1)
+      idempotent_apply(pp2)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).not_to match 'caller has replace true set run 1'
       expect(file("#{@basedir}/foo").content).to match 'caller has replace true set run 2'
@@ -90,8 +90,8 @@ describe 'concat::fragment replace' do
     end
 
     it 'applies the manifest twice with no stderr' do
-      idempotent_apply(default, pp1)
-      idempotent_apply(default, pp2)
+      idempotent_apply(pp1)
+      idempotent_apply(pp2)
       expect(file("#{@basedir}/foo")).to be_file
       expect(file("#{@basedir}/foo").content).not_to match 'caller has replace false set run 1'
       expect(file("#{@basedir}/foo").content).to match 'caller has replace false set run 2'
