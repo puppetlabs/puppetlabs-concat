@@ -19,9 +19,7 @@ describe 'concat backup parameter' do
     end
 
     it 'applies the manifest twice with "Filebucketed" stdout and no stderr' do
-      apply_manifest(pp, catch_failures: true) do |r|
-        expect(r.stdout).to match(%r{Filebucketed #{@basedir}/file to puppet with sum 9265230333d697bcee421a9d1b56dcb2})
-      end
+      expect(apply_manifest(pp, catch_failures: true, debug: true).stdout).to match(%r{Filebucketed.*to puppet with sum.*})
       apply_manifest(pp, catch_changes: true)
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match %r{new contents}
