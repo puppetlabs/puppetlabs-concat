@@ -144,8 +144,8 @@ describe 'replacement of' do
     end
 
     it 'applies the manifest twice with stderr' do
-      expect(apply_manifest(pp, expect_failures: true)['result']['stderr']).to match(%r{change from '?directory'? to '?file'? failed})
-      expect(apply_manifest(pp, expect_failures: true)['result']['stderr']).to match(%r{change from '?directory'? to '?file'? failed})
+      expect(apply_manifest(pp, expect_failures: true).stderr).to match(%r{change from '?directory'? to '?file'? failed})
+      expect(apply_manifest(pp, expect_failures: true).stderr).to match(%r{change from '?directory'? to '?file'? failed})
       expect(file("#{@basedir}/file")).to be_directory
     end
   end
