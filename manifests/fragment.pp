@@ -33,7 +33,7 @@ define concat::fragment(
     fail(translate("%{_resource}['%{_title}']: Can't use 'source' and 'content' at the same time.", {'_resource' => $resource, '_title' => $title}))
   }
 
-  $safe_target_name = regsubst($target, '[/:~\n\s\+\*\(\)@]', '_', 'GM')
+  $safe_target_name = regsubst($target, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'GM')
 
   concat_fragment { $name:
     target  => $target,
