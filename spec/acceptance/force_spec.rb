@@ -114,7 +114,7 @@ describe 'force merge of file' do
     it 'applies the manifest twice with no stderr' do
       idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
-      expect(file("#{@basedir}/file").content).to match "{"one":[1,2]}\R?"
+      expect(file("#{@basedir}/file").content).to contain '{"one":[1,2]}'
     end
   end
 
@@ -141,7 +141,7 @@ describe 'force merge of file' do
     it 'applies the manifest twice with no stderr' do
       idempotent_apply(pp)
       expect(file("#{@basedir}/file")).to be_file
-      expect(file("#{@basedir}/file").content).to contain '{"one":[1,2]}'
+      expect(file("#{@basedir}/file").content).to match '{"one": "foo"}{"one": "bar"}'
     end
   end
 end
