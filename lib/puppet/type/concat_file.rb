@@ -275,6 +275,8 @@ Puppet::Type.newtype(:concat_file) do
     hash1.merge(hash2) do |k, v1, v2|
       if v1.is_a?(Hash) && v2.is_a?(Hash)
         nested_merge(v1, v2)
+      elsif v1.is_a?(Array) && v2.is_a?(Array)
+        nested_merge(v1, v2)
       else
         # Fail if there are duplicate keys without force
         unless v1 == v2

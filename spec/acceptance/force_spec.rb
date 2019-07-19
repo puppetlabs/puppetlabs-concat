@@ -91,6 +91,33 @@ describe 'force merge of file' do
     end
   end
 
+  describe 'when run should force merge nested arrays' do
+    let(:pp) do
+      <<-MANIFEST
+        concat { '#{@basedir}/file':
+          format => 'json',
+          force => true,
+        }
+
+        concat::fragment { '1':
+          target  => '#{@basedir}/file',
+          content => '{"one": [1]}',
+        }
+
+        concat::fragment { '2':
+          target  => '#{@basedir}/file',
+          content => '{"one": [2]}',
+        }
+      MANIFEST
+    end
+
+    it 'applies the manifest twice with no stderr' do
+      idempotent_apply(pp)
+      expect(file("#{@basedir}/file")).to be_file
+      expect(file("#{@basedir}/file").content).to contain '{"one":\[1,2\]}'
+    end
+  end
+
   describe 'when run should not force on plain' do
     let(:pp) do
       <<-MANIFEST
