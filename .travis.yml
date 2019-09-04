@@ -1,4 +1,5 @@
 ---
+dist: xenial
 language: ruby
 cache: bundler
 before_install:
@@ -26,7 +27,7 @@ matrix:
       bundler_args:
       dist: trusty
       env: PLATFORMS=deb_puppet5
-      rvm: 2.5.1
+      rvm: 2.5.3
       before_script:
       - bundle exec rake 'litmus:provision_list[travis_deb]'
       - bundle exec bolt command run 'apt-get install wget -y' --inventoryfile inventory.yaml --nodes='localhost*'
@@ -41,7 +42,7 @@ matrix:
       bundler_args:
       dist: trusty
       env: PLATFORM=centos:deb_puppet6
-      rvm: 2.5.1
+      rvm: 2.5.3
       before_script:
       - bundle exec rake 'litmus:provision_list[travis_deb]'
       - bundle exec bolt command run 'apt-get install wget -y' --inventoryfile inventory.yaml --nodes='localhost*'
@@ -51,11 +52,12 @@ matrix:
       - bundle exec rake litmus:acceptance:parallel
       services: docker
       sudo: required
+      stage: acceptance
     -
       bundler_args:
       dist: trusty
       env: PLATFORMS=el_puppet5
-      rvm: 2.5.1
+      rvm: 2.5.3
       before_script:
       - bundle exec rake 'litmus:provision_list[travis_el]'
       - bundle exec rake 'litmus:install_agent[puppet5]'
@@ -64,11 +66,12 @@ matrix:
       - bundle exec rake litmus:acceptance:parallel
       services: docker
       sudo: required
+      stage: acceptance
     -
       bundler_args:
       dist: trusty
       env: PLATFORM=centos:el_puppet6
-      rvm: 2.5.1
+      rvm: 2.5.3
       before_script:
       - bundle exec rake 'litmus:provision_list[travis_el]'
       - bundle exec rake 'litmus:install_agent[puppet6]'
