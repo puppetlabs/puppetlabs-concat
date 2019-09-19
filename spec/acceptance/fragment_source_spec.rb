@@ -136,7 +136,7 @@ describe 'concat::fragment source' do
     end
 
     it 'applies the manifest with resource failures' do
-      expect(apply_manifest(pp, expect_failures: true).stderr).to match(%r{Failed to generate additional resources using 'eval_generate'})
+      expect(apply_manifest(pp, catch_failures: true).stderr).to match(%r{Failed to generate additional resources using 'eval_generate'})
       expect(file("#{@basedir}/fail_no_source")).not_to be_directory
     end
   end
