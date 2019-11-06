@@ -1,4 +1,5 @@
 require 'spec_helper_acceptance'
+require 'pry'
 
 describe 'warnings' do
   before(:all) do

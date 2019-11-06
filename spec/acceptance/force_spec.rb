@@ -55,8 +55,13 @@ describe 'force merge of file' do
     end
 
     it 'applies manifest twice with stderr check' do
+      # if os[:family] == 'windows' && ENV['TARGET_HOST'] != 'localhost'
+      #   expect(apply_manifest(pp, expect_failures: true).stderr).to match("Duplicate key 'one' found with values 'foo' and bar'. Use 'force' attribute to merge keys.")
+      #   expect(apply_manifest(pp, expect_failures: true).stderr).to match("Duplicate key 'one' found with values 'foo' and bar'. Use 'force' attribute to merge keys.")
+      # else
       expect(apply_manifest(pp, catch_failures: true).stderr).to match("Duplicate key 'one' found with values 'foo' and bar'. Use 'force' attribute to merge keys.")
       expect(apply_manifest(pp, catch_failures: true).stderr).to match("Duplicate key 'one' found with values 'foo' and bar'. Use 'force' attribute to merge keys.")
+      # end
       expect(file("#{@basedir}/file")).to be_file
       expect(file("#{@basedir}/file").content).to match 'file exists'
       expect(file("#{@basedir}/file").content).not_to match 'one: foo'
