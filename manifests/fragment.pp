@@ -3,6 +3,7 @@
 #
 # @param content
 #   Supplies the content of the fragment. Note: You must supply either a content parameter or a source parameter.
+#   Allows a String or a Deferred function which returns a String.
 #
 # @param order
 #   Reorders your fragments within the destination file. Fragments that share the same order number are ordered by name. The string
@@ -17,7 +18,7 @@
 #
 define concat::fragment(
   String                             $target,
-  Optional[String]                   $content = undef,
+  Optional[Any]                      $content = undef,
   Optional[Variant[String, Array]]   $source  = undef,
   Variant[String, Integer]           $order   = '10',
 ) {
@@ -31,6 +32,17 @@ define concat::fragment(
     crit('No content, source or symlink specified')
   } elsif ($content and $source) {
     fail(translate("%{_resource}['%{_title}']: Can't use 'source' and 'content' at the same time.", {'_resource' => $resource, '_title' => $title}))
+  }
+
+  # $serverversion is empty on 'puppet apply' runs. Just use clientversion.
+  $_serverversion    = getvar('serverversion') ? {
+    undef   => $clientversion,
+    default => $serverversion,
+  }
+  if versioncmp($clientversion, '6.0') >= 0 and versioncmp($_serverversion, '6.0') >= 0 {
+    assert_type(Optional[Variant[String, Deferred]], $content)
+  } else {
+    assert_type(Optional[String], $content)
   }
 
   $safe_target_name = regsubst($target, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'GM')

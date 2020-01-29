@@ -67,7 +67,7 @@ describe 'concat::fragment' do
       let(:params) { { content: false, target: '/etc/motd' } }
 
       it 'fails' do
-        expect { catalogue }.to raise_error(Puppet::Error, %r{parameter 'content' expects a .*String.*})
+        expect { catalogue }.to raise_error(Puppet::Error, %r{expects a value of type Undef( or String|, String, or Deferred), got Boolean})
       end
     end
   end
