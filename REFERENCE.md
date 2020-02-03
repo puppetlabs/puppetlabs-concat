@@ -365,19 +365,19 @@ https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selinux_i
 
 ##### `selrange`
 
-See the file type's selrange documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange
+See the file type's selrange documentation: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange
 
 ##### `selrole`
 
-See the file type's selrole documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole
+See the file type's selrole documentation: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole
 
 ##### `seltype`
 
-See the file type's seltype documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype
+See the file type's seltype documentation: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype
 
 ##### `seluser`
 
-See the file type's seluser documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser
+See the file type's seluser documentation: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser
 
 ##### `show_diff`
 

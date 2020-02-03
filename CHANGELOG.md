@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.2.0) (2020-01-21)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.1.0...v6.2.0)
+
+### Added
+
+- pdksync - \(FM-8581\) - Debian 10 added to travis and provision file refactored [\#624](https://github.com/puppetlabs/puppetlabs-concat/pull/624) ([david22swan](https://github.com/david22swan))
+- \(FM-8698\) - Addition of Support for CentOS 8 [\#615](https://github.com/puppetlabs/puppetlabs-concat/pull/615) ([david22swan](https://github.com/david22swan))
+- FM-8398 - support Debian10 [\#599](https://github.com/puppetlabs/puppetlabs-concat/pull/599) ([lionce](https://github.com/lionce))
+
+### Fixed
+
+- Fix newline handling at the end of fragments [\#623](https://github.com/puppetlabs/puppetlabs-concat/pull/623) ([SimonPe](https://github.com/SimonPe))
+
 ## [v6.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.1.0) (2019-07-23)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.0.0...v6.1.0)
