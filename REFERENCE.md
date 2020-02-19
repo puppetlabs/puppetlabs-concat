@@ -211,9 +211,10 @@ The following parameters are available in the `concat::fragment` defined type.
 
 ##### `content`
 
-Data type: `Optional[String]`
+Data type: `Optional[Any]`
 
 Supplies the content of the fragment. Note: You must supply either a content parameter or a source parameter.
+Allows a String or a Deferred function which returns a String.
 
 Default value: `undef`
 
