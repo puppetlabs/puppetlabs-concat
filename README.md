@@ -120,7 +120,7 @@ When you're finished, the motd file will look something like this:
 <a id="reference"></a>
 ## Reference
 
-See [REFERENCE.md](https://github.com/puppetlabs/puppetlabs-concat/blob/master/REFERENCE.md)
+See [REFERENCE.md](https://github.com/puppetlabs/puppetlabs-concat/blob/main/REFERENCE.md)
 
 <a id="removed-functionality"></a>
 ### Removed functionality
@@ -143,7 +143,7 @@ Prior to concat version 2.0.0, if you set the `warn` parameter to a string value
 
 This module has been tested on [all PE-supported platforms](https://forge.puppetlabs.com/supported#compat-matrix), and no issues have been identified.
 
-For an extensive list of supported operating systems, see [metadata.json](https://github.com/puppetlabs/puppetlabs-concat/blob/master/metadata.json)
+For an extensive list of supported operating systems, see [metadata.json](https://github.com/puppetlabs/puppetlabs-concat/blob/main/metadata.json)
 
 ## Development
 

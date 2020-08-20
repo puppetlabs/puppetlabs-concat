@@ -117,7 +117,7 @@ class apache {
 <a id="reference"></a>
 ## リファレンス
 
-[REFERENCE.md](https://github.com/puppetlabs/puppetlabs-concat/blob/master/REFERENCE.md)を参照してください。
+[REFERENCE.md](https://github.com/puppetlabs/puppetlabs-concat/blob/main/REFERENCE.md)を参照してください。
 
 <a id="removed-functionality"></a>
 ### 削除した機能
@@ -140,7 +140,7 @@ class apache {
 
 このモジュールは[PE対応のすべてのプラットフォーム](https://forge.puppetlabs.com/supported#compat-matrix)上でテスト済みであり、問題は発見されていません。
 
-サポートされているオペレーティングシステムの一覧については、[metadata.json](https://github.com/puppetlabs/puppetlabs-concat/blob/master/metadata.json)を参照してください。
+サポートされているオペレーティングシステムの一覧については、[metadata.json](https://github.com/puppetlabs/puppetlabs-concat/blob/main/metadata.json)を参照してください。
 
 <a id="development"></a>
 ## 開発

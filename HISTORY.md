@@ -254,7 +254,7 @@ should be able to use 1.1.0 without any failures, but you may find deprecation
 warnings and we'll be aggressively moving for a 2.0 to remove those too.
 
 For further information on deprecations, please read:
-https://github.com/puppetlabs/puppetlabs-concat/blob/master/README.md#api-deprecations
+https://github.com/puppetlabs/puppetlabs-concat/blob/main/README.md#api-deprecations
 
 #### Removed
 - Puppet 0.24 support.
