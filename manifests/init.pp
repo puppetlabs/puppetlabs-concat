@@ -79,7 +79,7 @@
 #   Before 2.0.0, this parameter would add a newline at the end of the warn message. To improve flexibilty, this was removed. Please add
 #   it explicitly if you need it.
 #
-define concat(
+define concat (
   Enum['present', 'absent']          $ensure                  = 'present',
   Stdlib::Absolutepath               $path                    = $name,
   Optional[Variant[String, Integer]] $owner                   = undef,
@@ -100,7 +100,6 @@ define concat(
   Optional[String]                   $format                  = 'plain',
   Optional[Boolean]                  $force                   = false,
 ) {
-
   $safe_name            = regsubst($name, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'G')
   $default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
 
