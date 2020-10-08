@@ -78,6 +78,24 @@ describe 'basic concat test' do
     end
   end
 
+  describe 'with no fragments declared' do
+    let(:pp) do
+      <<-MANIFEST
+        concat { 'file':
+          ensure => present,
+          path   => '#{@basedir}/file',
+          mode   => '0644',
+        }
+      MANIFEST
+    end
+
+    it 'applies manifest twice with no stderr' do
+      idempotent_apply(pp)
+      expect(file("#{@basedir}/file")).to be_file
+      expect(file("#{@basedir}/file").content).to eq ''
+    end
+  end
+
   describe 'when absent with path set' do
     let(:pp) do
       <<-MANIFEST
