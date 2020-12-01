@@ -113,6 +113,10 @@ All notable changes to this project will be documented in this file. The format 
 
 - \(FM-7206\) Update concat to support Ubuntu 18.04 [\#510](https://github.com/puppetlabs/puppetlabs-concat/pull/510) ([david22swan](https://github.com/david22swan))
 
+### Fixed
+
+- Handle concat\_file source when not an array [\#493](https://github.com/puppetlabs/puppetlabs-concat/pull/493) ([vicinus](https://github.com/vicinus))
+
 ## 4.2.1
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.2.0...4.2.1)
@@ -126,7 +130,6 @@ This release introduces the conversion of the module to use PDK 1.3.2, along wit
 
 #### Changed
 - All changes in this release are for enabling rubocop, alongside the module then being converted over to the PDK.
-
 
 ## Supported Releases 4.1.1
 ### Summary
