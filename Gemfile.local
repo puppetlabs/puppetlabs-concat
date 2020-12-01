@@ -1,0 +1,1 @@
+gem 'bolt', git: 'https://github.com/jpogran/bolt', branch: 'exit-codes-and-pipes'
