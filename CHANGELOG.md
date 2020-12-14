@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.4.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.4.0) (2020-12-14)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.3.0...v6.4.0)
+
+### Added
+
+- pdksync - \(feat\) Add support for Puppet 7 [\#672](https://github.com/puppetlabs/puppetlabs-concat/pull/672) ([daianamezdrea](https://github.com/daianamezdrea))
+
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+
+- PDK Update for GA workflows [\#667](https://github.com/puppetlabs/puppetlabs-concat/pull/667) ([carabasdaniel](https://github.com/carabasdaniel))
+
 ## [v6.3.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.3.0) (2020-11-30)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.2.0...v6.3.0)
@@ -130,6 +142,7 @@ This release introduces the conversion of the module to use PDK 1.3.2, along wit
 
 #### Changed
 - All changes in this release are for enabling rubocop, alongside the module then being converted over to the PDK.
+
 
 ## Supported Releases 4.1.1
 ### Summary
