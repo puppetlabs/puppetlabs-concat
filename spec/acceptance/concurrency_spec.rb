@@ -3,6 +3,8 @@
 require 'spec_helper_acceptance'
 
 describe 'concurrency, with file recursive purge' do
+  attr_reader :basedir
+
   before(:all) do
     @basedir = setup_test_directory
   end
@@ -10,7 +12,7 @@ describe 'concurrency, with file recursive purge' do
   describe 'when run should still create concat file' do
     let(:pp) do
       <<-MANIFEST
-        file { '#{@basedir}/bar':
+        file { '#{basedir}/bar':
           ensure => directory,
           purge  => true,
           recurse => true,
@@ -18,7 +20,7 @@ describe 'concurrency, with file recursive purge' do
 
         concat { "foobar":
           ensure => 'present',
-          path   => '#{@basedir}/bar/foobar',
+          path   => '#{basedir}/bar/foobar',
         }
 
         concat::fragment { 'foo':
@@ -30,8 +32,8 @@ describe 'concurrency, with file recursive purge' do
 
     it 'applies the manifest twice with no stderr' do
       idempotent_apply(pp)
-      expect(file("#{@basedir}/bar/foobar")).to be_file
-      expect(file("#{@basedir}/bar/foobar").content).to match 'foo'
+      expect(file("#{basedir}/bar/foobar")).to be_file
+      expect(file("#{basedir}/bar/foobar").content).to match 'foo'
     end
   end
 end

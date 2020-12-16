@@ -3,6 +3,8 @@
 require 'spec_helper_acceptance'
 
 describe 'warnings' do
+  attr_reader :basedir
+
   before(:all) do
     @basedir = setup_test_directory
   end
@@ -11,10 +13,10 @@ describe 'warnings' do
     let(:pp) do
       <<-MANIFEST
       concat { 'file':
-        path => '#{@basedir}/file',
+        path => '#{basedir}/file',
       }
       concat::fragment { 'foo':
-        target  => '#{@basedir}/bar',
+        target  => '#{basedir}/bar',
         content => 'bar',
       }
     MANIFEST

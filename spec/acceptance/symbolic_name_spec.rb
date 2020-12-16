@@ -3,6 +3,8 @@
 require 'spec_helper_acceptance'
 
 describe 'symbolic name' do
+  attr_reader :basedir
+
   before(:all) do
     @basedir = setup_test_directory
   end
@@ -10,7 +12,7 @@ describe 'symbolic name' do
   let(:pp) do
     <<-MANIFEST
       concat { 'not_abs_path':
-        path => '#{@basedir}/file',
+        path => '#{basedir}/file',
       }
 
       concat::fragment { '1':
@@ -29,8 +31,8 @@ describe 'symbolic name' do
 
   it 'applies the manifest twice with no stderr' do
     idempotent_apply(pp)
-    expect(file("#{@basedir}/file")).to be_file
-    expect(file("#{@basedir}/file").content).to match '1'
-    expect(file("#{@basedir}/file").content).to match '2'
+    expect(file("#{basedir}/file")).to be_file
+    expect(file("#{basedir}/file").content).to match '1'
+    expect(file("#{basedir}/file").content).to match '2'
   end
 end
