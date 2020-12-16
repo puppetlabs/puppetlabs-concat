@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # class Specinfra::Command::Windows::Base::File
 class Specinfra::Command::Windows::Base::File < Specinfra::Command::Windows::Base
   class << self

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Puppet::Type.newtype(:concat_fragment) do
   @doc = <<-DOC
     @summary
