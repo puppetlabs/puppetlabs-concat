@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet/type/file/owner'
 require 'puppet/type/file/group'
 require 'puppet/type/file/mode'
@@ -312,7 +314,7 @@ Puppet::Type.newtype(:concat_file) do
 
     if self[:ensure_newline]
       newline = Puppet::Util::Platform.windows? ? "\r\n" : "\n"
-      fragment_content << newline unless fragment_content =~ %r{#{newline}\Z}
+      fragment_content << newline unless %r{#{newline}\Z}.match?(fragment_content)
     end
 
     fragment_content

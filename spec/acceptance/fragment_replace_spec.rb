@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'replacement of' do
+  attr_reader :basedir
+
   before(:all) do
     @basedir = setup_test_directory
   end
@@ -8,31 +12,31 @@ describe 'replacement of' do
   describe 'file' do
     let(:pp) do
       <<-MANIFEST
-        concat { '#{@basedir}/file':
+        concat { '#{basedir}/file':
           replace => false,
         }
 
         concat::fragment { '1':
-          target  => '#{@basedir}/file',
+          target  => '#{basedir}/file',
           content => '1',
         }
 
         concat::fragment { '2':
-          target  => '#{@basedir}/file',
+          target  => '#{basedir}/file',
           content => '2',
         }
 
-        concat { '#{@basedir}/file2':
+        concat { '#{basedir}/file2':
           replace => true,
         }
 
         concat::fragment { 'file2_1':
-          target  => '#{@basedir}/file2',
+          target  => '#{basedir}/file2',
           content => '1',
         }
 
         concat::fragment { 'file2_2':
-          target  => '#{@basedir}/file2',
+          target  => '#{basedir}/file2',
           content => '2',
         }
       MANIFEST
@@ -40,16 +44,16 @@ describe 'replacement of' do
 
     it 'when file should not succeed' do
       idempotent_apply(pp)
-      expect(file("#{@basedir}/file")).to be_file
-      expect(file("#{@basedir}/file").content).to match 'file exists'
-      expect(file("#{@basedir}/file").content).not_to match '1'
-      expect(file("#{@basedir}/file").content).not_to match '2'
+      expect(file("#{basedir}/file")).to be_file
+      expect(file("#{basedir}/file").content).to match 'file exists'
+      expect(file("#{basedir}/file").content).not_to match '1'
+      expect(file("#{basedir}/file").content).not_to match '2'
     end
     it 'when file should succeed' do
-      expect(file("#{@basedir}/file2")).to be_file
-      expect(file("#{@basedir}/file2").content).not_to match 'file exists'
-      expect(file("#{@basedir}/file2").content).to match '1'
-      expect(file("#{@basedir}/file2").content).to match '2'
+      expect(file("#{basedir}/file2")).to be_file
+      expect(file("#{basedir}/file2").content).not_to match 'file exists'
+      expect(file("#{basedir}/file2").content).to match '1'
+      expect(file("#{basedir}/file2").content).to match '2'
     end
   end
 
@@ -59,12 +63,12 @@ describe 'replacement of' do
     # ensure => present and content => ...; this is somewhat confusing behavior
     before(:all) do
       pp = <<-MANIFEST
-          file { '#{@basedir}':
+          file { '#{basedir}':
             ensure => directory,
           }
-          file { '#{@basedir}/file':
+          file { '#{basedir}/file':
             ensure => link,
-            target => '#{@basedir}/dangling',
+            target => '#{basedir}/dangling',
           }
         MANIFEST
       apply_manifest(pp)
@@ -72,31 +76,31 @@ describe 'replacement of' do
 
     let(:pp) do
       <<-MANIFEST
-        concat { '#{@basedir}/file':
+        concat { '#{basedir}/file':
           replace => false,
         }
 
         concat::fragment { '1':
-          target  => '#{@basedir}/file',
+          target  => '#{basedir}/file',
           content => '1',
         }
 
         concat::fragment { '2':
-          target  => '#{@basedir}/file',
+          target  => '#{basedir}/file',
           content => '2',
         }
 
-        concat { '#{@basedir}/file2':
+        concat { '#{basedir}/file2':
           replace => true,
         }
 
         concat::fragment { 'file2_1':
-          target  => '#{@basedir}/file2',
+          target  => '#{basedir}/file2',
           content => '1',
         }
 
         concat::fragment { 'file2_2':
-          target  => '#{@basedir}/file2',
+          target  => '#{basedir}/file2',
           content => '2',
         }
       MANIFEST
@@ -104,24 +108,24 @@ describe 'replacement of' do
 
     it 'when symlink should not succeed' do
       idempotent_apply(pp)
-      expect(file("#{@basedir}/file")).to be_linked_to "#{@basedir}/dangling" unless os[:family] == 'aix' || os[:family] == 'windows'
-      expect(file("#{@basedir}/dangling")).not_to be_file
-      expect(file("#{@basedir}/dangling")).not_to be_directory
+      expect(file("#{basedir}/file")).to be_linked_to "#{basedir}/dangling" unless os[:family] == 'aix' || os[:family] == 'windows'
+      expect(file("#{basedir}/dangling")).not_to be_file
+      expect(file("#{basedir}/dangling")).not_to be_directory
     end
     it 'when symlink should succeed' do
-      expect(file("#{@basedir}/file2")).to be_file
-      expect(file("#{@basedir}/file2").content).to match '1'
-      expect(file("#{@basedir}/file2").content).to match '2'
+      expect(file("#{basedir}/file2")).to be_file
+      expect(file("#{basedir}/file2").content).to match '1'
+      expect(file("#{basedir}/file2").content).to match '2'
     end
   end
 
   describe 'when directory should not succeed' do
     before(:all) do
       pp = <<-MANIFEST
-          file { '#{@basedir}':
+          file { '#{basedir}':
             ensure => directory,
           }
-          file { '#{@basedir}/file':
+          file { '#{basedir}/file':
             ensure => directory,
           }
         MANIFEST
@@ -129,15 +133,15 @@ describe 'replacement of' do
     end
     let(:pp) do
       <<-MANIFEST
-        concat { '#{@basedir}/file': }
+        concat { '#{basedir}/file': }
 
         concat::fragment { '1':
-          target  => '#{@basedir}/file',
+          target  => '#{basedir}/file',
           content => '1',
         }
 
         concat::fragment { '2':
-          target  => '#{@basedir}/file',
+          target  => '#{basedir}/file',
           content => '2',
         }
       MANIFEST
@@ -146,7 +150,7 @@ describe 'replacement of' do
     it 'applies the manifest twice with stderr' do
       expect(apply_manifest(pp, expect_failures: true).stderr).to match(%r{change from '?directory'? to '?file'? failed})
       expect(apply_manifest(pp, expect_failures: true).stderr).to match(%r{change from '?directory'? to '?file'? failed})
-      expect(file("#{@basedir}/file")).to be_directory
+      expect(file("#{basedir}/file")).to be_directory
     end
   end
 
@@ -158,16 +162,16 @@ describe 'replacement of' do
   describe 'when directory should succeed', pending: 'not yet implemented' do
     let(:pp) do
       <<-MANIFEST
-        concat { '#{@basedir}/file':
+        concat { '#{basedir}/file':
         }
 
         concat::fragment { '1':
-          target  => '#{@basedir}/file',
+          target  => '#{basedir}/file',
           content => '1',
         }
 
         concat::fragment { '2':
-          target  => '#{@basedir}/file',
+          target  => '#{basedir}/file',
           content => '2',
         }
       MANIFEST
@@ -175,8 +179,8 @@ describe 'replacement of' do
 
     it 'applies the manifest twice with no stderr' do
       idempotent_apply(pp)
-      expect(file("#{@basedir}/file")).to be_file
-      expect(file("#{@basedir}/file").content).to match '1'
+      expect(file("#{basedir}/file")).to be_file
+      expect(file("#{basedir}/file").content).to match '1'
     end
   end
 end
