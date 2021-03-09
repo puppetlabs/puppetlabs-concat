@@ -4,6 +4,5 @@ fixtures:
     provision: 'https://github.com/puppetlabs/provision.git'
     puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
     stdlib: 'https://github.com/puppetlabs/puppetlabs-stdlib.git'
-    translate: 'https://github.com/puppetlabs/puppetlabs-translate.git'
   symlinks:
     concat: '#{source_dir}'
