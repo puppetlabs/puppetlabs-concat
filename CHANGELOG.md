@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v7.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.0) (2021-02-27)
+## [v7.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.1) (2021-03-20)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.0.0...v7.0.1)
+
+### Fixed
+
+- \(IAC-1497\) remove unsupported `translate` dependency [\#693](https://github.com/puppetlabs/puppetlabs-concat/pull/693) ([DavidS](https://github.com/DavidS))
+
+## [v7.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.0) (2021-03-01)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.4.0...v7.0.0)
 
