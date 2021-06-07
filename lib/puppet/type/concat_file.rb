@@ -264,9 +264,9 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   def nested_merge(hash1, hash2)
-    # If a hash is empty, simply return the other
-    return hash1 if hash2.empty?
-    return hash2 if hash1.empty?
+    # If a hash is nil or empty, simply return the other
+    return hash1 if hash2.nil? || hash2.empty?
+    return hash2 if hash1.nil? || hash1.empty?
 
     # Unique merge for arrays
     if hash1.is_a?(Array) && hash2.is_a?(Array)
