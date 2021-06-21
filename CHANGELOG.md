@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v7.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.1) (2021-03-20)
+## [v7.0.2](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.2) (2021-06-21)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.0.1...v7.0.2)
+
+### Fixed
+
+- fix merge nil hashes [\#708](https://github.com/puppetlabs/puppetlabs-concat/pull/708) ([thde](https://github.com/thde))
+- Do not modify metaparams in place [\#705](https://github.com/puppetlabs/puppetlabs-concat/pull/705) ([ekohl](https://github.com/ekohl))
+
+## [v7.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.1) (2021-03-29)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.0.0...v7.0.1)
 
