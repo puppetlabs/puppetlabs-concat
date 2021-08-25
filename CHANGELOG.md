@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.1.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.1.1) (2021-08-25)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.1.0...v7.1.1)
+
+### Fixed
+
+- \(maint\) Allow stdlib 8.0.0 [\#716](https://github.com/puppetlabs/puppetlabs-concat/pull/716) ([smortex](https://github.com/smortex))
+
 ## [v7.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.1.0) (2021-08-23)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.0.2...v7.1.0)
