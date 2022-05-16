@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.2.0) - 2022-05-16
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.1.1...v7.2.0)
+
+### Added
+
+- pdksync - (FM-8922) - Add Support for Windows 2022 [#725](https://github.com/puppetlabs/puppetlabs-concat/pull/725) ([david22swan](https://github.com/david22swan))
+
+- pdksync - (IAC-1753) - Add Support for AlmaLinux 8 [#720](https://github.com/puppetlabs/puppetlabs-concat/pull/720) ([david22swan](https://github.com/david22swan))
+
+- pdksync - (IAC-1751) - Add Support for Rocky 8 [#719](https://github.com/puppetlabs/puppetlabs-concat/pull/719) ([david22swan](https://github.com/david22swan))
+
+### Fixed
+
+- pdksync - (GH-iac-334) Remove Support for Ubuntu 14.04 [#729](https://github.com/puppetlabs/puppetlabs-concat/pull/729) ([david22swan](https://github.com/david22swan))
+
+- pdksync - (GH-iac-334) Remove Support for Ubuntu 16.04 [#728](https://github.com/puppetlabs/puppetlabs-concat/pull/728) ([david22swan](https://github.com/david22swan))
+
+- pdksync - (IAC-1787) Remove Support for CentOS 6 [#723](https://github.com/puppetlabs/puppetlabs-concat/pull/723) ([david22swan](https://github.com/david22swan))
+
+- pdksync - (IAC-1598) - Remove Support for Debian 8 [#718](https://github.com/puppetlabs/puppetlabs-concat/pull/718) ([david22swan](https://github.com/david22swan))
+
 ## [v7.1.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.1.1) (2021-08-25)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.1.0...v7.1.1)
