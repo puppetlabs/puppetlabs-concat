@@ -70,17 +70,13 @@
     {
       "operatingsystem": "Solaris",
       "operatingsystemrelease": [
-        "10",
         "11"
       ]
     },
     {
       "operatingsystem": "Windows",
       "operatingsystemrelease": [
-        "7",
-        "8.1",
         "10",
-        "2008 R2",
         "2012 R2 Core",
         "2012",
         "2012 R2",
@@ -91,8 +87,6 @@
     {
       "operatingsystem": "AIX",
       "operatingsystemrelease": [
-        "5.3",
-        "6.1",
         "7.1"
       ]
     },
