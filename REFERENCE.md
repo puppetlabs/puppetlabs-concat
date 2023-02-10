@@ -7,7 +7,7 @@
 ### Defined types
 
 * [`concat`](#concat): Manages a file, compiled from one or more text fragments.
-* [`concat::fragment`](#concatfragment): Manages a fragment of text to be compiled into a file.
+* [`concat::fragment`](#concat--fragment): Manages a fragment of text to be compiled into a file.
 
 ### Resource types
 
@@ -37,27 +37,27 @@ concat { '/tmp/concat':
 
 The following parameters are available in the `concat` defined type:
 
-* [`backup`](#backup)
-* [`ensure`](#ensure)
-* [`ensure_newline`](#ensure_newline)
-* [`format`](#format)
-* [`force`](#force)
-* [`group`](#group)
-* [`mode`](#mode)
-* [`order`](#order)
-* [`owner`](#owner)
-* [`path`](#path)
-* [`replace`](#replace)
-* [`selinux_ignore_defaults`](#selinux_ignore_defaults)
-* [`selrange`](#selrange)
-* [`selrole`](#selrole)
-* [`seltype`](#seltype)
-* [`seluser`](#seluser)
-* [`show_diff`](#show_diff)
-* [`validate_cmd`](#validate_cmd)
-* [`warn`](#warn)
+* [`backup`](#-concat--backup)
+* [`ensure`](#-concat--ensure)
+* [`ensure_newline`](#-concat--ensure_newline)
+* [`format`](#-concat--format)
+* [`force`](#-concat--force)
+* [`group`](#-concat--group)
+* [`mode`](#-concat--mode)
+* [`order`](#-concat--order)
+* [`owner`](#-concat--owner)
+* [`path`](#-concat--path)
+* [`replace`](#-concat--replace)
+* [`selinux_ignore_defaults`](#-concat--selinux_ignore_defaults)
+* [`selrange`](#-concat--selrange)
+* [`selrole`](#-concat--selrole)
+* [`seltype`](#-concat--seltype)
+* [`seluser`](#-concat--seluser)
+* [`show_diff`](#-concat--show_diff)
+* [`validate_cmd`](#-concat--validate_cmd)
+* [`warn`](#-concat--warn)
 
-##### <a name="backup"></a>`backup`
+##### <a name="-concat--backup"></a>`backup`
 
 Data type: `Variant[Boolean, String]`
 
@@ -67,7 +67,7 @@ beginning with ".".
 
 Default value: `'puppet'`
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-concat--ensure"></a>`ensure`
 
 Data type: `Enum['present', 'absent']`
 
@@ -76,15 +76,15 @@ negates the effect of any other parameters.
 
 Default value: `'present'`
 
-##### <a name="ensure_newline"></a>`ensure_newline`
+##### <a name="-concat--ensure_newline"></a>`ensure_newline`
 
 Data type: `Boolean`
 
 Specifies whether to add a line break at the end of each fragment that doesn't already end in one.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="format"></a>`format`
+##### <a name="-concat--format"></a>`format`
 
 Data type: `Optional[String]`
 
@@ -93,24 +93,24 @@ Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml'
 
 Default value: `'plain'`
 
-##### <a name="force"></a>`force`
+##### <a name="-concat--force"></a>`force`
 
 Data type: `Optional[Boolean]`
 
 Specifies whether to merge data structures, keeping the values with higher order. Used when format is specified as a value other than
 'plain'.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="group"></a>`group`
+##### <a name="-concat--group"></a>`group`
 
 Data type: `Optional[Variant[String, Integer]]`
 
 Specifies a permissions group for the destination file. Valid options: a string containing a group name or integer containing a gid.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="mode"></a>`mode`
+##### <a name="-concat--mode"></a>`mode`
 
 Data type: `String`
 
@@ -118,7 +118,7 @@ Specifies the permissions mode of the destination file. Valid options: a string 
 
 Default value: `'0644'`
 
-##### <a name="order"></a>`order`
+##### <a name="-concat--order"></a>`order`
 
 Data type: `Enum['alpha','numeric']`
 
@@ -127,15 +127,15 @@ fragments by adjusting the order parameter in their concat::fragment declaration
 
 Default value: `'alpha'`
 
-##### <a name="owner"></a>`owner`
+##### <a name="-concat--owner"></a>`owner`
 
 Data type: `Optional[Variant[String, Integer]]`
 
 Specifies the owner of the destination file. Valid options: a string containing a username or integer containing a uid.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="path"></a>`path`
+##### <a name="-concat--path"></a>`path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -143,73 +143,73 @@ Specifies a destination file for the combined fragments.
 
 Default value: `$name`
 
-##### <a name="replace"></a>`replace`
+##### <a name="-concat--replace"></a>`replace`
 
 Data type: `Boolean`
 
 Specifies whether to overwrite the destination file if it already exists.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="selinux_ignore_defaults"></a>`selinux_ignore_defaults`
+##### <a name="-concat--selinux_ignore_defaults"></a>`selinux_ignore_defaults`
 
 Data type: `Optional[Boolean]`
 
 See the file type's selinux_ignore_defaults documentention:
 https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selinux_ignore_defaults
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="selrange"></a>`selrange`
+##### <a name="-concat--selrange"></a>`selrange`
 
 Data type: `Optional[String]`
 
 See the file type's selrange documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="selrole"></a>`selrole`
+##### <a name="-concat--selrole"></a>`selrole`
 
 Data type: `Optional[String]`
 
 See the file type's selrole documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="seltype"></a>`seltype`
+##### <a name="-concat--seltype"></a>`seltype`
 
 Data type: `Optional[String]`
 
 See the file type's seltype documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="seluser"></a>`seluser`
+##### <a name="-concat--seluser"></a>`seluser`
 
 Data type: `Optional[String]`
 
 See the file type's seluser documentention: https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="show_diff"></a>`show_diff`
+##### <a name="-concat--show_diff"></a>`show_diff`
 
 Data type: `Boolean`
 
 Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from insecure
 reporting methods.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="validate_cmd"></a>`validate_cmd`
+##### <a name="-concat--validate_cmd"></a>`validate_cmd`
 
 Data type: `Optional[String]`
 
 Specifies a validation command to apply to the destination file.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="warn"></a>`warn`
+##### <a name="-concat--warn"></a>`warn`
 
 Data type: `Variant[Boolean, String]`
 
@@ -220,9 +220,9 @@ If you set 'warn' to true, concat adds the following line with an order of 0:
 Before 2.0.0, this parameter would add a newline at the end of the warn message. To improve flexibilty, this was removed. Please add
 it explicitly if you need it.
 
-Default value: ``false``
+Default value: `false`
 
-### <a name="concatfragment"></a>`concat::fragment`
+### <a name="concat--fragment"></a>`concat::fragment`
 
 Manages a fragment of text to be compiled into a file.
 
@@ -230,21 +230,21 @@ Manages a fragment of text to be compiled into a file.
 
 The following parameters are available in the `concat::fragment` defined type:
 
-* [`content`](#content)
-* [`order`](#order)
-* [`source`](#source)
-* [`target`](#target)
+* [`content`](#-concat--fragment--content)
+* [`order`](#-concat--fragment--order)
+* [`source`](#-concat--fragment--source)
+* [`target`](#-concat--fragment--target)
 
-##### <a name="content"></a>`content`
+##### <a name="-concat--fragment--content"></a>`content`
 
 Data type: `Optional[Any]`
 
 Supplies the content of the fragment. Note: You must supply either a content parameter or a source parameter.
 Allows a String or a Deferred function which returns a String.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="order"></a>`order`
+##### <a name="-concat--fragment--order"></a>`order`
 
 Data type: `Variant[String, Integer]`
 
@@ -253,16 +253,16 @@ option is recommended.
 
 Default value: `'10'`
 
-##### <a name="source"></a>`source`
+##### <a name="-concat--fragment--source"></a>`source`
 
 Data type: `Optional[Variant[String, Array]]`
 
 Specifies a file to read into the content of the fragment. Note: You must supply either a content parameter or a source parameter.
 Valid options: a string or an array, containing one or more Puppet URLs.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="target"></a>`target`
+##### <a name="-concat--fragment--target"></a>`target`
 
 Data type: `String`
 
@@ -309,26 +309,26 @@ Default value: `present`
 
 The following parameters are available in the `concat_file` type.
 
-* [`backup`](#backup)
-* [`ensure_newline`](#ensure_newline)
-* [`force`](#force)
-* [`format`](#format)
-* [`group`](#group)
-* [`mode`](#mode)
-* [`order`](#order)
-* [`owner`](#owner)
-* [`path`](#path)
-* [`replace`](#replace)
-* [`selinux_ignore_defaults`](#selinux_ignore_defaults)
-* [`selrange`](#selrange)
-* [`selrole`](#selrole)
-* [`seltype`](#seltype)
-* [`seluser`](#seluser)
-* [`show_diff`](#show_diff)
-* [`tag`](#tag)
-* [`validate_cmd`](#validate_cmd)
+* [`backup`](#-concat_file--backup)
+* [`ensure_newline`](#-concat_file--ensure_newline)
+* [`force`](#-concat_file--force)
+* [`format`](#-concat_file--format)
+* [`group`](#-concat_file--group)
+* [`mode`](#-concat_file--mode)
+* [`order`](#-concat_file--order)
+* [`owner`](#-concat_file--owner)
+* [`path`](#-concat_file--path)
+* [`replace`](#-concat_file--replace)
+* [`selinux_ignore_defaults`](#-concat_file--selinux_ignore_defaults)
+* [`selrange`](#-concat_file--selrange)
+* [`selrole`](#-concat_file--selrole)
+* [`seltype`](#-concat_file--seltype)
+* [`seluser`](#-concat_file--seluser)
+* [`show_diff`](#-concat_file--show_diff)
+* [`tag`](#-concat_file--tag)
+* [`validate_cmd`](#-concat_file--validate_cmd)
 
-##### <a name="backup"></a>`backup`
+##### <a name="-concat_file--backup"></a>`backup`
 
 Specifies whether (and how) to back up the destination file before overwriting it. Your value gets passed on to Puppet's
 native file
@@ -336,23 +336,23 @@ resource for execution. Valid options: true, false, or a string representing eit
 extension
 beginning with ".".'
 
-##### <a name="ensure_newline"></a>`ensure_newline`
+##### <a name="-concat_file--ensure_newline"></a>`ensure_newline`
 
-Valid values: ``true``, ``false``, `yes`, `no`
+Valid values: `true`, `false`, `yes`, `no`
 
 Specifies whether to add a line break at the end of each fragment that doesn't already end in one.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="force"></a>`force`
+##### <a name="-concat_file--force"></a>`force`
 
-Valid values: ``true``, ``false``, `yes`, `no`
+Valid values: `true`, `false`, `yes`, `no`
 
 Specifies whether to merge data structures, keeping the values with higher order.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="format"></a>`format`
+##### <a name="-concat_file--format"></a>`format`
 
 Valid values: `plain`, `yaml`, `json`, `json-array`, `json-pretty`, `json-array-pretty`
 
@@ -361,18 +361,18 @@ Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml'
 
 Default value: `plain`
 
-##### <a name="group"></a>`group`
+##### <a name="-concat_file--group"></a>`group`
 
 Specifies a permissions group for the destination file. Valid options: a string containing a group name or integer
 containing a
 gid.
 
-##### <a name="mode"></a>`mode`
+##### <a name="-concat_file--mode"></a>`mode`
 
 Specifies the permissions mode of the destination file. Valid options: a string containing a permission mode value in
 octal notation.
 
-##### <a name="order"></a>`order`
+##### <a name="-concat_file--order"></a>`order`
 
 Valid values: `alpha`, `numeric`
 
@@ -382,64 +382,64 @@ fragments by adjusting the order parameter in their concat::fragment declaration
 
 Default value: `numeric`
 
-##### <a name="owner"></a>`owner`
+##### <a name="-concat_file--owner"></a>`owner`
 
 Specifies the owner of the destination file. Valid options: a string containing a username or integer containing a uid.
 
-##### <a name="path"></a>`path`
+##### <a name="-concat_file--path"></a>`path`
 
 Specifies a destination file for the combined fragments. Valid options: a string containing an absolute path. Default
 value: the
 title of your declared resource.
 
-##### <a name="replace"></a>`replace`
+##### <a name="-concat_file--replace"></a>`replace`
 
-Valid values: ``true``, ``false``, `yes`, `no`
+Valid values: `true`, `false`, `yes`, `no`
 
 Specifies whether to overwrite the destination file if it already exists.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="selinux_ignore_defaults"></a>`selinux_ignore_defaults`
+##### <a name="-concat_file--selinux_ignore_defaults"></a>`selinux_ignore_defaults`
 
-Valid values: ``true``, ``false``, `yes`, `no`
+Valid values: `true`, `false`, `yes`, `no`
 
 See the file type's selinux_ignore_defaults documentention:
 https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selinux_ignore_defaults.
 
-##### <a name="selrange"></a>`selrange`
+##### <a name="-concat_file--selrange"></a>`selrange`
 
 See the file type's selrange documentation:
 https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrange
 
-##### <a name="selrole"></a>`selrole`
+##### <a name="-concat_file--selrole"></a>`selrole`
 
 See the file type's selrole documentation:
 https://docs.puppetlabs.com/references/latest/type.html#file-attribute-selrole
 
-##### <a name="seltype"></a>`seltype`
+##### <a name="-concat_file--seltype"></a>`seltype`
 
 See the file type's seltype documentation:
 https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seltype
 
-##### <a name="seluser"></a>`seluser`
+##### <a name="-concat_file--seluser"></a>`seluser`
 
 See the file type's seluser documentation:
 https://docs.puppetlabs.com/references/latest/type.html#file-attribute-seluser
 
-##### <a name="show_diff"></a>`show_diff`
+##### <a name="-concat_file--show_diff"></a>`show_diff`
 
-Valid values: ``true``, ``false``, `yes`, `no`
+Valid values: `true`, `false`, `yes`, `no`
 
 Specifies whether to set the show_diff parameter for the file resource. Useful for hiding secrets stored in hiera from
 insecure
 reporting methods.
 
-##### <a name="tag"></a>`tag`
+##### <a name="-concat_file--tag"></a>`tag`
 
 Required. Specifies a unique tag reference to collect all concat_fragments with the same tag.
 
-##### <a name="validate_cmd"></a>`validate_cmd`
+##### <a name="-concat_file--validate_cmd"></a>`validate_cmd`
 
 Specifies a validation command to apply to the destination file. Requires Puppet version 3.5 or newer. Valid options: a
 string to
@@ -469,25 +469,25 @@ concat_fragment { \"uniqe_name_${::fqdn}\":
 
 The following parameters are available in the `concat_fragment` type.
 
-* [`content`](#content)
-* [`name`](#name)
-* [`order`](#order)
-* [`source`](#source)
-* [`tag`](#tag)
-* [`target`](#target)
+* [`content`](#-concat_fragment--content)
+* [`name`](#-concat_fragment--name)
+* [`order`](#-concat_fragment--order)
+* [`source`](#-concat_fragment--source)
+* [`tag`](#-concat_fragment--tag)
+* [`target`](#-concat_fragment--target)
 
-##### <a name="content"></a>`content`
+##### <a name="-concat_fragment--content"></a>`content`
 
 Supplies the content of the fragment. Note: You must supply either a content parameter or a source parameter. Valid
 options: a string
 
-##### <a name="name"></a>`name`
+##### <a name="-concat_fragment--name"></a>`name`
 
 namevar
 
 Name of resource.
 
-##### <a name="order"></a>`order`
+##### <a name="-concat_fragment--order"></a>`order`
 
 Reorders your fragments within the destination file. Fragments that share the same order number are ordered by name. The
 string
@@ -495,17 +495,17 @@ option is recommended.
 
 Default value: `10`
 
-##### <a name="source"></a>`source`
+##### <a name="-concat_fragment--source"></a>`source`
 
 Specifies a file to read into the content of the fragment. Note: You must supply either a content parameter or a source
 parameter.
 Valid options: a string or an array, containing one or more Puppet URLs.
 
-##### <a name="tag"></a>`tag`
+##### <a name="-concat_fragment--tag"></a>`tag`
 
 Specifies a unique tag to be used by concat_file to reference and collect content.
 
-##### <a name="target"></a>`target`
+##### <a name="-concat_fragment--target"></a>`target`
 
 Required. Specifies the destination file of the fragment. Valid options: a string containing the path or title of the
 parent
