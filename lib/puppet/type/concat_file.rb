@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require 'puppet/type/file/owner'
-require 'puppet/type/file/group'
-require 'puppet/type/file/mode'
+# require 'puppet/type/file/owner'
+# require 'puppet/type/file/group'
+# require 'puppet/type/file/mode'
+Puppet::Type.type(:file)
 require 'puppet/util/checksums'
 
 Puppet::Type.newtype(:concat_file) do
