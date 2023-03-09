@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.3.2](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.2) (2023-03-09)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.3.1...v7.3.2)
+
+### Fixed
+
+- \(MODULES-3522\) Removing redundant 'requires' [\#755](https://github.com/puppetlabs/puppetlabs-concat/pull/755) ([LukasAud](https://github.com/LukasAud))
+
 ## [v7.3.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.1) (2023-02-10)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.3.0...v7.3.1)
