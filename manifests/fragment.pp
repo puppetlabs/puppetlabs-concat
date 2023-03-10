@@ -17,10 +17,10 @@
 #   Specifies the destination file of the fragment. Valid options: a string containing the path or title of the parent concat resource.
 #
 define concat::fragment (
-  String                              $target,
-  Optional[Variant[String, Deferred]] $content = undef,
-  Optional[Variant[String, Array]]    $source  = undef,
-  Variant[String, Integer]            $order   = '10',
+  String                                                 $target,
+  Optional[Variant[Sensitive[String], String, Deferred]] $content = undef,
+  Optional[Variant[String, Array]]                       $source  = undef,
+  Variant[String, Integer]                               $order   = '10',
 ) {
   $resource = 'Concat::Fragment'
 
