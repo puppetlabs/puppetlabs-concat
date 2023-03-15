@@ -17,10 +17,10 @@
 #   Specifies the destination file of the fragment. Valid options: a string containing the path or title of the parent concat resource.
 #
 define concat::fragment (
-  String                             $target,
-  Optional[Any]                      $content = undef,
-  Optional[Variant[String, Array]]   $source  = undef,
-  Variant[String, Integer]           $order   = '10',
+  String                              $target,
+  Optional[Variant[String, Deferred]] $content = undef,
+  Optional[Variant[String, Array]]    $source  = undef,
+  Variant[String, Integer]            $order   = '10',
 ) {
   $resource = 'Concat::Fragment'
 
@@ -32,17 +32,6 @@ define concat::fragment (
     crit('No content, source or symlink specified')
   } elsif ($content and $source) {
     fail("${resource}['${title}']: Can't use 'source' and 'content' at the same time.")
-  }
-
-  # $serverversion is empty on 'puppet apply' runs. Just use clientversion.
-  $_serverversion    = getvar('serverversion') ? {
-    undef   => $clientversion,
-    default => $serverversion,
-  }
-  if versioncmp($clientversion, '6.0') >= 0 and versioncmp($_serverversion, '6.0') >= 0 {
-    assert_type(Optional[Variant[String, Deferred]], $content)
-  } else {
-    assert_type(Optional[String], $content)
   }
 
   $safe_target_name = regsubst($target, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'GM')
