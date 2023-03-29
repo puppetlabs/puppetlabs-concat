@@ -246,7 +246,7 @@ The following parameters are available in the `concat::fragment` defined type:
 
 ##### <a name="-concat--fragment--content"></a>`content`
 
-Data type: `Optional[Any]`
+Data type: `Optional[Variant[String, Deferred]]`
 
 Supplies the content of the fragment. Note: You must supply either a content parameter or a source parameter.
 Allows a String or a Deferred function which returns a String.
