@@ -210,6 +210,7 @@ Puppet::Type.newtype(:concat_file) do
 
   def should_content
     return @generated_content if @generated_content
+
     @generated_content = ''
     content_fragments = []
 
@@ -313,6 +314,7 @@ Puppet::Type.newtype(:concat_file) do
         end
       end
       raise _('Could not retrieve source(s) %{_array}') % { _array: Array(r[:source]).join(', ') } unless @source
+
       tmp = Puppet::FileServing::Content.indirection.find(@source)
       fragment_content = tmp.content unless tmp.nil?
     end

@@ -6,24 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 14
-# This cop supports safe autocorrection (--autocorrect).
-# Layout/ClosingHeredocIndentation:
-#   Exclude:
-#     - 'spec/acceptance/backup_spec.rb'
-#     - 'spec/acceptance/fragment_replace_spec.rb'
-#     - 'spec/acceptance/fragments_are_always_replaced_spec.rb'
-#     - 'spec/acceptance/newline_spec.rb'
-#     - 'spec/acceptance/noop_spec.rb'
-#     - 'spec/acceptance/warn_header_spec.rb'
-#     - 'spec/acceptance/warnings_spec.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-Layout/EmptyLineAfterGuardClause:
-  Exclude:
-    - 'lib/puppet/type/concat_file.rb'
-
 # Offense count: 2
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Lint/BooleanSymbol:
