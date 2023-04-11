@@ -17,11 +17,11 @@ describe 'concat' do
       warn: false,
       backup: 'puppet',
       replace: true,
-      force: false,
+      force: false
     }.merge(params)
 
     file_defaults = {
-      backup: p[:backup],
+      backup: p[:backup]
     }
 
     present_expect = {
@@ -37,7 +37,7 @@ describe 'concat' do
       selrole: p[:selrole],
       seltype: p[:seltype],
       seluser: p[:seluser],
-      force: p[:force],
+      force: p[:force]
     }
 
     let(:title) { title }
@@ -48,7 +48,7 @@ describe 'concat' do
         osfamily: 'Debian',
         path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         kernel: 'Linux',
-        is_pe: false,
+        is_pe: false
       }
     end
 

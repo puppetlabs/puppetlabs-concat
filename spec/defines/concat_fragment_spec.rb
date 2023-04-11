@@ -9,7 +9,7 @@ describe 'concat::fragment' do
     p = {
       content: nil,
       source: nil,
-      order: 10,
+      order: 10
     }.merge(params)
 
     let(:title) { title }
@@ -159,7 +159,7 @@ describe 'concat::fragment' do
         {
           target: '/etc/motd',
           source: '/foo',
-          content: 'bar',
+          content: 'bar'
         }
       end
 

@@ -126,14 +126,3 @@ Style/RescueStandardError:
 Style/TernaryParentheses:
   Exclude:
     - 'lib/puppet/type/concat_fragment.rb'
-
-# Offense count: 8
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInHashLiteral:
-  Exclude:
-    - 'lib/puppet/type/concat_file.rb'
-    - 'spec/defines/concat_fragment_spec.rb'
-    - 'spec/defines/concat_spec.rb'
-    - 'spec/spec_helper.rb'

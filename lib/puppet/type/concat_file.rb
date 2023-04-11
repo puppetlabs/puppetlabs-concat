@@ -329,7 +329,7 @@ Puppet::Type.newtype(:concat_file) do
 
   def generate
     file_opts = {
-      ensure: (self[:ensure] == :absent) ? :absent : :file,
+      ensure: (self[:ensure] == :absent) ? :absent : :file
     }
 
     [:path,
