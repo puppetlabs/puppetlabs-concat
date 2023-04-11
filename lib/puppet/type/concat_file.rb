@@ -181,6 +181,11 @@ Puppet::Type.newtype(:concat_file) do
     DOC
   end
 
+  newparam(:create_empty_file, boolean: true, parent: Puppet::Parameter::Boolean) do
+    desc 'Specifies whether to create an empty file if no fragments are defined.'
+    defaultto true
+  end
+
   # Autorequire the file we are generating below
   # Why is this necessary ?
   autorequire(:file) do
@@ -357,6 +362,10 @@ Puppet::Type.newtype(:concat_file) do
 
     unless content.nil?
       catalog.resource("File[#{self[:path]}]")[:content] = content
+    end
+
+    if !self[:create_empty_file] && (content.nil? || content.empty?)
+      catalog.resource("File[#{self[:path]}]")[:ensure] = :absent
     end
 
     [catalog.resource("File[#{self[:path]}]")]

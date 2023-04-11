@@ -56,6 +56,7 @@ The following parameters are available in the `concat` defined type:
 * [`show_diff`](#-concat--show_diff)
 * [`validate_cmd`](#-concat--validate_cmd)
 * [`warn`](#-concat--warn)
+* [`create_empty_file`](#-concat--create_empty_file)
 
 ##### <a name="-concat--backup"></a>`backup`
 
@@ -222,6 +223,14 @@ it explicitly if you need it.
 
 Default value: `false`
 
+##### <a name="-concat--create_empty_file"></a>`create_empty_file`
+
+Data type: `Boolean`
+
+Specifies whether to create an empty file if no fragments are defined. Defaults to true.
+
+Default value: `true`
+
 ### <a name="concat--fragment"></a>`concat::fragment`
 
 Manages a fragment of text to be compiled into a file.
@@ -237,7 +246,7 @@ The following parameters are available in the `concat::fragment` defined type:
 
 ##### <a name="-concat--fragment--content"></a>`content`
 
-Data type: `Optional[Any]`
+Data type: `Optional[Variant[String, Deferred]]`
 
 Supplies the content of the fragment. Note: You must supply either a content parameter or a source parameter.
 Allows a String or a Deferred function which returns a String.
@@ -310,6 +319,7 @@ Default value: `present`
 The following parameters are available in the `concat_file` type.
 
 * [`backup`](#-concat_file--backup)
+* [`create_empty_file`](#-concat_file--create_empty_file)
 * [`ensure_newline`](#-concat_file--ensure_newline)
 * [`force`](#-concat_file--force)
 * [`format`](#-concat_file--format)
@@ -335,6 +345,14 @@ native file
 resource for execution. Valid options: true, false, or a string representing either a target filebucket or a filename
 extension
 beginning with ".".'
+
+##### <a name="-concat_file--create_empty_file"></a>`create_empty_file`
+
+Valid values: `true`, `false`, `yes`, `no`
+
+Specifies whether to create an empty file if no fragments are defined.
+
+Default value: `true`
 
 ##### <a name="-concat_file--ensure_newline"></a>`ensure_newline`
 

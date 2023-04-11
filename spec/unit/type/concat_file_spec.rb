@@ -149,4 +149,8 @@ describe Puppet::Type.type(:concat_file) do
       expect { resource[:format] = 'bar' }.to raise_error(%r{Invalid value "bar"})
     end
   end
+
+  describe 'parameter :create_empty_file' do
+    it_behaves_like 'Puppet::Parameter::Boolean', :create_empty_file
+  end
 end
