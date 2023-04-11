@@ -63,13 +63,6 @@ RSpec/ContextWording:
 RSpec/DescribeClass:
   Enabled: false
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterHook:
-  Exclude:
-    - 'spec/acceptance/fragment_replace_spec.rb'
-
 # Offense count: 5
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:

@@ -133,6 +133,7 @@ describe 'replacement of' do
       MANIFEST
       apply_manifest(pp)
     end
+
     let(:pp) do
       <<-MANIFEST
         concat { '#{basedir}/file': }
