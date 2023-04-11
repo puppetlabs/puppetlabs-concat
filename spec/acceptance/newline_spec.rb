@@ -23,7 +23,7 @@ describe 'concat ensure_newline parameter' do
         target  => '#{basedir}/file',
         content => '2',
       }
-    MANIFEST
+      MANIFEST
     end
 
     it 'applies the manifest twice with no stderr' do
@@ -47,7 +47,7 @@ describe 'concat ensure_newline parameter' do
         target  => '#{basedir}/file',
         content => '2',
       }
-    MANIFEST
+      MANIFEST
     end
 
     it 'applies the manifest twice with no stderr' do

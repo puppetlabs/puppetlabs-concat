@@ -70,7 +70,7 @@ describe 'replacement of' do
             ensure => link,
             target => '#{basedir}/dangling',
           }
-        MANIFEST
+      MANIFEST
       apply_manifest(pp)
     end
 
@@ -128,7 +128,7 @@ describe 'replacement of' do
           file { '#{basedir}/file':
             ensure => directory,
           }
-        MANIFEST
+      MANIFEST
       apply_manifest(pp)
     end
     let(:pp) do

@@ -8,15 +8,15 @@
 
 # Offense count: 14
 # This cop supports safe autocorrection (--autocorrect).
-Layout/ClosingHeredocIndentation:
-  Exclude:
-    - 'spec/acceptance/backup_spec.rb'
-    - 'spec/acceptance/fragment_replace_spec.rb'
-    - 'spec/acceptance/fragments_are_always_replaced_spec.rb'
-    - 'spec/acceptance/newline_spec.rb'
-    - 'spec/acceptance/noop_spec.rb'
-    - 'spec/acceptance/warn_header_spec.rb'
-    - 'spec/acceptance/warnings_spec.rb'
+# Layout/ClosingHeredocIndentation:
+#   Exclude:
+#     - 'spec/acceptance/backup_spec.rb'
+#     - 'spec/acceptance/fragment_replace_spec.rb'
+#     - 'spec/acceptance/fragments_are_always_replaced_spec.rb'
+#     - 'spec/acceptance/newline_spec.rb'
+#     - 'spec/acceptance/noop_spec.rb'
+#     - 'spec/acceptance/warn_header_spec.rb'
+#     - 'spec/acceptance/warnings_spec.rb'
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).

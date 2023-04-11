@@ -66,7 +66,7 @@ describe 'concat backup parameter' do
         target  => '#{basedir}/file',
         content => 'new contents',
       }
-    MANIFEST
+      MANIFEST
     end
 
     it 'applies the manifest twice with no "Filebucketed" stdout and no stderr' do

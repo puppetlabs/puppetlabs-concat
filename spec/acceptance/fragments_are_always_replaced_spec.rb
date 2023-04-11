@@ -17,7 +17,7 @@ describe 'concat::fragment replace' do
         target  => '#{basedir}/foo',
         content => 'caller has replace unset run 1',
       }
-    MANIFEST
+      MANIFEST
     end
     let(:pp2) do
       <<-MANIFEST
@@ -26,7 +26,7 @@ describe 'concat::fragment replace' do
         target  => '#{basedir}/foo',
         content => 'caller has replace unset run 2',
       }
-    MANIFEST
+      MANIFEST
     end
 
     it 'applies the manifest twice with no stderr' do
@@ -48,7 +48,7 @@ describe 'concat::fragment replace' do
         target  => '#{basedir}/foo',
         content => 'caller has replace true set run 1',
       }
-    MANIFEST
+      MANIFEST
     end
     let(:pp2) do
       <<-MANIFEST
@@ -58,7 +58,7 @@ describe 'concat::fragment replace' do
         target  => '#{basedir}/foo',
         content => 'caller has replace true set run 2',
       }
-    MANIFEST
+      MANIFEST
     end
 
     it 'applies the manifest twice with no stderr' do
@@ -80,7 +80,7 @@ describe 'concat::fragment replace' do
         target  => '#{basedir}/foo',
         content => 'caller has replace false set run 1',
       }
-    MANIFEST
+      MANIFEST
     end
     let(:pp2) do
       <<-MANIFEST
@@ -90,7 +90,7 @@ describe 'concat::fragment replace' do
         target  => '#{basedir}/foo',
         content => 'caller has replace false set run 2',
       }
-    MANIFEST
+      MANIFEST
     end
 
     it 'applies the manifest twice with no stderr' do

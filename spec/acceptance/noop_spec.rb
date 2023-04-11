@@ -19,7 +19,7 @@ describe 'concat noop parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os
         target  => '#{basedir}/file',
         content => 'content',
       }
-    MANIFEST
+      MANIFEST
     end
 
     it 'applies the manifest twice with no stderr' do
