@@ -19,15 +19,15 @@ describe 'concat::fragment' do
     end
 
     it do
-      is_expected.to contain_concat(p[:target])
+      expect(subject).to contain_concat(p[:target])
     end
 
     it do
-      is_expected.to contain_concat_file(p[:target])
+      expect(subject).to contain_concat_file(p[:target])
     end
 
     it do
-      is_expected.to contain_concat_fragment(title)
+      expect(subject).to contain_concat_fragment(title)
     end
   end
 
@@ -72,7 +72,7 @@ describe 'concat::fragment' do
       let(:params) { { content: content, target: '/etc/authentication' } }
 
       it do
-        is_expected.to contain_concat_fragment(title).with(content: content)
+        expect(subject).to contain_concat_fragment(title).with(content: content)
       end
     end
 

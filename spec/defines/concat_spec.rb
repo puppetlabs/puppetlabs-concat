@@ -54,12 +54,12 @@ describe 'concat' do
 
     if p[:ensure] == 'present'
       it do
-        is_expected.to contain_concat(title).with(file_defaults.merge(present_expect))
+        expect(subject).to contain_concat(title).with(file_defaults.merge(present_expect))
       end
     else
       it do
-        is_expected.to contain_concat(title).with(file_defaults.merge(ensure: 'absent',
-                                                                      backup: p[:backup]))
+        expect(subject).to contain_concat(title).with(file_defaults.merge(ensure: 'absent',
+                                                                          backup: p[:backup]))
       end
     end
   end
