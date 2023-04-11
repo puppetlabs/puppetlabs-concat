@@ -33,14 +33,14 @@ shared_examples 'Puppet::Parameter::Boolean' do |parameter|
   [true, 'true', :yes, 'yes'].each do |value|
     it "accepts #{value} (#{value.class}) as a value" do
       resource[parameter] = value
-      expect(resource[parameter]).to eq(true)
+      expect(resource[parameter]).to be(true)
     end
   end
 
   [false, 'false', :no, 'no'].each do |value|
     it "accepts #{value} (#{value.class}) as a value" do
       resource[parameter] = value
-      expect(resource[parameter]).to eq(false)
+      expect(resource[parameter]).to be(false)
     end
   end
 

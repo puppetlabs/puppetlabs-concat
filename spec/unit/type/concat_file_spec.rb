@@ -64,12 +64,12 @@ describe Puppet::Type.type(:concat_file) do
   describe 'parameter :backup' do
     it 'accepts true (TrueClass) as a value' do
       resource[:backup] = true
-      expect(resource[:backup]).to eq(true)
+      expect(resource[:backup]).to be(true)
     end
 
     it 'accepts false (FalseClass) as a value' do
       resource[:backup] = false
-      expect(resource[:backup]).to eq(false)
+      expect(resource[:backup]).to be(false)
     end
 
     it 'accepts "foo" as a value' do

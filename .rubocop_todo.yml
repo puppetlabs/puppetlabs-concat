@@ -50,13 +50,6 @@ Naming/MethodParameterName:
   Exclude:
     - 'lib/puppet/type/concat_file.rb'
 
-# Offense count: 4
-# This cop supports unsafe autocorrection (--autocorrect-all).
-RSpec/BeEq:
-  Exclude:
-    - 'spec/spec_helper_local.rb'
-    - 'spec/unit/type/concat_file_spec.rb'
-
 # Offense count: 2
 # Configuration parameters: Prefixes, AllowedPatterns.
 # Prefixes: when, with, without
