@@ -64,12 +64,22 @@ describe 'concat::fragment' do
       end
     end
 
+    context 'when Sensitive' do
+      let(:title) { 'authentication' }
+      let(:content) { sensitive('password') }
+      let(:params) { { content: content, target: '/etc/authentication' } }
+
+      it do
+        is_expected.to contain_concat_fragment(title).with(content: content)
+      end
+    end
+
     context 'when false' do
       let(:title) { 'motd_header' }
       let(:params) { { content: false, target: '/etc/motd' } }
 
       it 'fails' do
-        expect { catalogue }.to raise_error(Puppet::Error, %r{expects a value of type Undef( or String|, String, or Deferred), got Boolean})
+        expect { catalogue }.to raise_error(Puppet::Error, %r{expects a value of type Undef, Sensitive\[String\], String, or Deferred, got Boolean})
       end
     end
   end
