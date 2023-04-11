@@ -383,7 +383,7 @@ describe 'concat' do
     :seltype,
     :seluser,
   ].each do |p|
-    context " #{p} =>" do
+    context "#{p} =>" do
       let(:title) { '/etc/foo.bar' }
 
       context 'when foo' do
