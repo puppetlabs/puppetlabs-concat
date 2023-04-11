@@ -49,6 +49,7 @@ describe 'replacement of' do
       expect(file("#{basedir}/file").content).not_to match '1'
       expect(file("#{basedir}/file").content).not_to match '2'
     end
+
     it 'when file should succeed' do
       expect(file("#{basedir}/file2")).to be_file
       expect(file("#{basedir}/file2").content).not_to match 'file exists'
@@ -112,6 +113,7 @@ describe 'replacement of' do
       expect(file("#{basedir}/dangling")).not_to be_file
       expect(file("#{basedir}/dangling")).not_to be_directory
     end
+
     it 'when symlink should succeed' do
       expect(file("#{basedir}/file2")).to be_file
       expect(file("#{basedir}/file2").content).to match '1'

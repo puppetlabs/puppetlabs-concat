@@ -21,9 +21,11 @@ describe 'concat::fragment' do
     it do
       is_expected.to contain_concat(p[:target])
     end
+
     it do
       is_expected.to contain_concat_file(p[:target])
     end
+
     it do
       is_expected.to contain_concat_fragment(title)
     end
