@@ -50,12 +50,6 @@ Naming/MethodParameterName:
   Exclude:
     - 'lib/puppet/type/concat_file.rb'
 
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Performance/MapCompact:
-  Exclude:
-    - 'lib/puppet/type/concat_file.rb'
-
 # Offense count: 4
 # This cop supports unsafe autocorrection (--autocorrect-all).
 RSpec/BeEq:
