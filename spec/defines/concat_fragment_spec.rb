@@ -131,6 +131,7 @@ describe 'concat::fragment' do
         expect { catalogue }.to raise_error(Puppet::Error, %r{cannot contain})
       end
     end
+
     context 'when 23/456' do
       let(:title) { 'motd_header' }
       let(:params) { { order: '123/456', target: '/etc/motd' } }
@@ -139,6 +140,7 @@ describe 'concat::fragment' do
         expect { catalogue }.to raise_error(Puppet::Error, %r{cannot contain})
       end
     end
+
     context 'when 123\n456' do
       let(:title) { 'motd_header' }
       let(:params) { { order: "123\n456", target: '/etc/motd' } }
