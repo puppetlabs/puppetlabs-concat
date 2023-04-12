@@ -79,7 +79,7 @@ Puppet::Type.newtype(:concat_fragment) do
     end
 
     if found.empty?
-      tag_message = (self[:tag]) ? "or tag '#{self[:tag]} " : ''
+      tag_message = self[:tag] ? "or tag '#{self[:tag]} " : ''
       warning "Target Concat_file with path or title '#{self[:target]}' #{tag_message}not found in the catalog"
     end
   end
