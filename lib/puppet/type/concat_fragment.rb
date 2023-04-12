@@ -95,7 +95,7 @@ Puppet::Type.newtype(:concat_fragment) do
     raise Puppet::ParseError, _("Can't use 'source' and 'content' at the same time") if !self[:source].nil? && !self[:content].nil?
   end
 
-  def set_sensitive_parameters(sensitive_parameters)
+  def sensitive_parameters=(sensitive_parameters)
     # Respect sensitive https://tickets.puppetlabs.com/browse/PUP-10950
     if sensitive_parameters.include?(:content)
       sensitive_parameters.delete(:content)
