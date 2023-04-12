@@ -9,7 +9,7 @@ describe 'concat::fragment' do
     p = {
       content: nil,
       source: nil,
-      order: 10,
+      order: 10
     }.merge(params)
 
     let(:title) { title }
@@ -19,13 +19,15 @@ describe 'concat::fragment' do
     end
 
     it do
-      is_expected.to contain_concat(p[:target])
+      expect(subject).to contain_concat(p[:target])
     end
+
     it do
-      is_expected.to contain_concat_file(p[:target])
+      expect(subject).to contain_concat_file(p[:target])
     end
+
     it do
-      is_expected.to contain_concat_fragment(title)
+      expect(subject).to contain_concat_fragment(title)
     end
   end
 
@@ -70,7 +72,7 @@ describe 'concat::fragment' do
       let(:params) { { content: content, target: '/etc/authentication' } }
 
       it do
-        is_expected.to contain_concat_fragment(title).with(content: content)
+        expect(subject).to contain_concat_fragment(title).with(content: content)
       end
     end
 
@@ -129,6 +131,7 @@ describe 'concat::fragment' do
         expect { catalogue }.to raise_error(Puppet::Error, %r{cannot contain})
       end
     end
+
     context 'when 23/456' do
       let(:title) { 'motd_header' }
       let(:params) { { order: '123/456', target: '/etc/motd' } }
@@ -137,6 +140,7 @@ describe 'concat::fragment' do
         expect { catalogue }.to raise_error(Puppet::Error, %r{cannot contain})
       end
     end
+
     context 'when 123\n456' do
       let(:title) { 'motd_header' }
       let(:params) { { order: "123\n456", target: '/etc/motd' } }
@@ -155,12 +159,12 @@ describe 'concat::fragment' do
         {
           target: '/etc/motd',
           source: '/foo',
-          content: 'bar',
+          content: 'bar'
         }
       end
 
       it 'fails' do
-        expect { catalogue }.to raise_error(Puppet::Error, %r{Can\'t use \'source\' and \'content\' at the same time}m)
+        expect { catalogue }.to raise_error(Puppet::Error, %r{Can't use 'source' and 'content' at the same time}m)
       end
     end
   end

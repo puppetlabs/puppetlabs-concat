@@ -94,9 +94,7 @@ Puppet::Type.newtype(:concat_file) do
     DOC
 
     validate do |value|
-      unless [TrueClass, FalseClass, String].include?(value.class)
-        raise ArgumentError, _('Backup must be a Boolean or String')
-      end
+      raise ArgumentError, _('Backup must be a Boolean or String') unless [TrueClass, FalseClass, String].include?(value.class)
     end
   end
 
@@ -112,9 +110,7 @@ Puppet::Type.newtype(:concat_file) do
     DOC
 
     validate do |value|
-      unless value.is_a?(String)
-        raise ArgumentError, _('Validate_cmd must be a String')
-      end
+      raise ArgumentError, _('Validate_cmd must be a String') unless value.is_a?(String)
     end
   end
 
@@ -194,14 +190,14 @@ Puppet::Type.newtype(:concat_file) do
 
   def fragments
     # Collect fragments that target this resource by path, title or tag.
-    @fragments ||= catalog.resources.map { |resource|
+    @fragments ||= catalog.resources.filter_map do |resource|
       next unless resource.is_a?(Puppet::Type.type(:concat_fragment))
 
       if resource[:target] == self[:path] || resource[:target] == title ||
          (resource[:tag] && resource[:tag] == self[:tag])
         resource
       end
-    }.compact
+    end
   end
 
   def decompound(d)
@@ -210,6 +206,7 @@ Puppet::Type.newtype(:concat_file) do
 
   def should_content
     return @generated_content if @generated_content
+
     @generated_content = ''
     content_fragments = []
 
@@ -274,15 +271,11 @@ Puppet::Type.newtype(:concat_file) do
     return hash2 if hash1.nil? || hash1.empty?
 
     # Unique merge for arrays
-    if hash1.is_a?(Array) && hash2.is_a?(Array)
-      return (hash1 + hash2).uniq
-    end
+    return (hash1 + hash2).uniq if hash1.is_a?(Array) && hash2.is_a?(Array)
 
     # Deep-merge Hashes; higher order value is kept
     hash1.merge(hash2) do |k, v1, v2|
-      if v1.is_a?(Hash) && v2.is_a?(Hash)
-        nested_merge(v1, v2)
-      elsif v1.is_a?(Array) && v2.is_a?(Array)
+      if (v1.is_a?(Hash) && v2.is_a?(Hash)) || (v1.is_a?(Array) && v2.is_a?(Array))
         nested_merge(v1, v2)
       else
         # Fail if there are duplicate keys without force
@@ -313,6 +306,7 @@ Puppet::Type.newtype(:concat_file) do
         end
       end
       raise _('Could not retrieve source(s) %{_array}') % { _array: Array(r[:source]).join(', ') } unless @source
+
       tmp = Puppet::FileServing::Content.indirection.find(@source)
       fragment_content = tmp.content unless tmp.nil?
     end
@@ -327,7 +321,7 @@ Puppet::Type.newtype(:concat_file) do
 
   def generate
     file_opts = {
-      ensure: (self[:ensure] == :absent) ? :absent : :file,
+      ensure: (self[:ensure] == :absent) ? :absent : :file
     }
 
     [:path,
@@ -349,9 +343,7 @@ Puppet::Type.newtype(:concat_file) do
     excluded_metaparams = [:before, :notify, :require, :subscribe, :tag]
 
     Puppet::Type.metaparams.each do |metaparam|
-      unless self[metaparam].nil? || excluded_metaparams.include?(metaparam)
-        file_opts[metaparam] = self[metaparam]
-      end
+      file_opts[metaparam] = self[metaparam] unless self[metaparam].nil? || excluded_metaparams.include?(metaparam)
     end
 
     [Puppet::Type.type(:file).new(file_opts)]
@@ -360,13 +352,9 @@ Puppet::Type.newtype(:concat_file) do
   def eval_generate
     content = should_content
 
-    unless content.nil?
-      catalog.resource("File[#{self[:path]}]")[:content] = content
-    end
+    catalog.resource("File[#{self[:path]}]")[:content] = content unless content.nil?
 
-    if !self[:create_empty_file] && (content.nil? || content.empty?)
-      catalog.resource("File[#{self[:path]}]")[:ensure] = :absent
-    end
+    catalog.resource("File[#{self[:path]}]")[:ensure] = :absent if !self[:create_empty_file] && (content.nil? || content.empty?)
 
     [catalog.resource("File[#{self[:path]}]")]
   end

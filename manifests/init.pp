@@ -100,9 +100,9 @@ define concat (
   Optional[String]                   $selrole                 = undef,
   Optional[String]                   $seltype                 = undef,
   Optional[String]                   $seluser                 = undef,
-  Optional[String]                   $format                  = 'plain',
-  Optional[Boolean]                  $force                   = false,
+  Boolean                            $force                   = false,
   Boolean                            $create_empty_file       = true,
+  Enum['plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty'] $format = 'plain',
 ) {
   $safe_name            = regsubst($name, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'G')
   $default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"

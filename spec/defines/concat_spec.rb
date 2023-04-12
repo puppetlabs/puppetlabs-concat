@@ -17,11 +17,11 @@ describe 'concat' do
       warn: false,
       backup: 'puppet',
       replace: true,
-      force: false,
+      force: false
     }.merge(params)
 
     file_defaults = {
-      backup: p[:backup],
+      backup: p[:backup]
     }
 
     present_expect = {
@@ -37,7 +37,7 @@ describe 'concat' do
       selrole: p[:selrole],
       seltype: p[:seltype],
       seluser: p[:seluser],
-      force: p[:force],
+      force: p[:force]
     }
 
     let(:title) { title }
@@ -48,18 +48,18 @@ describe 'concat' do
         osfamily: 'Debian',
         path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         kernel: 'Linux',
-        is_pe: false,
+        is_pe: false
       }
     end
 
     if p[:ensure] == 'present'
       it do
-        is_expected.to contain_concat(title).with(file_defaults.merge(present_expect))
+        expect(subject).to contain_concat(title).with(file_defaults.merge(present_expect))
       end
     else
       it do
-        is_expected.to contain_concat(title).with(file_defaults.merge(ensure: 'absent',
-                                                                      backup: p[:backup]))
+        expect(subject).to contain_concat(title).with(file_defaults.merge(ensure: 'absent',
+                                                                          backup: p[:backup]))
       end
     end
   end
@@ -383,7 +383,7 @@ describe 'concat' do
     :seltype,
     :seluser,
   ].each do |p|
-    context " #{p} =>" do
+    context "#{p} =>" do
       let(:title) { '/etc/foo.bar' }
 
       context 'when foo' do

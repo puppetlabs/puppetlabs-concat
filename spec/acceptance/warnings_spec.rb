@@ -19,7 +19,7 @@ describe 'warnings' do
         target  => '#{basedir}/bar',
         content => 'bar',
       }
-    MANIFEST
+      MANIFEST
     end
 
     it 'applies manifests, check stderr' do

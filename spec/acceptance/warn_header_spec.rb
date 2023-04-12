@@ -60,7 +60,7 @@ describe 'concat warn_header =>' do
         order   => '02',
       }
 
-    MANIFEST
+      MANIFEST
     end
 
     it 'when true should enable default warning message' do
