@@ -86,8 +86,3 @@ RSpec/SubjectDeclaration:
   Exclude:
     - 'spec/unit/type/concat_file_spec.rb'
     - 'spec/unit/type/concat_fragment_spec.rb'
-
-# Offense count: 1
-Style/MixinUsage:
-  Exclude:
-    - 'spec/spec_helper.rb'
