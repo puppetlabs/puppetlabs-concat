@@ -104,9 +104,3 @@ Style/RedundantRegexpEscape:
   Exclude:
     - 'lib/puppet/type/concat_fragment.rb'
     - 'spec/defines/concat_fragment_spec.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantStringEscape:
-  Exclude:
-    - 'lib/puppet/type/concat_fragment.rb'

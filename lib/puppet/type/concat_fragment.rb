@@ -8,7 +8,7 @@ Puppet::Type.newtype(:concat_fragment) do
     @example
       # The example is based on exported resources.
 
-      concat_fragment { \"uniqe_name_${::fqdn}\":
+      concat_fragment { "uniqe_name_${::fqdn}":
         tag => 'unique_name',
         order => 10, # Optional. Default to 10
         content => 'some content' # OR
