@@ -164,7 +164,7 @@ describe 'concat::fragment' do
       end
 
       it 'fails' do
-        expect { catalogue }.to raise_error(Puppet::Error, %r{Can\'t use \'source\' and \'content\' at the same time}m)
+        expect { catalogue }.to raise_error(Puppet::Error, %r{Can't use 'source' and 'content' at the same time}m)
       end
     end
   end

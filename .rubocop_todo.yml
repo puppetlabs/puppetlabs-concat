@@ -97,10 +97,3 @@ Style/IfUnlessModifier:
 Style/MixinUsage:
   Exclude:
     - 'spec/spec_helper.rb'
-
-# Offense count: 6
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantRegexpEscape:
-  Exclude:
-    - 'lib/puppet/type/concat_fragment.rb'
-    - 'spec/defines/concat_fragment_spec.rb'
