@@ -87,7 +87,7 @@ Default value: `false`
 
 ##### <a name="-concat--format"></a>`format`
 
-Data type: `Optional[String]`
+Data type: `Enum['plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty']`
 
 Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty',
 'json-array-pretty'.
@@ -96,7 +96,7 @@ Default value: `'plain'`
 
 ##### <a name="-concat--force"></a>`force`
 
-Data type: `Optional[Boolean]`
+Data type: `Boolean`
 
 Specifies whether to merge data structures, keeping the values with higher order. Used when format is specified as a value other than
 'plain'.
@@ -474,7 +474,7 @@ Manages the fragment.
 ```puppet
 # The example is based on exported resources.
 
-concat_fragment { \"uniqe_name_${::fqdn}\":
+concat_fragment { "uniqe_name_${::fqdn}":
   tag => 'unique_name',
   order => 10, # Optional. Default to 10
   content => 'some content' # OR
