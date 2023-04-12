@@ -87,12 +87,6 @@ RSpec/SubjectDeclaration:
     - 'spec/unit/type/concat_file_spec.rb'
     - 'spec/unit/type/concat_fragment_spec.rb'
 
-# Offense count: 6
-# This cop supports safe autocorrection (--autocorrect).
-Style/IfUnlessModifier:
-  Exclude:
-    - 'lib/puppet/type/concat_file.rb'
-
 # Offense count: 1
 Style/MixinUsage:
   Exclude:
