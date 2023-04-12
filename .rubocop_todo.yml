@@ -8,9 +8,9 @@
 
 # Offense count: 1
 # Configuration parameters: IgnoreLiteralBranches, IgnoreConstantBranches.
-Lint/DuplicateBranch:
-  Exclude:
-    - 'lib/puppet/type/concat_file.rb'
+# Lint/DuplicateBranch:
+#   Exclude:
+#     - 'lib/puppet/type/concat_file.rb'
 
 # Offense count: 5
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
