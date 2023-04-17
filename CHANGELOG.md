@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Changed
 
-- \(CONT-775\) Puppet 8 support [\#768](https://github.com/puppetlabs/puppetlabs-concat/pull/768) ([LukasAud](https://github.com/LukasAud))
+- (CONT-775) Puppet 8 support / Drop Puppet 6 support [#768](https://github.com/puppetlabs/puppetlabs-concat/pull/768) ([LukasAud](https://github.com/LukasAud))
 
 ## [v7.4.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.4.0) (2023-04-12)
 
