@@ -9,6 +9,7 @@ describe 'concat::fragment replace' do
     @basedir = setup_test_directory
   end
 
+  # rubocop:disable RSpec/IndexedLet
   describe 'when run should create fragment files' do
     let(:pp1) do
       <<-MANIFEST
@@ -101,5 +102,6 @@ describe 'concat::fragment replace' do
       expect(file("#{basedir}/foo").content).to match 'caller has replace false set run 2'
     end
   end
+  # rubocop:enable RSpec/IndexedLet
   # should replace its own fragment files even when caller has File(replace=>false) set
 end
