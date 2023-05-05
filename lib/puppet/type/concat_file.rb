@@ -190,14 +190,14 @@ Puppet::Type.newtype(:concat_file) do
 
   def fragments
     # Collect fragments that target this resource by path, title or tag.
-    @fragments ||= catalog.resources.filter_map do |resource|
+    @fragments ||= catalog.resources.map { |resource|
       next unless resource.is_a?(Puppet::Type.type(:concat_fragment))
 
       if resource[:target] == self[:path] || resource[:target] == title ||
          (resource[:tag] && resource[:tag] == self[:tag])
         resource
       end
-    end
+    }.compact
   end
 
   def decompound(d)
