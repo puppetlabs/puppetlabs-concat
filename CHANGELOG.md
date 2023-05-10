@@ -2,13 +2,23 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v8.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v8.0.1) (2023-05-10)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v8.0.0...v8.0.1)
+
+### Fixed
+
+- Revert "Correct Naming/AccessorMethodName" [\#777](https://github.com/puppetlabs/puppetlabs-concat/pull/777) ([alexjfisher](https://github.com/alexjfisher))
+- \(MAINT\) Addressing wrong Rubocop TargetRubyVersion [\#776](https://github.com/puppetlabs/puppetlabs-concat/pull/776) ([LukasAud](https://github.com/LukasAud))
+- \(CONT-891\) Address nightly rubocop failures [\#774](https://github.com/puppetlabs/puppetlabs-concat/pull/774) ([LukasAud](https://github.com/LukasAud))
+
 ## [v8.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v8.0.0) (2023-04-12)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.4.0...v8.0.0)
 
 ### Changed
 
-- (CONT-775) Puppet 8 support / Drop Puppet 6 support [#768](https://github.com/puppetlabs/puppetlabs-concat/pull/768) ([LukasAud](https://github.com/LukasAud))
+- \(CONT-775\) Puppet 8 support / Drop Puppet 6 support [\#768](https://github.com/puppetlabs/puppetlabs-concat/pull/768) ([LukasAud](https://github.com/LukasAud))
 
 ## [v7.4.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.4.0) (2023-04-12)
 
@@ -77,11 +87,14 @@ All notable changes to this project will be documented in this file. The format 
 - pdksync - \(GH-iac-334\) Remove Support for Ubuntu 16.04 [\#728](https://github.com/puppetlabs/puppetlabs-concat/pull/728) ([david22swan](https://github.com/david22swan))
 - pdksync - \(IAC-1787\) Remove Support for CentOS 6 [\#723](https://github.com/puppetlabs/puppetlabs-concat/pull/723) ([david22swan](https://github.com/david22swan))
 - pdksync - \(IAC-1598\) - Remove Support for Debian 8 [\#718](https://github.com/puppetlabs/puppetlabs-concat/pull/718) ([david22swan](https://github.com/david22swan))
-- \(maint\) Allow stdlib 8.0.0 [\#716](https://github.com/puppetlabs/puppetlabs-concat/pull/716) ([smortex](https://github.com/smortex))
 
 ## [v7.1.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.1.1) (2021-08-25)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.1.0...v7.1.1)
+
+### Fixed
+
+- \(maint\) Allow stdlib 8.0.0 [\#716](https://github.com/puppetlabs/puppetlabs-concat/pull/716) ([smortex](https://github.com/smortex))
 
 ## [v7.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.1.0) (2021-08-23)
 
@@ -193,6 +206,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Fixed
 
 - \(FM-7725\) - Remove OSX testing/support for concat [\#561](https://github.com/puppetlabs/puppetlabs-concat/pull/561) ([lionce](https://github.com/lionce))
+- pdksync - \(FM-7655\) Fix rubygems-update for ruby \< 2.3 [\#550](https://github.com/puppetlabs/puppetlabs-concat/pull/550) ([tphoney](https://github.com/tphoney))
 
 ## [5.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.2.0) (2018-12-10)
 
@@ -206,7 +220,6 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Fixed
 
-- pdksync - \(FM-7655\) Fix rubygems-update for ruby \< 2.3 [\#550](https://github.com/puppetlabs/puppetlabs-concat/pull/550) ([tphoney](https://github.com/tphoney))
 - \(FM-7581\) - Fix CI failures for Windows 2016 and 10 Enterprise [\#540](https://github.com/puppetlabs/puppetlabs-concat/pull/540) ([eimlav](https://github.com/eimlav))
 - \(MODULES-8287\) - Fix fomat=\>'yaml' allowing only hashes [\#535](https://github.com/puppetlabs/puppetlabs-concat/pull/535) ([eimlav](https://github.com/eimlav))
 -  \(FM-7513\) - Removing Windows 2016-core from our support matrix  [\#534](https://github.com/puppetlabs/puppetlabs-concat/pull/534) ([pmcmaw](https://github.com/pmcmaw))
@@ -221,6 +234,7 @@ All notable changes to this project will be documented in this file. The format 
 
 - pdksync - \(FM-7392\) - Puppet 6 Testing Changes [\#525](https://github.com/puppetlabs/puppetlabs-concat/pull/525) ([pmcmaw](https://github.com/pmcmaw))
 - pdksync - \(MODULES-6805\) metadata.json shows support for puppet 6 [\#524](https://github.com/puppetlabs/puppetlabs-concat/pull/524) ([tphoney](https://github.com/tphoney))
+- pdksync - \(MODULES-7658\) use beaker4 in puppet-module-gems [\#518](https://github.com/puppetlabs/puppetlabs-concat/pull/518) ([tphoney](https://github.com/tphoney))
 
 ## [5.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.0.0) (2018-08-24)
 
