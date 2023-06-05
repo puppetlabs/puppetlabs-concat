@@ -95,12 +95,12 @@ describe 'format of file' do
 
         concat::fragment { '1':
           target  => '#{basedir}/file',
-          content => to_yaml([{ 'one.a' => 'foo', 'one.b' => 'bar' }]),
+          content => stdlib::to_yaml([{ 'one.a' => 'foo', 'one.b' => 'bar' }]),
         }
 
         concat::fragment { '2':
           target  => '#{basedir}/file',
-          content => to_yaml([{ 'two.a' => 'dip', 'two.b' => 'doot' }]),
+          content => stdlib::to_yaml([{ 'two.a' => 'dip', 'two.b' => 'doot' }]),
         }
       MANIFEST
     end
