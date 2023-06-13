@@ -1,662 +1,595 @@
-# Change log
+<!-- markdownlint-disable MD024 -->
+# Changelog
 
-All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
+All notable changes to this project will be documented in this file.
 
-## [v8.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v8.0.1) (2023-05-10)
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
+
+## [v9.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v9.0.0) - 2023-06-13
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v8.0.1...v9.0.0)
+
+### Changed
+- pdksync - (MAINT) - Require Stdlib 9.x [#783](https://github.com/puppetlabs/puppetlabs-concat/pull/783) ([LukasAud](https://github.com/LukasAud))
+
+## [v8.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v8.0.1) - 2023-05-10
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v8.0.0...v8.0.1)
 
 ### Fixed
 
-- Revert "Correct Naming/AccessorMethodName" [\#777](https://github.com/puppetlabs/puppetlabs-concat/pull/777) ([alexjfisher](https://github.com/alexjfisher))
-- \(MAINT\) Addressing wrong Rubocop TargetRubyVersion [\#776](https://github.com/puppetlabs/puppetlabs-concat/pull/776) ([LukasAud](https://github.com/LukasAud))
-- \(CONT-891\) Address nightly rubocop failures [\#774](https://github.com/puppetlabs/puppetlabs-concat/pull/774) ([LukasAud](https://github.com/LukasAud))
+- Revert "Correct Naming/AccessorMethodName" [#777](https://github.com/puppetlabs/puppetlabs-concat/pull/777) ([alexjfisher](https://github.com/alexjfisher))
+- (MAINT) Addressing wrong Rubocop TargetRubyVersion [#776](https://github.com/puppetlabs/puppetlabs-concat/pull/776) ([LukasAud](https://github.com/LukasAud))
+- (CONT-891) Address nightly rubocop failures [#774](https://github.com/puppetlabs/puppetlabs-concat/pull/774) ([LukasAud](https://github.com/LukasAud))
 
-## [v8.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v8.0.0) (2023-04-12)
+## [v8.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v8.0.0) - 2023-04-12
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.4.0...v8.0.0)
 
 ### Changed
+- (CONT-775) Puppet 8 support / Drop Puppet 6 support [#768](https://github.com/puppetlabs/puppetlabs-concat/pull/768) ([LukasAud](https://github.com/LukasAud))
 
-- \(CONT-775\) Puppet 8 support / Drop Puppet 6 support [\#768](https://github.com/puppetlabs/puppetlabs-concat/pull/768) ([LukasAud](https://github.com/LukasAud))
-
-## [v7.4.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.4.0) (2023-04-12)
+## [v7.4.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.4.0) - 2023-04-12
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.3.3...v7.4.0)
 
 ### Added
 
-- Add parameter to not create empty files when no fragments are defined [\#766](https://github.com/puppetlabs/puppetlabs-concat/pull/766) ([JonasVerhofste](https://github.com/JonasVerhofste))
+- Add parameter to not create empty files when no fragments are defined [#766](https://github.com/puppetlabs/puppetlabs-concat/pull/766) ([JonasVerhofste](https://github.com/JonasVerhofste))
 
 ### Fixed
 
-- puppet5: drop remnants of puppet5 code [\#761](https://github.com/puppetlabs/puppetlabs-concat/pull/761) ([b4ldr](https://github.com/b4ldr))
-- Allow content parameter of concat\_fragment to be Sensitive [\#757](https://github.com/puppetlabs/puppetlabs-concat/pull/757) ([baurmatt](https://github.com/baurmatt))
+- puppet5: drop remnants of puppet5 code [#761](https://github.com/puppetlabs/puppetlabs-concat/pull/761) ([b4ldr](https://github.com/b4ldr))
+- Allow content parameter of concat_fragment to be Sensitive [#757](https://github.com/puppetlabs/puppetlabs-concat/pull/757) ([baurmatt](https://github.com/baurmatt))
 
-## [v7.3.3](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.3) (2023-03-13)
+## [v7.3.3](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.3) - 2023-03-13
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.3.2...v7.3.3)
 
 ### Fixed
 
-- Revert "\(MODULES-3522\) Removing redundant 'requires'" [\#759](https://github.com/puppetlabs/puppetlabs-concat/pull/759) ([LukasAud](https://github.com/LukasAud))
+- Revert "(MODULES-3522) Removing redundant 'requires'" [#759](https://github.com/puppetlabs/puppetlabs-concat/pull/759) ([LukasAud](https://github.com/LukasAud))
 
-## [v7.3.2](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.2) (2023-03-09)
+## [v7.3.2](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.2) - 2023-03-09
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.3.1...v7.3.2)
 
 ### Fixed
 
-- \(MODULES-3522\) Removing redundant 'requires' [\#755](https://github.com/puppetlabs/puppetlabs-concat/pull/755) ([LukasAud](https://github.com/LukasAud))
+- (MODULES-3522) Removing redundant 'requires' [#755](https://github.com/puppetlabs/puppetlabs-concat/pull/755) ([LukasAud](https://github.com/LukasAud))
 
-## [v7.3.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.1) (2023-02-10)
+## [v7.3.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.1) - 2023-02-10
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.3.0...v7.3.1)
 
 ### Fixed
 
-- pdksync - \(CONT-189\) Remove support for RedHat6 / OracleLinux6 / Scientific6 [\#747](https://github.com/puppetlabs/puppetlabs-concat/pull/747) ([david22swan](https://github.com/david22swan))
-- pdksync - \(CONT-130\) Dropping Support for Debian 9 [\#744](https://github.com/puppetlabs/puppetlabs-concat/pull/744) ([jordanbreen28](https://github.com/jordanbreen28))
+- pdksync - (CONT-189) Remove support for RedHat6 / OracleLinux6 / Scientific6 [#747](https://github.com/puppetlabs/puppetlabs-concat/pull/747) ([david22swan](https://github.com/david22swan))
+- pdksync - (CONT-130) Dropping Support for Debian 9 [#744](https://github.com/puppetlabs/puppetlabs-concat/pull/744) ([jordanbreen28](https://github.com/jordanbreen28))
 
-## [v7.3.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.0) (2022-10-03)
+## [v7.3.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.3.0) - 2022-10-03
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.2.0...v7.3.0)
 
 ### Added
 
-- pdksync - \(GH-cat-11\) Certify Support for Ubuntu 22.04 [\#739](https://github.com/puppetlabs/puppetlabs-concat/pull/739) ([david22swan](https://github.com/david22swan))
-- \(GH-cat-12\) Add Support for Redhat 9 [\#738](https://github.com/puppetlabs/puppetlabs-concat/pull/738) ([david22swan](https://github.com/david22swan))
+- pdksync - (GH-cat-11) Certify Support for Ubuntu 22.04 [#739](https://github.com/puppetlabs/puppetlabs-concat/pull/739) ([david22swan](https://github.com/david22swan))
+- (GH-cat-12) Add Support for Redhat 9 [#738](https://github.com/puppetlabs/puppetlabs-concat/pull/738) ([david22swan](https://github.com/david22swan))
 
 ### Fixed
 
-- \(MAINT\) Drop support for Solaris 10, Windows \(7, 8.1\), Windows Server 2008 R2 and AIX \(5.3, 6.1\) [\#741](https://github.com/puppetlabs/puppetlabs-concat/pull/741) ([jordanbreen28](https://github.com/jordanbreen28))
+- (MAINT) Drop support for Solaris 10, Windows (7, 8.1), Windows Server 2008 R2 and AIX (5.3, 6.1) [#741](https://github.com/puppetlabs/puppetlabs-concat/pull/741) ([jordanbreen28](https://github.com/jordanbreen28))
 
-## [v7.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.2.0) (2022-05-16)
+## [v7.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.2.0) - 2022-05-16
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.1.1...v7.2.0)
 
 ### Added
 
-- pdksync - \(FM-8922\) - Add Support for Windows 2022 [\#725](https://github.com/puppetlabs/puppetlabs-concat/pull/725) ([david22swan](https://github.com/david22swan))
-- pdksync - \(IAC-1753\) - Add Support for AlmaLinux 8 [\#720](https://github.com/puppetlabs/puppetlabs-concat/pull/720) ([david22swan](https://github.com/david22swan))
-- pdksync - \(IAC-1751\) - Add Support for Rocky 8 [\#719](https://github.com/puppetlabs/puppetlabs-concat/pull/719) ([david22swan](https://github.com/david22swan))
+- pdksync - (FM-8922) - Add Support for Windows 2022 [#725](https://github.com/puppetlabs/puppetlabs-concat/pull/725) ([david22swan](https://github.com/david22swan))
+- pdksync - (IAC-1753) - Add Support for AlmaLinux 8 [#720](https://github.com/puppetlabs/puppetlabs-concat/pull/720) ([david22swan](https://github.com/david22swan))
+- pdksync - (IAC-1751) - Add Support for Rocky 8 [#719](https://github.com/puppetlabs/puppetlabs-concat/pull/719) ([david22swan](https://github.com/david22swan))
 
 ### Fixed
 
-- pdksync - \(GH-iac-334\) Remove Support for Ubuntu 14.04 [\#729](https://github.com/puppetlabs/puppetlabs-concat/pull/729) ([david22swan](https://github.com/david22swan))
-- pdksync - \(GH-iac-334\) Remove Support for Ubuntu 16.04 [\#728](https://github.com/puppetlabs/puppetlabs-concat/pull/728) ([david22swan](https://github.com/david22swan))
-- pdksync - \(IAC-1787\) Remove Support for CentOS 6 [\#723](https://github.com/puppetlabs/puppetlabs-concat/pull/723) ([david22swan](https://github.com/david22swan))
-- pdksync - \(IAC-1598\) - Remove Support for Debian 8 [\#718](https://github.com/puppetlabs/puppetlabs-concat/pull/718) ([david22swan](https://github.com/david22swan))
+- pdksync - (GH-iac-334) Remove Support for Ubuntu 14.04 [#729](https://github.com/puppetlabs/puppetlabs-concat/pull/729) ([david22swan](https://github.com/david22swan))
+- pdksync - (GH-iac-334) Remove Support for Ubuntu 16.04 [#728](https://github.com/puppetlabs/puppetlabs-concat/pull/728) ([david22swan](https://github.com/david22swan))
+- pdksync - (IAC-1787) Remove Support for CentOS 6 [#723](https://github.com/puppetlabs/puppetlabs-concat/pull/723) ([david22swan](https://github.com/david22swan))
+- pdksync - (IAC-1598) - Remove Support for Debian 8 [#718](https://github.com/puppetlabs/puppetlabs-concat/pull/718) ([david22swan](https://github.com/david22swan))
 
-## [v7.1.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.1.1) (2021-08-25)
+## [v7.1.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.1.1) - 2021-08-25
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.1.0...v7.1.1)
 
-### Fixed
-
-- \(maint\) Allow stdlib 8.0.0 [\#716](https://github.com/puppetlabs/puppetlabs-concat/pull/716) ([smortex](https://github.com/smortex))
-
-## [v7.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.1.0) (2021-08-23)
+## [v7.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.1.0) - 2021-08-23
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.0.2...v7.1.0)
 
 ### Added
 
-- pdksync - \(IAC-1709\) - Add Support for Debian 11 [\#713](https://github.com/puppetlabs/puppetlabs-concat/pull/713) ([david22swan](https://github.com/david22swan))
+- pdksync - (IAC-1709) - Add Support for Debian 11 [#713](https://github.com/puppetlabs/puppetlabs-concat/pull/713) ([david22swan](https://github.com/david22swan))
 
-## [v7.0.2](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.2) (2021-06-21)
+## [v7.0.2](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.2) - 2021-06-21
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.0.1...v7.0.2)
 
 ### Fixed
 
-- fix merge nil hashes [\#708](https://github.com/puppetlabs/puppetlabs-concat/pull/708) ([thde](https://github.com/thde))
-- Do not modify metaparams in place [\#705](https://github.com/puppetlabs/puppetlabs-concat/pull/705) ([ekohl](https://github.com/ekohl))
+- fix merge nil hashes [#708](https://github.com/puppetlabs/puppetlabs-concat/pull/708) ([thde](https://github.com/thde))
+- Do not modify metaparams in place [#705](https://github.com/puppetlabs/puppetlabs-concat/pull/705) ([ekohl](https://github.com/ekohl))
 
-## [v7.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.1) (2021-03-29)
+## [v7.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.1) - 2021-03-29
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.0.0...v7.0.1)
 
 ### Fixed
 
-- \(IAC-1497\) remove unsupported `translate` dependency [\#693](https://github.com/puppetlabs/puppetlabs-concat/pull/693) ([DavidS](https://github.com/DavidS))
+- (IAC-1497) remove unsupported `translate` dependency [#693](https://github.com/puppetlabs/puppetlabs-concat/pull/693) ([DavidS](https://github.com/DavidS))
 
-## [v7.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.0) (2021-03-01)
+## [v7.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.0.0) - 2021-03-01
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.4.0...v7.0.0)
 
 ### Changed
+- pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [#685](https://github.com/puppetlabs/puppetlabs-concat/pull/685) ([carabasdaniel](https://github.com/carabasdaniel))
 
-- pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [\#685](https://github.com/puppetlabs/puppetlabs-concat/pull/685) ([carabasdaniel](https://github.com/carabasdaniel))
-
-## [v6.4.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.4.0) (2020-12-14)
+## [v6.4.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.4.0) - 2020-12-14
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.3.0...v6.4.0)
 
 ### Added
 
-- pdksync - \(feat\) Add support for Puppet 7 [\#672](https://github.com/puppetlabs/puppetlabs-concat/pull/672) ([daianamezdrea](https://github.com/daianamezdrea))
+- pdksync - (feat) Add support for Puppet 7 [#672](https://github.com/puppetlabs/puppetlabs-concat/pull/672) ([daianamezdrea](https://github.com/daianamezdrea))
 
-## [v6.3.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.3.0) (2020-11-30)
+## [v6.3.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.3.0) - 2020-11-30
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.2.0...v6.3.0)
 
 ### Added
 
-- \(IAC-746\) - Add ubuntu 20.04 support [\#644](https://github.com/puppetlabs/puppetlabs-concat/pull/644) ([david22swan](https://github.com/david22swan))
-- Add support for Deferred function in concat fragment [\#627](https://github.com/puppetlabs/puppetlabs-concat/pull/627) ([baurmatt](https://github.com/baurmatt))
+- (IAC-746) - Add ubuntu 20.04 support [#644](https://github.com/puppetlabs/puppetlabs-concat/pull/644) ([david22swan](https://github.com/david22swan))
+- Add support for Deferred function in concat fragment [#627](https://github.com/puppetlabs/puppetlabs-concat/pull/627) ([baurmatt](https://github.com/baurmatt))
 
 ### Fixed
 
-- \(MODULES-9711\) Consistently manage concat with no fragments [\#661](https://github.com/puppetlabs/puppetlabs-concat/pull/661) ([seanmil](https://github.com/seanmil))
-- \(IAC-981\) - Removal of inappropriate terminology [\#659](https://github.com/puppetlabs/puppetlabs-concat/pull/659) ([david22swan](https://github.com/david22swan))
+- (MODULES-9711) Consistently manage concat with no fragments [#661](https://github.com/puppetlabs/puppetlabs-concat/pull/661) ([seanmil](https://github.com/seanmil))
+- (IAC-981) - Removal of inappropriate terminology [#659](https://github.com/puppetlabs/puppetlabs-concat/pull/659) ([david22swan](https://github.com/david22swan))
 
-## [v6.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.2.0) (2020-01-21)
+## [v6.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.2.0) - 2020-01-21
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.1.0...v6.2.0)
 
 ### Added
 
-- pdksync - \(FM-8581\) - Debian 10 added to travis and provision file refactored [\#624](https://github.com/puppetlabs/puppetlabs-concat/pull/624) ([david22swan](https://github.com/david22swan))
-- \(FM-8698\) - Addition of Support for CentOS 8 [\#615](https://github.com/puppetlabs/puppetlabs-concat/pull/615) ([david22swan](https://github.com/david22swan))
-- FM-8398 - support Debian10 [\#599](https://github.com/puppetlabs/puppetlabs-concat/pull/599) ([lionce](https://github.com/lionce))
+- pdksync - (FM-8581) - Debian 10 added to travis and provision file refactored [#624](https://github.com/puppetlabs/puppetlabs-concat/pull/624) ([david22swan](https://github.com/david22swan))
+- (FM-8698) - Addition of Support for CentOS 8 [#615](https://github.com/puppetlabs/puppetlabs-concat/pull/615) ([david22swan](https://github.com/david22swan))
+- FM-8398 - support Debian10 [#599](https://github.com/puppetlabs/puppetlabs-concat/pull/599) ([lionce](https://github.com/lionce))
 
 ### Fixed
 
-- Fix newline handling at the end of fragments [\#623](https://github.com/puppetlabs/puppetlabs-concat/pull/623) ([SimonPe](https://github.com/SimonPe))
+- Fix newline handling at the end of fragments [#623](https://github.com/puppetlabs/puppetlabs-concat/pull/623) ([SimonPe](https://github.com/SimonPe))
 
-## [v6.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.1.0) (2019-07-23)
+## [v6.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.1.0) - 2019-07-24
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.0.0...v6.1.0)
 
 ### Added
 
-- FM-8049 - add redhat8 support [\#584](https://github.com/puppetlabs/puppetlabs-concat/pull/584) ([lionce](https://github.com/lionce))
+- FM-8049 - add redhat8 support [#584](https://github.com/puppetlabs/puppetlabs-concat/pull/584) ([lionce](https://github.com/lionce))
 
 ### Fixed
 
-- \(MODULES-9479\) Fix nested array merge behavior [\#593](https://github.com/puppetlabs/puppetlabs-concat/pull/593) ([seanmil](https://github.com/seanmil))
-- \(FM-8317\) Updated regex to allow for windows paths with \'s [\#591](https://github.com/puppetlabs/puppetlabs-concat/pull/591) ([pgrant87](https://github.com/pgrant87))
-- \(bugfix\) allow private keys in ssh testing [\#585](https://github.com/puppetlabs/puppetlabs-concat/pull/585) ([tphoney](https://github.com/tphoney))
+- (MODULES-9479) Fix nested array merge behavior [#593](https://github.com/puppetlabs/puppetlabs-concat/pull/593) ([seanmil](https://github.com/seanmil))
+- (FM-8317) Updated regex to allow for windows paths with \'s [#591](https://github.com/puppetlabs/puppetlabs-concat/pull/591) ([pgrant87](https://github.com/pgrant87))
+- (bugfix) allow private keys in ssh testing [#585](https://github.com/puppetlabs/puppetlabs-concat/pull/585) ([tphoney](https://github.com/tphoney))
 
-## [v6.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.0.0) (2019-05-21)
+## [v6.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.0.0) - 2019-05-21
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/5.3.0...v6.0.0)
 
-### Changed
-
-- pdksync - \(MODULES-8444\) - Raise lower Puppet bound [\#575](https://github.com/puppetlabs/puppetlabs-concat/pull/575) ([david22swan](https://github.com/david22swan))
-
 ### Added
 
-- \(FM-7606\) enable litmus for concat [\#577](https://github.com/puppetlabs/puppetlabs-concat/pull/577) ([tphoney](https://github.com/tphoney))
+- (FM-7606) enable litmus for concat [#577](https://github.com/puppetlabs/puppetlabs-concat/pull/577) ([tphoney](https://github.com/tphoney))
+
+### Changed
+- pdksync - (MODULES-8444) - Raise lower Puppet bound [#575](https://github.com/puppetlabs/puppetlabs-concat/pull/575) ([david22swan](https://github.com/david22swan))
 
 ### Fixed
 
-- \(FM-8073\) litmus block support [\#580](https://github.com/puppetlabs/puppetlabs-concat/pull/580) ([tphoney](https://github.com/tphoney))
+- (FM-8073) litmus block support [#580](https://github.com/puppetlabs/puppetlabs-concat/pull/580) ([tphoney](https://github.com/tphoney))
 
-## [5.3.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.3.0) (2019-02-20)
+## [5.3.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.3.0) - 2019-02-21
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/5.2.0...5.3.0)
 
 ### Added
 
-- \(MODULES-8138\) - Addition of support for SLES 15 [\#545](https://github.com/puppetlabs/puppetlabs-concat/pull/545) ([david22swan](https://github.com/david22swan))
+- (MODULES-8138) - Addition of support for SLES 15 [#545](https://github.com/puppetlabs/puppetlabs-concat/pull/545) ([david22swan](https://github.com/david22swan))
 
 ### Fixed
 
-- \(FM-7725\) - Remove OSX testing/support for concat [\#561](https://github.com/puppetlabs/puppetlabs-concat/pull/561) ([lionce](https://github.com/lionce))
-- pdksync - \(FM-7655\) Fix rubygems-update for ruby \< 2.3 [\#550](https://github.com/puppetlabs/puppetlabs-concat/pull/550) ([tphoney](https://github.com/tphoney))
+- (FM-7725) - Remove OSX testing/support for concat [#561](https://github.com/puppetlabs/puppetlabs-concat/pull/561) ([lionce](https://github.com/lionce))
+- pdksync - (FM-7655) Fix rubygems-update for ruby < 2.3 [#550](https://github.com/puppetlabs/puppetlabs-concat/pull/550) ([tphoney](https://github.com/tphoney))
 
-## [5.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.2.0) (2018-12-10)
+## [5.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.2.0) - 2018-12-13
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/5.1.0...5.2.0)
 
 ### Added
 
-- \(FM-7339\) - Add i18n implementation [\#537](https://github.com/puppetlabs/puppetlabs-concat/pull/537) ([eimlav](https://github.com/eimlav))
-- \(FM-7341\) - Added REFERENCE.md and updated documentation [\#536](https://github.com/puppetlabs/puppetlabs-concat/pull/536) ([eimlav](https://github.com/eimlav))
-- \(MODULES-5124\) Add support for JSON arrays [\#519](https://github.com/puppetlabs/puppetlabs-concat/pull/519) ([johanfleury](https://github.com/johanfleury))
+- (FM-7339) - Add i18n implementation [#537](https://github.com/puppetlabs/puppetlabs-concat/pull/537) ([eimlav](https://github.com/eimlav))
+- (FM-7341) - Added REFERENCE.md and updated documentation [#536](https://github.com/puppetlabs/puppetlabs-concat/pull/536) ([eimlav](https://github.com/eimlav))
+- (MODULES-5124) Add support for JSON arrays [#519](https://github.com/puppetlabs/puppetlabs-concat/pull/519) ([johanfleury](https://github.com/johanfleury))
 
 ### Fixed
 
-- \(FM-7581\) - Fix CI failures for Windows 2016 and 10 Enterprise [\#540](https://github.com/puppetlabs/puppetlabs-concat/pull/540) ([eimlav](https://github.com/eimlav))
-- \(MODULES-8287\) - Fix fomat=\>'yaml' allowing only hashes [\#535](https://github.com/puppetlabs/puppetlabs-concat/pull/535) ([eimlav](https://github.com/eimlav))
--  \(FM-7513\) - Removing Windows 2016-core from our support matrix  [\#534](https://github.com/puppetlabs/puppetlabs-concat/pull/534) ([pmcmaw](https://github.com/pmcmaw))
-- \(MODULES-8088\) - newline\_spec.rb test expectation update [\#531](https://github.com/puppetlabs/puppetlabs-concat/pull/531) ([lionce](https://github.com/lionce))
-- \(MODULES-7717\) ensure\_newline uses unix line ending on windows [\#517](https://github.com/puppetlabs/puppetlabs-concat/pull/517) ([tkishel](https://github.com/tkishel))
+- (FM-7581) - Fix CI failures for Windows 2016 and 10 Enterprise [#540](https://github.com/puppetlabs/puppetlabs-concat/pull/540) ([eimlav](https://github.com/eimlav))
+- (MODULES-8287) - Fix fomat=>'yaml' allowing only hashes [#535](https://github.com/puppetlabs/puppetlabs-concat/pull/535) ([eimlav](https://github.com/eimlav))
+-  (FM-7513) - Removing Windows 2016-core from our support matrix  [#534](https://github.com/puppetlabs/puppetlabs-concat/pull/534) ([pmcmaw](https://github.com/pmcmaw))
+- (MODULES-8088) - newline_spec.rb test expectation update [#531](https://github.com/puppetlabs/puppetlabs-concat/pull/531) ([lionce](https://github.com/lionce))
+- (MODULES-7717) ensure_newline uses unix line ending on windows [#517](https://github.com/puppetlabs/puppetlabs-concat/pull/517) ([tkishel](https://github.com/tkishel))
 
-## [5.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.1.0) (2018-10-03)
+## [5.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.1.0) - 2018-10-03
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/5.0.0...5.1.0)
 
 ### Added
 
-- pdksync - \(FM-7392\) - Puppet 6 Testing Changes [\#525](https://github.com/puppetlabs/puppetlabs-concat/pull/525) ([pmcmaw](https://github.com/pmcmaw))
-- pdksync - \(MODULES-6805\) metadata.json shows support for puppet 6 [\#524](https://github.com/puppetlabs/puppetlabs-concat/pull/524) ([tphoney](https://github.com/tphoney))
-- pdksync - \(MODULES-7658\) use beaker4 in puppet-module-gems [\#518](https://github.com/puppetlabs/puppetlabs-concat/pull/518) ([tphoney](https://github.com/tphoney))
+- pdksync - (FM-7392) - Puppet 6 Testing Changes [#525](https://github.com/puppetlabs/puppetlabs-concat/pull/525) ([pmcmaw](https://github.com/pmcmaw))
+- pdksync - (MODULES-6805) metadata.json shows support for puppet 6 [#524](https://github.com/puppetlabs/puppetlabs-concat/pull/524) ([tphoney](https://github.com/tphoney))
+- pdksync - (MODULES-7658) use beaker4 in puppet-module-gems [#518](https://github.com/puppetlabs/puppetlabs-concat/pull/518) ([tphoney](https://github.com/tphoney))
 
-## [5.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.0.0) (2018-08-24)
+## [5.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/5.0.0) - 2018-08-24
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.2.1...5.0.0)
 
-### Changed
-
-- \[FM-6954\] Removal of scientific linux 5 and debian 7 [\#508](https://github.com/puppetlabs/puppetlabs-concat/pull/508) ([david22swan](https://github.com/david22swan))
-
 ### Added
 
-- \(FM-7206\) Update concat to support Ubuntu 18.04 [\#510](https://github.com/puppetlabs/puppetlabs-concat/pull/510) ([david22swan](https://github.com/david22swan))
+- (FM-7206) Update concat to support Ubuntu 18.04 [#510](https://github.com/puppetlabs/puppetlabs-concat/pull/510) ([david22swan](https://github.com/david22swan))
 
-### Fixed
+### Changed
+- [FM-6954] Removal of scientific linux 5 and debian 7 [#508](https://github.com/puppetlabs/puppetlabs-concat/pull/508) ([david22swan](https://github.com/david22swan))
 
-- Handle concat\_file source when not an array [\#493](https://github.com/puppetlabs/puppetlabs-concat/pull/493) ([vicinus](https://github.com/vicinus))
-
-## 4.2.1
+## [4.2.1](https://github.com/puppetlabs/puppetlabs-concat/tree/4.2.1) - 2018-03-23
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.2.0...4.2.1)
 
 ### Fixed
-- \(MODULES-6817\) noop =\> false for concat\_file [\#492](https://github.com/puppetlabs/puppetlabs-concat/pull/492) ([hunner](https://github.com/hunner))
 
-## Supported Release 4.2.0
-### Summary
-This release introduces the conversion of the module to use PDK 1.3.2, along with the addition of rubocop with associated fixes.
+- Handle concat_file source when not an array [#493](https://github.com/puppetlabs/puppetlabs-concat/pull/493) ([vicinus](https://github.com/vicinus))
+- (MODULES-6817) noop => false for concat_file [#492](https://github.com/puppetlabs/puppetlabs-concat/pull/492) ([hunner](https://github.com/hunner))
 
-#### Changed
-- All changes in this release are for enabling rubocop, alongside the module then being converted over to the PDK.
+## [4.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/4.2.0) - 2018-02-23
 
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.1.1...4.2.0)
 
-## Supported Releases 4.1.1
-### Summary
-This release is to update the formatting of the module, rubocop having been run for all ruby files and been set to run automatically on all future commits.
+### Fixed
 
-#### Changed
-- Rubocop has been implemented.
-- SLES 10, Windows 2003 R2 and OSX 10.9 removed as supported.
-- OSX 10.10 and 10.11 added as supported.
+- Revert "Refactor fragment sorting" [#488](https://github.com/puppetlabs/puppetlabs-concat/pull/488) ([pmcmaw](https://github.com/pmcmaw))
 
-## Supported Releases 4.1.0
-### Summary
+## [4.1.1](https://github.com/puppetlabs/puppetlabs-concat/tree/4.1.1) - 2017-11-13
 
-This release is a rollup of changes. The most notable change being the addition of the 'format' attribute which allows output in JSON and YAML formats, and the 'force' attribute which if true forces a merge of duplicate keys for these formats.
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.1.0...4.1.1)
 
-#### Features
-- Format and force attributes added.
-- Deprecated is_string in favour of puppet language.
-- End of Life Ubuntu releases removed as supported.
-- Debian 9 added and Debian 6 removed as supported.
+### Changed
+- Cleanup ruby code via rubocop [#473](https://github.com/puppetlabs/puppetlabs-concat/pull/473) ([willmeek](https://github.com/willmeek))
 
-#### Bugfixes
-- (MODULES-4359) Fix native types so they can be used directly.
-- Update to tests to handle errors containing quote marks.
-- Update to tests to follow rspec-puppet pattern.
+## [4.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/4.1.0) - 2017-10-24
 
-## Supported Releases 4.0.1
-### Summary
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.0.1...4.1.0)
 
-This is a small release that updates regex in a test due to changes made in Puppet.
+### Added
 
-#### Bugfixes
+- tdevelioglu/refurbish [#428](https://github.com/puppetlabs/puppetlabs-concat/pull/428) ([tdevelioglu](https://github.com/tdevelioglu))
 
-- (MODULES-5085) Ensure that replace test handles qoutes in change message
+### Fixed
 
-## Supported Releases 3.0.0 & 4.0.0
-### Summary
+- Format force tests [#469](https://github.com/puppetlabs/puppetlabs-concat/pull/469) ([willmeek](https://github.com/willmeek))
+- is_string is deprecated. Please use puppet language [#458](https://github.com/puppetlabs/puppetlabs-concat/pull/458) ([tritrimax](https://github.com/tritrimax))
 
-This double release adds new Puppet 4 data types. The 3.0.0 release is fully backwards compatible to 
-existing Puppet 4 configurations and provides you with [deprecation warnings](https://github.com/puppetlabs/puppetlabs-stdlib#deprecation) for every argument that 
-will not work as expected with the final 4.0.0 release. See the [stdlib docs](https://github.com/puppetlabs/puppetlabs-stdlib#validate_legacy) for an in-depth discussion of this.
+## [4.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/4.0.1) - 2017-06-14
 
-If you're still running Puppet 3, remain on the latest puppetlabs-concat 2.x release for now, and see the documentation to [upgrade to Puppet 4](https://docs.puppet.com/puppet/4.6/reference/upgrade_major_pre.html).
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.0.0...4.0.1)
 
-#### Added
-- puppet-strings documentation
-- Puppet 4 data types and deprecation warnings
+## [4.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/4.0.0) - 2017-04-25
 
-#### Changed
-- stdlib dependency changed to 4.13.1
-- supported Puppet version changed to 4.7.
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/3.0.0...4.0.0)
 
-## Supported Release 2.2.1
-### Summary
+## [3.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/3.0.0) - 2017-04-18
 
-This is a backwards compatible bugfix release.
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/2.2.1...3.0.0)
 
-#### Bugfixes
+### Added
 
-- (MODULES-4350) Makes :path the namevar for concat_file
-- (MODULES-4351) Prevents the :order parameter from accepting arbitrary values in concat_file
-- (MODULES-4352) Restricts the :replace parameter to values accepted by file
-- (MODULES-4474) Drops auto requirement of fragments
-- (MODULES-3900) Improves error messages in concat::fragment
-- Uses the whole fragment title when sorting
+- Implement beaker-module_install_helper and cleanup spec_helper_acceptance.rb [#426](https://github.com/puppetlabs/puppetlabs-concat/pull/426) ([wilson208](https://github.com/wilson208))
 
-## Supported Release 2.2.0
-### Summary
+### Changed
+- (MODULES-4264) Update for puppet 4 data types [#437](https://github.com/puppetlabs/puppetlabs-concat/pull/437) ([hunner](https://github.com/hunner))
 
-This release includes support for Debian 8 and Ubuntu 16.04 in addition to numerous bugfixes.
+## [2.2.1](https://github.com/puppetlabs/puppetlabs-concat/tree/2.2.1) - 2017-04-07
 
-#### Features
-- Adds Debian 8 support
-- Adds Ubuntu 16.04 support
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/2.2.0...2.2.1)
 
-#### Bugfixes
-- Fixes the stdlib lower dependency.
-- (MODULES-3027) Fixes escaping the '*' character in tag creation.
-- (MODULES-3097) Fixes fragment sorting by alpha
-- Correctly propagates 'validate_cmd' parameter to generated file resource
-- Correctly escapes disallowed characters in fragment tag creation
-- (MODULES-3332) Correct the target path validation
-- (MODULES-3463) Properly passes metaparams to generated resource
+### Added
 
-## Supported Release 2.1.0
-### Summary
+- (FM-5972) gettext and spec.opts [#422](https://github.com/puppetlabs/puppetlabs-concat/pull/422) ([eputnam](https://github.com/eputnam))
 
-This is a re-release of concat as a resource type. This release also includes new features and bugfixes on top of the previously YANKED 2.0.1 release.
+### Fixed
 
-#### Features
-- Adds the show_diff property.
-- Adds the selinux related file params.
-- Allows integer UID/GID values to be passed into `$owner` and `$group`
+- Four commits [#433](https://github.com/puppetlabs/puppetlabs-concat/pull/433) ([hunner](https://github.com/hunner))
+- (MODULES-4474) Drop autorequire of fragments in concat_file [#430](https://github.com/puppetlabs/puppetlabs-concat/pull/430) ([tdevelioglu](https://github.com/tdevelioglu))
+- Invalid tag fix [#429](https://github.com/puppetlabs/puppetlabs-concat/pull/429) ([fuero](https://github.com/fuero))
 
-#### Bugfixes
-- Adds a workaround to PUP-1963: generated resources never receiving dependency edges.
-- Fixes occassional failure to find directory environment.
+### Other
 
-## Supported Release 1.2.5
-### Summary
+- Keep the whole fragment title to sort [#412](https://github.com/puppetlabs/puppetlabs-concat/pull/412) ([sathieu](https://github.com/sathieu))
 
-Small release for support of newer PE versions. This increments the version of PE in the metadata.json file.
+## [2.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/2.2.0) - 2016-06-28
 
-## 2015-07-21 - Supported Release 1.2.4
-### Summary
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/2.1.0...2.2.0)
 
-This release includes some ruby path and lint fixes.
+### Added
 
-#### Bugfixes
-- Use correct ruby path with PE and AIO
-- Lint fixes
-- Use correct ruby path on FreeBSD
-- Test fixes
+- MODULES-3156: propagate the validate_cmd to the file resource [#394](https://github.com/puppetlabs/puppetlabs-concat/pull/394) ([vicinus](https://github.com/vicinus))
 
-## 2015-06-02 - Supported Release 2.0.1 [YANKED]
-### Summary
+### Changed
+- Fix the minimum required stdlib version to 4.2.0. [#386](https://github.com/puppetlabs/puppetlabs-concat/pull/386) ([parabolala](https://github.com/parabolala))
 
-This is a bugfix release. 
+### Fixed
 
-#### Bugfixes
-- Fixes dependency graphing with concurrent modification of the same file.
-- Fixes handling fragment target.
-- Fixes the defaulted force behavior to handle empty concats correctly.
+- (MODULES-3463) Properly passes metaparams to generated resource [#402](https://github.com/puppetlabs/puppetlabs-concat/pull/402) ([bmjen](https://github.com/bmjen))
+- (MODULES-3332) Correct target validation [#400](https://github.com/puppetlabs/puppetlabs-concat/pull/400) ([hdeheer](https://github.com/hdeheer))
+- (MODULES-3332 ) Correct the path validation. [#397](https://github.com/puppetlabs/puppetlabs-concat/pull/397) ([binford2k](https://github.com/binford2k))
+- (MODULES-3097) fix fragment sorting [#391](https://github.com/puppetlabs/puppetlabs-concat/pull/391) ([rettier](https://github.com/rettier))
+- Fix helper on host command [#389](https://github.com/puppetlabs/puppetlabs-concat/pull/389) ([hunner](https://github.com/hunner))
+- (MODULES-3027) Fixes escaping the '*' character in tag creation. [#387](https://github.com/puppetlabs/puppetlabs-concat/pull/387) ([bmjen](https://github.com/bmjen))
 
-## 2015-06-02 - Supported Release 1.2.3
-### Summary
+## [2.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/2.1.0) - 2016-01-26
 
-This release includes a README fix to document correct behavior of fragment target parameter.
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.2.5...2.1.0)
 
-#### Bugfixes
-- README Fix to correctly document how a fragment $target param should work.
+### Fixed
 
-## 2015-05-12 - Supported Release 2.0.0 [YANKED]
-### Summary
+- Fixes missing directory environment failure [#381](https://github.com/puppetlabs/puppetlabs-concat/pull/381) ([bmjen](https://github.com/bmjen))
 
-This is a major release. Includes re-implementation of concat to use native Type and Providers, resulting in significantly improved performance and testability. Also includes a bugfix to alpha ordering of fragments.
+## [1.2.5](https://github.com/puppetlabs/puppetlabs-concat/tree/1.2.5) - 2015-12-07
 
-#### Features
-- Re-implementation of concat to use native Type and Providers.
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.2.4...1.2.5)
 
-#### Bugfixes
-- Fixes a bug in alpha ordering of fragments.
+### Added
 
-## 2015-05-12 - Supported Release 1.2.2
-### Summary
+- Should fix require, refresh dependencies [#369](https://github.com/puppetlabs/puppetlabs-concat/pull/369) ([asasfu](https://github.com/asasfu))
+- MODULES-1678 - Add show_diff attribute to concat and concat::fragment defined types [#368](https://github.com/puppetlabs/puppetlabs-concat/pull/368) ([jdkindy](https://github.com/jdkindy))
+- Allow integer UID/GID for $owner/$group [#367](https://github.com/puppetlabs/puppetlabs-concat/pull/367) ([purplexa](https://github.com/purplexa))
+- (MODULES-2303) add selinux related params to concat type [#361](https://github.com/puppetlabs/puppetlabs-concat/pull/361) ([jhoblitt](https://github.com/jhoblitt))
 
-This release includes a bugfix.
+### Fixed
 
-#### Bugfixes
-- Fixes a bug introduced by MODULES-1700, in handling default retrieval of fragment backup parameter.
+- Fix line endings on windows [#373](https://github.com/puppetlabs/puppetlabs-concat/pull/373) ([karyon](https://github.com/karyon))
+- fixes resource reference in concat_file eval_generate return [#370](https://github.com/puppetlabs/puppetlabs-concat/pull/370) ([bmjen](https://github.com/bmjen))
+- (MODULES-1700) Fix broken backup [#363](https://github.com/puppetlabs/puppetlabs-concat/pull/363) ([jhoblitt](https://github.com/jhoblitt))
+- Revert "Backup option breaks concat" [#362](https://github.com/puppetlabs/puppetlabs-concat/pull/362) ([jhoblitt](https://github.com/jhoblitt))
+- Backup option breaks concat [#359](https://github.com/puppetlabs/puppetlabs-concat/pull/359) ([j-vizcaino](https://github.com/j-vizcaino))
+- Recent OpenBSD changed to ruby22 as default interpreter, that now [#358](https://github.com/puppetlabs/puppetlabs-concat/pull/358) ([buzzdeee](https://github.com/buzzdeee))
 
-## 2015-04-14 - Supported Release 1.2.1
-### Summary
+## [1.2.4](https://github.com/puppetlabs/puppetlabs-concat/tree/1.2.4) - 2015-07-23
 
-This release includes bugfixes, test improvements, and a rewritten README.
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.2.3...1.2.4)
 
-#### Bugfixes
+### Added
 
-- Verifies existence of $is_pe before using it.
-- Adds validation for $order param to not allow restricted characters.
-- Sets the group id on Fragments for versions of Facter that contain the $gid fact.
-- Sets the script group to 0 if the script is owned by root.
-- Explicitly sets script and concat directories to the same owner and group.
-- Re-adds support for fragment backup, so that static compiler can work with filebucket (MODULES-1700).
+- (#2208) FreeBSD: call /usr/local/bin/ruby explicitly [#348](https://github.com/puppetlabs/puppetlabs-concat/pull/348) ([gwollman](https://github.com/gwollman))
+- check for nil [#347](https://github.com/puppetlabs/puppetlabs-concat/pull/347) ([underscorgan](https://github.com/underscorgan))
+- Add helper to install puppet/pe/puppet-agent [#345](https://github.com/puppetlabs/puppetlabs-concat/pull/345) ([underscorgan](https://github.com/underscorgan))
+- Add support for Solaris 12 [#344](https://github.com/puppetlabs/puppetlabs-concat/pull/344) ([drewfisher314](https://github.com/drewfisher314))
+- Compare $::is_pe as bool, not string [#343](https://github.com/puppetlabs/puppetlabs-concat/pull/343) ([raphink](https://github.com/raphink))
+- Add helper to install puppet/pe/puppet-agent [#339](https://github.com/puppetlabs/puppetlabs-concat/pull/339) ([hunner](https://github.com/hunner))
+- (MODULES-2094) Extend regexp to remove parenthesis on safe names [#332](https://github.com/puppetlabs/puppetlabs-concat/pull/332) ([bmjen](https://github.com/bmjen))
+- (MODULES-2023) - autorequire the file we are generating [#330](https://github.com/puppetlabs/puppetlabs-concat/pull/330) ([duritong](https://github.com/duritong))
 
-## 2015-02-17 - Supported Release 1.2.0
-### Summary
+### Changed
+- 2.0.x rewrite [#340](https://github.com/puppetlabs/puppetlabs-concat/pull/340) ([bmjen](https://github.com/bmjen))
 
-This release includes a number of bugfixes and adds support for running a validation command when using puppet >= 3.5.0.
+### Fixed
 
-#### Features
-- Support running a validation command for Puppet >= 3.5.0
+- Revert "Add support for Solaris 12" [#357](https://github.com/puppetlabs/puppetlabs-concat/pull/357) ([underscorgan](https://github.com/underscorgan))
+- Use AIO ruby if available [#352](https://github.com/puppetlabs/puppetlabs-concat/pull/352) ([underscorgan](https://github.com/underscorgan))
+- fixes special characters test to support windows file restrictions [#334](https://github.com/puppetlabs/puppetlabs-concat/pull/334) ([bmjen](https://github.com/bmjen))
 
-#### Bugfixes
-- Reset poisoned defaults from Exec
-- Use concatfragments.rb on AIX since it doesn't support print0
-- Make sure ruby is in the path for PE (MODULES-1456)
-- Fix missing method for check_is_owned_by for windows (MODULES-1764)
-- Fix sort by numeric
+## [1.2.3](https://github.com/puppetlabs/puppetlabs-concat/tree/1.2.3) - 2015-06-02
 
-## 2014-10-28 - Supported Release 1.1.2
-### Summary
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/2.0.1...1.2.3)
 
-This release includes bugfixes and test improvements. The module was tested against SLES10 and SLES12 and found to work against those platforms with no module improvements. Metadata was updated to include those as supported platforms.
+## [2.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/2.0.1) - 2015-06-02
 
-#### Bugfixes
-- newline didn't work for Windows and Solaris. This has been fixed.
-- Install certs on Windows for acceptance tests
-- Update tests to work with strict variables (no module updates were required)
-- Update tests to work on Windows
-- Fix typo in CHANGELOG.md
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/2.0.0...2.0.1)
 
-## 2014-09-10 - Supported Release 1.1.1
-### Summary
+### Added
 
-This is a bugfix release, and the first supported release of the 1.1.x series.
+- adds file autorequire [#319](https://github.com/puppetlabs/puppetlabs-concat/pull/319) ([bmjen](https://github.com/bmjen))
 
-#### Bugfixes
-- Make the `$order` parameter default to a string and be validated as an integer
-  or a string
-- Use the ruby script on Solaris to not break Sol10 support
-- Add quotes to the ruby script location for Windows
-- Fix typos in README.md
-- Make regex in concat::setup case-insensitive to make it work on Windows
-- Make sure concat fragments are always replaced
-- Fix validation to allow `$backup` to be a boolean
-- Remove dependency on stdlib 4.x
-- Fix for lack of idempotency with `ensure => 'absent'`
-- Fix tests and spec_helper
-- Synchronized files for more consistency across modules via modulesync
+### Fixed
 
-## 2014-05-14 - Release 1.1.0
-### Summary
+- fix defaulted force behavior [#321](https://github.com/puppetlabs/puppetlabs-concat/pull/321) ([bmjen](https://github.com/bmjen))
+- (MODULES-2080) Call out changed behaviour of 'warn' parameter [#320](https://github.com/puppetlabs/puppetlabs-concat/pull/320) ([DavidS](https://github.com/DavidS))
+- fix fragment target handling [#318](https://github.com/puppetlabs/puppetlabs-concat/pull/318) ([bmjen](https://github.com/bmjen))
+- MODULES-2054 - fixes dependency bug in creating the target file [#317](https://github.com/puppetlabs/puppetlabs-concat/pull/317) ([bmjen](https://github.com/bmjen))
 
-This release is primarily a bugfix release since 1.1.0-rc1.
+## [2.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/2.0.0) - 2015-05-12
 
-#### Features
-- Improved testing, with tests moved to beaker
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.2.2...2.0.0)
 
-#### Bugfixes
-- No longer attempts to set fragment owner and mode on Windows
-- Fix numeric sorting
-- Fix incorrect quoting
-- Fix newlines
+## [1.2.2](https://github.com/puppetlabs/puppetlabs-concat/tree/1.2.2) - 2015-05-12
 
-## 2014-01-03 - Release 1.1.0-rc1
-### Summary
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.2.1...1.2.2)
 
-This release of concat was 90% written by Joshua Hoblitt, and the module team
-would like to thank him for the huge amount of work he put into this release.
+### Fixed
 
-This module deprecates a bunch of old parameters and usage patterns, modernizes
-much of the manifest code, simplifies a whole bunch of logic and makes
-improvements to almost all parts of the module.
+- readd ensure_newline param and tests for backwards compatibility [#307](https://github.com/puppetlabs/puppetlabs-concat/pull/307) ([bmjen](https://github.com/bmjen))
+- MODULES-1933: fixes backup passing in fragments without concat resource [#303](https://github.com/puppetlabs/puppetlabs-concat/pull/303) ([bmjen](https://github.com/bmjen))
+- fix for strict variables checking [#302](https://github.com/puppetlabs/puppetlabs-concat/pull/302) ([bmjen](https://github.com/bmjen))
+- Revert and fix regex [#300](https://github.com/puppetlabs/puppetlabs-concat/pull/300) ([IceBear2k](https://github.com/IceBear2k))
+- re-add removed params for backwards compatibility [#297](https://github.com/puppetlabs/puppetlabs-concat/pull/297) ([bmjen](https://github.com/bmjen))
+- Fixes windows [#296](https://github.com/puppetlabs/puppetlabs-concat/pull/296) ([bmjen](https://github.com/bmjen))
 
-The other major feature is windows support, courtesy of luisfdez, with an
-alternative version of the concat bash script in ruby.  We've attempted to
-ensure that there are no backwards incompatible changes, all users of 1.0.0
-should be able to use 1.1.0 without any failures, but you may find deprecation
-warnings and we'll be aggressively moving for a 2.0 to remove those too.
+## [1.2.1](https://github.com/puppetlabs/puppetlabs-concat/tree/1.2.1) - 2015-04-14
 
-For further information on deprecations, please read:
-https://github.com/puppetlabs/puppetlabs-concat/blob/main/README.md#api-deprecations
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.2.0...1.2.1)
 
-#### Removed
-- Puppet 0.24 support.
-- Filebucket backup of all file resources except the target concatenated file.
-- Default owner/user/group values.
-- Purging of long unused /usr/local/bin/concatfragments.sh
+### Fixed
 
-### Features
-- Windows support via a ruby version of the concat bash script.
-- Huge amount of acceptance testing work added.
-- Documentation (README) completely rewritten.
-- New parameters in concat:
- - `ensure`: Controls if the file should be present/absent at all.
- - Remove requirement to include concat::setup in manifests.
- - Made `gnu` parameter deprecated.
- - Added parameter validation.
+- (MODULES-1700) Change the filebucketing behavior so static_compiler can ... [#288](https://github.com/puppetlabs/puppetlabs-concat/pull/288) ([woneill](https://github.com/woneill))
+- setup: set user/group explicitly for dirs & script [#287](https://github.com/puppetlabs/puppetlabs-concat/pull/287) ([j-vizcaino](https://github.com/j-vizcaino))
+- Fix breakage on OpenBSD in similar fashion as it is done for Windows. [#284](https://github.com/puppetlabs/puppetlabs-concat/pull/284) ([buzzdeee](https://github.com/buzzdeee))
+- Set script's group to 0 if script owner is root [#280](https://github.com/puppetlabs/puppetlabs-concat/pull/280) ([thias](https://github.com/thias))
+- Fixup $order parameter verification [#277](https://github.com/puppetlabs/puppetlabs-concat/pull/277) ([buzzdeee](https://github.com/buzzdeee))
+- Add validation for order parameter [#275](https://github.com/puppetlabs/puppetlabs-concat/pull/275) ([underscorgan](https://github.com/underscorgan))
+- Revert "Lookup is_pe fact with getvar" [#274](https://github.com/puppetlabs/puppetlabs-concat/pull/274) ([cmurphy](https://github.com/cmurphy))
+- Check if $is_pe exists before using it [#270](https://github.com/puppetlabs/puppetlabs-concat/pull/270) ([raphink](https://github.com/raphink))
+- set group of fragments to gid [#230](https://github.com/puppetlabs/puppetlabs-concat/pull/230) ([duritong](https://github.com/duritong))
 
-### Bugfixes
- - Ensure concat::setup runs before concat::fragment in all cases.
- - Pluginsync references updated for modern Puppet.
- - Fix incorrect group parameter.
- - Use $owner instead of $id to avoid confusion with $::id
- - Compatibility fixes for Puppet 2.7/ruby 1.8.7
- - Use LC_ALL=C instead of LANG=C
- - Always exec the concatfragments script as root when running as root.
- - Syntax and other cleanup changes.
+## [1.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/1.2.0) - 2015-02-17
 
-## 2014-06-25 - Supported Release 1.0.4
-### Summary
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.1.2...1.2.0)
 
-This release has test fixes.
+### Fixed
 
-#### Features
-- Added test support for OSX.
+- Remove shell script [#266](https://github.com/puppetlabs/puppetlabs-concat/pull/266) ([underscorgan](https://github.com/underscorgan))
+- Fix validate_cmd file resource parameter [#263](https://github.com/puppetlabs/puppetlabs-concat/pull/263) ([cmurphy](https://github.com/cmurphy))
+- MODULES-1456 - make sure ruby is in path on PE [#261](https://github.com/puppetlabs/puppetlabs-concat/pull/261) ([underscorgan](https://github.com/underscorgan))
+- MODULES-1764 Fix missing method for check_is_owned_by for windows [#260](https://github.com/puppetlabs/puppetlabs-concat/pull/260) ([cyberious](https://github.com/cyberious))
+- Add IntelliJ files to the ignore list [#254](https://github.com/puppetlabs/puppetlabs-concat/pull/254) ([cmurphy](https://github.com/cmurphy))
+- Use the correct path on 32bit windows [#247](https://github.com/puppetlabs/puppetlabs-concat/pull/247) ([underscorgan](https://github.com/underscorgan))
+- MODULES-1456 - make sure ruby is in path on PE [#246](https://github.com/puppetlabs/puppetlabs-concat/pull/246) ([underscorgan](https://github.com/underscorgan))
+- Support running a validation command on the destination file. [#243](https://github.com/puppetlabs/puppetlabs-concat/pull/243) ([jmkeyes](https://github.com/jmkeyes))
+- Reset poisoned defaults from Exec [#231](https://github.com/puppetlabs/puppetlabs-concat/pull/231) ([GeoffWilliams](https://github.com/GeoffWilliams))
 
-#### Bugfixes
+## [1.1.2](https://github.com/puppetlabs/puppetlabs-concat/tree/1.1.2) - 2014-10-28
 
-#### Known bugs
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.1.1...1.1.2)
 
-* Not supported on Windows.
+### Fixed
 
-## 2014-06-04 - Release 1.0.3
-### Summary
-
-This release adds compatibility for PE3.3 and fixes tests.
-
-#### Features
-- Added test support for Ubuntu Trusty.
-
-#### Bugfixes
-
-#### Known bugs
-
-*Not supported on Windows.
-
-## 2014-03-04 - Supported Release 1.0.2
-### Summary
-
-This is a supported release. No functional changes were made from 1.0.1.
-
-#### Features
-- Huge amount of tests backported from 1.1.
-- Documentation rewrite.
-
-#### Bugfixes
-
-#### Known Bugs
-
-* Not supported on Windows.
-
-
-## 2014-02-12 - 1.0.1
-### Summary
-
-Minor bugfixes for sorting of fragments and ordering of resources.
-
-#### Bugfixes
-- LANG => C replaced with LC_ALL => C to reduce spurious recreation of
-fragments.
-- Corrected pluginsync documentation.
-- Ensure concat::setup always runs before fragments.
-
-
-## 2013-08-09 - 1.0.0
-### Summary
-
-Many new features and bugfixes in this release, and if you're a heavy concat
-user you should test carefully before upgrading.  The features should all be
-backwards compatible but only light testing has been done from our side before
-this release.
-
-#### Features
-- New parameters in concat:
- - `replace`: specify if concat should replace existing files.
- - `ensure_newline`: controls if fragments should contain a newline at the end.
-- Improved README documentation.
-- Add rspec:system tests (rake spec:system to test concat)
-
-#### Bugfixes
-- Gracefully handle \n in a fragment resource name.
-- Adding more helpful message for 'pluginsync = true'
-- Allow passing `source` and `content` directly to file resource, rather than
-defining resource defaults.
-- Added -r flag to read so that filenames with \ will be read correctly.
-- sort always uses LANG=C.
-- Allow WARNMSG to contain/start with '#'.
-- Replace while-read pattern with for-do in order to support Solaris.
-
-#### CHANGELOG:
-- 2010/02/19 - initial release
-- 2010/03/12 - add support for 0.24.8 and newer
-             - make the location of sort configurable
-             - add the ability to add shell comment based warnings to
-               top of files
-             - add the ablity to create empty files
-- 2010/04/05 - fix parsing of WARN and change code style to match rest
-               of the code
-             - Better and safer boolean handling for warn and force
-             - Don't use hard coded paths in the shell script, set PATH
-               top of the script
-             - Use file{} to copy the result and make all fragments owned
-               by root.  This means we can chnage the ownership/group of the
-               resulting file at any time.
-             - You can specify ensure => "/some/other/file" in concat::fragment
-               to include the contents of a symlink into the final file.
-- 2010/04/16 - Add more cleaning of the fragment name - removing / from the $name
-- 2010/05/22 - Improve documentation and show the use of ensure =>
-- 2010/07/14 - Add support for setting the filebucket behavior of files
-- 2010/10/04 - Make the warning message configurable
-- 2010/12/03 - Add flags to make concat work better on Solaris - thanks Jonathan Boyett
-- 2011/02/03 - Make the shell script more portable and add a config option for root group
-- 2011/06/21 - Make base dir root readable only for security
-- 2011/06/23 - Set base directory using a fact instead of hardcoding it
-- 2011/06/23 - Support operating as non privileged user
-- 2011/06/23 - Support dash instead of bash or sh
-- 2011/07/11 - Better solaris support
-- 2011/12/05 - Use fully qualified variables
-- 2011/12/13 - Improve Nexenta support
-- 2012/04/11 - Do not use any GNU specific extensions in the shell script
-- 2012/03/24 - Comply to community style guides
-- 2012/05/23 - Better errors when basedir isnt set
-- 2012/05/31 - Add spec tests
-- 2012/07/11 - Include concat::setup in concat improving UX
-- 2012/08/14 - Puppet Lint improvements
-- 2012/08/30 - The target path can be different from the $name
-- 2012/08/30 - More Puppet Lint cleanup
-- 2012/09/04 - RELEASE 0.2.0
-- 2012/12/12 - Added (file) $replace parameter to concat
-
-
-\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
+- Use apply manifest instead of timeout transaction if it hangs [#241](https://github.com/puppetlabs/puppetlabs-concat/pull/241) ([cyberious](https://github.com/cyberious))
+
+## [1.1.1](https://github.com/puppetlabs/puppetlabs-concat/tree/1.1.1) - 2014-09-11
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.0.4...1.1.1)
+
+### Fixed
+
+- Remove deprecated puppet_module_install in favor of copy_module_to [#222](https://github.com/puppetlabs/puppetlabs-concat/pull/222) ([cyberious](https://github.com/cyberious))
+- fix: permitting $backup to be boolean false [#208](https://github.com/puppetlabs/puppetlabs-concat/pull/208) ([flypenguin](https://github.com/flypenguin))
+- Fix errors with the future parser. [#206](https://github.com/puppetlabs/puppetlabs-concat/pull/206) ([bobtfish](https://github.com/bobtfish))
+- fix concat broken on windows due to case sensitive regexp -- fixes MODULES-1203 [#204](https://github.com/puppetlabs/puppetlabs-concat/pull/204) ([GeoffWilliams](https://github.com/GeoffWilliams))
+
+## [1.0.4](https://github.com/puppetlabs/puppetlabs-concat/tree/1.0.4) - 2014-07-08
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.0.3...1.0.4)
+
+## [1.0.3](https://github.com/puppetlabs/puppetlabs-concat/tree/1.0.3) - 2014-06-05
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.1.0...1.0.3)
+
+### Fixed
+
+- Remove all the eq() checks as this breaks in PE3.3. [#188](https://github.com/puppetlabs/puppetlabs-concat/pull/188) ([apenney](https://github.com/apenney))
+- Validate the concat::fragment order parameter as string||integer [#185](https://github.com/puppetlabs/puppetlabs-concat/pull/185) ([jhoblitt](https://github.com/jhoblitt))
+
+## [1.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/1.1.0) - 2014-05-14
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.0.2...1.1.0)
+
+### Fixed
+
+- fix numeric sorting [#174](https://github.com/puppetlabs/puppetlabs-concat/pull/174) ([bdeak](https://github.com/bdeak))
+- Use explicit undef in else case [#155](https://github.com/puppetlabs/puppetlabs-concat/pull/155) ([PierreR](https://github.com/PierreR))
+
+## [1.0.2](https://github.com/puppetlabs/puppetlabs-concat/tree/1.0.2) - 2014-03-03
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.0.1...1.0.2)
+
+### Added
+
+- Add in missing files to work around Puppet bug. [#168](https://github.com/puppetlabs/puppetlabs-concat/pull/168) ([apenney](https://github.com/apenney))
+
+### Fixed
+
+- Lets can't be used outside of a test context [#161](https://github.com/puppetlabs/puppetlabs-concat/pull/161) ([hunner](https://github.com/hunner))
+- Use tmpdir instead of /tmp for windows compatability [#160](https://github.com/puppetlabs/puppetlabs-concat/pull/160) ([hunner](https://github.com/hunner))
+- Avoid multi-line greps on solaris 10 [#157](https://github.com/puppetlabs/puppetlabs-concat/pull/157) ([hunner](https://github.com/hunner))
+- Fix aix/windows ownership issues and vardir path [#156](https://github.com/puppetlabs/puppetlabs-concat/pull/156) ([hunner](https://github.com/hunner))
+
+## [1.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/1.0.1) - 2014-02-12
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.1.0-rc1...1.0.1)
+
+### Fixed
+
+- Bugfixes [#139](https://github.com/puppetlabs/puppetlabs-concat/pull/139) ([apenney](https://github.com/apenney))
+- Fix ensure => absent with path => set. [#134](https://github.com/puppetlabs/puppetlabs-concat/pull/134) ([apenney](https://github.com/apenney))
+
+## [1.1.0-rc1](https://github.com/puppetlabs/puppetlabs-concat/tree/1.1.0-rc1) - 2014-01-07
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.0.0...1.1.0-rc1)
+
+### Added
+
+- allow source param to concat::fragment to be a string or an Array [#103](https://github.com/puppetlabs/puppetlabs-concat/pull/103) ([jhoblitt](https://github.com/jhoblitt))
+- add rspec-puppet pending test for warning on inclusion of concat::setup [#98](https://github.com/puppetlabs/puppetlabs-concat/pull/98) ([jhoblitt](https://github.com/jhoblitt))
+- allow concat::fragment target param to be an arbitrary string [#94](https://github.com/puppetlabs/puppetlabs-concat/pull/94) ([jhoblitt](https://github.com/jhoblitt))
+- add deprecation warnings on removed parameters + warn on inclusion of co... [#90](https://github.com/puppetlabs/puppetlabs-concat/pull/90) ([jhoblitt](https://github.com/jhoblitt))
+- Param validation [#83](https://github.com/puppetlabs/puppetlabs-concat/pull/83) ([jhoblitt](https://github.com/jhoblitt))
+- Add Windows support [#79](https://github.com/puppetlabs/puppetlabs-concat/pull/79) ([luisfdez](https://github.com/luisfdez))
+- Fragments [#71](https://github.com/puppetlabs/puppetlabs-concat/pull/71) ([apenney](https://github.com/apenney))
+- Add an $ensure parameter to concat [#39](https://github.com/puppetlabs/puppetlabs-concat/pull/39) ([FredericLespez](https://github.com/FredericLespez))
+
+### Fixed
+
+- revert concat $warn/$warn_message param split + add deprecation warnings [#124](https://github.com/puppetlabs/puppetlabs-concat/pull/124) ([jhoblitt](https://github.com/jhoblitt))
+-  fix regression preventing usage of fragment ensure => /target syntax [#117](https://github.com/puppetlabs/puppetlabs-concat/pull/117) ([jhoblitt](https://github.com/jhoblitt))
+- deprecate concat::fragment mode, owner, & group params [#95](https://github.com/puppetlabs/puppetlabs-concat/pull/95) ([jhoblitt](https://github.com/jhoblitt))
+- remove purging of /usr/local/bin/concatfragments.sh [#86](https://github.com/puppetlabs/puppetlabs-concat/pull/86) ([jhoblitt](https://github.com/jhoblitt))
+- remove default owner/user and group values [#85](https://github.com/puppetlabs/puppetlabs-concat/pull/85) ([jhoblitt](https://github.com/jhoblitt))
+- only backup target concat file + remove backup param from concat::fragme... [#84](https://github.com/puppetlabs/puppetlabs-concat/pull/84) ([jhoblitt](https://github.com/jhoblitt))
+- Fix group ownership on files. [#81](https://github.com/puppetlabs/puppetlabs-concat/pull/81) ([bleach](https://github.com/bleach))
+- remove undocumented requirement to include concat::setup in manifest [#77](https://github.com/puppetlabs/puppetlabs-concat/pull/77) ([jhoblitt](https://github.com/jhoblitt))
+
+## [1.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/1.0.0) - 2013-08-14
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.0.0-rc1...1.0.0)
+
+## [1.0.0-rc1](https://github.com/puppetlabs/puppetlabs-concat/tree/1.0.0-rc1) - 2013-08-09
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/0.2.0...1.0.0-rc1)
+
+### Added
+
+- Update concatfragments.sh  [#63](https://github.com/puppetlabs/puppetlabs-concat/pull/63) ([plantigrade](https://github.com/plantigrade))
+- add ensure_newline [#61](https://github.com/puppetlabs/puppetlabs-concat/pull/61) ([tmclaugh](https://github.com/tmclaugh))
+- Allow WARNMSG to contain/start with '#' [#46](https://github.com/puppetlabs/puppetlabs-concat/pull/46) ([andir](https://github.com/andir))
+- added (file) $replace parameter to concat [#38](https://github.com/puppetlabs/puppetlabs-concat/pull/38) ([jpoppe](https://github.com/jpoppe))
+
+### Fixed
+
+- Added -r flag to read so that filenames with \ will be read correctly [#44](https://github.com/puppetlabs/puppetlabs-concat/pull/44) ([abohne](https://github.com/abohne))
+
+## [0.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/0.2.0) - 2012-09-04
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/0.1.0...0.2.0)
+
+### Added
+
+- Allow using a custom name and provide a path to the file that needs to be created using concat. [#31](https://github.com/puppetlabs/puppetlabs-concat/pull/31) ([vStone](https://github.com/vStone))
+- Improvements [#24](https://github.com/puppetlabs/puppetlabs-concat/pull/24) ([pabelanger](https://github.com/pabelanger))
+
+### Fixed
+
+- Include concat::setup from concat, so users don't need to [#27](https://github.com/puppetlabs/puppetlabs-concat/pull/27) ([djmitche](https://github.com/djmitche))
+- Remove spurious 'e' character. [#26](https://github.com/puppetlabs/puppetlabs-concat/pull/26) ([djmitche](https://github.com/djmitche))
+- Fix module name to make the PMT happier [#25](https://github.com/puppetlabs/puppetlabs-concat/pull/25) ([branan](https://github.com/branan))
+- Fail with helpful advice if $::concat_basedir is not yet set [#21](https://github.com/puppetlabs/puppetlabs-concat/pull/21) ([mrwacky42](https://github.com/mrwacky42))
+
+## [0.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/0.1.0) - 2012-04-30
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/ee1fe7a0236e5fd100bbc229ea034bf7d2b530aa...0.1.0)
