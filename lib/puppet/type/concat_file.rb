@@ -296,7 +296,8 @@ Puppet::Type.newtype(:concat_file) do
 
   def fragment_content(r)
     if r[:content].nil? == false
-      fragment_content = r[:content]
+      # Explicitly resolve deferred values.
+      fragment_content = r[:content].instance_of?(Puppet::Pops::Evaluator::DeferredValue) ? r[:content].resolve : r[:content]
     elsif r[:source].nil? == false
       @source = nil
       Array(r[:source]).each do |source|
