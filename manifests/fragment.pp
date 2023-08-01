@@ -16,14 +16,14 @@
 # @param target
 #   Specifies the destination file of the fragment. Valid options: a string containing the path or title of the parent concat resource.
 #
-# @param tag
+# @param tagging
 #   Specifies a custom tag to use for the fragment.
 #
 define concat::fragment (
   String                                                 $target,
   Optional[Variant[Sensitive[String], String, Deferred]] $content = undef,
   Optional[Variant[String, Array]]                       $source  = undef,
-  Optional[String[1]]                                    $tag     = undef,
+  Optional[String[1]]                                    $tagging = undef,
   Variant[String, Integer]                               $order   = '10',
 ) {
   $resource = 'Concat::Fragment'
@@ -38,10 +38,10 @@ define concat::fragment (
     fail("${resource}['${title}']: Can't use 'source' and 'content' at the same time.")
   }
 
-  if $tag =~ Undef {
+  if $tagging =~ Undef {
     $safe_target_name = regsubst($target, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'GM')
   } else {
-    $safe_target_name = $tag
+    $safe_target_name = $tagging
   }
 
   concat_fragment { $name:

@@ -82,8 +82,8 @@
 # @param create_empty_file
 #   Specifies whether to create an empty file if no fragments are defined. Defaults to true.
 #
-# @param tag
-#   Specifies a custom tag or list of custom tags for gatherinng the fragments to combine.
+# @param tagging
+#   Specifies a custom tag or list of custom tags for gathering the fragments to combine.
 #
 define concat (
   Enum['present', 'absent']          $ensure                  = 'present',
@@ -105,8 +105,8 @@ define concat (
   Optional[String]                   $seluser                 = undef,
   Boolean                            $force                   = false,
   Boolean                            $create_empty_file       = true,
-  Enum['plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty'] $format = 'plain',
-  Optional[Variant[String[1], Array[String[1], 1]]]                               $tag    = undef,
+  Enum['plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty'] $format  = 'plain',
+  Optional[Variant[String[1], Array[String[1], 1]]]                               $tagging = undef,
 ) {
   $safe_name            = regsubst($name, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'G')
   $default_warn_message = "# This file is managed by Puppet. DO NOT EDIT.\n"
@@ -126,10 +126,10 @@ define concat (
     }
   }
 
-  if $tag =~ Undef {
+  if $tagging =~ Undef {
     $safe_names = $safe_name
   } else {
-    $safe_names = flatten($safe_name, $tag)
+    $safe_names = flatten($safe_name, $tagging)
   }
 
   if $ensure == 'present' {
