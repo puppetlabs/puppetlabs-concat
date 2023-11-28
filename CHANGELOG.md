@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v9.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v9.0.1) - 2023-11-28
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v9.0.0...v9.0.1)
+
+### Fixed
+
+- #775 - Explicitly resolve deferred values [#789](https://github.com/puppetlabs/puppetlabs-concat/pull/789) ([fetzerms](https://github.com/fetzerms))
+
 ## [v9.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v9.0.0) - 2023-06-13
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v8.0.1...v9.0.0)
@@ -187,12 +195,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/5.3.0...v6.0.0)
 
+### Changed
+- pdksync - (MODULES-8444) - Raise lower Puppet bound [#575](https://github.com/puppetlabs/puppetlabs-concat/pull/575) ([david22swan](https://github.com/david22swan))
+
 ### Added
 
 - (FM-7606) enable litmus for concat [#577](https://github.com/puppetlabs/puppetlabs-concat/pull/577) ([tphoney](https://github.com/tphoney))
-
-### Changed
-- pdksync - (MODULES-8444) - Raise lower Puppet bound [#575](https://github.com/puppetlabs/puppetlabs-concat/pull/575) ([david22swan](https://github.com/david22swan))
 
 ### Fixed
 
@@ -243,12 +251,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.2.1...5.0.0)
 
+### Changed
+- [FM-6954] Removal of scientific linux 5 and debian 7 [#508](https://github.com/puppetlabs/puppetlabs-concat/pull/508) ([david22swan](https://github.com/david22swan))
+
 ### Added
 
 - (FM-7206) Update concat to support Ubuntu 18.04 [#510](https://github.com/puppetlabs/puppetlabs-concat/pull/510) ([david22swan](https://github.com/david22swan))
-
-### Changed
-- [FM-6954] Removal of scientific linux 5 and debian 7 [#508](https://github.com/puppetlabs/puppetlabs-concat/pull/508) ([david22swan](https://github.com/david22swan))
 
 ## [4.2.1](https://github.com/puppetlabs/puppetlabs-concat/tree/4.2.1) - 2018-03-23
 
@@ -299,12 +307,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/2.2.1...3.0.0)
 
+### Changed
+- (MODULES-4264) Update for puppet 4 data types [#437](https://github.com/puppetlabs/puppetlabs-concat/pull/437) ([hunner](https://github.com/hunner))
+
 ### Added
 
 - Implement beaker-module_install_helper and cleanup spec_helper_acceptance.rb [#426](https://github.com/puppetlabs/puppetlabs-concat/pull/426) ([wilson208](https://github.com/wilson208))
-
-### Changed
-- (MODULES-4264) Update for puppet 4 data types [#437](https://github.com/puppetlabs/puppetlabs-concat/pull/437) ([hunner](https://github.com/hunner))
 
 ## [2.2.1](https://github.com/puppetlabs/puppetlabs-concat/tree/2.2.1) - 2017-04-07
 
@@ -320,20 +328,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - (MODULES-4474) Drop autorequire of fragments in concat_file [#430](https://github.com/puppetlabs/puppetlabs-concat/pull/430) ([tdevelioglu](https://github.com/tdevelioglu))
 - Invalid tag fix [#429](https://github.com/puppetlabs/puppetlabs-concat/pull/429) ([fuero](https://github.com/fuero))
 
-### Other
-
-- Keep the whole fragment title to sort [#412](https://github.com/puppetlabs/puppetlabs-concat/pull/412) ([sathieu](https://github.com/sathieu))
-
 ## [2.2.0](https://github.com/puppetlabs/puppetlabs-concat/tree/2.2.0) - 2016-06-28
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/2.1.0...2.2.0)
 
+### Changed
+- Fix the minimum required stdlib version to 4.2.0. [#386](https://github.com/puppetlabs/puppetlabs-concat/pull/386) ([parabolala](https://github.com/parabolala))
+
 ### Added
 
 - MODULES-3156: propagate the validate_cmd to the file resource [#394](https://github.com/puppetlabs/puppetlabs-concat/pull/394) ([vicinus](https://github.com/vicinus))
-
-### Changed
-- Fix the minimum required stdlib version to 4.2.0. [#386](https://github.com/puppetlabs/puppetlabs-concat/pull/386) ([parabolala](https://github.com/parabolala))
 
 ### Fixed
 
@@ -376,6 +380,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.2.3...1.2.4)
 
+### Changed
+- 2.0.x rewrite [#340](https://github.com/puppetlabs/puppetlabs-concat/pull/340) ([bmjen](https://github.com/bmjen))
+
 ### Added
 
 - (#2208) FreeBSD: call /usr/local/bin/ruby explicitly [#348](https://github.com/puppetlabs/puppetlabs-concat/pull/348) ([gwollman](https://github.com/gwollman))
@@ -386,9 +393,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Add helper to install puppet/pe/puppet-agent [#339](https://github.com/puppetlabs/puppetlabs-concat/pull/339) ([hunner](https://github.com/hunner))
 - (MODULES-2094) Extend regexp to remove parenthesis on safe names [#332](https://github.com/puppetlabs/puppetlabs-concat/pull/332) ([bmjen](https://github.com/bmjen))
 - (MODULES-2023) - autorequire the file we are generating [#330](https://github.com/puppetlabs/puppetlabs-concat/pull/330) ([duritong](https://github.com/duritong))
-
-### Changed
-- 2.0.x rewrite [#340](https://github.com/puppetlabs/puppetlabs-concat/pull/340) ([bmjen](https://github.com/bmjen))
 
 ### Fixed
 
