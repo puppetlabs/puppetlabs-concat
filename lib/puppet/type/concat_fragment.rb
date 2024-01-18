@@ -75,7 +75,7 @@ Puppet::Type.newtype(:concat_fragment) do
       next unless resource.is_a?(Puppet::Type.type(:concat_file))
 
       resource[:path] == self[:target] || resource.title == self[:target] ||
-        (resource[:tag] && resource[:tag] == self[:tag])
+        ((resource[:tag] && self[:tag]) && (resource[:tag] == self[:tag] || resource[:tag].include?(self[:tag])))
     end
 
     if found.empty?

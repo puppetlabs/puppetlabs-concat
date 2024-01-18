@@ -8,19 +8,29 @@ require 'puppet/util/checksums'
 Puppet::Type.newtype(:concat_file) do
   @doc = <<-DOC
     @summary
-      Generates a file with content from fragments sharing a common unique tag.
+      Generates a file with content from fragments sharing a single or a list of common unique tag(s).
 
     @example
       Concat_fragment <<| tag == 'unique_tag' |>>
+      Concat_fragment <<| tag == 'other_tag' |>>
 
       concat_file { '/tmp/file':
         tag            => 'unique_tag', # Optional. Default to undef
         path           => '/tmp/file',  # Optional. If given it overrides the resource name
         owner          => 'root',       # Optional. Default to undef
         group          => 'root',       # Optional. Default to undef
-        mode           => '0644'        # Optional. Default to undef
-        order          => 'numeric'     # Optional, Default to 'numeric'
+        mode           => '0644',       # Optional. Default to undef
+        order          => 'numeric',    # Optional, Default to 'numeric'
         ensure_newline => false         # Optional, Defaults to false
+      }
+      concat_file { '/tmp/file2':
+        tag            => ['unique_tag', 'other_tag'],
+        path           => '/tmp/file2',
+        owner          => 'root',
+        group          => 'root',
+        mode           => '0644',
+        order          => 'numeric',
+        ensure_newline => false
       }
   DOC
 
@@ -40,7 +50,7 @@ Puppet::Type.newtype(:concat_file) do
   end
 
   newparam(:tag) do
-    desc 'Required. Specifies a unique tag reference to collect all concat_fragments with the same tag.'
+    desc 'Specifies a single or a list of unique tag reference(s) to collect all concat_fragments with the same tag(s).'
   end
 
   newparam(:path, namevar: true) do
@@ -194,7 +204,7 @@ Puppet::Type.newtype(:concat_file) do
       next unless resource.is_a?(Puppet::Type.type(:concat_fragment))
 
       if resource[:target] == self[:path] || resource[:target] == title ||
-         (resource[:tag] && resource[:tag] == self[:tag])
+         ((resource[:tag] && self[:tag]) && (resource[:tag] == self[:tag] || self[:tag].include?(resource[:tag])))
         resource
       end
     }.compact
