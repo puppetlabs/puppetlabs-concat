@@ -38,10 +38,10 @@ define concat::fragment (
     fail("${resource}['${title}']: Can't use 'source' and 'content' at the same time.")
   }
 
-  if $tagging =~ Undef {
-    $safe_target_name = regsubst($target, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'GM')
-  } else {
+  if $tagging {
     $safe_target_name = $tagging
+  } else {
+    $safe_target_name = regsubst($target, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'GM')
   }
 
   concat_fragment { $name:
