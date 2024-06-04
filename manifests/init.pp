@@ -126,10 +126,10 @@ define concat (
     }
   }
 
-  if $tagging =~ Undef {
-    $safe_names = $safe_name
-  } else {
+  if $tagging {
     $safe_names = flatten($safe_name, $tagging)
+  } else {
+    $safe_names = $safe_name
   }
 
   if $ensure == 'present' {
