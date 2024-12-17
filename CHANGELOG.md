@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v9.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v9.1.0) - 2024-12-17
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v9.0.2...v9.1.0)
+
+### Added
+
+- (CAT-2119) Add Ubuntu 24.04 support [#817](https://github.com/puppetlabs/puppetlabs-concat/pull/817) ([shubhamshinde360](https://github.com/shubhamshinde360))
+- (CAT-2100) Add Debian 12 support [#815](https://github.com/puppetlabs/puppetlabs-concat/pull/815) ([shubhamshinde360](https://github.com/shubhamshinde360))
+
+### Fixed
+
+- (CAT-2158) Upgrade rexml to address CVE-2024-49761 [#819](https://github.com/puppetlabs/puppetlabs-concat/pull/819) ([amitkarsale](https://github.com/amitkarsale))
+
 ## [v9.0.2](https://github.com/puppetlabs/puppetlabs-concat/tree/v9.0.2) - 2024-01-18
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v9.0.1...v9.0.2)
@@ -26,6 +39,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v8.0.1...v9.0.0)
 
 ### Changed
+
 - pdksync - (MAINT) - Require Stdlib 9.x [#783](https://github.com/puppetlabs/puppetlabs-concat/pull/783) ([LukasAud](https://github.com/LukasAud))
 
 ## [v8.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v8.0.1) - 2023-05-10
@@ -43,6 +57,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v7.4.0...v8.0.0)
 
 ### Changed
+
 - (CONT-775) Puppet 8 support / Drop Puppet 6 support [#768](https://github.com/puppetlabs/puppetlabs-concat/pull/768) ([LukasAud](https://github.com/LukasAud))
 
 ## [v7.4.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v7.4.0) - 2023-04-12
@@ -147,6 +162,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v6.4.0...v7.0.0)
 
 ### Changed
+
 - pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [#685](https://github.com/puppetlabs/puppetlabs-concat/pull/685) ([carabasdaniel](https://github.com/carabasdaniel))
 
 ## [v6.4.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.4.0) - 2020-12-14
@@ -183,7 +199,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ### Fixed
 
-- Fix newline handling at the end of fragments [#623](https://github.com/puppetlabs/puppetlabs-concat/pull/623) ([SimonPe](https://github.com/SimonPe))
+- Fix newline handling at the end of fragments [#623](https://github.com/puppetlabs/puppetlabs-concat/pull/623) ([LadyNamedLaura](https://github.com/LadyNamedLaura))
 
 ## [v6.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v6.1.0) - 2019-07-24
 
@@ -204,6 +220,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/5.3.0...v6.0.0)
 
 ### Changed
+
 - pdksync - (MODULES-8444) - Raise lower Puppet bound [#575](https://github.com/puppetlabs/puppetlabs-concat/pull/575) ([david22swan](https://github.com/david22swan))
 
 ### Added
@@ -260,6 +277,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.2.1...5.0.0)
 
 ### Changed
+
 - [FM-6954] Removal of scientific linux 5 and debian 7 [#508](https://github.com/puppetlabs/puppetlabs-concat/pull/508) ([david22swan](https://github.com/david22swan))
 
 ### Added
@@ -288,6 +306,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/4.1.0...4.1.1)
 
 ### Changed
+
 - Cleanup ruby code via rubocop [#473](https://github.com/puppetlabs/puppetlabs-concat/pull/473) ([willmeek](https://github.com/willmeek))
 
 ## [4.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/4.1.0) - 2017-10-24
@@ -316,6 +335,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/2.2.1...3.0.0)
 
 ### Changed
+
 - (MODULES-4264) Update for puppet 4 data types [#437](https://github.com/puppetlabs/puppetlabs-concat/pull/437) ([hunner](https://github.com/hunner))
 
 ### Added
@@ -341,6 +361,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/2.1.0...2.2.0)
 
 ### Changed
+
 - Fix the minimum required stdlib version to 4.2.0. [#386](https://github.com/puppetlabs/puppetlabs-concat/pull/386) ([parabolala](https://github.com/parabolala))
 
 ### Added
@@ -389,6 +410,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/1.2.3...1.2.4)
 
 ### Changed
+
 - 2.0.x rewrite [#340](https://github.com/puppetlabs/puppetlabs-concat/pull/340) ([bmjen](https://github.com/bmjen))
 
 ### Added
