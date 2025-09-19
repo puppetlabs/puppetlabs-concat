@@ -44,7 +44,7 @@ describe 'concat' do
     let(:params) { params }
     let(:facts) do
       {
-        id: id,
+        id:,
         osfamily: 'Debian',
         path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         kernel: 'Linux',
@@ -139,7 +139,7 @@ describe 'concat' do
     ['./foo', 'foo', 'foo/bar'].each do |path|
       context path do
         let(:title) { '/etc/foo.bar' }
-        let(:params) { { path: path } }
+        let(:params) { { path: } }
 
         it 'fails' do
           expect { catalogue }.to raise_error(Puppet::Error, %r{Stdlib::Unixpath})
@@ -152,7 +152,7 @@ describe 'concat' do
   context 'when owner =>' do
     ['apenney', 1000, '1001'].each do |owner|
       context owner do
-        it_behaves_like 'concat', '/etc/foo.bar', owner: owner
+        it_behaves_like 'concat', '/etc/foo.bar', owner:
       end
     end
 
@@ -170,7 +170,7 @@ describe 'concat' do
   context 'when group =>' do
     ['apenney', 1000, '1001'].each do |group|
       context group do
-        it_behaves_like 'concat', '/etc/foo.bar', group: group
+        it_behaves_like 'concat', '/etc/foo.bar', group:
       end
     end
 
@@ -204,14 +204,14 @@ describe 'concat' do
   context 'when warn =>' do
     [true, false, '# foo'].each do |warn|
       context warn do
-        it_behaves_like 'concat', '/etc/foo.bar', warn: warn
+        it_behaves_like 'concat', '/etc/foo.bar', warn:
       end
     end
 
     context 'when (stringified boolean)' do
       ['true', 'yes', 'on', 'false', 'no', 'off'].each do |warn|
         define warn do
-          it_behaves_like 'concat', '/etc/foo.bar', warn: warn
+          it_behaves_like('concat', '/etc/foo.bar', warn:)
 
           it 'creates a warning' do
             skip('rspec-puppet support for testing warning()')
@@ -234,7 +234,7 @@ describe 'concat' do
   context 'when show_diff =>' do
     [true, false].each do |show_diff|
       context show_diff do
-        it_behaves_like 'concat', '/etc/foo.bar', show_diff: show_diff
+        it_behaves_like 'concat', '/etc/foo.bar', show_diff:
       end
     end
 
@@ -252,7 +252,7 @@ describe 'concat' do
   context 'when backup =>' do
     ['reverse', false, true].each do |backup|
       context backup.to_s do
-        it_behaves_like 'concat', '/etc/foo.bar', backup: backup
+        it_behaves_like 'concat', '/etc/foo.bar', backup:
       end
     end
 
@@ -270,7 +270,7 @@ describe 'concat' do
   context 'when replace =>' do
     [true, false].each do |replace|
       context replace do
-        it_behaves_like 'concat', '/etc/foo.bar', replace: replace
+        it_behaves_like 'concat', '/etc/foo.bar', replace:
       end
     end
 
@@ -288,7 +288,7 @@ describe 'concat' do
   context 'when force =>' do
     [true, false].each do |force|
       context force do
-        it_behaves_like 'concat', '/etc/foo.bar', force: force
+        it_behaves_like 'concat', '/etc/foo.bar', force:
       end
     end
 
@@ -306,7 +306,7 @@ describe 'concat' do
   context 'when order =>' do
     ['alpha', 'numeric'].each do |order|
       context order do
-        it_behaves_like 'concat', '/etc/foo.bar', order: order
+        it_behaves_like 'concat', '/etc/foo.bar', order:
       end
     end
 
@@ -324,7 +324,7 @@ describe 'concat' do
   context 'when ensure_newline =>' do
     [true, false].each do |ensure_newline|
       context 'when true' do
-        it_behaves_like 'concat', '/etc/foo.bar', ensure_newline: ensure_newline
+        it_behaves_like 'concat', '/etc/foo.bar', ensure_newline:
       end
     end
 

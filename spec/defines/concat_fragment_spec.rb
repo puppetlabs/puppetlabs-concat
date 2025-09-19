@@ -61,7 +61,7 @@ describe 'concat::fragment' do
   context 'when content =>' do
     ['', 'ashp is our hero'].each do |content|
       context content do
-        it_behaves_like 'fragment', 'motd_header', content: content,
+        it_behaves_like 'fragment', 'motd_header', content:,
                                                    target: '/etc/motd'
       end
     end
@@ -69,10 +69,10 @@ describe 'concat::fragment' do
     context 'when Sensitive' do
       let(:title) { 'authentication' }
       let(:content) { sensitive('password') }
-      let(:params) { { content: content, target: '/etc/authentication' } }
+      let(:params) { { content:, target: '/etc/authentication' } }
 
       it do
-        expect(subject).to contain_concat_fragment(title).with(content: content)
+        expect(subject).to contain_concat_fragment(title).with(content:)
       end
     end
 
@@ -90,7 +90,7 @@ describe 'concat::fragment' do
   context 'when source =>' do
     ['', '/foo/bar', ['/foo/bar', '/foo/baz']].each do |source|
       context source do
-        it_behaves_like 'fragment', 'motd_header',           source: source,
+        it_behaves_like 'fragment', 'motd_header',           source:,
                                                              target: '/etc/motd'
       end
     end
@@ -109,7 +109,7 @@ describe 'concat::fragment' do
   context 'when order =>' do
     ['', '42', 'a', 'z'].each do |order|
       context "'#{order}'" do
-        it_behaves_like 'fragment', 'motd_header',           order: order,
+        it_behaves_like 'fragment', 'motd_header',           order:,
                                                              target: '/etc/motd'
       end
     end
