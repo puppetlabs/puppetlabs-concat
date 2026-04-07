@@ -1,6 +1,10 @@
 # @summary
 #   Manages a fragment of text to be compiled into a file.
 #
+# @param comment
+#   An optional comment to prepend to the fragment content. Each line is prefixed with '# '.
+#   Only supported with the content parameter, not with source.
+#
 # @param content
 #   Supplies the content of the fragment. Note: You must supply either a content parameter or a source parameter.
 #   Allows a String or a Deferred function which returns a String.
@@ -21,6 +25,7 @@ define concat::fragment (
   Optional[Variant[Sensitive[String], String, Deferred]] $content = undef,
   Optional[Variant[String, Array]]                       $source  = undef,
   Variant[String, Integer]                               $order   = '10',
+  Optional[String]                                       $comment = undef,
 ) {
   $resource = 'Concat::Fragment'
 
@@ -34,13 +39,24 @@ define concat::fragment (
     fail("${resource}['${title}']: Can't use 'source' and 'content' at the same time.")
   }
 
+  if $comment != undef and $source != undef {
+    fail("${resource}['${title}']: Can't use 'comment' with 'source', use 'content' instead.")
+  }
+
+  if $comment != undef and $content != undef {
+    $_comment_lines = $comment.split('\n').map |$line| { "# ${line}" }.join("\n")
+    $_content       = "${_comment_lines}\n${content}"
+  } else {
+    $_content = $content
+  }
+
   $safe_target_name = regsubst($target, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'GM')
 
   concat_fragment { $name:
     target  => $target,
     tag     => $safe_target_name,
     order   => $order,
-    content => $content,
+    content => $_content,
     source  => $source,
   }
 }

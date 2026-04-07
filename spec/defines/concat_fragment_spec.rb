@@ -152,6 +152,67 @@ describe 'concat::fragment' do
   end
   # order =>
 
+  context 'when comment =>' do
+    context 'with content' do
+      let(:title) { 'motd_header' }
+      let(:params) do
+        {
+          target: '/etc/motd',
+          content: 'hello world',
+          comment: 'This is a header fragment'
+        }
+      end
+
+      it do
+        expect(subject).to contain_concat_fragment('motd_header').with(
+          content: "# This is a header fragment\nhello world",
+        )
+      end
+    end
+
+    context 'with multiline comment' do
+      let(:title) { 'motd_header' }
+      let(:params) do
+        {
+          target: '/etc/motd',
+          content: 'hello world',
+          comment: "line one\nline two"
+        }
+      end
+
+      it do
+        expect(subject).to contain_concat_fragment('motd_header').with(
+          content: "# line one\n# line two\nhello world",
+        )
+      end
+    end
+
+    context 'with source' do
+      let(:title) { 'motd_header' }
+      let(:params) do
+        {
+          target: '/etc/motd',
+          source: '/foo/bar',
+          comment: 'This should fail'
+        }
+      end
+
+      it 'fails' do
+        expect { catalogue }.to raise_error(Puppet::Error, %r{Can't use 'comment' with 'source'})
+      end
+    end
+
+    context 'when false' do
+      let(:title) { 'motd_header' }
+      let(:params) { { comment: false, target: '/etc/motd', content: 'hello' } }
+
+      it 'fails' do
+        expect { catalogue }.to raise_error(Puppet::Error, %r{parameter 'comment' expects a .*String.*})
+      end
+    end
+  end
+  # comment =>
+
   context 'with more than one content source' do
     context 'with source and content' do
       let(:title) { 'motd_header' }
