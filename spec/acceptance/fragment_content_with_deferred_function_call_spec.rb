@@ -12,7 +12,7 @@ describe 'deferred function call' do
     @basedir = setup_test_directory
   end
 
-  describe 'file' do
+  describe 'deferred file' do
     let(:pp) do
       <<-MANIFEST
         concat { '#{basedir}/deferred_file': }
@@ -30,4 +30,24 @@ describe 'deferred function call' do
       expect(file("#{basedir}/deferred_file").content).to match Digest::MD5.hexdigest('test')
     end
   end
+
+  describe 'sensitive deferred file' do
+    let(:pp) do
+      <<-MANIFEST
+        concat { '#{basedir}/sensitive_deferred_file': }
+
+        concat::fragment { '1':
+          target  => '#{basedir}/sensitive_deferred_file',
+          content => Sensitive(Deferred('md5', ['test'])),
+        }
+      MANIFEST
+    end
+
+    it 'idempotent, file matches' do
+      idempotent_apply(pp)
+      expect(file("#{basedir}/sensitive_deferred_file")).to be_file
+      expect(file("#{basedir}/sensitive_deferred_file").content).to match Digest::MD5.hexdigest('test')
+    end
+  end
+
 end
