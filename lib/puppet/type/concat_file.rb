@@ -208,10 +208,12 @@ Puppet::Type.newtype(:concat_file) do
     return @generated_content if @generated_content
 
     @generated_content = ''
+    @has_sensitive_content_fragments = false
     content_fragments = []
 
     fragments.each do |r|
       content_fragments << ["#{r[:order]}___#{r[:name]}", fragment_content(r)]
+      @has_sensitive_content_fragments ||= r.parameters[:content]&.sensitive
     end
 
     sorted = if self[:order] == :numeric
@@ -354,6 +356,7 @@ Puppet::Type.newtype(:concat_file) do
     content = should_content
 
     catalog.resource("File[#{self[:path]}]")[:content] = content unless content.nil?
+    catalog.resource("File[#{self[:path]}]").parameters[:content].sensitive = @has_sensitive_content_fragments
 
     catalog.resource("File[#{self[:path]}]")[:ensure] = :absent if !self[:create_empty_file] && (content.nil? || content.empty?)
 
