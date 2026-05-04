@@ -101,6 +101,6 @@ Puppet::Type.newtype(:concat_fragment) do
       sensitive_parameters.delete(:content)
       parameter(:content).sensitive = true
     end
-    super(sensitive_parameters)
+    super
   end
 end
