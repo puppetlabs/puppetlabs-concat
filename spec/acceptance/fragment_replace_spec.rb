@@ -109,7 +109,7 @@ describe 'replacement of' do
 
     it 'when symlink should not succeed' do
       idempotent_apply(pp)
-      expect(file("#{basedir}/file")).to be_linked_to "#{basedir}/dangling" unless os[:family] == 'aix' || os[:family] == 'windows'
+      expect(file("#{basedir}/file")).to be_linked_to "#{basedir}/dangling" unless ['aix', 'windows'].include?(os[:family])
       expect(file("#{basedir}/dangling")).not_to be_file
       expect(file("#{basedir}/dangling")).not_to be_directory
     end
