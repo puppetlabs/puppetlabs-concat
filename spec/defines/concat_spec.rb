@@ -44,7 +44,7 @@ describe 'concat' do
     let(:params) { params }
     let(:facts) do
       {
-        id:,
+        id: id,
         osfamily: 'Debian',
         path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         kernel: 'Linux',
@@ -139,7 +139,7 @@ describe 'concat' do
     ['./foo', 'foo', 'foo/bar'].each do |path|
       context path do
         let(:title) { '/etc/foo.bar' }
-        let(:params) { { path: } }
+        let(:params) { { path: path } }
 
         it 'fails' do
           expect { catalogue }.to raise_error(Puppet::Error, %r{Stdlib::Unixpath})
@@ -211,7 +211,7 @@ describe 'concat' do
     context 'when (stringified boolean)' do
       ['true', 'yes', 'on', 'false', 'no', 'off'].each do |warn|
         define warn do
-          it_behaves_like('concat', '/etc/foo.bar', warn:)
+          it_behaves_like('concat', '/etc/foo.bar', warn: warn)
 
           it 'creates a warning' do
             skip('rspec-puppet support for testing warning()')
