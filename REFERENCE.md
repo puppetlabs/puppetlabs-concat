@@ -11,7 +11,7 @@
 
 ### Resource types
 
-* [`concat_file`](#concat_file): Generates a file with content from fragments sharing a common unique tag.
+* [`concat_file`](#concat_file): Generates a file with content from fragments sharing a single or a list of common unique tag(s).
 * [`concat_fragment`](#concat_fragment): Manages the fragment.
 
 ## Defined types
@@ -57,6 +57,7 @@ The following parameters are available in the `concat` defined type:
 * [`validate_cmd`](#-concat--validate_cmd)
 * [`warn`](#-concat--warn)
 * [`create_empty_file`](#-concat--create_empty_file)
+* [`tagging`](#-concat--tagging)
 
 ##### <a name="-concat--backup"></a>`backup`
 
@@ -231,6 +232,14 @@ Specifies whether to create an empty file if no fragments are defined. Defaults 
 
 Default value: `true`
 
+##### <a name="-concat--tagging"></a>`tagging`
+
+Data type: `Optional[Variant[String[1], Array[String[1], 1]]]`
+
+Specifies a custom tag or list of custom tags for gathering the fragments to combine.
+
+Default value: `undef`
+
 ### <a name="concat--fragment"></a>`concat::fragment`
 
 Manages a fragment of text to be compiled into a file.
@@ -243,6 +252,7 @@ The following parameters are available in the `concat::fragment` defined type:
 * [`order`](#-concat--fragment--order)
 * [`source`](#-concat--fragment--source)
 * [`target`](#-concat--fragment--target)
+* [`tagging`](#-concat--fragment--tagging)
 
 ##### <a name="-concat--fragment--content"></a>`content`
 
@@ -277,11 +287,19 @@ Data type: `String`
 
 Specifies the destination file of the fragment. Valid options: a string containing the path or title of the parent concat resource.
 
+##### <a name="-concat--fragment--tagging"></a>`tagging`
+
+Data type: `Optional[String[1]]`
+
+Specifies a custom tag to use for the fragment.
+
+Default value: `undef`
+
 ## Resource types
 
 ### <a name="concat_file"></a>`concat_file`
 
-Generates a file with content from fragments sharing a common unique tag.
+Generates a file with content from fragments sharing a single or a list of common unique tag(s).
 
 #### Examples
 
@@ -289,15 +307,25 @@ Generates a file with content from fragments sharing a common unique tag.
 
 ```puppet
 Concat_fragment <<| tag == 'unique_tag' |>>
+Concat_fragment <<| tag == 'other_tag' |>>
 
 concat_file { '/tmp/file':
   tag            => 'unique_tag', # Optional. Default to undef
   path           => '/tmp/file',  # Optional. If given it overrides the resource name
   owner          => 'root',       # Optional. Default to undef
   group          => 'root',       # Optional. Default to undef
-  mode           => '0644'        # Optional. Default to undef
-  order          => 'numeric'     # Optional, Default to 'numeric'
+  mode           => '0644',       # Optional. Default to undef
+  order          => 'numeric',    # Optional, Default to 'numeric'
   ensure_newline => false         # Optional, Defaults to false
+}
+concat_file { '/tmp/file2':
+  tag            => ['unique_tag', 'other_tag'],
+  path           => '/tmp/file2',
+  owner          => 'root',
+  group          => 'root',
+  mode           => '0644',
+  order          => 'numeric',
+  ensure_newline => false
 }
 ```
 
@@ -455,7 +483,7 @@ reporting methods.
 
 ##### <a name="-concat_file--tag"></a>`tag`
 
-Required. Specifies a unique tag reference to collect all concat_fragments with the same tag.
+Specifies a single or a list of unique tag reference(s) to collect all concat_fragments with the same tag(s).
 
 ##### <a name="-concat_file--validate_cmd"></a>`validate_cmd`
 

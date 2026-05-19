@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v10.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v10.0.0) - 2026-05-19
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v9.1.0...v10.0.0)
+
+### Added
+
+- Redact sensitive content [#828](https://github.com/puppetlabs/puppetlabs-concat/pull/828) ([smortex](https://github.com/smortex))
+- (CAT-2296) Update github runner image to ubuntu-24.04 [#823](https://github.com/puppetlabs/puppetlabs-concat/pull/823) ([shubhamshinde360](https://github.com/shubhamshinde360))
+- (CAT-2152) Add support for CentOS 9 [#818](https://github.com/puppetlabs/puppetlabs-concat/pull/818) ([skyamgarp](https://github.com/skyamgarp))
+- Allow user defined tag or list of tags [#790](https://github.com/puppetlabs/puppetlabs-concat/pull/790) ([Lightning-](https://github.com/Lightning-))
+
+### Fixed
+
+- Use explicit hash value syntax instead of shorthand [#835](https://github.com/puppetlabs/puppetlabs-concat/pull/835) ([SugatD](https://github.com/SugatD))
+
 ## [v9.1.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v9.1.0) - 2024-12-17
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v9.0.2...v9.1.0)
@@ -576,7 +591,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Param validation [#83](https://github.com/puppetlabs/puppetlabs-concat/pull/83) ([jhoblitt](https://github.com/jhoblitt))
 - Add Windows support [#79](https://github.com/puppetlabs/puppetlabs-concat/pull/79) ([luisfdez](https://github.com/luisfdez))
 - Fragments [#71](https://github.com/puppetlabs/puppetlabs-concat/pull/71) ([apenney](https://github.com/apenney))
-- Add an $ensure parameter to concat [#39](https://github.com/puppetlabs/puppetlabs-concat/pull/39) ([FredericLespez](https://github.com/FredericLespez))
+- Add an $ensure parameter to concat [#39](https://github.com/puppetlabs/puppetlabs-concat/pull/39) ([FredL69](https://github.com/FredL69))
 
 ### Fixed
 
