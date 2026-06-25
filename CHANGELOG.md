@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v10.0.1](https://github.com/puppetlabs/puppetlabs-concat/tree/v10.0.1) - 2026-06-25
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v10.0.0...v10.0.1)
+
+### Other
+
+- (MODULES-11840) Allow puppetlabs/stdlib 10.x [#837](https://github.com/puppetlabs/puppetlabs-concat/pull/837) ([imaqsood](https://github.com/imaqsood))
+
 ## [v10.0.0](https://github.com/puppetlabs/puppetlabs-concat/tree/v10.0.0) - 2026-05-19
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-concat/compare/v9.1.0...v10.0.0)
