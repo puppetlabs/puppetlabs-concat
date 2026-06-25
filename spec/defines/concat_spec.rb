@@ -55,6 +55,10 @@ describe 'concat' do
     if p[:ensure] == 'present'
       it do
         expect(subject).to contain_concat(title).with(file_defaults.merge(present_expect))
+        expect(subject).to contain_concat_file(title)
+        if p[:warn] != false
+          expect(subject).to contain_concat_fragment('/etc/foo.bar_header')
+        end
       end
     else
       it do
