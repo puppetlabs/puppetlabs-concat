@@ -67,8 +67,7 @@ group :system_tests do
   # 2.7.0 is the first release whose matrix_from_metadata_v3 knows about Puppet 9: it gates
   # the collection on PUPPET_FORGE_TOKEN and emits the '~> 9.0' spec_matrix entry. An older
   # 2.x resolves fine but silently generates no Puppet 9 lane at all, so floor it here.
-  gem "puppet_litmus", '~> 2.7',   require: false, platforms: [:ruby, :x64_mingw] if !ENV['PUPPET_FORGE_TOKEN'].to_s.empty?
-  gem "puppet_litmus", '~> 1.0',   require: false, platforms: [:ruby, :x64_mingw] if ENV['PUPPET_FORGE_TOKEN'].to_s.empty?
+  gem "puppet_litmus", '~> 2.7',   require: false, platforms: [:ruby, :x64_mingw]
   gem "CFPropertyList", '< 3.0.7', require: false, platforms: [:mswin, :mingw, :x64_mingw]
   gem "serverspec", '~> 2.41',     require: false
 end
