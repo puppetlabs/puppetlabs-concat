@@ -59,7 +59,7 @@ group :development do
   gem "bigdecimal", '< 3.2.2',                   require: false, platforms: [:mswin, :mingw, :x64_mingw]
 end
 group :development, :release_prep do
-  gem "puppet-strings", '~> 4.0',         require: false
+  gem "puppet-strings", ['~> 4.0', '!= 4.1.3'], require: false
   gem "puppetlabs_spec_helper", '~> 9.0', require: false
   gem "puppet-blacksmith", '~> 7.0',      require: false
 end
