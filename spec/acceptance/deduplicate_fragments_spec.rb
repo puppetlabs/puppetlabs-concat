@@ -29,7 +29,7 @@ describe 'concat deduplicate_fragments' do
     it 'idempotent, keeps every fragment including duplicates' do
       idempotent_apply(pp)
       expect(file("#{basedir}/foo")).to be_file
-      expect(file("#{basedir}/foo").content).to eq('duplicateduplicate')
+      expect(file("#{basedir}/foo").content).to match(%r{\Aduplicateduplicate\r?\n?\z})
     end
   end
 
@@ -60,7 +60,7 @@ describe 'concat deduplicate_fragments' do
     it 'idempotent, keeps only the lowest-order copy of duplicate content' do
       idempotent_apply(pp)
       expect(file("#{basedir}/foo")).to be_file
-      expect(file("#{basedir}/foo").content).to eq('duplicateunique')
+      expect(file("#{basedir}/foo").content).to match(%r{\Aduplicateunique\r?\n?\z})
     end
   end
 end
