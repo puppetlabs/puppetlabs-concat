@@ -125,6 +125,11 @@ describe Puppet::Type.type(:concat_file) do
       expect(resource[:format]).to eq(:yaml)
     end
 
+    it 'accepts "yaml-pretty" as a value' do
+      resource[:format] = 'yaml-pretty'
+      expect(resource[:format]).to eq(:'yaml-pretty')
+    end
+
     it 'accepts "json" as a value' do
       resource[:format] = 'json'
       expect(resource[:format]).to eq(:json)
@@ -152,5 +157,61 @@ describe Puppet::Type.type(:concat_file) do
 
   describe 'parameter :create_empty_file' do
     it_behaves_like 'Puppet::Parameter::Boolean', :create_empty_file
+  end
+
+  describe '#should_content' do
+    it 'sorts hash keys recursively when format is yaml-pretty' do
+      catalog = Puppet::Resource::Catalog.new('test', Puppet::Node::Environment.remote('production'))
+      file = described_class.new(
+        name: '/foo/bar',
+        format: 'yaml-pretty',
+        catalog: catalog,
+      )
+      fragment = Puppet::Type.type(:concat_fragment).new(
+        name: '1',
+        target: '/foo/bar',
+        content: '{"z": {"b": 2, "a": 1}, "a": "first"}',
+        catalog: catalog,
+      )
+      catalog.add_resource(file, fragment)
+
+      expect(file.should_content).to eq("---\na: first\nz:\n  a: 1\n  b: 2\n")
+    end
+
+    it 'sorts keys inside arrays when format is yaml-pretty' do
+      catalog = Puppet::Resource::Catalog.new('test', Puppet::Node::Environment.remote('production'))
+      file = described_class.new(
+        name: '/foo/bar',
+        format: 'yaml-pretty',
+        catalog: catalog,
+      )
+      fragment = Puppet::Type.type(:concat_fragment).new(
+        name: '1',
+        target: '/foo/bar',
+        content: '[{"z": 1, "a": 2}]',
+        catalog: catalog,
+      )
+      catalog.add_resource(file, fragment)
+
+      expect(file.should_content).to eq("---\n- a: 2\n  z: 1\n")
+    end
+
+    it 'does not change array element order when format is yaml-pretty' do
+      catalog = Puppet::Resource::Catalog.new('test', Puppet::Node::Environment.remote('production'))
+      file = described_class.new(
+        name: '/foo/bar',
+        format: 'yaml-pretty',
+        catalog: catalog,
+      )
+      fragment = Puppet::Type.type(:concat_fragment).new(
+        name: '1',
+        target: '/foo/bar',
+        content: '[{"b": [9, 1], "a": 2}, {"d": 3, "c": 4}]',
+        catalog: catalog,
+      )
+      catalog.add_resource(file, fragment)
+
+      expect(file.should_content).to eq("---\n- a: 2\n  b:\n  - 9\n  - 1\n- c: 4\n  d: 3\n")
+    end
   end
 end
