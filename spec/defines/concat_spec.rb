@@ -401,4 +401,21 @@ describe 'concat' do
     end
     # #{p} =>
   end
+
+  context 'when format =>' do
+    ['plain', 'yaml', 'yaml-pretty', 'json', 'json-array', 'json-pretty', 'json-array-pretty'].each do |fmt|
+      context fmt do
+        it_behaves_like 'concat', '/etc/foo.bar', format: fmt
+      end
+    end
+
+    context 'when invalid' do
+      let(:title) { '/etc/foo.bar' }
+      let(:params) { { format: 'invalid' } }
+
+      it 'fails' do
+        expect { catalogue }.to raise_error(Puppet::Error, %r{expects a match for Enum})
+      end
+    end
+  end
 end

@@ -88,9 +88,9 @@ Default value: `false`
 
 ##### <a name="-concat--format"></a>`format`
 
-Data type: `Enum['plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty']`
+Data type: `Enum['plain', 'yaml', 'yaml-pretty', 'json', 'json-array', 'json-pretty', 'json-array-pretty']`
 
-Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty',
+Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'yaml-pretty', 'json', 'json-array', 'json-pretty',
 'json-array-pretty'.
 
 Default value: `'plain'`
@@ -400,9 +400,10 @@ Default value: `false`
 
 ##### <a name="-concat_file--format"></a>`format`
 
-Valid values: `plain`, `yaml`, `json`, `json-array`, `json-pretty`, `json-array-pretty`
+Valid values: `plain`, `yaml`, `yaml-pretty`, `json`, `json-array`, `json-pretty`, `json-array-pretty`
 
-Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty',
+Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'yaml-pretty', 'json', 'json-array',
+'json-pretty',
 'json-array-pretty'.
 
 Default value: `plain`

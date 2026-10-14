@@ -131,10 +131,11 @@ Puppet::Type.newtype(:concat_file) do
 
   newparam(:format) do
     desc <<-DOC
-    Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty'.
+    Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'yaml-pretty', 'json', 'json-array', 'json-pretty',
+    'json-array-pretty'.
     DOC
 
-    newvalues(:plain, :yaml, :json, :'json-array', :'json-pretty', :'json-array-pretty')
+    newvalues(:plain, :yaml, :'yaml-pretty', :json, :'json-array', :'json-pretty', :'json-array-pretty')
 
     defaultto :plain
   end
@@ -240,13 +241,18 @@ Puppet::Type.newtype(:concat_file) do
     case self[:format]
     when :plain
       @generated_content = sorted.map { |cf| cf[1] }.join
-    when :yaml
+    when :yaml, :'yaml-pretty'
       content_array = sorted.map do |cf|
         YAML.safe_load(cf[1])
       end
       content_hash = content_array.reduce({}) do |memo, current|
         nested_merge(memo, current)
       end
+
+      if self[:format] == :'yaml-pretty'
+        content_hash = sort_hash_keys(content_hash)
+      end
+
       @generated_content = content_hash.to_yaml
     when :json, :'json-array', :'json-pretty', :'json-array-pretty'
       content_array = sorted.map do |cf|
@@ -303,6 +309,20 @@ Puppet::Type.newtype(:concat_file) do
         end
         v1
       end
+    end
+  end
+
+  def sort_hash_keys(obj)
+    if obj.is_a?(Hash)
+      sorted = {}
+      obj.keys.sort.each do |key|
+        sorted[key] = sort_hash_keys(obj[key])
+      end
+      sorted
+    elsif obj.is_a?(Array)
+      obj.map { |item| sort_hash_keys(item) }
+    else
+      obj
     end
   end
 
