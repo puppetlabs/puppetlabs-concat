@@ -153,4 +153,73 @@ describe Puppet::Type.type(:concat_file) do
   describe 'parameter :create_empty_file' do
     it_behaves_like 'Puppet::Parameter::Boolean', :create_empty_file
   end
+
+  describe 'parameter :deduplicate_fragments' do
+    it_behaves_like 'Puppet::Parameter::Boolean', :deduplicate_fragments
+  end
+
+  describe '#should_content' do
+    def fragment(name, target, content, order)
+      Puppet::Type.type(:concat_fragment).new(name: name, target: target, content: content, order: order)
+    end
+
+    def catalog_with(instance, *fragments)
+      catalog = Puppet::Resource::Catalog.new
+      catalog.add_resource(instance)
+      fragments.each { |f| catalog.add_resource(f) }
+      instance.catalog = catalog
+      instance
+    end
+
+    context 'when :deduplicate_fragments is false (default)' do
+      it 'keeps every fragment, including exact duplicates' do
+        instance = described_class.new(name: '/foo/bar', order: :numeric)
+        catalog_with(instance,
+                     fragment('a', '/foo/bar', 'dup', '10'),
+                     fragment('b', '/foo/bar', 'dup', '20'))
+
+        expect(instance.should_content).to eq('dupdup')
+      end
+    end
+
+    context 'when :deduplicate_fragments is true' do
+      it 'drops later fragments whose content exactly matches an earlier one' do
+        instance = described_class.new(name: '/foo/bar', order: :numeric, deduplicate_fragments: true)
+        catalog_with(instance,
+                     fragment('a', '/foo/bar', 'dup', '10'),
+                     fragment('b', '/foo/bar', 'dup', '20'))
+
+        expect(instance.should_content).to eq('dup')
+      end
+
+      it 'keeps the lowest-order copy when duplicates share content but differ in order' do
+        instance = described_class.new(name: '/foo/bar', order: :numeric, deduplicate_fragments: true)
+        catalog_with(instance,
+                     fragment('b', '/foo/bar', 'dup', '20'),
+                     fragment('a', '/foo/bar', 'dup', '10'))
+
+        expect(instance.should_content).to eq('dup')
+      end
+
+      it 'keeps distinct content untouched' do
+        instance = described_class.new(name: '/foo/bar', order: :numeric, deduplicate_fragments: true)
+        catalog_with(instance,
+                     fragment('a', '/foo/bar', 'one', '10'),
+                     fragment('b', '/foo/bar', 'two', '20'))
+
+        expect(instance.should_content).to eq('onetwo')
+      end
+
+      it 'does not collapse duplicate sensitive content' do
+        instance = described_class.new(name: '/foo/bar', order: :numeric, deduplicate_fragments: true)
+        a = fragment('a', '/foo/bar', 'dup', '10')
+        b = fragment('b', '/foo/bar', 'dup', '20')
+        a.parameter(:content).sensitive = true
+        b.parameter(:content).sensitive = true
+        catalog_with(instance, a, b)
+
+        expect(instance.should_content).to eq('dupdup')
+      end
+    end
+  end
 end

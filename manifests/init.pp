@@ -29,6 +29,11 @@
 #   Specifies whether to merge data structures, keeping the values with higher order. Used when format is specified as a value other than
 #   'plain'.
 #
+# @param deduplicate_fragments
+#   Specifies whether to skip fragments whose content exactly duplicates a fragment already included earlier in the destination file.
+#   Fragments are compared in the same order they are written: the fragment with the lowest order (or, for equal order, the
+#   alphabetically/numerically first name) wins, and later exact duplicates are dropped. Only has an effect when format is 'plain'.
+#
 # @param group
 #   Specifies a permissions group for the destination file. Valid options: a string containing a group name or integer containing a gid.
 #
@@ -104,6 +109,7 @@ define concat (
   Optional[String]                   $seltype                 = undef,
   Optional[String]                   $seluser                 = undef,
   Boolean                            $force                   = false,
+  Boolean                            $deduplicate_fragments   = false,
   Boolean                            $create_empty_file       = true,
   Enum['plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty'] $format  = 'plain',
   Optional[Variant[String[1], Array[String[1], 1]]]                               $tagging = undef,
@@ -152,6 +158,7 @@ define concat (
       validate_cmd            => $validate_cmd,
       format                  => $format,
       force                   => $force,
+      deduplicate_fragments   => $deduplicate_fragments,
       create_empty_file       => $create_empty_file,
     }
 

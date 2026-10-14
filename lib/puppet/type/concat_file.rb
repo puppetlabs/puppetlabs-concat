@@ -145,6 +145,16 @@ Puppet::Type.newtype(:concat_file) do
     defaultto false
   end
 
+  newparam(:deduplicate_fragments, boolean: true, parent: Puppet::Parameter::Boolean) do
+    desc <<-DOC
+      Specifies whether to skip fragments whose content exactly duplicates a fragment already included earlier in the destination file.
+      The fragment with the lowest order -- or, for equal order, the alphabetically/numerically first name -- wins; later exact duplicates are dropped.
+      Only has an effect when format is 'plain': the yaml/json formats already deduplicate merged values by construction and are unaffected by this parameter.
+    DOC
+
+    defaultto false
+  end
+
   newparam(:selinux_ignore_defaults, boolean: true, parent: Puppet::Parameter::Boolean) do
     desc <<-DOC
       See the file type's selinux_ignore_defaults documentention:
@@ -222,8 +232,9 @@ Puppet::Type.newtype(:concat_file) do
     content_fragments = []
 
     fragments.each do |r|
-      content_fragments << ["#{r[:order]}___#{r[:name]}", fragment_content(r)]
-      @has_sensitive_content_fragments ||= r.parameters[:content]&.sensitive
+      sensitive = r.parameters[:content]&.sensitive || false
+      content_fragments << ["#{r[:order]}___#{r[:name]}", fragment_content(r), sensitive]
+      @has_sensitive_content_fragments ||= sensitive
     end
 
     sorted = if self[:order] == :numeric
@@ -239,7 +250,17 @@ Puppet::Type.newtype(:concat_file) do
 
     case self[:format]
     when :plain
-      @generated_content = sorted.map { |cf| cf[1] }.join
+      @generated_content = if self[:deduplicate_fragments]
+                             seen = {}
+                             sorted.each_with_object(+'') do |cf, content|
+                               next if !cf[2] && seen.key?(cf[1])
+
+                               seen[cf[1]] = true unless cf[2]
+                               content << cf[1]
+                             end
+                           else
+                             sorted.map { |cf| cf[1] }.join
+                           end
     when :yaml
       content_array = sorted.map do |cf|
         YAML.safe_load(cf[1])
