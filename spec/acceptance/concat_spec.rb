@@ -51,8 +51,8 @@ describe 'basic concat test' do
       idempotent_apply(pp)
       expect(file("#{basedir}/file")).to be_file
       expect(file("#{basedir}/file")).to be_owned_by username unless os[:family] == 'windows'
-      expect(file("#{basedir}/file")).to be_grouped_into groupname unless os[:family] == 'windows' || os[:family] == 'darwin'
-      expect(file("#{basedir}/file")).to be_mode 644 unless os[:family] == 'aix' || os[:family] == 'windows'
+      expect(file("#{basedir}/file")).to be_grouped_into groupname unless ['windows', 'darwin'].include?(os[:family])
+      expect(file("#{basedir}/file")).to be_mode 644 unless ['aix', 'windows'].include?(os[:family])
       expect(file("#{basedir}/file").content).to match '1'
       expect(file("#{basedir}/file").content).to match '2'
     end
@@ -77,7 +77,7 @@ describe 'basic concat test' do
     it 'idempotent, file matches' do
       idempotent_apply(pp)
       expect(file("#{basedir}/file")).to be_file
-      expect(file("#{basedir}/file")).to be_mode 644 unless os[:family] == 'aix' || os[:family] == 'windows'
+      expect(file("#{basedir}/file")).to be_mode 644 unless ['aix', 'windows'].include?(os[:family])
       expect(file("#{basedir}/file").content).to match '1'
     end
   end
@@ -161,7 +161,7 @@ describe 'basic concat test' do
     it 'idempotent, file matches' do
       idempotent_apply(pp)
       expect(file("#{basedir}/#{filename}")).to be_file
-      expect(file("#{basedir}/#{filename}")).to be_mode 644 unless os[:family] == 'aix' || os[:family] == 'windows'
+      expect(file("#{basedir}/#{filename}")).to be_mode 644 unless ['aix', 'windows'].include?(os[:family])
       expect(file("#{basedir}/#{filename}").content).to match '1'
     end
   end

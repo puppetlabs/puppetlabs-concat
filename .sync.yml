@@ -5,6 +5,10 @@ appveyor.yml:
   delete: true
 .rubocop.yml:
   include_todos: true
+  # cop settings the module set by hand (MODULES-11997 pdk update)
+  cop_overrides:
+    Style/HashSyntax:
+      Enabled: false
 
 spec/spec_helper.rb:
   mock_with: ":rspec"
