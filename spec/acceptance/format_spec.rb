@@ -112,6 +112,27 @@ describe 'format of file' do
     end
   end
 
+  describe 'when run should output to yaml-pretty format' do
+    let(:pp) do
+      <<-MANIFEST
+        concat { '#{basedir}/file':
+          format => 'yaml-pretty',
+        }
+
+        concat::fragment { '1':
+          target  => '#{basedir}/file',
+          content => '{"z": {"d": "foo", "a": "bar"}, "a": "first"}',
+        }
+      MANIFEST
+    end
+
+    it 'idempotent, file matches sorted yaml' do
+      idempotent_apply(pp)
+      expect(file("#{basedir}/file")).to be_file
+      expect(file("#{basedir}/file").content).to match '---\Ra: first\Rz:\R  a: bar\R  d: foo'
+    end
+  end
+
   describe 'when run should output to json format' do
     let(:pp) do
       <<-MANIFEST

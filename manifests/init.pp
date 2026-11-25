@@ -22,7 +22,7 @@
 #   Specifies whether to add a line break at the end of each fragment that doesn't already end in one.
 #
 # @param format
-#   Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'json', 'json-array', 'json-pretty',
+#   Specify what data type to merge the fragments as. Valid options: 'plain', 'yaml', 'yaml-pretty', 'json', 'json-array', 'json-pretty',
 #   'json-array-pretty'.
 #
 # @param force
@@ -105,7 +105,7 @@ define concat (
   Optional[String]                   $seluser                 = undef,
   Boolean                            $force                   = false,
   Boolean                            $create_empty_file       = true,
-  Enum['plain', 'yaml', 'json', 'json-array', 'json-pretty', 'json-array-pretty'] $format  = 'plain',
+  Enum['plain', 'yaml', 'yaml-pretty', 'json', 'json-array', 'json-pretty', 'json-array-pretty'] $format  = 'plain',
   Optional[Variant[String[1], Array[String[1], 1]]]                               $tagging = undef,
 ) {
   $safe_name            = regsubst($name, '[\\\\/:~\n\s\+\*\(\)@]', '_', 'G')
