@@ -204,7 +204,7 @@ Puppet::Type.newtype(:concat_file) do
       next unless resource.is_a?(Puppet::Type.type(:concat_fragment))
 
       if resource[:target] == self[:path] || resource[:target] == title ||
-         ((resource[:tag] && self[:tag]) && (resource[:tag] == self[:tag] || self[:tag].is_a?(Array) && self[:tag].include?(resource[:tag])))
+         ((resource[:tag] && self[:tag]) && (resource[:tag] == self[:tag] || (self[:tag].is_a?(Array) && self[:tag].include?(resource[:tag]))))
         resource
       end
     }.compact
@@ -334,7 +334,7 @@ Puppet::Type.newtype(:concat_file) do
 
   def generate
     file_opts = {
-      ensure: (self[:ensure] == :absent) ? :absent : :file
+      ensure: (self[:ensure] == :absent) ? :absent : :file,
     }
 
     [:path,
