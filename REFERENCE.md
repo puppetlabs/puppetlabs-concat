@@ -42,6 +42,7 @@ The following parameters are available in the `concat` defined type:
 * [`ensure_newline`](#-concat--ensure_newline)
 * [`format`](#-concat--format)
 * [`force`](#-concat--force)
+* [`deduplicate_fragments`](#-concat--deduplicate_fragments)
 * [`group`](#-concat--group)
 * [`mode`](#-concat--mode)
 * [`order`](#-concat--order)
@@ -101,6 +102,16 @@ Data type: `Boolean`
 
 Specifies whether to merge data structures, keeping the values with higher order. Used when format is specified as a value other than
 'plain'.
+
+Default value: `false`
+
+##### <a name="-concat--deduplicate_fragments"></a>`deduplicate_fragments`
+
+Data type: `Boolean`
+
+Specifies whether to skip fragments whose content exactly duplicates a fragment already included earlier in the destination file.
+Fragments are compared in the same order they are written: the fragment with the lowest order (or, for equal order, the
+alphabetically/numerically first name) wins, and later exact duplicates are dropped. Only has an effect when format is 'plain'.
 
 Default value: `false`
 
@@ -348,6 +359,7 @@ The following parameters are available in the `concat_file` type.
 
 * [`backup`](#-concat_file--backup)
 * [`create_empty_file`](#-concat_file--create_empty_file)
+* [`deduplicate_fragments`](#-concat_file--deduplicate_fragments)
 * [`ensure_newline`](#-concat_file--ensure_newline)
 * [`force`](#-concat_file--force)
 * [`format`](#-concat_file--format)
@@ -381,6 +393,19 @@ Valid values: `true`, `false`, `yes`, `no`
 Specifies whether to create an empty file if no fragments are defined.
 
 Default value: `true`
+
+##### <a name="-concat_file--deduplicate_fragments"></a>`deduplicate_fragments`
+
+Valid values: `true`, `false`, `yes`, `no`
+
+Specifies whether to skip fragments whose content exactly duplicates a fragment already included earlier in the
+destination file.
+The fragment with the lowest order -- or, for equal order, the alphabetically/numerically first name -- wins; later
+exact duplicates are dropped.
+Only has an effect when format is 'plain': the yaml/json formats already deduplicate merged values by construction and
+are unaffected by this parameter.
+
+Default value: `false`
 
 ##### <a name="-concat_file--ensure_newline"></a>`ensure_newline`
 
